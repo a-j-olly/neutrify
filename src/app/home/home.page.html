@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content #homePage>
 
   <div class="email-section">
     <div class="ion-padding ion-text-center">
@@ -7,12 +7,13 @@
         </ion-text>
       </div>
       <div>
-        <form>
+        <form [formGroup]="landingPageForm" (ngSubmit)="onSubmit()">
           <ion-grid class="form-group">
             <ion-row class="ion-justify-content-center">
                 <ion-item>
-                  <ion-input size="40px" class="form-control" type="email" placeholder="Enter email address..."></ion-input>
-                  <ion-button class="form-control" type="submit" color="tertiary">Try it!</ion-button>
+                  <ion-input id="customerEmail" name="customerEmail" size="40px" class="form-control" type="email" 
+                  placeholder="Enter email address..." formControlName="customerEmail"></ion-input>
+                  <ion-button class="form-control" type="submit" color="tertiary" [disabled]="landingPageForm.invalid">Try it!</ion-button>
                 </ion-item>    
             </ion-row>
             <ion-row class="ion-justify-content-center">
@@ -187,9 +188,12 @@
   <div class="break-white-whitesmoke"></div>
 
   <div class="cta-bot ion-padding">
-    <ion-row class="cta-bot ion-justify-content-center">
-      <ion-button size="large" color="tertiary">Get started</ion-button>
+    <ion-row class="ion-justify-content-center">
+      <ion-button size="large" color="tertiary" (click)="navigateToTop()">Get started</ion-button>
     </ion-row>
+    <!-- <ion-row class="ion-justify-content-end">
+        <a [routerLink]="['/about']" ><ion-text color="light"></ion-text>About</a>
+    </ion-row> -->
   </div>
 
 </ion-content>

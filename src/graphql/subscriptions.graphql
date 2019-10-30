@@ -1,0 +1,76 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateCustomer {
+  onCreateCustomer {
+    id
+    customerEmail
+    customerSurvey {
+      id
+      surveyCustomer {
+        id
+        customerEmail
+      }
+    }
+  }
+}
+subscription OnUpdateCustomer {
+  onUpdateCustomer {
+    id
+    customerEmail
+    customerSurvey {
+      id
+      surveyCustomer {
+        id
+        customerEmail
+      }
+    }
+  }
+}
+subscription OnDeleteCustomer {
+  onDeleteCustomer {
+    id
+    customerEmail
+    customerSurvey {
+      id
+      surveyCustomer {
+        id
+        customerEmail
+      }
+    }
+  }
+}
+subscription OnCreateSurvey {
+  onCreateSurvey {
+    id
+    surveyCustomer {
+      id
+      customerEmail
+      customerSurvey {
+        id
+      }
+    }
+  }
+}
+subscription OnUpdateSurvey {
+  onUpdateSurvey {
+    id
+    surveyCustomer {
+      id
+      customerEmail
+      customerSurvey {
+        id
+      }
+    }
+  }
+}
+subscription OnDeleteSurvey {
+  onDeleteSurvey {
+    id
+    surveyCustomer {
+      id
+      customerEmail
+      customerSurvey {
+        id
+      }
+    }
+  }
+}

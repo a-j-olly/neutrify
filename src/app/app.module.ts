@@ -9,11 +9,15 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AmplifyAngularModule, AmplifyIonicModule  } from 'aws-amplify-angular';
+import { APIService } from './API.service';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AmplifyAngularModule, AmplifyIonicModule, AppRoutingModule],
   providers: [
+    APIService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

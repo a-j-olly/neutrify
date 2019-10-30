@@ -1,0 +1,21 @@
+{
+	"api": {
+		"neutrifyAPI": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "neutrify api key",
+							"apiKeyExpirationDays": 7
+						}
+					}
+				}
+			}
+		}
+	},
+	"auth": {}
+}

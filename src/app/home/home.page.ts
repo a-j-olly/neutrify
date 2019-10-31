@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { IonContent } from '@ionic/angular';
+import { UserDataService } from '../user-data.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomePage implements OnInit {
   @ViewChild('homePage', {static: false}) homePage: IonContent;
   landingPageForm: FormGroup;
 
-  constructor(private router: Router, private apiService: APIService) {}
+  constructor(private router: Router, private apiService: APIService,
+              private userDataService: UserDataService) {}
 
 
   ngOnInit() {
@@ -23,14 +25,15 @@ export class HomePage implements OnInit {
   }
 
   async onSubmit() {
-    console.log(this.landingPageForm.value);
-
     const res = await this.apiService.CreateCustomer(
       this.landingPageForm.value,
     );
 
-    console.log('results: ', res);
+    this.userDataService.customerId = res.id;
+    this.userDataService.customerEmail = res.customerEmail;
+
     this.router.navigate(['/under-construction']);
+    this.landingPageForm.reset();
   }
 
   navigateToTop() {

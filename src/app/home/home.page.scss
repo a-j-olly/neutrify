@@ -14,13 +14,21 @@ ion-icon {
     color: #4169e1;
 }
 
-
 ion-img.image {
     width: 360px;
 }
 
 ion-img.logo {
-    width: 200px
+    width: 200px;
+    height: 64px;
+    margin: 0 auto;
+    // logo colours:
+    // red: #ec4c4c
+    // blue: #1761a0
+    // peach: #f2af58
+    // grey: #b1b1b1
+    // white: #ffffff
+    // black: #000000
 }
 
 .email-section {
@@ -33,6 +41,8 @@ ion-img.logo {
 
 .secondary-feature-section {
     background-color: white;
+    max-width: 1080px;    
+    margin: 0 auto;
 }
 
 .break-whitesmoke-white {

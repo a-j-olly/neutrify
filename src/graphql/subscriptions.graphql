@@ -3,9 +3,14 @@ subscription OnCreateCustomer {
   onCreateCustomer {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -16,9 +21,14 @@ subscription OnUpdateCustomer {
   onUpdateCustomer {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -29,9 +39,14 @@ subscription OnDeleteCustomer {
   onDeleteCustomer {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -41,11 +56,21 @@ subscription OnDeleteCustomer {
 subscription OnCreateSurvey {
   onCreateSurvey {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }
@@ -53,11 +78,21 @@ subscription OnCreateSurvey {
 subscription OnUpdateSurvey {
   onUpdateSurvey {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }
@@ -65,11 +100,21 @@ subscription OnUpdateSurvey {
 subscription OnDeleteSurvey {
   onDeleteSurvey {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }

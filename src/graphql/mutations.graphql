@@ -3,9 +3,14 @@ mutation CreateCustomer($input: CreateCustomerInput!) {
   createCustomer(input: $input) {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -16,9 +21,14 @@ mutation UpdateCustomer($input: UpdateCustomerInput!) {
   updateCustomer(input: $input) {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -29,9 +39,14 @@ mutation DeleteCustomer($input: DeleteCustomerInput!) {
   deleteCustomer(input: $input) {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -41,11 +56,21 @@ mutation DeleteCustomer($input: DeleteCustomerInput!) {
 mutation CreateSurvey($input: CreateSurveyInput!) {
   createSurvey(input: $input) {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }
@@ -53,11 +78,21 @@ mutation CreateSurvey($input: CreateSurveyInput!) {
 mutation UpdateSurvey($input: UpdateSurveyInput!) {
   updateSurvey(input: $input) {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }
@@ -65,11 +100,21 @@ mutation UpdateSurvey($input: UpdateSurveyInput!) {
 mutation DeleteSurvey($input: DeleteSurveyInput!) {
   deleteSurvey(input: $input) {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }

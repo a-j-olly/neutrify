@@ -1,10 +1,15 @@
 type Customer @model {
   id: ID!
   customerEmail: String!
-  customerSurvey: Survey @connection(name: "CustomerSurvey")
+  survey: Survey @connection(name: "CustomerSurvey")
 }
 
 type Survey @model {
   id: ID!
-  surveyCustomer: Customer @connection(name: "CustomerSurvey")
+  surveyTryReason: String!
+  surveyLeaveComments: Boolean!
+  surveyLocalityOption: String!
+  surveyBiasOption: String!
+  surveyUsedServices: [String!]
+  customer: Customer! @connection(name: "CustomerSurvey")
 }

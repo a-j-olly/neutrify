@@ -8,13 +8,13 @@ import * as Observable from "zen-observable";
 export type CreateCustomerInput = {
   id?: string | null;
   customerEmail: string;
-  customerCustomerSurveyId?: string | null;
+  customerSurveyId?: string | null;
 };
 
 export type UpdateCustomerInput = {
   id: string;
   customerEmail?: string | null;
-  customerCustomerSurveyId?: string | null;
+  customerSurveyId?: string | null;
 };
 
 export type DeleteCustomerInput = {
@@ -23,12 +23,22 @@ export type DeleteCustomerInput = {
 
 export type CreateSurveyInput = {
   id?: string | null;
-  surveySurveyCustomerId?: string | null;
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices?: Array<string> | null;
+  surveyCustomerId: string;
 };
 
 export type UpdateSurveyInput = {
   id: string;
-  surveySurveyCustomerId?: string | null;
+  surveyTryReason?: string | null;
+  surveyLeaveComments?: boolean | null;
+  surveyLocalityOption?: string | null;
+  surveyBiasOption?: string | null;
+  surveyUsedServices?: Array<string> | null;
+  surveyCustomerId?: string | null;
 };
 
 export type DeleteSurveyInput = {
@@ -71,23 +81,38 @@ export type ModelStringFilterInput = {
 
 export type ModelSurveyFilterInput = {
   id?: ModelIDFilterInput | null;
+  surveyTryReason?: ModelStringFilterInput | null;
+  surveyLeaveComments?: ModelBooleanFilterInput | null;
+  surveyLocalityOption?: ModelStringFilterInput | null;
+  surveyBiasOption?: ModelStringFilterInput | null;
+  surveyUsedServices?: ModelStringFilterInput | null;
   and?: Array<ModelSurveyFilterInput | null> | null;
   or?: Array<ModelSurveyFilterInput | null> | null;
   not?: ModelSurveyFilterInput | null;
+};
+
+export type ModelBooleanFilterInput = {
+  ne?: boolean | null;
+  eq?: boolean | null;
 };
 
 export type CreateCustomerMutation = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
@@ -95,14 +120,19 @@ export type UpdateCustomerMutation = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
@@ -110,71 +140,111 @@ export type DeleteCustomerMutation = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
 export type CreateSurveyMutation = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type UpdateSurveyMutation = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type DeleteSurveyMutation = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type GetCustomerQuery = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
@@ -184,9 +254,14 @@ export type ListCustomersQuery = {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
   } | null> | null;
   nextToken: string | null;
@@ -195,15 +270,25 @@ export type ListCustomersQuery = {
 export type GetSurveyQuery = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type ListSurveysQuery = {
@@ -211,11 +296,16 @@ export type ListSurveysQuery = {
   items: Array<{
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null> | null;
   nextToken: string | null;
 };
@@ -224,14 +314,19 @@ export type OnCreateCustomerSubscription = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
@@ -239,14 +334,19 @@ export type OnUpdateCustomerSubscription = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
@@ -254,57 +354,92 @@ export type OnDeleteCustomerSubscription = {
   __typename: "Customer";
   id: string;
   customerEmail: string;
-  customerSurvey: {
+  survey: {
     __typename: "Survey";
     id: string;
-    surveyCustomer: {
+    surveyTryReason: string;
+    surveyLeaveComments: boolean;
+    surveyLocalityOption: string;
+    surveyBiasOption: string;
+    surveyUsedServices: Array<string> | null;
+    customer: {
       __typename: "Customer";
       id: string;
       customerEmail: string;
-    } | null;
+    };
   } | null;
 };
 
 export type OnCreateSurveySubscription = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type OnUpdateSurveySubscription = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 export type OnDeleteSurveySubscription = {
   __typename: "Survey";
   id: string;
-  surveyCustomer: {
+  surveyTryReason: string;
+  surveyLeaveComments: boolean;
+  surveyLocalityOption: string;
+  surveyBiasOption: string;
+  surveyUsedServices: Array<string> | null;
+  customer: {
     __typename: "Customer";
     id: string;
     customerEmail: string;
-    customerSurvey: {
+    survey: {
       __typename: "Survey";
       id: string;
+      surveyTryReason: string;
+      surveyLeaveComments: boolean;
+      surveyLocalityOption: string;
+      surveyBiasOption: string;
+      surveyUsedServices: Array<string> | null;
     } | null;
-  } | null;
+  };
 };
 
 @Injectable({
@@ -319,10 +454,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -346,10 +486,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -373,10 +518,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -397,13 +547,23 @@ export class APIService {
         createSurvey(input: $input) {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -421,13 +581,23 @@ export class APIService {
         updateSurvey(input: $input) {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -445,13 +615,23 @@ export class APIService {
         deleteSurvey(input: $input) {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -470,10 +650,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -501,9 +686,14 @@ export class APIService {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
           nextToken
@@ -529,13 +719,23 @@ export class APIService {
         getSurvey(id: $id) {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -559,7 +759,12 @@ export class APIService {
           items {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -592,10 +797,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -615,10 +825,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -638,10 +853,15 @@ export class APIService {
           __typename
           id
           customerEmail
-          customerSurvey {
+          survey {
             __typename
             id
-            surveyCustomer {
+            surveyTryReason
+            surveyLeaveComments
+            surveyLocalityOption
+            surveyBiasOption
+            surveyUsedServices
+            customer {
               __typename
               id
               customerEmail
@@ -658,13 +878,23 @@ export class APIService {
         onCreateSurvey {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -678,13 +908,23 @@ export class APIService {
         onUpdateSurvey {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }
@@ -698,13 +938,23 @@ export class APIService {
         onDeleteSurvey {
           __typename
           id
-          surveyCustomer {
+          surveyTryReason
+          surveyLeaveComments
+          surveyLocalityOption
+          surveyBiasOption
+          surveyUsedServices
+          customer {
             __typename
             id
             customerEmail
-            customerSurvey {
+            survey {
               __typename
               id
+              surveyTryReason
+              surveyLeaveComments
+              surveyLocalityOption
+              surveyBiasOption
+              surveyUsedServices
             }
           }
         }

@@ -3,9 +3,14 @@ query GetCustomer($id: ID!) {
   getCustomer(id: $id) {
     id
     customerEmail
-    customerSurvey {
+    survey {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }
@@ -21,8 +26,13 @@ query ListCustomers(
     items {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
     nextToken
@@ -31,11 +41,21 @@ query ListCustomers(
 query GetSurvey($id: ID!) {
   getSurvey(id: $id) {
     id
-    surveyCustomer {
+    surveyTryReason
+    surveyLeaveComments
+    surveyLocalityOption
+    surveyBiasOption
+    surveyUsedServices
+    customer {
       id
       customerEmail
-      customerSurvey {
+      survey {
         id
+        surveyTryReason
+        surveyLeaveComments
+        surveyLocalityOption
+        surveyBiasOption
+        surveyUsedServices
       }
     }
   }
@@ -48,7 +68,12 @@ query ListSurveys(
   listSurveys(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      surveyCustomer {
+      surveyTryReason
+      surveyLeaveComments
+      surveyLocalityOption
+      surveyBiasOption
+      surveyUsedServices
+      customer {
         id
         customerEmail
       }

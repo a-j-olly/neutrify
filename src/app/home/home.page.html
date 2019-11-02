@@ -12,20 +12,20 @@
                   <ion-card-content>
                       <ion-list>
                         <ion-item>
-                          <h3>View articles from many sources and organise them into favourites.</h3>
-                          <ion-icon name="albums" slot="start"></ion-icon>
+                          <h3>Filter out hysteric and biased news articles.</h3>
+                          <ion-icon name="options" slot="start"></ion-icon>
                         </ion-item>
                         <ion-item>
-                          <h3>Search for specifc articles from amongst your news feed.</h3>
-                          <ion-icon name="search" slot="start"></ion-icon>
+                          <h3>Use professional news analytics to work out an articles trustworthiness.</h3>
+                          <ion-icon name="stats" slot="start"></ion-icon>
                         </ion-item>
                         <ion-item>
-                          <h3>Sort your news feed by the topics you are interested in.</h3>
-                          <ion-icon name="football" slot="start"></ion-icon>
+                          <h3>Read a list of the most important points made in an article.</h3>
+                          <ion-icon name="book" slot="start"></ion-icon>
                           </ion-item>
                         <ion-item>
-                          <h3>View all coverage of global news stories, as and when it happens.</h3>
-                          <ion-icon name="globe" slot="start"></ion-icon>
+                          <h3>View articles from many sources and organise them into favourites.</h3>
+                          <ion-icon name="albums" slot="start"></ion-icon>
                         </ion-item>
                     </ion-list>
                   </ion-card-content>
@@ -39,20 +39,16 @@
                       placeholder="Enter email address..." formControlName="customerEmail"></ion-input>
                       <ion-button class="form-control" type="submit" color="tertiary" [disabled]="landingPageForm.invalid">Try it!</ion-button>
                     </ion-item> 
+                    <ion-label class="ion-text-center" color="light" position="stacked">
+                        <p>Give Neutrify a try. No credit card needed.</p>
+                    </ion-label>
                   </form>
                 </ion-row>
-                <ion-row class="ion-justify-content-center">
-                    <ion-label>
-                      <ion-text color="light">
-                        <p>Try Neutrify free for a month. No credit card required.</p>
-                      </ion-text>
-                    </ion-label>
-                </ion-row>      
           </ion-grid>
     </div>
   </div>
 
-  <div class="ion-padding feature-section">
+  <div class="feature-section">
     <ion-grid>
       <ion-row class="ion-justify-content-center ion-text-center">
         <h1>Never Suffer from Biased News Again</h1>
@@ -61,73 +57,69 @@
       <ion-row class="ion-justify-content-center">
           <ion-card class="feature">
               <div>
-                <ion-icon class="card-icon" name="stats"></ion-icon>
+                <ion-icon class="card-icon" name="search"></ion-icon>
+              </div>
+              <ion-card-header class="ion-text-center ion-no-padding">
+                <ion-card-title>
+                  <h2>Search for specifc articles</h2>
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <p>
+                  You can search for articles based on the words they contain, which is useful for researching a topic. 
+                </p>
+              </ion-card-content>
+            </ion-card>
+          <ion-card class="feature">
+              <div>
+                <ion-icon class="card-icon" name="football"></ion-icon>
               </div>
             <ion-card-header class="ion-text-center ion-no-padding">
               <ion-card-title>
-                <h2>See an Abundance of Information</h2>
+                <h2>Sort by topic</h2>
               </ion-card-title>
             </ion-card-header>
             <ion-card-content>
               <p>
-                Neutrify gives you easy access to professional news analytics that can
-                help you determine the quality and trustworthiness of an article.
+                All articles can be sorted into different topics such as sport, politics, entertainment, economic etc.
               </p>
             </ion-card-content>
           </ion-card>
 
           <ion-card class="feature">
-            <div>
-              <ion-icon class="card-icon" name="color-wand"></ion-icon>
-            </div>
-            <ion-card-header class="ion-text-center ion-no-padding">
-              <ion-card-title>
-                <h2>Filter out the Hysteria</h2>
-              </ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <p>
-                There are some stories that aren't worth reading, so Neutrify gives you the tools
-                to filter these articles out of your news feed, saving you from a headache.
-              </p>
-            </ion-card-content>
-          </ion-card>
-          
-          <ion-card class="feature">
               <div>
-                <ion-icon class="card-icon" name="chatboxes"></ion-icon>
+                <ion-icon class="card-icon" name="globe"></ion-icon>
               </div>
-            <ion-card-header class="ion-text-center ion-no-padding">
-              <ion-card-title>
-                  <h2>Engage in Civil Discussion</h2>
-              </ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
+              <ion-card-header class="ion-text-center ion-no-padding">
+                <ion-card-title>
+                  <h2>News from where you want it</h2>
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
                 <p>
-                  Neutrify’s chat algorithms protect you from unwanted exposure to trolls,
-                  so that you can focus on civil discussion.
+                  Alter the level of news coverage you see. Choose from local, national and global news sources.
                 </p>
-            </ion-card-content>
-          </ion-card>
+              </ion-card-content>
+            </ion-card>
       </ion-row>
+
       <ion-row class="ion-justify-content-center">
         <ion-card class="feature">
-          <div>
-            <ion-icon class="card-icon" name="book"></ion-icon>
-          </div>
+            <div>
+              <ion-icon class="card-icon" name="chatboxes"></ion-icon>
+            </div>
           <ion-card-header class="ion-text-center ion-no-padding">
             <ion-card-title>
-              <h2>Read just the Key Points</h2>
+                <h2>Engage in Civil Discussion</h2>
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>
-              Neutrify makes your life easy by generating a list of the most important points
-              made in an article, meaning reading the article is optional.
-            </p>
+              <p>
+                Neutrify’s chat algorithms protect you from unwanted exposure to trolls,
+                so that you can focus on civil discussion.
+              </p>
           </ion-card-content>
         </ion-card>
-        
         <ion-card class="feature">
             <div>
               <ion-icon class="card-icon" name="save"></ion-icon>

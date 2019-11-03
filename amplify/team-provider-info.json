@@ -1,21 +1,4 @@
 {
-    "develop": {
-        "awscloudformation": {
-            "AuthRoleName": "neutrify-develop-20191102194825-authRole",
-            "UnauthRoleArn": "arn:aws:iam::367347839712:role/neutrify-develop-20191102194825-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::367347839712:role/neutrify-develop-20191102194825-authRole",
-            "Region": "eu-west-2",
-            "DeploymentBucketName": "neutrify-develop-20191102194825-deployment",
-            "UnauthRoleName": "neutrify-develop-20191102194825-unauthRole",
-            "StackName": "neutrify-develop-20191102194825",
-            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/neutrify-develop-20191102194825/db2d24e0-fda9-11e9-a4ea-0aea06869730"
-        },
-        "categories": {
-            "auth": {
-                "neutrifyc0793d08": {}
-            }
-        }
-    },
     "master": {
         "awscloudformation": {
             "AuthRoleName": "amplify-neutrify-master-155952-authRole",
@@ -26,6 +9,23 @@
             "UnauthRoleName": "amplify-neutrify-master-155952-unauthRole",
             "StackName": "amplify-neutrify-master-155952",
             "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-master-155952/f7f6f0c0-fe52-11e9-a4ea-0aea06869730"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyc0793d08": {}
+            }
+        }
+    },
+    "develop": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-develop-161258-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-161258-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-161258-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-develop-161258-deployment",
+            "UnauthRoleName": "amplify-neutrify-develop-161258-unauthRole",
+            "StackName": "amplify-neutrify-develop-161258",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-develop-161258/cc6bb6f0-fe54-11e9-b577-0a3915ca55a4"
         },
         "categories": {
             "auth": {

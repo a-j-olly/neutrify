@@ -15,5 +15,22 @@
                 "neutrifyc0793d08": {}
             }
         }
+    },
+    "master": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-master-155952-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-master-155952-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-master-155952-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-master-155952-deployment",
+            "UnauthRoleName": "amplify-neutrify-master-155952-unauthRole",
+            "StackName": "amplify-neutrify-master-155952",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-master-155952/f7f6f0c0-fe52-11e9-a4ea-0aea06869730"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyc0793d08": {}
+            }
+        }
     }
 }

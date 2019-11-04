@@ -1,10 +1,11 @@
 import { CreateSurveyInput } from '../API.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵɵi18nAttributes } from '@angular/core';
 import { UserDataService } from '../user-data.service';
 import { APIService } from '../API.service';
 import { AlertController } from '@ionic/angular';
+import { Analytics } from 'aws-amplify';
 
 @Component({
   selector: 'app-under-construction',
@@ -31,7 +32,17 @@ export class UnderConstructionPage implements OnInit {
       usedServices: new FormArray([])
     });
 
+    this.sendPinpointEvent('Signed Up');
+
     (await this.createAlert()).present();
+  }
+
+  sendPinpointEvent(eventName: string, attributes?: object, metrics?: object) {
+    return Analytics.record({
+      name: eventName,
+      attributes,
+      metrics,
+    });
   }
 
   async createAlert(): Promise<HTMLIonAlertElement> {
@@ -54,12 +65,13 @@ export class UnderConstructionPage implements OnInit {
       surveyCustomerId: this.userDataService.customerId,
     };
 
+    this.sendPinpointEvent('Submitted Survey');
 
     // create survey
     const createdSurvey = await this.apiService.CreateSurvey(input);
 
     // update customer
-    const updatedCustomer = await this.apiService.UpdateCustomer({
+    await this.apiService.UpdateCustomer({
       id: this.userDataService.customerId,
       customerSurveyId: createdSurvey.id
     });

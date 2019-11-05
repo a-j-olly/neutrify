@@ -77,6 +77,7 @@ export class UnderConstructionPage implements OnInit {
     });
 
     this.router.navigate(['/']);
+    this.surveyForm.reset();
   }
 
   onCheckChange(event) {

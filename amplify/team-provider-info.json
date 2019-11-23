@@ -32,5 +32,22 @@
                 "neutrifyc0793d08": {}
             }
         }
+    },
+    "aoliver": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-aoliver-174126-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-aoliver-174126-deployment",
+            "UnauthRoleName": "amplify-neutrify-aoliver-174126-unauthRole",
+            "StackName": "amplify-neutrify-aoliver-174126",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-aoliver-174126/d2a07270-0185-11ea-b937-06af0f49b59c"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyc0793d08": {}
+            }
+        }
     }
 }

@@ -1,18 +1,552 @@
 # this is an auto generated file. This will be overwritten
+query GetArticle($id: ID!) {
+  getArticle(id: $id) {
+    id
+    articleBody
+    articleDataType
+    articleDate
+    articleDateTime
+    articleDateTimePub
+    articleEventUri
+    articleImage
+    articleLanguage
+    articleSentiment
+    articleShare
+    articleSimilarity
+    articleTime
+    articleTitle
+    articleUri
+    articleURL
+    source {
+      id
+      sourceUri
+      sourceType
+      sourceTitle
+      sourceDescription
+      location {
+        id
+        locationType
+        locationLabel
+        locationCountry
+        locationLat
+        locationLong
+      }
+      sourceRanking
+      articles {
+        nextToken
+      }
+    }
+    categories {
+      items {
+        id
+      }
+      nextToken
+    }
+    concepts {
+      items {
+        id
+      }
+      nextToken
+    }
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+}
+query ListArticles(
+  $filter: ModelArticleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listArticles(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      articleBody
+      articleDataType
+      articleDate
+      articleDateTime
+      articleDateTimePub
+      articleEventUri
+      articleImage
+      articleLanguage
+      articleSentiment
+      articleShare
+      articleSimilarity
+      articleTime
+      articleTitle
+      articleUri
+      articleURL
+      source {
+        id
+        sourceUri
+        sourceType
+        sourceTitle
+        sourceDescription
+        sourceRanking
+      }
+      categories {
+        nextToken
+      }
+      concepts {
+        nextToken
+      }
+      configs {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetCategory($id: ID!) {
+  getCategory(id: $id) {
+    id
+    categoryLabel
+    categoryUri
+    articles {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+}
+query ListCategorys(
+  $filter: ModelCategoryFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCategorys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      categoryLabel
+      categoryUri
+      articles {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetSource($id: ID!) {
+  getSource(id: $id) {
+    id
+    sourceUri
+    sourceType
+    sourceTitle
+    sourceDescription
+    location {
+      id
+      locationType
+      locationLabel
+      locationCountry
+      locationLat
+      locationLong
+      concepts {
+        nextToken
+      }
+      sources {
+        nextToken
+      }
+    }
+    sourceRanking
+    articles {
+      items {
+        id
+        articleBody
+        articleDataType
+        articleDate
+        articleDateTime
+        articleDateTimePub
+        articleEventUri
+        articleImage
+        articleLanguage
+        articleSentiment
+        articleShare
+        articleSimilarity
+        articleTime
+        articleTitle
+        articleUri
+        articleURL
+      }
+      nextToken
+    }
+  }
+}
+query ListSources(
+  $filter: ModelSourceFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      sourceUri
+      sourceType
+      sourceTitle
+      sourceDescription
+      location {
+        id
+        locationType
+        locationLabel
+        locationCountry
+        locationLat
+        locationLong
+      }
+      sourceRanking
+      articles {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetConcept($id: ID!) {
+  getConcept(id: $id) {
+    id
+    conceptLabel
+    conceptScore
+    conceptUri
+    conceptType
+    location {
+      id
+      locationType
+      locationLabel
+      locationCountry
+      locationLat
+      locationLong
+      concepts {
+        nextToken
+      }
+      sources {
+        nextToken
+      }
+    }
+    conceptSynonyms
+    articles {
+      items {
+        id
+      }
+      nextToken
+    }
+  }
+}
+query ListConcepts(
+  $filter: ModelConceptFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listConcepts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      conceptLabel
+      conceptScore
+      conceptUri
+      conceptType
+      location {
+        id
+        locationType
+        locationLabel
+        locationCountry
+        locationLat
+        locationLong
+      }
+      conceptSynonyms
+      articles {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetLocation($id: ID!) {
+  getLocation(id: $id) {
+    id
+    locationType
+    locationLabel
+    locationCountry
+    locationLat
+    locationLong
+    concepts {
+      items {
+        id
+        conceptLabel
+        conceptScore
+        conceptUri
+        conceptType
+        conceptSynonyms
+      }
+      nextToken
+    }
+    sources {
+      items {
+        id
+        sourceUri
+        sourceType
+        sourceTitle
+        sourceDescription
+        sourceRanking
+      }
+      nextToken
+    }
+  }
+}
+query ListLocations(
+  $filter: ModelLocationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      locationType
+      locationLabel
+      locationCountry
+      locationLat
+      locationLong
+      concepts {
+        nextToken
+      }
+      sources {
+        nextToken
+      }
+    }
+    nextToken
+  }
+}
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    userCognitoId
+    userIsPremium
+    userConfig {
+      id
+      configKeywordFilter
+      configSentimentRangeUpperBound
+      configSentimentRangeLowerBound
+      configStoryNeutralityThreshold
+      savedArticles {
+        nextToken
+      }
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
+    customer {
+      id
+      customerUserCognitoId
+      customerUsername
+      customerEmail
+      customerBillingFullName
+      billingAddresses {
+        nextToken
+      }
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerIsPremium
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerIsActive
+      customerLastLogin
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
+    feedback {
+      id
+      userFeedbackPromoterScore
+      userFeedbackDiscovery
+      userFeedbackLeaveReason
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userCognitoId
+      userIsPremium
+      userConfig {
+        id
+        configKeywordFilter
+        configSentimentRangeUpperBound
+        configSentimentRangeLowerBound
+        configStoryNeutralityThreshold
+      }
+      customer {
+        id
+        customerUserCognitoId
+        customerUsername
+        customerEmail
+        customerBillingFullName
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerIsPremium
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerIsActive
+        customerLastLogin
+      }
+      feedback {
+        id
+        userFeedbackPromoterScore
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+      }
+    }
+    nextToken
+  }
+}
+query GetConfig($id: ID!) {
+  getConfig(id: $id) {
+    id
+    configKeywordFilter
+    configSentimentRangeUpperBound
+    configSentimentRangeLowerBound
+    configStoryNeutralityThreshold
+    savedArticles {
+      items {
+        id
+      }
+      nextToken
+    }
+    user {
+      id
+      userCognitoId
+      userIsPremium
+      userConfig {
+        id
+        configKeywordFilter
+        configSentimentRangeUpperBound
+        configSentimentRangeLowerBound
+        configStoryNeutralityThreshold
+      }
+      customer {
+        id
+        customerUserCognitoId
+        customerUsername
+        customerEmail
+        customerBillingFullName
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerIsPremium
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerIsActive
+        customerLastLogin
+      }
+      feedback {
+        id
+        userFeedbackPromoterScore
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+      }
+    }
+  }
+}
+query ListConfigs(
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      configKeywordFilter
+      configSentimentRangeUpperBound
+      configSentimentRangeLowerBound
+      configStoryNeutralityThreshold
+      savedArticles {
+        nextToken
+      }
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
+    nextToken
+  }
+}
 query GetCustomer($id: ID!) {
   getCustomer(id: $id) {
     id
+    customerUserCognitoId
+    customerUsername
     customerEmail
-    survey {
+    customerBillingFullName
+    billingAddresses {
+      items {
+        id
+        billingAddressHouseNo
+        billingAddressStreet
+        billingAddressCity
+        billingAddressPostalCode
+      }
+      nextToken
+    }
+    customerFreeTrial
+    customerFreeTrailStartDate
+    customerFreeTrailEndDate
+    customerIsPremium
+    customerPremiumStartDate
+    customerPremiumEndDate
+    customerPremiumIsExpiring
+    customerIsActive
+    customerLastLogin
+    user {
       id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
+      userCognitoId
+      userIsPremium
+      userConfig {
+        id
+        configKeywordFilter
+        configSentimentRangeUpperBound
+        configSentimentRangeLowerBound
+        configStoryNeutralityThreshold
+      }
       customer {
         id
+        customerUserCognitoId
+        customerUsername
         customerEmail
+        customerBillingFullName
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerIsPremium
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerIsActive
+        customerLastLogin
+      }
+      feedback {
+        id
+        userFeedbackPromoterScore
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
       }
     }
   }
@@ -25,57 +559,153 @@ query ListCustomers(
   listCustomers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      customerUserCognitoId
+      customerUsername
       customerEmail
-      survey {
+      customerBillingFullName
+      billingAddresses {
+        nextToken
+      }
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerIsPremium
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerIsActive
+      customerLastLogin
+      user {
         id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
+        userCognitoId
+        userIsPremium
       }
     }
     nextToken
   }
 }
-query GetSurvey($id: ID!) {
-  getSurvey(id: $id) {
+query GetBillingAddress($id: ID!) {
+  getBillingAddress(id: $id) {
     id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
+    billingAddressHouseNo
+    billingAddressStreet
+    billingAddressCity
+    billingAddressPostalCode
     customer {
       id
+      customerUserCognitoId
+      customerUsername
       customerEmail
-      survey {
+      customerBillingFullName
+      billingAddresses {
+        nextToken
+      }
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerIsPremium
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerIsActive
+      customerLastLogin
+      user {
         id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
+        userCognitoId
+        userIsPremium
       }
     }
   }
 }
-query ListSurveys(
-  $filter: ModelSurveyFilterInput
+query ListBillingAddresss(
+  $filter: ModelBillingAddressFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listSurveys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listBillingAddresss(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
+      billingAddressHouseNo
+      billingAddressStreet
+      billingAddressCity
+      billingAddressPostalCode
       customer {
         id
+        customerUserCognitoId
+        customerUsername
         customerEmail
+        customerBillingFullName
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerIsPremium
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerIsActive
+        customerLastLogin
+      }
+    }
+    nextToken
+  }
+}
+query GetFeedback($id: ID!) {
+  getFeedback(id: $id) {
+    id
+    userFeedbackPromoterScore
+    userFeedbackDiscovery
+    userFeedbackLeaveReason
+    user {
+      id
+      userCognitoId
+      userIsPremium
+      userConfig {
+        id
+        configKeywordFilter
+        configSentimentRangeUpperBound
+        configSentimentRangeLowerBound
+        configStoryNeutralityThreshold
+      }
+      customer {
+        id
+        customerUserCognitoId
+        customerUsername
+        customerEmail
+        customerBillingFullName
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerIsPremium
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerIsActive
+        customerLastLogin
+      }
+      feedback {
+        id
+        userFeedbackPromoterScore
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+      }
+    }
+  }
+}
+query ListFeedbacks(
+  $filter: ModelFeedbackFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFeedbacks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userFeedbackPromoterScore
+      userFeedbackDiscovery
+      userFeedbackLeaveReason
+      user {
+        id
+        userCognitoId
+        userIsPremium
       }
     }
     nextToken

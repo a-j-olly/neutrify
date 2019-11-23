@@ -1,15 +1,135 @@
-type Customer @model {
-  id: ID!
-  customerEmail: String!
-  survey: Survey @connection(name: "CustomerSurvey")
+type Article @model {
+    id: ID!
+    articleBody: String!
+    articleDataType: String
+    articleDate: String
+    articleDateTime: String
+    articleDateTimePub: String!
+    articleEventUri: String
+    articleImage: String
+    articleLanguage: String
+    articleSentiment: Float
+    articleShare: Int
+    articleSimilarity: Float
+    articleTime: String
+    articleTitle: String!
+    articleUri: String!
+    articleURL: String!
+    source: Source! @connection(name: "SourceArticles")
+    categories: [CategoryMember] @connection(name: "ArticleCategoryMembers")
+    concepts: [ConceptMember!] @connection(name: "ArticleConceptMembers")
+    configs: [ConfigMember!] @connection(name: "ArticleConfigMembers")
 }
 
-type Survey @model {
-  id: ID!
-  surveyTryReason: String!
-  surveyLeaveComments: Boolean!
-  surveyLocalityOption: String!
-  surveyBiasOption: String!
-  surveyUsedServices: [String!]
-  customer: Customer! @connection(name: "CustomerSurvey")
+type CategoryMember @model(queries: null) {
+    id: ID!
+    article: Article! @connection(name: "ArticleCategoryMembers")
+    category: Category! @connection(name: "CategoryMembersConnection")
+}
+
+type Category @model {
+    id: ID!
+    categoryLabel: String!
+    categoryUri: String!
+    articles: [CategoryMember] @connection(name: "CategoryMembersConnection")
+}
+
+type Source @model {
+    id: ID!
+    sourceUri: String!
+    sourceType: String
+    sourceTitle: String!
+    sourceDescription: String
+    location: Location! @connection(name: "LocationSources")
+    sourceRanking: Int
+    articles: [Article!] @connection(name: "SourceArticles")
+}
+
+type ConceptMember @model(queries: null) {
+    id: ID!
+    article: Article! @connection(name: "ArticleConceptMembers")
+    concept: Concept! @connection(name: "ConceptMembersConnection")
+}
+
+type Concept @model {
+    id: ID!
+    conceptLabel: String!
+    conceptScore: Int
+    conceptUri: String!
+    conceptType: String!
+    location: Location @connection(name: "LocationConcepts")
+    conceptSynonyms: [String!]
+    articles: [ConceptMember!] @connection(name: "ConceptMembersConnection")
+}
+
+type Location @model {
+    id: ID!
+    locationType: String!
+    locationLabel: String!
+    locationCountry: String
+    locationLat: Float
+    locationLong: Float
+    concepts: [Concept!] @connection(name: "LocationConcepts")
+    sources: [Source!] @connection(name: "LocationSources")
+}
+
+type User @model {
+    id: ID!
+    userCognitoId: String!
+    userIsPremium: Boolean
+    userConfig: Config @connection(name: "UserConfig")
+    customer: Customer @connection(name: "UserCustomer")
+    feedback: Feedback @connection(name: "UserFeedback")
+}
+
+type ConfigMember @model(queries: null) {
+    id: ID!
+    article: Article! @connection(name: "ArticleConfigMembers")
+    concept: Config! @connection(name: "ConfigMembersConnection")
+}
+
+type Config @model {
+    id: ID!
+    configKeywordFilter: [String!]
+    configSentimentRangeUpperBound: Float
+    configSentimentRangeLowerBound: Float
+    configStoryNeutralityThreshold: Float
+    savedArticles: [ConfigMember!] @connection(name: "ConfigMembersConnection")
+    user: User @connection(name: "UserConfig")
+}
+
+type Customer @model {
+    id: ID!
+    customerUserCognitoId: String!
+    customerUsername: String
+    customerEmail: String!
+    customerBillingFullName: String
+    billingAddresses: [BillingAddress!] @connection(name: "CustomerBillingAddresses")
+    customerFreeTrial: Boolean!
+    customerFreeTrailStartDate: String
+    customerFreeTrailEndDate: String
+    customerIsPremium: Boolean!
+    customerPremiumStartDate: String
+    customerPremiumEndDate: String
+    customerPremiumIsExpiring: Boolean
+    customerIsActive: Boolean
+    customerLastLogin: String
+    user: User @connection(name: "UserCustomer")
+}
+
+type BillingAddress @model {
+    id: ID!
+    billingAddressHouseNo: String!
+    billingAddressStreet: String!
+    billingAddressCity: String!
+    billingAddressPostalCode: String!
+    customer: Customer @connection(name: "CustomerBillingAddresses")
+}
+
+type Feedback @model {
+    id: ID!
+    userFeedbackPromoterScore: Int
+    userFeedbackDiscovery: String
+    userFeedbackLeaveReason: String
+    user: User @connection(name: "UserFeedback")
 }

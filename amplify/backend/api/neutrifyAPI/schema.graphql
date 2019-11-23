@@ -27,14 +27,14 @@ type CategoryMember @model(queries: null) {
     category: Category! @connection(name: "CategoryMembersConnection")
 }
 
-type Category @model {
+type Category @model @key(name:"categoryLabel-index", fields: ["categoryLabel"]) {
     id: ID!
     categoryLabel: String!
     categoryUri: String!
     articles: [CategoryMember] @connection(name: "CategoryMembersConnection")
 }
 
-type Source @model {
+type Source @model @key(name:"sourceUri-index", fields: ["sourceUri", "sourceTitle"]) {
     id: ID!
     sourceUri: String!
     sourceType: String
@@ -51,7 +51,7 @@ type ConceptMember @model(queries: null) {
     concept: Concept! @connection(name: "ConceptMembersConnection")
 }
 
-type Concept @model {
+type Concept @model @key(name:"conceptLabel-index", fields: ["conceptLabel"]) {
     id: ID!
     conceptLabel: String!
     conceptScore: Int
@@ -62,7 +62,7 @@ type Concept @model {
     articles: [ConceptMember!] @connection(name: "ConceptMembersConnection")
 }
 
-type Location @model {
+type Location @model @key(name:"locationLabel-index", fields: ["locationLabel"]) {
     id: ID!
     locationType: String!
     locationLabel: String!

@@ -1,4 +1,4 @@
-import { AuthGuardService } from './auth-guard.service';
+// import { AuthGuardService } from './auth-guard.service';
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -17,10 +17,10 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private location: LocationStrategy,
-    private authGuardService: AuthGuardService,
+    // private authGuardService: AuthGuardService,
   ) {
     this.location.onPopState(() => {
-      this.authGuardService.backClicked = true;
+      // this.authGuardService.backClicked = true;
       return false;
     });
 

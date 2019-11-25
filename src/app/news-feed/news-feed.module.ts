@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { UnderConstructionPage } from './under-construction.page';
+import { NewsFeedPage } from './news-feed.page';
+import { ArticleComponent } from './article/article.component';
+import { RatingComponent } from './article/rating/rating.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: UnderConstructionPage
+    component: NewsFeedPage
   }
 ];
 
@@ -18,10 +20,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [UnderConstructionPage]
+  declarations: [NewsFeedPage, ArticleComponent, RatingComponent]
 })
-export class UnderConstructionPageModule {}
+export class NewsFeedPageModule {}

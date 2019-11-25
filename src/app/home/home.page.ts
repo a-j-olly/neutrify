@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
     this.userDataService.customerId = res.id;
     this.userDataService.customerEmail = res.customerEmail;
 
-    this.router.navigate(['/under-construction']);
+    this.router.navigate([]);
     this.landingPageForm.reset();
   }
 

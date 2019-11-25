@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>news-feed</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="feed-column">
+    <article *ngFor="let article of articles">
+      <app-article [article]="article"></app-article>
+    </article>
+  </div>
+</ion-content>

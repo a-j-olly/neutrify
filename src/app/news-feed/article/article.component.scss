@@ -1,0 +1,40 @@
+ion-card {
+    padding: 10px;
+    margin: 5px;
+
+    ion-card-content {
+        padding: 0;
+        margin: 0;
+        font-size: 12px;
+    };
+    
+    ion-card-header {
+        padding: 0;
+        margin: 0;
+    };
+    
+    ion-card-title {
+        padding: 0;
+        margin: 0;
+    };
+};
+
+p {
+    font-size: 12px;
+};
+
+.sentiment-range {
+    padding: 0;
+    margin: 0;
+    --knob-size: 0;
+};
+
+ion-row {
+    margin: 0;
+    padding: 0;
+};
+
+ion-col {
+    margin: 0;
+    padding: 0;
+};

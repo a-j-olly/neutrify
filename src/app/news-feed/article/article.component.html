@@ -1,0 +1,47 @@
+
+
+<ion-card>
+  <ion-card-content>
+    <ion-row>
+      <div class="body">
+        <h2>{{ article.title }}</h2>
+        <p *ngIf="isButtonClicked">{{ article.body }}</p>
+      </div>
+    </ion-row>
+      
+    <ion-row *ngIf="isButtonClicked">
+      <ion-col size="4">
+        <ion-row class="ion-justify-content-center">
+          <ion-label>Attitude</ion-label>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-range class="sentiment-range" min="-1" max="1" step="0.1" color="danger" 
+            value="{{ article.sentiment }}"></ion-range>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="8">
+        <ion-row class="ion-justify-content-center">
+          <ion-label>Quality of journalism</ion-label>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <app-rating [(rating)]="article.rating"></app-rating>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="3">
+        <ion-row>
+          {{ article.source }}
+        </ion-row>
+      </ion-col>
+
+      <ion-col size="3">
+        <ion-row>
+          {{ dateAge }}
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

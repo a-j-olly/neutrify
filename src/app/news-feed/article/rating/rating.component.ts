@@ -42,7 +42,7 @@ export class RatingComponent {
         return '#d3d3d3'; // Grey
       } else {
         if (this.hasRated) {
-          return '#875e00';
+          return '#bfa973';
         } else {
           return '#ffb400'; // Yellow
         }

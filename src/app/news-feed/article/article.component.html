@@ -3,8 +3,9 @@
   <ion-card-content>        
     <ion-row>
       <ion-col size="11">
-        <div class="title" (click)="isCardExpanded = !isCardExpanded">
-          <h1>{{ article.title }}</h1>
+        <div class="title" tappable (click)="isCardExpanded = !isCardExpanded" >
+          <h1 class="two-line-no-wrap" *ngIf="!isCardExpanded">{{ article.title }}</h1>
+          <h1 *ngIf="isCardExpanded">{{ article.title }}</h1>
         </div>
       </ion-col>
       <ion-col size="1" class="ion-text-end">
@@ -16,56 +17,93 @@
       <ion-slide *ngIf="isCardExpanded">
         <ion-grid class="ion-no-padding ion-no-margin">
           <ion-row> 
-            <div class="body" (click)="isCardExpanded = !isCardExpanded" >
+            <div class="body">
               <h4>{{ article.author ? article.author : '' }}</h4>
               <p>{{ article.body }}</p>
             </div>
           </ion-row>
 
           <ion-row class="ion-justify-content-center" *ngIf="isCardExpanded">
-            <ion-button href="{{ article.url }}" target="_blank">Go to article</ion-button>  
+            <ion-button size="small" href="{{ article.url }}" target="_blank">Read More</ion-button>  
           </ion-row>
         </ion-grid>
       </ion-slide>
         
       <ion-slide *ngIf="isCardExpanded">
-        <ion-grid class="ion-no-padding ion-no-margin">
-          <ion-row>
-            <ion-col size="4">
-              <ion-row class="ion-justify-content-center">
-                <ion-label>Attitude</ion-label>
-              </ion-row>
-              <ion-row class="ion-justify-content-center">
-                <ion-range min="-1" max="1" step="0.1" color="danger"
-                  value="{{ article.sentiment }}" ticks="true"></ion-range>
-              </ion-row>
-            </ion-col>
+        <ion-grid class="ion-no-margin ion-no-padding">
+            <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+              <div class="metric-item ion-no-margin ion-no-padding">
+                <ion-row class="ion-justify-content-center">
+                    <h4>Attitude</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
+                    value="{{ article.sentiment >= 0 ? '0' : article.sentiment}}"></ion-range>
+                  <ion-range min="0" max="1" step="0.1" color="primary"
+                  value="{{ article.sentiment >= 0 ? article.sentiment : '0' }}"></ion-range>
+                </ion-row>
+              </div>
+                
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Word Count</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <ion-label color="primary">
+                    {{ article.wordCount}}
+                  </ion-label>
+                </ion-row>
+              </div>
 
-            <ion-col size="8">
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Quality of journalism</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <app-rating [(rating)]="article.rating" [(hasRated)]="hasRated"></app-rating>
+                </ion-row>
+              </div>
+            </ion-row>
+        </ion-grid>
+      </ion-slide>
+
+      <ion-slide *ngIf="isCardExpanded && (article.categories || article.keywords)">
+        <ion-grid class="ion-no-margin ion-no-padding">
+          <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+            <div class="text-list-item" *ngIf="article.categories">
               <ion-row class="ion-justify-content-center">
-                <ion-label>Quality of journalism</ion-label>
+                <h4>Categories</h4>
               </ion-row>
               <ion-row class="ion-justify-content-center">
-                <app-rating [(rating)]="article.rating" [(hasRated)]="hasRated"></app-rating>
+                <ion-label class="ion-text-wrap" color="primary">
+                  {{ article.categories.join(', ') }}
+                </ion-label>
               </ion-row>
-            </ion-col>
+            </div>
+
+            <div class="text-list-item" *ngIf="article.keywords">
+              <ion-row class="ion-justify-content-center">
+                <h4>Keywords</h4>
+              </ion-row>
+              <ion-row class="ion-justify-content-center">
+                <ion-label class="ion-text-wrap" color="primary">
+                  {{ article.keywords.join(', ') }}
+                </ion-label>
+              </ion-row>
+            </div>
           </ion-row>
         </ion-grid>
       </ion-slide>
     </ion-slides>
 
     <ion-row class="ion-justify-content-between footer">
-        <ion-col size="8">
-          <ion-row class="ion-justify-content-start">
-            <p>{{ article.source }}</p>
-          </ion-row>
-        </ion-col>
+      <ion-row class="ion-justify-content-start">
+        <p>{{ article.source }}</p>
+      </ion-row>
 
-        <ion-col size="4">
-          <ion-row class="ion-justify-content-end">
-            <p>{{ dateAge }}</p>
-          </ion-row>
-        </ion-col>
-    </ion-row>
+      <ion-row class="ion-justify-content-end">
+        <p>{{ dateAge }}</p>
+      </ion-row>
+    </ion-row>    
   </ion-card-content>
 </ion-card>

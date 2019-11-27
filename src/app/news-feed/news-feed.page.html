@@ -5,9 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="feed-column">
-    <article *ngFor="let article of articles">
-      <app-article [article]="article"></app-article>
-    </article>
+  <div class="feed" *ngFor="let article of articles">
+    <app-article [article]="article"></app-article>
   </div>
 </ion-content>

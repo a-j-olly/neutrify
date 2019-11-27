@@ -24,11 +24,5 @@
 			"dependsOn": []
 		}
 	},
-	"analytics": {
-		"neutrify": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation"
-		}
-	},
 	"hosting": {}
 }

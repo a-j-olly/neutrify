@@ -21,7 +21,9 @@ export class NewsFeedPage implements OnInit {
       pubDate: '2019-11-24T16:29:23.538Z',
       sentiment: '0.5',
       novelty: '1',
-      rating: 3
+      rating: 3,
+      author: 'Gaius Julius Caesar',
+      url: 'https://www.lipsum.com/'
     },
     {
       id: '2',
@@ -35,7 +37,8 @@ export class NewsFeedPage implements OnInit {
       pubDate: '2019-11-23T19:29:23.538Z',
       sentiment: '0.2',
       novelty: '0.1',
-      rating: 1
+      rating: 1,
+      url: 'https://www.lipsum.com/'
     },
     {
       id: '3',
@@ -47,7 +50,9 @@ export class NewsFeedPage implements OnInit {
       pubDate: '2019-11-24T18:22:23.538Z',
       sentiment: '-0.5',
       novelty: '0',
-      rating: 0
+      rating: 0,
+      author: 'Jorge Mario Bergoglio',
+      url: 'https://www.lipsum.com/'
     }
   ];
 

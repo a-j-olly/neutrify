@@ -1,16 +1,11 @@
-.star-icon:hover {
-    cursor: pointer;
+ion-icon {
+    font-size: 32px;
+    
+    &:hover {
+        cursor: pointer;
+    };
+
+    &:active {
+        fill: #c48b02;
+    };
 };
-
-.star-icon:active {
-    fill: #c48b02;
-}
-
-ion-label {
-    font-size: 8px;
-}
-
-.feedback {
-    float: inline-end;
-}
-

@@ -7,8 +7,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ArticleComponent implements OnInit {
   @Input() article: any;
-  public isButtonClicked = false;
+  public isCardExpanded = false;
   public dateAge: string;
+  public hasRated = false;
 
   constructor() { }
 

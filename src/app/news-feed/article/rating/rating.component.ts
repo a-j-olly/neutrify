@@ -7,12 +7,13 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class RatingComponent {
   @Input() rating: number;
+  @Input() hasRated: boolean;
 
   @Output() ratingChange: EventEmitter<number> = new EventEmitter();
+  @Output() hasRatedChange: EventEmitter<boolean> = new EventEmitter();
   constructor() {}
 
   hoverIndex: number;
-  hasRated = false;
   // function used to change the value of our rating
   // triggered when user, clicks a star to change the rating
   rate(index: number) {
@@ -20,6 +21,7 @@ export class RatingComponent {
       this.rating = index;
       this.ratingChange.emit(this.rating);
       this.hasRated = true;
+      this.hasRatedChange.emit(this.hasRated);
     }
   }
 
@@ -39,7 +41,11 @@ export class RatingComponent {
       if (this.hoverIndex && this.hoverIndex < index && !this.hasRated) {
         return '#d3d3d3'; // Grey
       } else {
-        return '#ffb400'; // Yellow
+        if (this.hasRated) {
+          return '#875e00';
+        } else {
+          return '#ffb400'; // Yellow
+        }
       }
     }
   }

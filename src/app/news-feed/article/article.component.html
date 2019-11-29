@@ -1,100 +1,120 @@
 
-<ion-card>
+<ion-card button="{{!isCardExpanded}}" (click)="onCardClick('card')">
   <ion-card-content>        
     <ion-row>
       <ion-col size="11">
-        <div class="title" tappable (click)="isCardExpanded = !isCardExpanded" >
-          <h1 class="two-line-no-wrap" *ngIf="!isCardExpanded">{{ article.title }}</h1>
-          <h1 *ngIf="isCardExpanded">{{ article.title }}</h1>
+        <div class="title" *ngIf="!isCardExpanded">
+          <h1 class="two-line-no-wrap">{{ article.title }}</h1>
+        </div>
+
+        <div class="title" tappable (click)="onCardClick('close')" *ngIf="isCardExpanded">
+          <h1>{{ article.title }}</h1>
         </div>
       </ion-col>
-      <ion-col size="1" class="ion-text-end">
-        <ion-icon name="more"></ion-icon>
+      <ion-col size="1">
+        <ion-icon name="arrow-dropdown" color="primary" *ngIf="!isCardExpanded"></ion-icon>
+        <ion-icon name="arrow-dropup" color="primary" *ngIf="isCardExpanded" 
+                  tappable (click)="onCardClick('close')"></ion-icon>
       </ion-col>
     </ion-row>
 
-    <ion-slides>
-      <ion-slide *ngIf="isCardExpanded">
-        <ion-grid class="ion-no-padding ion-no-margin">
-          <ion-row> 
-            <div class="body">
-              <h4>{{ article.author ? article.author : '' }}</h4>
-              <p>{{ article.body }}</p>
-            </div>
-          </ion-row>
-
-          <ion-row class="ion-justify-content-center" *ngIf="isCardExpanded">
-            <ion-button size="small" href="{{ article.url }}" target="_blank">Read More</ion-button>  
-          </ion-row>
-        </ion-grid>
-      </ion-slide>
-        
-      <ion-slide *ngIf="isCardExpanded">
-        <ion-grid class="ion-no-margin ion-no-padding">
-            <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-              <div class="metric-item ion-no-margin ion-no-padding">
-                <ion-row class="ion-justify-content-center">
-                    <h4>Attitude</h4>
-                </ion-row>
-                <ion-row class="ion-justify-content-center">
-                  <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
-                    value="{{ article.sentiment >= 0 ? '0' : article.sentiment}}"></ion-range>
-                  <ion-range min="0" max="1" step="0.1" color="primary"
-                  value="{{ article.sentiment >= 0 ? article.sentiment : '0' }}"></ion-range>
-                </ion-row>
+    <div *ngIf="isCardExpanded">
+      <ion-slides pager>
+        <ion-slide>
+          <ion-grid class="ion-no-padding ion-no-margin">
+            <ion-row> 
+              <div class="body">
+                <h4>{{ article.author ? article.author : '' }}</h4>
+                <p>{{ article.body }}</p>
               </div>
-                
-              <div class="metric-item">
+            </ion-row>
+          </ion-grid>
+        </ion-slide>
+          
+        <ion-slide>
+          <ion-grid class="ion-no-margin ion-no-padding">
+              <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+                <div class="metric-item ion-no-margin ion-no-padding">
+                  <ion-row class="ion-justify-content-center">
+                      <h4>Attitude</h4>
+                  </ion-row>
+                  <ion-row class="ion-justify-content-center">
+                    <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
+                      value="{{ article.sentiment >= 0 ? '0' : article.sentiment}}"></ion-range>
+                    <ion-range min="0" max="1" step="0.1" color="primary"
+                    value="{{ article.sentiment >= 0 ? article.sentiment : '0' }}"></ion-range>
+                  </ion-row>
+                </div>
+                  
+                <div class="metric-item">
+                  <ion-row class="ion-justify-content-center">
+                    <h4>Word Count</h4>
+                  </ion-row>
+                  <ion-row class="ion-justify-content-center">
+                    <ion-label color="primary">
+                      {{ article.wordCount}}
+                    </ion-label>
+                  </ion-row>
+                </div>
+
+                <div class="metric-item">
+                  <ion-row class="ion-justify-content-center">
+                    <h4>Quality of journalism</h4>
+                  </ion-row>
+                  <ion-row class="ion-justify-content-center">
+                    <app-rating [(rating)]="article.rating" [(hasRated)]="hasRated"></app-rating>
+                  </ion-row>
+                </div>
+              </ion-row>
+          </ion-grid>
+        </ion-slide>
+
+        <ion-slide *ngIf="article.categories || article.keywords">
+          <ion-grid class="ion-no-margin ion-no-padding">
+            <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+              <div class="text-list-item" *ngIf="article.categories">
                 <ion-row class="ion-justify-content-center">
-                  <h4>Word Count</h4>
+                  <h4>Categories</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
-                  <ion-label color="primary">
-                    {{ article.wordCount}}
+                  <ion-label class="ion-text-wrap" color="primary">
+                    {{ article.categories.length > 8 ? article.categories.slice(0, 8).join(', ') : article.categories.join(', ') }}
                   </ion-label>
                 </ion-row>
               </div>
 
-              <div class="metric-item">
+              <div class="text-list-item" *ngIf="article.keywords">
                 <ion-row class="ion-justify-content-center">
-                  <h4>Quality of journalism</h4>
+                  <h4>Keywords</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
-                  <app-rating [(rating)]="article.rating" [(hasRated)]="hasRated"></app-rating>
+                  <ion-label class="ion-text-wrap" color="primary">
+                      {{ article.keywords.length > 20 ? article.keywords.slice(0, 20).join(', ') : article.keywords.join(', ') }}
+                  </ion-label>
                 </ion-row>
               </div>
             </ion-row>
-        </ion-grid>
-      </ion-slide>
+          </ion-grid>
+        </ion-slide>
+      </ion-slides>
+    </div>
 
-      <ion-slide *ngIf="isCardExpanded && (article.categories || article.keywords)">
-        <ion-grid class="ion-no-margin ion-no-padding">
-          <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-            <div class="text-list-item" *ngIf="article.categories">
-              <ion-row class="ion-justify-content-center">
-                <h4>Categories</h4>
-              </ion-row>
-              <ion-row class="ion-justify-content-center">
-                <ion-label class="ion-text-wrap" color="primary">
-                  {{ article.categories.join(', ') }}
-                </ion-label>
-              </ion-row>
-            </div>
-
-            <div class="text-list-item" *ngIf="article.keywords">
-              <ion-row class="ion-justify-content-center">
-                <h4>Keywords</h4>
-              </ion-row>
-              <ion-row class="ion-justify-content-center">
-                <ion-label class="ion-text-wrap" color="primary">
-                  {{ article.keywords.join(', ') }}
-                </ion-label>
-              </ion-row>
-            </div>
-          </ion-row>
-        </ion-grid>
-      </ion-slide>
-    </ion-slides>
+    <div class="chip-toolbar" *ngIf="isCardExpanded">
+      <ion-buttons class="ion-justify-content-evenly">
+        <ion-chip color="danger">
+            <ion-icon name="close"></ion-icon>
+            <ion-label>Hide</ion-label>
+          </ion-chip>
+        <ion-chip color="primary">
+          <ion-icon name="bookmark"></ion-icon>
+          <ion-label>Save</ion-label>
+        </ion-chip>
+        <ion-chip color="primary" (click)="goToArticle()">
+          <ion-icon name="open"></ion-icon>
+          <ion-label>More</ion-label>
+        </ion-chip>
+      </ion-buttons>
+    </div>
 
     <ion-row class="ion-justify-content-between footer">
       <ion-row class="ion-justify-content-start">

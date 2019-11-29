@@ -7,14 +7,38 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ArticleComponent implements OnInit {
   @Input() article: any;
-  public isCardExpanded = false;
   public dateAge: string;
   public hasRated = false;
+
+  public isCardExpanded = false;
+  public cardClickEvent = false;
+  public closeClickEvent = false;
 
   constructor() { }
 
   ngOnInit() {
     this.dateAge = this.getArticleAge(this.article.pubDate);
+  }
+
+  public onCardClick(eventLocation) {
+
+    if (eventLocation === 'close') {
+      this.closeClickEvent = true;
+      this.isCardExpanded = false;
+    }
+
+    if (eventLocation === 'card') {
+      this.cardClickEvent = true;
+      if (this.cardClickEvent && !this.closeClickEvent) {
+        this.isCardExpanded = true;
+      } else if (!this.isCardExpanded) {
+        this.closeClickEvent = false;
+      }
+    }
+  }
+
+  public goToArticle() {
+    // go to article
   }
 
   private getArticleAge(date: string) {

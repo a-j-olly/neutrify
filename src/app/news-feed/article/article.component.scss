@@ -1,7 +1,7 @@
 ion-card {
-    padding: 10px;
-    margin: 5 auto;
-    min-width: 200px;
+    padding: 5px 5px 0px 5px;
+    margin: 5px 2px;
+    min-width: 270px;
     max-width: 1080px;
 
     ion-card-content {
@@ -11,14 +11,27 @@ ion-card {
         ion-icon {
             font-size: 24px;
         };
+        
+
+        ion-slides {
+            cursor: grab;
+            
+            &:active {
+                cursor: grabbing;
+            };
+
+            ion-slide {
+                margin-bottom: 10px;
+            };
+
+        };
 
         .title {
+            margin: 0px;
+            padding: 0px;
+
             &:hover {
                 cursor: pointer;
-            };
-    
-            &:active {
-                background-color: whitesmoke;
             };
 
             h1 {
@@ -42,12 +55,12 @@ ion-card {
             h4 {
                 font-size: 16px;
                 color: #999;
-                margin-bottom: 16px;
+                margin-bottom: 8px;
             };
 
             p {
                 font-size: 16px;
-                margin-bottom: 4px;
+                margin-bottom: 8px;
             };
 
             ion-button {

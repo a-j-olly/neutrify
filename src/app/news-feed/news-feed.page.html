@@ -1,11 +1,21 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button (click)="toggleMenu()" *ngIf="!menuStatus || platformWidth < 1084">
+            <ion-icon name="options" slot="icon-only"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    
     <ion-title>news-feed</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="feed" *ngFor="let article of articles">
+  <div id="feed" *ngFor="let article of articles">
     <app-article [article]="article"></app-article>
   </div>
 </ion-content>

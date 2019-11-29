@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { MenuController, Platform } from '@ionic/angular';
+import { MenuService } from './../menu.service';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-news-feed',
   templateUrl: './news-feed.page.html',
   styleUrls: ['./news-feed.page.scss'],
 })
-export class NewsFeedPage implements OnInit {
+export class NewsFeedPage implements OnDestroy {
   public articles = [
     {
       id: '1',
@@ -70,8 +73,36 @@ export class NewsFeedPage implements OnInit {
     }
   ];
 
-  constructor() { }
+  menuSubscription$: Subscription;
+  menuStatus = false;
 
-  ngOnInit() {
+  platformResize$: Subscription;
+  platformWidth: number;
+
+  constructor(private menuService: MenuService, private menu: MenuController, private platform: Platform) {
+    platform.ready().then(() => {
+      this.platformWidth = platform.width();
+    });
+
+    this.platformResize$ = platform.resize.subscribe(() => {
+      this.platformWidth = platform.width();
+    });
+
+    this.menuSubscription$ = menuService.getMenuStatus().subscribe(async (status) => {
+      this.menuStatus = status;
+    });
+  }
+
+  ngOnDestroy() {
+    this.menuSubscription$.unsubscribe();
+    this.platformResize$.unsubscribe();
+  }
+
+  toggleMenu() {
+    if (this.platformWidth <= 1084) {
+      this.menu.toggle('filterMenu');
+    } else {
+      this.menuService.toggleMenu();
+    }
   }
 }

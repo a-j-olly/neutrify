@@ -1,25 +1,18 @@
 <ion-app>
-  <ion-menu side="end" contentId="main" menuId="mainMenu" (ionDidOpen)="mainMenuOpen()" (ionDidClose)="mainMenuClosed()">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>MAIN MENU</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="false">
-            <ion-item>
-              <ion-label>
-                Start
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
+  <ion-menu side="end" contentId="mainContent" menuId="mainMenu" (ionDidOpen)="mainMenuOpen()" (ionDidClose)="mainMenuClosed()">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>MAIN MENU</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <app-main-menu></app-main-menu>
+    </ion-content>
+  </ion-menu>
   
-  <ion-split-pane contentId="main" when="{{ menuStatus ? '(min-width: 1084px)' : 'false' }}">
-    <ion-menu side="start" contentId="main" menuId="filterMenu" (ionDidOpen)="filterMenuOpen()" (ionDidClose)="filterMenuClosed()">
+  <ion-split-pane contentId="mainContent" when="{{ menuStatus ? '(min-width: 1084px)' : 'false' }}">
+    <ion-menu side="start" contentId="mainContent" menuId="filterMenu" (ionDidOpen)="filterMenuOpen()" (ionDidClose)="filterMenuClosed()">
       <ion-header>
         <ion-toolbar>
           <ion-title>FILTER MENU</ion-title>
@@ -30,14 +23,12 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+
       <ion-content>
-        <ion-list>
-          <ion-item>
-            this is the filter menu
-        </ion-item>
-        </ion-list>
+        <app-filter-menu></app-filter-menu>
       </ion-content>
-    </ion-menu>    
-    <ion-router-outlet id="main"></ion-router-outlet>
+    </ion-menu>
+
+    <ion-router-outlet id="mainContent"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

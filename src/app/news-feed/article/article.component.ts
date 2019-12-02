@@ -44,7 +44,7 @@ export class ArticleComponent implements OnInit {
   private getArticleAge(date: string) {
     const age = Math.floor(Math.abs((new Date().valueOf() - new Date(date).valueOf()) / 36e5));
 
-    if (age === 1) {
+    if (age <= 1) {
       return `Just Now`;
     } else if (age <= 23) {
       return `${age} Hours Ago`;

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { UserDataService } from '../user-data.service';
+import { UserDataService } from '../services/user-data.service';
 
 @Component({
   selector: 'app-home',

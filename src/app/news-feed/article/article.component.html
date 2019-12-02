@@ -11,9 +11,9 @@
           <h1>{{ article.title }}</h1>
         </div>
       </ion-col>
-      <ion-col size="1">
+      <ion-col size="1" class="ion-text-end">
         <ion-icon name="arrow-dropdown" *ngIf="!isCardExpanded"></ion-icon>
-        <ion-icon name="arrow-dropup" *ngIf="isCardExpanded" 
+        <ion-icon name="arrow-dropup" *ngIf="isCardExpanded"
                   tappable (click)="onCardClick('close')"></ion-icon>
       </ion-col>
     </ion-row>
@@ -69,21 +69,21 @@
           </ion-grid>
         </ion-slide>
 
-        <ion-slide *ngIf="article.categories || article.keywords">
+        <ion-slide *ngIf="(article.topics && article.topics.length > 0) || (article.keywords && article.keywords.length > 0)">
           <ion-grid class="ion-no-margin ion-no-padding">
             <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-              <div class="text-list-item" *ngIf="article.categories">
+              <div class="text-list-item" *ngIf="article.topics && article.topics.length > 0">
                 <ion-row class="ion-justify-content-center">
-                  <h4>Categories</h4>
+                  <h4>Topics</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
                   <ion-label class="ion-text-wrap" color="primary">
-                    {{ article.categories.length > 8 ? article.categories.slice(0, 8).join(', ') : article.categories.join(', ') }}
+                    {{ article.topics.length > 8 ? article.topics.slice(0, 8).join(', ') : article.topics.join(', ') }}
                   </ion-label>
                 </ion-row>
               </div>
 
-              <div class="text-list-item" *ngIf="article.keywords">
+              <div class="text-list-item" *ngIf="article.keywords && article.keywords.length > 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Keywords</h4>
                 </ion-row>

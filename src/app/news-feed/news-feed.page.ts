@@ -1,14 +1,15 @@
 import { Subscription } from 'rxjs';
 import { MenuController, Platform } from '@ionic/angular';
-import { MenuService } from './../menu.service';
-import { Component, OnDestroy } from '@angular/core';
+import { MenuService } from '../services/menu.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-news-feed',
   templateUrl: './news-feed.page.html',
   styleUrls: ['./news-feed.page.scss'],
 })
-export class NewsFeedPage implements OnDestroy {
+export class NewsFeedPage implements OnInit, OnDestroy {
+
   public articles = [
     {
       id: '1',
@@ -33,7 +34,7 @@ export class NewsFeedPage implements OnDestroy {
         'eiusmod', 'magna', 'consectetur', 'incididunt', 'dolor', 'voluptate',
         'exercitation', 'occaecat', 'cupidatat', 'proident', 'laboris', 'nostrud'
       ],
-      categories: [
+      topics: [
         'Ethics', 'Politics', 'Philosophy', 'Law', 'Sport', 'Entertainment',
         'Religion', 'Economics', 'War', 'Agriculture'
       ]
@@ -54,7 +55,7 @@ export class NewsFeedPage implements OnDestroy {
       url: 'https://www.lipsum.com/',
       wordCount: 200,
       keywords: ['eiusmod', 'magna', 'consectetur'],
-      categories: ['Ethics', 'Politics', 'Philosophy'],
+      topics: ['Ethics', 'Politics', 'Philosophy'],
     },
     {
       id: '3',
@@ -80,7 +81,7 @@ export class NewsFeedPage implements OnDestroy {
   platformWidth: number;
 
   constructor(private menuService: MenuService, private menu: MenuController, private platform: Platform) {
-    platform.ready().then(() => {
+    this.platform.ready().then(() => {
       this.platformWidth = platform.width();
     });
 
@@ -93,6 +94,26 @@ export class NewsFeedPage implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    for (let i = 0; i < 10; i++) {
+      this.articles.push({
+        id: (this.articles.length + 1).toString(),
+        title: `Article Title ${this.articles.length + 1}`,
+        body: `Article Body ${this.articles.length + 1}`,
+        source: `Source ${this.articles.length + 1}`,
+        pubDate: new Date().toISOString(),
+        sentiment: Math.random().toString(),
+        novelty: Math.random().toString(),
+        rating: 0,
+        author: `Author ${this.articles.length + 1}`,
+        url: 'https://www.lipsum.com/',
+        wordCount: Math.random() * 1000,
+        keywords: [],
+        topics: []
+      });
+    }
+  }
+
   ngOnDestroy() {
     this.menuSubscription$.unsubscribe();
     this.platformResize$.unsubscribe();
@@ -100,9 +121,48 @@ export class NewsFeedPage implements OnDestroy {
 
   toggleMenu() {
     if (this.platformWidth <= 1084) {
+      this.menuService.closeMenu();
       this.menu.toggle('filterMenu');
     } else {
       this.menuService.toggleMenu();
     }
+  }
+
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      for (let i = 0; i < 25; i++) {
+        this.articles.push({
+          id: (this.articles.length + 1).toString(),
+          title: `Article Title ${this.articles.length + 1}`,
+          body: `Article Body ${this.articles.length + 1}`,
+          source: `Source ${this.articles.length + 1}`,
+          pubDate: new Date().toISOString(),
+          sentiment: Math.random().toString(),
+          novelty: Math.random().toString(),
+          rating: 0,
+          author: `Author ${this.articles.length + 1}`,
+          url: 'https://www.lipsum.com/',
+          wordCount: Math.random() * 1000,
+          keywords: [],
+          topics: []
+        });
+      }
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      if (this.articles.length >= 50) {
+        event.target.disabled = true;
+      }
+    }, 500);
   }
 }

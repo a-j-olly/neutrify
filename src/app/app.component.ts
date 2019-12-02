@@ -1,4 +1,4 @@
-import { MenuService } from './menu.service';
+import { MenuService } from './services/menu.service';
 // import { AuthGuardService } from './auth-guard.service';
 import { Component, OnDestroy } from '@angular/core';
 import { Platform, MenuController } from '@ionic/angular';
@@ -27,7 +27,7 @@ export class AppComponent implements OnDestroy {
   ) {
     this.menu.swipeGesture(false, 'filterMenu');
     this.menu.swipeGesture(false, 'mainMenu');
-    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(async (status) => {
+    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
     });
 

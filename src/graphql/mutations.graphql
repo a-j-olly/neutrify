@@ -1,28 +1,49 @@
 # this is an auto generated file. This will be overwritten
 mutation CreateArticle($input: CreateArticleInput!) {
   createArticle(input: $input) {
-    id
+    articleAuthors
     articleBody
     articleDataType
     articleDate
     articleDateTime
-    articleDateTimePub
+    articleDatePub
     articleEventUri
     articleImage
     articleLanguage
-    articleSentiment
+    articleQuality
     articleShare
     articleSimilarity
+    articleSourceId
     articleTime
     articleTitle
+    articleTone
     articleUri
-    articleURL
+    articleUrl
+    articleWordCount
+    id
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+    keywords {
+      items {
+        id
+      }
+      nextToken
+    }
+    topics {
+      items {
+        id
+      }
+      nextToken
+    }
     source {
+      articles {
+        nextToken
+      }
       id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
       location {
         id
         locationType
@@ -31,55 +52,60 @@ mutation CreateArticle($input: CreateArticleInput!) {
         locationLat
         locationLong
       }
+      sourceDescription
+      sourceLocationId
+      sourceTitle
+      sourceType
       sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
-    configs {
-      items {
-        id
-      }
-      nextToken
+      sourceUri
     }
   }
 }
 mutation UpdateArticle($input: UpdateArticleInput!) {
   updateArticle(input: $input) {
-    id
+    articleAuthors
     articleBody
     articleDataType
     articleDate
     articleDateTime
-    articleDateTimePub
+    articleDatePub
     articleEventUri
     articleImage
     articleLanguage
-    articleSentiment
+    articleQuality
     articleShare
     articleSimilarity
+    articleSourceId
     articleTime
     articleTitle
+    articleTone
     articleUri
-    articleURL
+    articleUrl
+    articleWordCount
+    id
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+    keywords {
+      items {
+        id
+      }
+      nextToken
+    }
+    topics {
+      items {
+        id
+      }
+      nextToken
+    }
     source {
+      articles {
+        nextToken
+      }
       id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
       location {
         id
         locationType
@@ -88,450 +114,60 @@ mutation UpdateArticle($input: UpdateArticleInput!) {
         locationLat
         locationLong
       }
+      sourceDescription
+      sourceLocationId
+      sourceTitle
+      sourceType
       sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
-    configs {
-      items {
-        id
-      }
-      nextToken
+      sourceUri
     }
   }
 }
 mutation DeleteArticle($input: DeleteArticleInput!) {
   deleteArticle(input: $input) {
-    id
+    articleAuthors
     articleBody
     articleDataType
     articleDate
     articleDateTime
-    articleDateTimePub
+    articleDatePub
     articleEventUri
     articleImage
     articleLanguage
-    articleSentiment
+    articleQuality
     articleShare
     articleSimilarity
+    articleSourceId
     articleTime
     articleTitle
+    articleTone
     articleUri
-    articleURL
-    source {
-      id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
+    articleUrl
+    articleWordCount
+    id
     configs {
       items {
         id
       }
       nextToken
     }
-  }
-}
-mutation CreateCategoryMember($input: CreateCategoryMemberInput!) {
-  createCategoryMember(input: $input) {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
+    keywords {
+      items {
         id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
       }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
+      nextToken
     }
-    category {
-      id
-      categoryLabel
-      categoryUri
+    topics {
+      items {
+        id
+      }
+      nextToken
+    }
+    source {
       articles {
         nextToken
       }
-    }
-  }
-}
-mutation UpdateCategoryMember($input: UpdateCategoryMemberInput!) {
-  updateCategoryMember(input: $input) {
-    id
-    article {
       id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    category {
-      id
-      categoryLabel
-      categoryUri
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-mutation DeleteCategoryMember($input: DeleteCategoryMemberInput!) {
-  deleteCategoryMember(input: $input) {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    category {
-      id
-      categoryLabel
-      categoryUri
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-mutation CreateCategory($input: CreateCategoryInput!) {
-  createCategory(input: $input) {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation UpdateCategory($input: UpdateCategoryInput!) {
-  updateCategory(input: $input) {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation DeleteCategory($input: DeleteCategoryInput!) {
-  deleteCategory(input: $input) {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation CreateSource($input: CreateSourceInput!) {
-  createSource(input: $input) {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-mutation UpdateSource($input: UpdateSourceInput!) {
-  updateSource(input: $input) {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-mutation DeleteSource($input: DeleteSourceInput!) {
-  deleteSource(input: $input) {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-mutation CreateConceptMember($input: CreateConceptMemberInput!) {
-  createConceptMember(input: $input) {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
       location {
         id
         locationType
@@ -540,366 +176,68 @@ mutation CreateConceptMember($input: CreateConceptMemberInput!) {
         locationLat
         locationLong
       }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-mutation UpdateConceptMember($input: UpdateConceptMemberInput!) {
-  updateConceptMember(input: $input) {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-mutation DeleteConceptMember($input: DeleteConceptMemberInput!) {
-  deleteConceptMember(input: $input) {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-mutation CreateConcept($input: CreateConceptInput!) {
-  createConcept(input: $input) {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation UpdateConcept($input: UpdateConceptInput!) {
-  updateConcept(input: $input) {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation DeleteConcept($input: DeleteConceptInput!) {
-  deleteConcept(input: $input) {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-mutation CreateLocation($input: CreateLocationInput!) {
-  createLocation(input: $input) {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
-    }
-  }
-}
-mutation UpdateLocation($input: UpdateLocationInput!) {
-  updateLocation(input: $input) {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
-    }
-  }
-}
-mutation DeleteLocation($input: DeleteLocationInput!) {
-  deleteLocation(input: $input) {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
+      sourceDescription
+      sourceLocationId
+      sourceTitle
+      sourceType
+      sourceRanking
+      sourceUri
     }
   }
 }
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
+    customer {
+      billingAddresses {
+        nextToken
+      }
+      customerEmail
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerFullName
+      customerIsPremium
+      customerIsActive
+      customerLastLogin
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerUserCognitoId
+      customerUsername
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
     id
+    feedback {
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+      userFeedbackDiscovery
+      userFeedbackLeaveReason
+      userFeedbackPromoterScore
+    }
     userCognitoId
     userIsPremium
     userConfig {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
       user {
         id
         userCognitoId
@@ -910,53 +248,57 @@ mutation CreateUser($input: CreateUserInput!) {
 }
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
+    customer {
+      billingAddresses {
+        nextToken
+      }
+      customerEmail
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerFullName
+      customerIsPremium
+      customerIsActive
+      customerLastLogin
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerUserCognitoId
+      customerUsername
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
     id
+    feedback {
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+      userFeedbackDiscovery
+      userFeedbackLeaveReason
+      userFeedbackPromoterScore
+    }
     userCognitoId
     userIsPremium
     userConfig {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
       user {
         id
         userCognitoId
@@ -967,53 +309,57 @@ mutation UpdateUser($input: UpdateUserInput!) {
 }
 mutation DeleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
+    customer {
+      billingAddresses {
+        nextToken
+      }
+      customerEmail
+      customerFreeTrial
+      customerFreeTrailStartDate
+      customerFreeTrailEndDate
+      customerFullName
+      customerIsPremium
+      customerIsActive
+      customerLastLogin
+      customerPremiumStartDate
+      customerPremiumEndDate
+      customerPremiumIsExpiring
+      customerUserCognitoId
+      customerUsername
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+    }
     id
+    feedback {
+      id
+      user {
+        id
+        userCognitoId
+        userIsPremium
+      }
+      userFeedbackDiscovery
+      userFeedbackLeaveReason
+      userFeedbackPromoterScore
+    }
     userCognitoId
     userIsPremium
     userConfig {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
       user {
         id
         userCognitoId
@@ -1024,48 +370,56 @@ mutation DeleteUser($input: DeleteUserInput!) {
 }
 mutation CreateConfigMember($input: CreateConfigMemberInput!) {
   createConfigMember(input: $input) {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1075,52 +429,61 @@ mutation CreateConfigMember($input: CreateConfigMemberInput!) {
         userIsPremium
       }
     }
+    id
   }
 }
 mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
   updateConfigMember(input: $input) {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1130,52 +493,61 @@ mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
         userIsPremium
       }
     }
+    id
   }
 }
 mutation DeleteConfigMember($input: DeleteConfigMemberInput!) {
   deleteConfigMember(input: $input) {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1185,15 +557,20 @@ mutation DeleteConfigMember($input: DeleteConfigMemberInput!) {
         userIsPremium
       }
     }
+    id
   }
 }
 mutation CreateConfig($input: CreateConfigInput!) {
   createConfig(input: $input) {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1201,37 +578,41 @@ mutation CreateConfig($input: CreateConfigInput!) {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
@@ -1239,10 +620,14 @@ mutation CreateConfig($input: CreateConfigInput!) {
 mutation UpdateConfig($input: UpdateConfigInput!) {
   updateConfig(input: $input) {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1250,37 +635,41 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
@@ -1288,10 +677,14 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
 mutation DeleteConfig($input: DeleteConfigInput!) {
   deleteConfig(input: $input) {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1299,449 +692,477 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
 }
 mutation CreateCustomer($input: CreateCustomerInput!) {
   createCustomer(input: $input) {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
     billingAddresses {
       items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
         billingAddressCity
+        billingAddressHouseNo
         billingAddressPostalCode
+        billingAddressStreet
+        id
       }
       nextToken
     }
+    customerEmail
     customerFreeTrial
     customerFreeTrailStartDate
     customerFreeTrailEndDate
+    customerFullName
     customerIsPremium
+    customerIsActive
+    customerLastLogin
     customerPremiumStartDate
     customerPremiumEndDate
     customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
+    customerUserCognitoId
+    customerUsername
+    id
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
 }
 mutation UpdateCustomer($input: UpdateCustomerInput!) {
   updateCustomer(input: $input) {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
     billingAddresses {
       items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
         billingAddressCity
+        billingAddressHouseNo
         billingAddressPostalCode
+        billingAddressStreet
+        id
       }
       nextToken
     }
+    customerEmail
     customerFreeTrial
     customerFreeTrailStartDate
     customerFreeTrailEndDate
+    customerFullName
     customerIsPremium
+    customerIsActive
+    customerLastLogin
     customerPremiumStartDate
     customerPremiumEndDate
     customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
+    customerUserCognitoId
+    customerUsername
+    id
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
 }
 mutation DeleteCustomer($input: DeleteCustomerInput!) {
   deleteCustomer(input: $input) {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
     billingAddresses {
       items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
         billingAddressCity
+        billingAddressHouseNo
         billingAddressPostalCode
+        billingAddressStreet
+        id
       }
       nextToken
     }
+    customerEmail
     customerFreeTrial
     customerFreeTrailStartDate
     customerFreeTrailEndDate
+    customerFullName
     customerIsPremium
+    customerIsActive
+    customerLastLogin
     customerPremiumStartDate
     customerPremiumEndDate
     customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
+    customerUserCognitoId
+    customerUsername
+    id
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
 }
 mutation CreateBillingAddress($input: CreateBillingAddressInput!) {
   createBillingAddress(input: $input) {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
     billingAddressCity
+    billingAddressHouseNo
     billingAddressPostalCode
+    billingAddressStreet
     customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
       billingAddresses {
         nextToken
       }
+      customerEmail
       customerFreeTrial
       customerFreeTrailStartDate
       customerFreeTrailEndDate
+      customerFullName
       customerIsPremium
+      customerIsActive
+      customerLastLogin
       customerPremiumStartDate
       customerPremiumEndDate
       customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
+      customerUserCognitoId
+      customerUsername
+      id
       user {
         id
         userCognitoId
         userIsPremium
       }
     }
+    id
   }
 }
 mutation UpdateBillingAddress($input: UpdateBillingAddressInput!) {
   updateBillingAddress(input: $input) {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
     billingAddressCity
+    billingAddressHouseNo
     billingAddressPostalCode
+    billingAddressStreet
     customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
       billingAddresses {
         nextToken
       }
+      customerEmail
       customerFreeTrial
       customerFreeTrailStartDate
       customerFreeTrailEndDate
+      customerFullName
       customerIsPremium
+      customerIsActive
+      customerLastLogin
       customerPremiumStartDate
       customerPremiumEndDate
       customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
+      customerUserCognitoId
+      customerUsername
+      id
       user {
         id
         userCognitoId
         userIsPremium
       }
     }
+    id
   }
 }
 mutation DeleteBillingAddress($input: DeleteBillingAddressInput!) {
   deleteBillingAddress(input: $input) {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
     billingAddressCity
+    billingAddressHouseNo
     billingAddressPostalCode
+    billingAddressStreet
     customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
       billingAddresses {
         nextToken
       }
+      customerEmail
       customerFreeTrial
       customerFreeTrailStartDate
       customerFreeTrailEndDate
+      customerFullName
       customerIsPremium
+      customerIsActive
+      customerLastLogin
       customerPremiumStartDate
       customerPremiumEndDate
       customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
+      customerUserCognitoId
+      customerUsername
+      id
       user {
         id
         userCognitoId
         userIsPremium
       }
     }
+    id
   }
 }
 mutation CreateFeedback($input: CreateFeedbackInput!) {
   createFeedback(input: $input) {
     id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
+    userFeedbackDiscovery
+    userFeedbackLeaveReason
+    userFeedbackPromoterScore
   }
 }
 mutation UpdateFeedback($input: UpdateFeedbackInput!) {
   updateFeedback(input: $input) {
     id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
+    userFeedbackDiscovery
+    userFeedbackLeaveReason
+    userFeedbackPromoterScore
   }
 }
 mutation DeleteFeedback($input: DeleteFeedbackInput!) {
   deleteFeedback(input: $input) {
     id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
+    userFeedbackDiscovery
+    userFeedbackLeaveReason
+    userFeedbackPromoterScore
   }
 }

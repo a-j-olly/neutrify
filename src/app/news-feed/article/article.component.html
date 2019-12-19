@@ -4,11 +4,11 @@
     <ion-row>
       <ion-col size="11">
         <div class="title" *ngIf="!isCardExpanded">
-          <h1 class="two-line-no-wrap">{{ article.title }}</h1>
+          <h1 class="two-line-no-wrap">{{ article.articleTitle }}</h1>
         </div>
 
         <div class="title" tappable (click)="onCardClick('close')" *ngIf="isCardExpanded">
-          <h1>{{ article.title }}</h1>
+          <h1>{{ article.articleTitle }}</h1>
         </div>
       </ion-col>
       <ion-col size="1" class="ion-text-end">
@@ -24,8 +24,8 @@
           <ion-grid class="ion-no-padding ion-no-margin">
             <ion-row> 
               <div class="body">
-                <h4>{{ article.author ? article.author : '' }}</h4>
-                <p>{{ article.body }}</p>
+                <h4>{{ article.articleAuthors && article.articleAuthors.length > 0 ? article.articleAuthors.join(', ') : '' }}</h4>
+                <p class="fourteen-line-no-wrap" [innerHTML]="this.article.articleBody"></p>
               </div>
             </ion-row>
           </ion-grid>
@@ -40,9 +40,9 @@
                   </ion-row>
                   <ion-row class="ion-justify-content-center">
                     <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
-                      value="{{ article.sentiment >= 0 ? '0' : article.sentiment}}"></ion-range>
+                      value="{{ article.articleTone >= 0 ? '0' : article.articleTone}}"></ion-range>
                     <ion-range min="0" max="1" step="0.1" color="primary"
-                    value="{{ article.sentiment >= 0 ? article.sentiment : '0' }}"></ion-range>
+                    value="{{ article.articleTone >= 0 ? article.articleTone : '0' }}"></ion-range>
                   </ion-row>
                 </div>
                   
@@ -52,7 +52,7 @@
                   </ion-row>
                   <ion-row class="ion-justify-content-center">
                     <ion-label color="primary">
-                      {{ article.wordCount}}
+                      {{ article.articleWordCount}}
                     </ion-label>
                   </ion-row>
                 </div>
@@ -62,34 +62,34 @@
                     <h4>Quality of journalism</h4>
                   </ion-row>
                   <ion-row class="ion-justify-content-center">
-                    <app-rating [(rating)]="article.rating" [(hasRated)]="hasRated"></app-rating>
+                    <app-rating [(rating)]="article.articleQuality" [(hasRated)]="hasRated"></app-rating>
                   </ion-row>
                 </div>
               </ion-row>
           </ion-grid>
         </ion-slide>
 
-        <ion-slide *ngIf="(article.topics && article.topics.length > 0) || (article.keywords && article.keywords.length > 0)">
+        <ion-slide *ngIf="(topics && topics.length > 0) || (keywords && keywords.length > 0)">
           <ion-grid class="ion-no-margin ion-no-padding">
             <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-              <div class="text-list-item" *ngIf="article.topics && article.topics.length > 0">
+              <div class="text-list-item" [hidden]="!topics && topics.length === 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Topics</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
                   <ion-label class="ion-text-wrap" color="primary">
-                    {{ article.topics.length > 8 ? article.topics.slice(0, 8).join(', ') : article.topics.join(', ') }}
+                    {{ topics.length > 8 ? topics.slice(0, 8).join(', ') : topics.join(', ') }}
                   </ion-label>
                 </ion-row>
               </div>
 
-              <div class="text-list-item" *ngIf="article.keywords && article.keywords.length > 0">
+              <div class="text-list-item" [hidden]="!keywords && keywords.length === 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Keywords</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
                   <ion-label class="ion-text-wrap" color="primary">
-                      {{ article.keywords.length > 20 ? article.keywords.slice(0, 20).join(', ') : article.keywords.join(', ') }}
+                      {{ keywords.length > 20 ? keywords.slice(0, 20).join(', ') : keywords.join(', ') }}
                   </ion-label>
                 </ion-row>
               </div>
@@ -99,7 +99,7 @@
       </ion-slides>
     </div>
 
-    <div class="chip-toolbar" *ngIf="isCardExpanded">
+    <div class="chip-toolbar" [hidden]="!isCardExpanded">
       <ion-buttons class="ion-justify-content-evenly">
         <ion-chip color="danger">
             <ion-icon name="close"></ion-icon>
@@ -118,7 +118,7 @@
 
     <ion-row class="ion-justify-content-between footer">
       <ion-row class="ion-justify-content-start">
-        <p>{{ article.source }}</p>
+        <p>{{ article.source.sourceTitle }}</p>
       </ion-row>
 
       <ion-row class="ion-justify-content-end">

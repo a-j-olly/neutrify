@@ -14,7 +14,7 @@ export class RangeFilterComponent implements OnInit {
 
   showFilter = false;
 
-  @Output() optionChanged: EventEmitter<any> = new EventEmitter();
+  @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -42,7 +42,7 @@ export class RangeFilterComponent implements OnInit {
     } else if (this.rangeFilterType === 'Quality') {
       this.rangeSettings = {
         max: '5',
-        min: '1',
+        min: '0',
         step: '1',
         ticks: true,
         snaps: true,
@@ -62,11 +62,12 @@ export class RangeFilterComponent implements OnInit {
     }
 
     this.displayRange = this.userOption.value;
+    this.userOption.name = this.rangeFilterType;
   }
 
   onChange() {
     this.userOption.value = this.displayRange;
-    this.optionChanged.emit(this.userOption);
+    this.userOptionChanged.emit(this.userOption);
   }
 
 }

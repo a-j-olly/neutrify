@@ -1,6 +1,4 @@
 import { FilterService } from '../../services/filter.service';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MenuService } from '../../services/menu.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
@@ -9,31 +7,27 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./filter-menu.component.scss'],
 })
 export class FilterMenuComponent implements OnInit, OnDestroy {
-  filterForm: FormGroup;
   toneUserOption;
   qualityUserOption;
   topicsUserOption;
   keywordsUserOption;
 
   constructor(
-    private menuService: MenuService,
     private filterService: FilterService
-    ) { }
+    ) {
+      this.getOptions();
+      const filterOptions = this.filterService.buildFilterOptions(this.toneUserOption, this.qualityUserOption,
+      this.topicsUserOption, this.keywordsUserOption);
+      console.log('filter options', filterOptions);
+      this.filterService.updateFilterOptions(filterOptions);
+    }
 
-  ngOnInit() {
-    this.filterForm = new FormGroup({
-      sentimentRange: new FormControl(),
-      concepts: new FormControl(),
-      topics: new FormControl()
-   });
-
-    this.getOptions();
-  }
+  ngOnInit() {}
 
   getOptions() {
     this.topicsUserOption = {
-      include: ['Politics'],
-      exclude: ['Economics']
+      include: [],
+      exclude: []
     };
 
     this.keywordsUserOption = {
@@ -43,14 +37,14 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
 
     this.toneUserOption = {
       value: {
-        lower: -0.5,
-        upper: 0.5
+        lower: -1,
+        upper: 1
       }
     };
 
     this.qualityUserOption = {
       value: {
-        lower: 2,
+        lower: 0,
         upper: 5
       }
     };
@@ -59,7 +53,27 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  saveFilters() {
-    console.log('save filters');
+  onFilterChange(event) {
+    switch (event.name) {
+      case 'Tone':
+        this.toneUserOption = event;
+        break;
+      case 'Quality':
+        this.qualityUserOption = event;
+        break;
+      case 'Topics':
+        this.topicsUserOption = event;
+        break;
+      case 'Keywords':
+        this.keywordsUserOption = event;
+        break;
+      default:
+        throw new Error('Unknown event.');
+    }
+
+    const filterOptions = this.filterService.buildFilterOptions(this.toneUserOption, this.qualityUserOption,
+      this.topicsUserOption, this.keywordsUserOption);
+
+    this.filterService.updateFilterOptions(filterOptions);
   }
 }

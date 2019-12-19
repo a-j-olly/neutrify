@@ -9,8 +9,8 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "neutrify api key",
-							"apiKeyExpirationDays": 7
+							"description": "",
+							"apiKeyExpirationDays": "30"
 						}
 					}
 				}
@@ -18,7 +18,7 @@
 		}
 	},
 	"auth": {
-		"neutrifyc0793d08": {
+		"neutrifyb749557b": {
 			"service": "Cognito",
 			"providerPlugin": "awscloudformation",
 			"dependsOn": []

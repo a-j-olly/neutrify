@@ -1,23 +1,23 @@
-<form [formGroup]="filterForm" (ngSubmit)="saveFilters()">
+<form>
   <ion-list>    
     <ion-item>
-      <app-range-filter class="filter" [userOption]="toneUserOption" rangeFilterType="Tone"></app-range-filter>
+      <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Tone"></app-range-filter>
     </ion-item>
     
     <ion-item>
-      <app-range-filter class="filter" [userOption]="qualityUserOption" rangeFilterType="Quality"></app-range-filter>        
+      <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="qualityUserOption" rangeFilterType="Quality"></app-range-filter>        
     </ion-item>
 
     <ion-item>
-        <app-word-filter class="filter" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
+        <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
     </ion-item>
 
     <ion-item>
-      <app-word-filter class="filter" [userOption]="topicsUserOption" wordFilterType="Topics"></app-word-filter>
+      <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption" wordFilterType="Topics"></app-word-filter>
     </ion-item>
     
     <ion-row class="ion-justify-content-center">
-      <ion-button class="form-control" type="submit" color="tertiary" [disabled]="filterForm.invalid">Save Filters</ion-button>        
+      <ion-button type="submit" color="tertiary">Save Filters</ion-button>        
     </ion-row>
   </ion-list>
 </form>

@@ -33,20 +33,37 @@
             }
         }
     },
-    "aoliver": {
+    "devaoliver": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-neutrify-aoliver-174126-authRole",
-            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-authRole",
+            "AuthRoleName": "amplify-neutrify-devaoliver-111917-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-devaoliver-111917-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-devaoliver-111917-authRole",
             "Region": "eu-west-2",
-            "DeploymentBucketName": "amplify-neutrify-aoliver-174126-deployment",
-            "UnauthRoleName": "amplify-neutrify-aoliver-174126-unauthRole",
-            "StackName": "amplify-neutrify-aoliver-174126",
-            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-aoliver-174126/d2a07270-0185-11ea-b937-06af0f49b59c"
+            "DeploymentBucketName": "amplify-neutrify-devaoliver-111917-deployment",
+            "UnauthRoleName": "amplify-neutrify-devaoliver-111917-unauthRole",
+            "StackName": "amplify-neutrify-devaoliver-111917",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-devaoliver-111917/e5dd36f0-1ff5-11ea-a9be-0a967d6d9d80"
         },
         "categories": {
             "auth": {
-                "neutrifyc0793d08": {}
+                "neutrifyb749557b": {}
+            }
+        }
+    },
+    "aoliver": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-aoliver-162024-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-162024-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-162024-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-aoliver-162024-deployment",
+            "UnauthRoleName": "amplify-neutrify-aoliver-162024-unauthRole",
+            "StackName": "amplify-neutrify-aoliver-162024",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-aoliver-162024/f7b8f470-201f-11ea-b997-06b0998bdefc"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyb749557b": {}
             }
         }
     }

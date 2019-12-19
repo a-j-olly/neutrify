@@ -1,135 +1,156 @@
-type Article @model {
-    id: ID!
+type Article @model
+    @key(fields: ["id", "articleUri"])
+    @key(name: "byDate", fields: ["articleDataType", "articleDatePub"], queryField: "articlesByDate")
+{
+    articleAuthors: [String] # Added.
     articleBody: String!
-    articleDataType: String
+    articleDataType: String!
     articleDate: String
     articleDateTime: String
-    articleDateTimePub: String!
+    articleDatePub: AWSDateTime! # Changed from articleDateTimePub to articleDataPub.
     articleEventUri: String
     articleImage: String
     articleLanguage: String
-    articleSentiment: Float
+    articleQuality: Int! # Added.
     articleShare: Int
     articleSimilarity: Float
+    articleSourceId: ID! # Added.
     articleTime: String
     articleTitle: String!
+    articleTone: Float! # Changed from articleSentiment to articleTone.
     articleUri: String!
-    articleURL: String!
-    source: Source! @connection(name: "SourceArticles")
-    categories: [CategoryMember] @connection(name: "ArticleCategoryMembers")
-    concepts: [ConceptMember!] @connection(name: "ArticleConceptMembers")
+    articleUrl: String! # Changed from articleURL to articleUrl.
+    articleWordCount: Int! # Added.
+    id: ID!
     configs: [ConfigMember!] @connection(name: "ArticleConfigMembers")
+    keywords: [KeywordMember!] @connection(name: "ArticleKeywordMembers") # Change from concepts to keywords. Updated table ref. Updated conn.
+    topics: [TopicMember] @connection(name: "ArticleTopicMembers") # Changed from categories to topics. Updated table ref. Updated conn.
+    source: Source! @connection(name: "SourceArticles")
 }
 
-type CategoryMember @model(queries: null) {
+type TopicMember @model(queries: null, mutations: null, subscriptions: null) { # Changed from CategoryMember to TopicMember.
+    article: Article! @connection(name: "ArticleTopicMembers") # Updated conn.
     id: ID!
-    article: Article! @connection(name: "ArticleCategoryMembers")
-    category: Category! @connection(name: "CategoryMembersConnection")
+    topic: Topic! @connection(name: "TopicMembersConnection") # Changed category to topic. Updated table ref. Updated conn.
 }
 
-type Category @model @key(name:"categoryLabel-index", fields: ["categoryLabel"]) {
+type Topic @model(mutations: null, subscriptions: null) 
+    @key(name:"byLabel", fields: ["topicLabel", "id"]) 
+{ # Changed from Category to Topic. Updated GSI name.
     id: ID!
-    categoryLabel: String!
-    categoryUri: String!
-    articles: [CategoryMember] @connection(name: "CategoryMembersConnection")
+    topicLabel: String! # Changed from categoryLabel to topicLabel.
+    topicUri: String! # Changed from categoryUri to topicUri.
+    articles: [TopicMember] @connection(name: "TopicMembersConnection") # Updated table ref. Updated conn.
 }
 
-type Source @model @key(name:"sourceUri-index", fields: ["sourceUri", "sourceTitle"]) {
-    id: ID!
-    sourceUri: String!
-    sourceType: String
-    sourceTitle: String!
-    sourceDescription: String
-    location: Location! @connection(name: "LocationSources")
-    sourceRanking: Int
+type Source @model(mutations: null, subscriptions: null)
+    @key(name:"byUri", fields: ["sourceUri", "sourceTitle"]) 
+{ # Updated GSI name.
     articles: [Article!] @connection(name: "SourceArticles")
-}
-
-type ConceptMember @model(queries: null) {
     id: ID!
-    article: Article! @connection(name: "ArticleConceptMembers")
-    concept: Concept! @connection(name: "ConceptMembersConnection")
+    location: Location! @connection(name: "LocationSources")
+    sourceDescription: String
+    sourceLocationId: ID! # Added.
+    sourceTitle: String!
+    sourceType: String
+    sourceRanking: Int
+    sourceUri: String!
 }
 
-type Concept @model @key(name:"conceptLabel-index", fields: ["conceptLabel"]) {
+type KeywordMember @model(queries: null, mutations: null, subscriptions: null ) { # Changed ConceptMember to KeywordMember.
+    article: Article! @connection(name: "ArticleKeywordMembers") # Updated conn.
     id: ID!
-    conceptLabel: String!
-    conceptScore: Int
-    conceptUri: String!
-    conceptType: String!
-    location: Location @connection(name: "LocationConcepts")
-    conceptSynonyms: [String!]
-    articles: [ConceptMember!] @connection(name: "ConceptMembersConnection")
+    keyword: Keyword! @connection(name: "KeywordMembersConnection") # Changed concept to keyword. Updated table ref. Updated conn.
 }
 
-type Location @model @key(name:"locationLabel-index", fields: ["locationLabel"]) {
+type Keyword @model(mutations: null, subscriptions: null) 
+@key(name:"byLabel", fields: ["keywordLabel", "id"]) 
+{ # Changed Concept to Keyword. Updated GSI name.
+    articles: [KeywordMember!] @connection(name: "KeywordMembersConnection") # Updated table ref. Updated conn.
+    id: ID!
+    keywordLabel: String! # Changed conceptLabel to keywordLabel.
+    keywordLocationId: String # Added.
+    keywordType: String! # Changed conceptType to keywordType.
+    keywordScore: Int # Changed conceptScore to keywordScore.
+    keywordSynonyms: [String] # Changed conceptSynonyms to keywordSynonyms.
+    keywordUrl: String! # Changed conceptUri to keywordUri.
+    location: Location @connection(name: "LocationKeywords") # Updated conn.
+}
+
+type Location @model(mutations: null, subscriptions: null)
+@key(name:"byLabel", fields: ["locationLabel", "id"]) 
+{ # Updated GSI name.
     id: ID!
     locationType: String!
     locationLabel: String!
     locationCountry: String
     locationLat: Float
     locationLong: Float
-    concepts: [Concept!] @connection(name: "LocationConcepts")
+    keywords: [Keyword!] @connection(name: "LocationKeywords") # Updated table ref. Updated conn.
     sources: [Source!] @connection(name: "LocationSources")
 }
 
-type User @model {
+type User @model(subscriptions: null) {
+    customer: Customer @connection(name: "UserCustomer")
     id: ID!
+    feedback: Feedback @connection(name: "UserFeedback")
     userCognitoId: String!
     userIsPremium: Boolean
     userConfig: Config @connection(name: "UserConfig")
-    customer: Customer @connection(name: "UserCustomer")
-    feedback: Feedback @connection(name: "UserFeedback")
 }
 
 type ConfigMember @model(queries: null) {
-    id: ID!
     article: Article! @connection(name: "ArticleConfigMembers")
-    concept: Config! @connection(name: "ConfigMembersConnection")
+    config: Config! @connection(name: "ConfigMembersConnection") # Fixed bug.
+    id: ID!
 }
 
 type Config @model {
     id: ID!
-    configKeywordFilter: [String!]
-    configSentimentRangeUpperBound: Float
-    configSentimentRangeLowerBound: Float
-    configStoryNeutralityThreshold: Float
-    savedArticles: [ConfigMember!] @connection(name: "ConfigMembersConnection")
+    keywordsToInclude: [String]!,
+    keywordsToExclude: [String]!,
+    qualityUpperRange: Float!,
+    qualityLowerRange: Float!,
+    toneUpperRange: Float!,
+    toneLowerRange: Float!,
+    topicsToInclude: [String]!,
+    topicsToExclude: [String]!,
+    savedArticles: [ConfigMember] @connection(name: "ConfigMembersConnection")
     user: User @connection(name: "UserConfig")
 }
 
-type Customer @model {
-    id: ID!
-    customerUserCognitoId: String!
-    customerUsername: String
-    customerEmail: String!
-    customerBillingFullName: String
+type Customer @model(subscriptions: null) {
     billingAddresses: [BillingAddress!] @connection(name: "CustomerBillingAddresses")
+    customerEmail: String!
     customerFreeTrial: Boolean!
     customerFreeTrailStartDate: String
     customerFreeTrailEndDate: String
+    customerFullName: String
     customerIsPremium: Boolean!
+    customerIsActive: Boolean
+    customerLastLogin: String
     customerPremiumStartDate: String
     customerPremiumEndDate: String
     customerPremiumIsExpiring: Boolean
-    customerIsActive: Boolean
-    customerLastLogin: String
+    customerUserCognitoId: String!
+    customerUsername: String
+    id: ID!
     user: User @connection(name: "UserCustomer")
 }
 
-type BillingAddress @model {
-    id: ID!
-    billingAddressHouseNo: String!
-    billingAddressStreet: String!
+type BillingAddress @model(subscriptions: null) {
     billingAddressCity: String!
+    billingAddressHouseNo: String!
     billingAddressPostalCode: String!
+    billingAddressStreet: String!
     customer: Customer @connection(name: "CustomerBillingAddresses")
+    id: ID!
 }
 
-type Feedback @model {
+type Feedback @model(subscriptions: null) {
     id: ID!
-    userFeedbackPromoterScore: Int
+    user: User @connection(name: "UserFeedback")
     userFeedbackDiscovery: String
     userFeedbackLeaveReason: String
-    user: User @connection(name: "UserFeedback")
+    userFeedbackPromoterScore: Int
 }

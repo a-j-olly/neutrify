@@ -1,3 +1,4 @@
+import { APIService } from './services/neutrify.service';
 import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filter.component';
 import { WordFilterComponent } from './menu/filter-menu/word-filter/word-filter.component';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
@@ -15,7 +16,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-amplify-angular';
-import { APIService } from './API.service';
 
 @NgModule({
   declarations: [AppComponent, FilterMenuComponent, MainMenuComponent, WordFilterComponent, RangeFilterComponent],

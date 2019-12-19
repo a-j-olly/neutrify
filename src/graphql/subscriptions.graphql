@@ -1,1071 +1,56 @@
 # this is an auto generated file. This will be overwritten
-subscription OnCreateArticle {
-  onCreateArticle {
-    id
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDateTimePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleSentiment
-    articleShare
-    articleSimilarity
-    articleTime
-    articleTitle
-    articleUri
-    articleURL
-    source {
-      id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnUpdateArticle {
-  onUpdateArticle {
-    id
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDateTimePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleSentiment
-    articleShare
-    articleSimilarity
-    articleTime
-    articleTitle
-    articleUri
-    articleURL
-    source {
-      id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnDeleteArticle {
-  onDeleteArticle {
-    id
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDateTimePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleSentiment
-    articleShare
-    articleSimilarity
-    articleTime
-    articleTitle
-    articleUri
-    articleURL
-    source {
-      id
-      sourceUri
-      sourceType
-      sourceTitle
-      sourceDescription
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceRanking
-      articles {
-        nextToken
-      }
-    }
-    categories {
-      items {
-        id
-      }
-      nextToken
-    }
-    concepts {
-      items {
-        id
-      }
-      nextToken
-    }
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnCreateCategoryMember {
-  onCreateCategoryMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    category {
-      id
-      categoryLabel
-      categoryUri
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnUpdateCategoryMember {
-  onUpdateCategoryMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    category {
-      id
-      categoryLabel
-      categoryUri
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnDeleteCategoryMember {
-  onDeleteCategoryMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    category {
-      id
-      categoryLabel
-      categoryUri
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnCreateCategory {
-  onCreateCategory {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnUpdateCategory {
-  onUpdateCategory {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnDeleteCategory {
-  onDeleteCategory {
-    id
-    categoryLabel
-    categoryUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnCreateSource {
-  onCreateSource {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-subscription OnUpdateSource {
-  onUpdateSource {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-subscription OnDeleteSource {
-  onDeleteSource {
-    id
-    sourceUri
-    sourceType
-    sourceTitle
-    sourceDescription
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceRanking
-    articles {
-      items {
-        id
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDateTimePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleSentiment
-        articleShare
-        articleSimilarity
-        articleTime
-        articleTitle
-        articleUri
-        articleURL
-      }
-      nextToken
-    }
-  }
-}
-subscription OnCreateConceptMember {
-  onCreateConceptMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnUpdateConceptMember {
-  onUpdateConceptMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnDeleteConceptMember {
-  onDeleteConceptMember {
-    id
-    article {
-      id
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDateTimePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleSentiment
-      articleShare
-      articleSimilarity
-      articleTime
-      articleTitle
-      articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
-      configs {
-        nextToken
-      }
-    }
-    concept {
-      id
-      conceptLabel
-      conceptScore
-      conceptUri
-      conceptType
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      conceptSynonyms
-      articles {
-        nextToken
-      }
-    }
-  }
-}
-subscription OnCreateConcept {
-  onCreateConcept {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnUpdateConcept {
-  onUpdateConcept {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnDeleteConcept {
-  onDeleteConcept {
-    id
-    conceptLabel
-    conceptScore
-    conceptUri
-    conceptType
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      concepts {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    conceptSynonyms
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-subscription OnCreateLocation {
-  onCreateLocation {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
-    }
-  }
-}
-subscription OnUpdateLocation {
-  onUpdateLocation {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
-    }
-  }
-}
-subscription OnDeleteLocation {
-  onDeleteLocation {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    concepts {
-      items {
-        id
-        conceptLabel
-        conceptScore
-        conceptUri
-        conceptType
-        conceptSynonyms
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      nextToken
-    }
-  }
-}
-subscription OnCreateUser {
-  onCreateUser {
-    id
-    userCognitoId
-    userIsPremium
-    userConfig {
-      id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
-      savedArticles {
-        nextToken
-      }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
-subscription OnUpdateUser {
-  onUpdateUser {
-    id
-    userCognitoId
-    userIsPremium
-    userConfig {
-      id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
-      savedArticles {
-        nextToken
-      }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
-subscription OnDeleteUser {
-  onDeleteUser {
-    id
-    userCognitoId
-    userIsPremium
-    userConfig {
-      id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
-      savedArticles {
-        nextToken
-      }
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    feedback {
-      id
-      userFeedbackPromoterScore
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
 subscription OnCreateConfigMember {
   onCreateConfigMember {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1075,52 +60,61 @@ subscription OnCreateConfigMember {
         userIsPremium
       }
     }
+    id
   }
 }
 subscription OnUpdateConfigMember {
   onUpdateConfigMember {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1130,52 +124,61 @@ subscription OnUpdateConfigMember {
         userIsPremium
       }
     }
+    id
   }
 }
 subscription OnDeleteConfigMember {
   onDeleteConfigMember {
-    id
     article {
-      id
+      articleAuthors
       articleBody
       articleDataType
       articleDate
       articleDateTime
-      articleDateTimePub
+      articleDatePub
       articleEventUri
       articleImage
       articleLanguage
-      articleSentiment
+      articleQuality
       articleShare
       articleSimilarity
+      articleSourceId
       articleTime
       articleTitle
+      articleTone
       articleUri
-      articleURL
-      source {
-        id
-        sourceUri
-        sourceType
-        sourceTitle
-        sourceDescription
-        sourceRanking
-      }
-      categories {
-        nextToken
-      }
-      concepts {
-        nextToken
-      }
+      articleUrl
+      articleWordCount
+      id
       configs {
         nextToken
       }
+      keywords {
+        nextToken
+      }
+      topics {
+        nextToken
+      }
+      source {
+        id
+        sourceDescription
+        sourceLocationId
+        sourceTitle
+        sourceType
+        sourceRanking
+        sourceUri
+      }
     }
-    concept {
+    config {
       id
-      configKeywordFilter
-      configSentimentRangeUpperBound
-      configSentimentRangeLowerBound
-      configStoryNeutralityThreshold
+      keywordsToInclude
+      keywordsToExclude
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
       savedArticles {
         nextToken
       }
@@ -1185,15 +188,20 @@ subscription OnDeleteConfigMember {
         userIsPremium
       }
     }
+    id
   }
 }
 subscription OnCreateConfig {
   onCreateConfig {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1201,37 +209,41 @@ subscription OnCreateConfig {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
@@ -1239,10 +251,14 @@ subscription OnCreateConfig {
 subscription OnUpdateConfig {
   onUpdateConfig {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1250,37 +266,41 @@ subscription OnUpdateConfig {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }
@@ -1288,10 +308,14 @@ subscription OnUpdateConfig {
 subscription OnDeleteConfig {
   onDeleteConfig {
     id
-    configKeywordFilter
-    configSentimentRangeUpperBound
-    configSentimentRangeLowerBound
-    configStoryNeutralityThreshold
+    keywordsToInclude
+    keywordsToExclude
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
     savedArticles {
       items {
         id
@@ -1299,448 +323,41 @@ subscription OnDeleteConfig {
       nextToken
     }
     user {
+      customer {
+        customerEmail
+        customerFreeTrial
+        customerFreeTrailStartDate
+        customerFreeTrailEndDate
+        customerFullName
+        customerIsPremium
+        customerIsActive
+        customerLastLogin
+        customerPremiumStartDate
+        customerPremiumEndDate
+        customerPremiumIsExpiring
+        customerUserCognitoId
+        customerUsername
+        id
+      }
       id
+      feedback {
+        id
+        userFeedbackDiscovery
+        userFeedbackLeaveReason
+        userFeedbackPromoterScore
+      }
       userCognitoId
       userIsPremium
       userConfig {
         id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnCreateCustomer {
-  onCreateCustomer {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
-    billingAddresses {
-      items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
-        billingAddressCity
-        billingAddressPostalCode
-      }
-      nextToken
-    }
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerIsPremium
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnUpdateCustomer {
-  onUpdateCustomer {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
-    billingAddresses {
-      items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
-        billingAddressCity
-        billingAddressPostalCode
-      }
-      nextToken
-    }
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerIsPremium
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnDeleteCustomer {
-  onDeleteCustomer {
-    id
-    customerUserCognitoId
-    customerUsername
-    customerEmail
-    customerBillingFullName
-    billingAddresses {
-      items {
-        id
-        billingAddressHouseNo
-        billingAddressStreet
-        billingAddressCity
-        billingAddressPostalCode
-      }
-      nextToken
-    }
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerIsPremium
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerIsActive
-    customerLastLogin
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnCreateBillingAddress {
-  onCreateBillingAddress {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
-    billingAddressCity
-    billingAddressPostalCode
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
-subscription OnUpdateBillingAddress {
-  onUpdateBillingAddress {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
-    billingAddressCity
-    billingAddressPostalCode
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
-subscription OnDeleteBillingAddress {
-  onDeleteBillingAddress {
-    id
-    billingAddressHouseNo
-    billingAddressStreet
-    billingAddressCity
-    billingAddressPostalCode
-    customer {
-      id
-      customerUserCognitoId
-      customerUsername
-      customerEmail
-      customerBillingFullName
-      billingAddresses {
-        nextToken
-      }
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerIsPremium
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerIsActive
-      customerLastLogin
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-  }
-}
-subscription OnCreateFeedback {
-  onCreateFeedback {
-    id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnUpdateFeedback {
-  onUpdateFeedback {
-    id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-      }
-    }
-  }
-}
-subscription OnDeleteFeedback {
-  onDeleteFeedback {
-    id
-    userFeedbackPromoterScore
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    user {
-      id
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        configKeywordFilter
-        configSentimentRangeUpperBound
-        configSentimentRangeLowerBound
-        configStoryNeutralityThreshold
-      }
-      customer {
-        id
-        customerUserCognitoId
-        customerUsername
-        customerEmail
-        customerBillingFullName
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerIsPremium
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerIsActive
-        customerLastLogin
-      }
-      feedback {
-        id
-        userFeedbackPromoterScore
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
+        keywordsToInclude
+        keywordsToExclude
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
       }
     }
   }

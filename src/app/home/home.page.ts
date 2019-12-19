@@ -1,4 +1,4 @@
-import { APIService } from '../API.service';
+import { APIService } from './../services/neutrify.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';

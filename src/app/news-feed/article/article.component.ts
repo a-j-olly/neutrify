@@ -8,16 +8,23 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ArticleComponent implements OnInit {
   @Input() article: any;
   public dateAge: string;
+  public topics: Array<string> = new Array<string>();
+  public keywords: Array<string> = new Array<string>();
+
   public hasRated = false;
 
   public isCardExpanded = false;
   public cardClickEvent = false;
   public closeClickEvent = false;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.dateAge = this.getArticleAge(this.article.pubDate);
+    console.log('incoming article', this.article);
+    this.dateAge = this.getArticleAge(this.article.articleDatePub);
+    this.topics = this.getWordList(this.article.topics.items, 'topic', 'topicLabel');
+    this.keywords = this.getWordList(this.article.keywords.items, 'keyword', 'keywordLabel');
+
   }
 
   public onCardClick(eventLocation) {
@@ -44,7 +51,7 @@ export class ArticleComponent implements OnInit {
   private getArticleAge(date: string) {
     const age = Math.floor(Math.abs((new Date().valueOf() - new Date(date).valueOf()) / 36e5));
 
-    if (age <= 1) {
+    if (age < 1) {
       return `Just Now`;
     } else if (age <= 23) {
       return `${age} Hours Ago`;
@@ -53,5 +60,9 @@ export class ArticleComponent implements OnInit {
     } else {
       return new Date(date).toLocaleDateString();
     }
+  }
+
+  private getWordList(objArr: Array<any>, namespace: string, targetField: string): Array<string> {
+    return objArr.map(el => el[namespace][targetField]);
   }
 }

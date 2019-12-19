@@ -16,7 +16,7 @@ export class WordFilterComponent implements OnInit {
   segmentValue: string;
   showFilter = false;
 
-  @Output() optionChanged: EventEmitter<any> = new EventEmitter();
+  @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
   constructor() {
    }
@@ -28,6 +28,8 @@ export class WordFilterComponent implements OnInit {
     this.wordOptionForm = new FormGroup({
       wordInput: new FormControl(null, Validators.required)
     });
+
+    this.userOption.name = this.wordFilterType;
   }
 
   onSegmentChange() {
@@ -39,12 +41,12 @@ export class WordFilterComponent implements OnInit {
     this.wordOptionForm.reset();
 
     this.wordFilterList = this.userOption[this.segmentValue];
-    this.optionChanged.emit(this.userOption);
+    this.userOptionChanged.emit(this.userOption);
   }
 
   removeWord(index) {
     this.userOption[this.segmentValue].splice(index, 1);
     this.wordFilterList = this.userOption[this.segmentValue];
-    this.optionChanged.emit(this.userOption);
+    this.userOptionChanged.emit(this.userOption);
   }
 }

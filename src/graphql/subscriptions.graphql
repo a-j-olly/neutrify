@@ -1,45 +1,156 @@
 # this is an auto generated file. This will be overwritten
+subscription OnCreateArticle {
+  onCreateArticle {
+    authors
+    body
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
+  }
+}
+subscription OnUpdateArticle {
+  onUpdateArticle {
+    authors
+    body
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
+  }
+}
+subscription OnDeleteArticle {
+  onDeleteArticle {
+    authors
+    body
+    configs {
+      items {
+        id
+      }
+      nextToken
+    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
+  }
+}
 subscription OnCreateConfigMember {
   onCreateConfigMember {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -55,9 +166,27 @@ subscription OnCreateConfigMember {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -66,44 +195,38 @@ subscription OnCreateConfigMember {
 subscription OnUpdateConfigMember {
   onUpdateConfigMember {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -119,9 +242,27 @@ subscription OnUpdateConfigMember {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -130,44 +271,38 @@ subscription OnUpdateConfigMember {
 subscription OnDeleteConfigMember {
   onDeleteConfigMember {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -183,9 +318,27 @@ subscription OnDeleteConfigMember {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -209,32 +362,12 @@ subscription OnCreateConfig {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -245,6 +378,22 @@ subscription OnCreateConfig {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
@@ -266,32 +415,12 @@ subscription OnUpdateConfig {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -302,6 +431,22 @@ subscription OnUpdateConfig {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
@@ -323,32 +468,12 @@ subscription OnDeleteConfig {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -359,6 +484,22 @@ subscription OnDeleteConfig {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }

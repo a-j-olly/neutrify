@@ -1,4 +1,4 @@
-import { APIService } from './services/neutrify.service';
+import { APIService } from './services/neutrify-api.service';
 import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filter.component';
 import { WordFilterComponent } from './menu/filter-menu/word-filter/word-filter.component';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';

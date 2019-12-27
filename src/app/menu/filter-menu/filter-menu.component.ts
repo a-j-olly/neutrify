@@ -7,17 +7,23 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./filter-menu.component.scss'],
 })
 export class FilterMenuComponent implements OnInit, OnDestroy {
-  toneUserOption;
-  qualityUserOption;
-  topicsUserOption;
-  keywordsUserOption;
+  public toneUserOption;
+  public qualityUserOption;
+  public sourcesUserOption;
+  public topicsUserOption;
+  public keywordsUserOption;
 
   constructor(
     private filterService: FilterService
     ) {
       this.getOptions();
-      const filterOptions = this.filterService.buildFilterOptions(this.toneUserOption, this.qualityUserOption,
-      this.topicsUserOption, this.keywordsUserOption);
+      const filterOptions = this.filterService.buildFilterOptions({
+        toneUserOption: this.toneUserOption,
+        qualityUserOption: this.qualityUserOption,
+        sourcesUserOption: this.sourcesUserOption,
+        topicsUserOption: this.topicsUserOption,
+        keywordsUserOption: this.keywordsUserOption
+      });
       console.log('filter options', filterOptions);
       this.filterService.updateFilterOptions(filterOptions);
     }
@@ -25,16 +31,6 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
   ngOnInit() {}
 
   getOptions() {
-    this.topicsUserOption = {
-      include: [],
-      exclude: []
-    };
-
-    this.keywordsUserOption = {
-      include: [],
-      exclude: []
-    };
-
     this.toneUserOption = {
       value: {
         lower: -1,
@@ -47,6 +43,21 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
         lower: 0,
         upper: 5
       }
+    };
+
+    this.sourcesUserOption = {
+      include: [],
+      exclude: []
+    };
+
+    this.topicsUserOption = {
+      include: [],
+      exclude: []
+    };
+
+    this.keywordsUserOption = {
+      include: [],
+      exclude: []
     };
   }
 
@@ -61,6 +72,9 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
       case 'Quality':
         this.qualityUserOption = event;
         break;
+      case 'Sources':
+        this.sourcesUserOption = event;
+        break;
       case 'Topics':
         this.topicsUserOption = event;
         break;
@@ -71,8 +85,13 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
         throw new Error('Unknown event.');
     }
 
-    const filterOptions = this.filterService.buildFilterOptions(this.toneUserOption, this.qualityUserOption,
-      this.topicsUserOption, this.keywordsUserOption);
+    const filterOptions = this.filterService.buildFilterOptions({
+      toneUserOption: this.toneUserOption,
+      qualityUserOption: this.qualityUserOption,
+      sourcesUserOption: this.sourcesUserOption,
+      topicsUserOption: this.topicsUserOption,
+      keywordsUserOption: this.keywordsUserOption
+    });
 
     this.filterService.updateFilterOptions(filterOptions);
   }

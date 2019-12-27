@@ -9,11 +9,15 @@
     </ion-item>
 
     <ion-item>
-        <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
+      <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="Sources"></app-word-filter>
     </ion-item>
 
     <ion-item>
       <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption" wordFilterType="Topics"></app-word-filter>
+    </ion-item>
+
+    <ion-item>
+        <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
     </ion-item>
     
     <ion-row class="ion-justify-content-center">

@@ -29,7 +29,7 @@
           {{ word }}<ion-icon name="close"></ion-icon>
         </ion-badge>
       </ion-col>
-      <ion-col [hidden]="!ordFilterList && wordFilterList.length !== 0">
+      <ion-col [hidden]="wordFilterList && wordFilterList.length !== 0">
         <p>Add {{ wordFilterType.toLowerCase() }} to {{ segmentValue }} below:</p>
       </ion-col>
     </ion-row>

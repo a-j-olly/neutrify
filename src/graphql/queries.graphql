@@ -1,69 +1,46 @@
 # this is an auto generated file. This will be overwritten
-query GetArticle($id: ID!, $articleUri: String!) {
-  getArticle(id: $id, articleUri: $articleUri) {
-    articleAuthors
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDatePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleQuality
-    articleShare
-    articleSimilarity
-    articleSourceId
-    articleTime
-    articleTitle
-    articleTone
-    articleUri
-    articleUrl
-    articleWordCount
-    id
+query GetArticle($id: ID!, $uri: String!) {
+  getArticle(id: $id, uri: $uri) {
+    authors
+    body
     configs {
       items {
         id
       }
       nextToken
     }
-    keywords {
-      items {
-        id
-      }
-      nextToken
-    }
-    topics {
-      items {
-        id
-      }
-      nextToken
-    }
-    source {
-      articles {
-        nextToken
-      }
-      id
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceDescription
-      sourceLocationId
-      sourceTitle
-      sourceType
-      sourceRanking
-      sourceUri
-    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
 query ListArticles(
   $id: ID
-  $articleUri: ModelStringKeyConditionInput
+  $uri: ModelStringKeyConditionInput
   $filter: ModelArticleFilterInput
   $limit: Int
   $nextToken: String
@@ -71,322 +48,57 @@ query ListArticles(
 ) {
   listArticles(
     id: $id
-    articleUri: $articleUri
+    uri: $uri
     filter: $filter
     limit: $limit
     nextToken: $nextToken
     sortDirection: $sortDirection
   ) {
     items {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
-    }
-    nextToken
-  }
-}
-query GetTopic($id: ID!) {
-  getTopic(id: $id) {
-    id
-    topicLabel
-    topicUri
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-  }
-}
-query ListTopics(
-  $filter: ModelTopicFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listTopics(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
       id
-      topicLabel
-      topicUri
-      articles {
-        nextToken
-      }
-    }
-    nextToken
-  }
-}
-query GetSource($id: ID!) {
-  getSource(id: $id) {
-    articles {
-      items {
-        articleAuthors
-        articleBody
-        articleDataType
-        articleDate
-        articleDateTime
-        articleDatePub
-        articleEventUri
-        articleImage
-        articleLanguage
-        articleQuality
-        articleShare
-        articleSimilarity
-        articleSourceId
-        articleTime
-        articleTitle
-        articleTone
-        articleUri
-        articleUrl
-        articleWordCount
-        id
-      }
-      nextToken
-    }
-    id
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      keywords {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-    sourceDescription
-    sourceLocationId
-    sourceTitle
-    sourceType
-    sourceRanking
-    sourceUri
-  }
-}
-query ListSources(
-  $filter: ModelSourceFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listSources(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      articles {
-        nextToken
-      }
-      id
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceDescription
-      sourceLocationId
-      sourceTitle
-      sourceType
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
       sourceRanking
-      sourceUri
-    }
-    nextToken
-  }
-}
-query GetKeyword($id: ID!) {
-  getKeyword(id: $id) {
-    articles {
-      items {
-        id
-      }
-      nextToken
-    }
-    id
-    keywordLabel
-    keywordLocationId
-    keywordType
-    keywordScore
-    keywordSynonyms
-    keywordUrl
-    location {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      keywords {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
-    }
-  }
-}
-query ListKeywords(
-  $filter: ModelKeywordFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listKeywords(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      articles {
-        nextToken
-      }
-      id
-      keywordLabel
-      keywordLocationId
-      keywordType
-      keywordScore
-      keywordSynonyms
-      keywordUrl
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-    }
-    nextToken
-  }
-}
-query GetLocation($id: ID!) {
-  getLocation(id: $id) {
-    id
-    locationType
-    locationLabel
-    locationCountry
-    locationLat
-    locationLong
-    keywords {
-      items {
-        id
-        keywordLabel
-        keywordLocationId
-        keywordType
-        keywordScore
-        keywordSynonyms
-        keywordUrl
-      }
-      nextToken
-    }
-    sources {
-      items {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
-      nextToken
-    }
-  }
-}
-query ListLocations(
-  $filter: ModelLocationFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      locationType
-      locationLabel
-      locationCountry
-      locationLat
-      locationLong
-      keywords {
-        nextToken
-      }
-      sources {
-        nextToken
-      }
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     nextToken
   }
 }
 query GetUser($id: ID!) {
   getUser(id: $id) {
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-    feedback {
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      userFeedbackPromoterScore
-    }
-    userCognitoId
-    userIsPremium
-    userConfig {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    cognitoId
+    config {
       id
       keywordsToInclude
       keywordsToExclude
@@ -400,11 +112,45 @@ query GetUser($id: ID!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
+    email
+    freeTrial
+    freeTrailStartDate
+    freeTrailEndDate
+    fullName
+    id
+    isPremium
+    isActive
+    lastLogin
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    username
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
   }
 }
 query ListUsers(
@@ -414,32 +160,12 @@ query ListUsers(
 ) {
   listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -450,6 +176,22 @@ query ListUsers(
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
     nextToken
   }
@@ -472,32 +214,12 @@ query GetConfig($id: ID!) {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -508,6 +230,22 @@ query GetConfig($id: ID!) {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
@@ -531,299 +269,81 @@ query ListConfigs(
         nextToken
       }
       user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    nextToken
-  }
-}
-query GetCustomer($id: ID!) {
-  getCustomer(id: $id) {
-    billingAddresses {
-      items {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
-      nextToken
-    }
-    customerEmail
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerFullName
-    customerIsPremium
-    customerIsActive
-    customerLastLogin
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerUserCognitoId
-    customerUsername
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-  }
-}
-query ListCustomers(
-  $filter: ModelCustomerFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listCustomers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    nextToken
-  }
-}
-query GetBillingAddress($id: ID!) {
-  getBillingAddress(id: $id) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-  }
-}
-query ListBillingAddresss(
-  $filter: ModelBillingAddressFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listBillingAddresss(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-    }
-    nextToken
-  }
-}
-query GetFeedback($id: ID!) {
-  getFeedback(id: $id) {
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    userFeedbackPromoterScore
-  }
-}
-query ListFeedbacks(
-  $filter: ModelFeedbackFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listFeedbacks(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      userFeedbackPromoterScore
     }
     nextToken
   }
 }
 query ArticlesByDate(
-  $articleDataType: String
-  $articleDatePub: ModelStringKeyConditionInput
+  $dataType: String
+  $datePublished: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelArticleFilterInput
   $limit: Int
   $nextToken: String
 ) {
   articlesByDate(
-    articleDataType: $articleDataType
-    articleDatePub: $articleDatePub
+    dataType: $dataType
+    datePublished: $datePublished
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
     nextToken: $nextToken
   ) {
     items {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     nextToken
   }

@@ -1,231 +1,129 @@
 # this is an auto generated file. This will be overwritten
 mutation CreateArticle($input: CreateArticleInput!) {
   createArticle(input: $input) {
-    articleAuthors
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDatePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleQuality
-    articleShare
-    articleSimilarity
-    articleSourceId
-    articleTime
-    articleTitle
-    articleTone
-    articleUri
-    articleUrl
-    articleWordCount
-    id
+    authors
+    body
     configs {
       items {
         id
       }
       nextToken
     }
-    keywords {
-      items {
-        id
-      }
-      nextToken
-    }
-    topics {
-      items {
-        id
-      }
-      nextToken
-    }
-    source {
-      articles {
-        nextToken
-      }
-      id
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceDescription
-      sourceLocationId
-      sourceTitle
-      sourceType
-      sourceRanking
-      sourceUri
-    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
 mutation UpdateArticle($input: UpdateArticleInput!) {
   updateArticle(input: $input) {
-    articleAuthors
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDatePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleQuality
-    articleShare
-    articleSimilarity
-    articleSourceId
-    articleTime
-    articleTitle
-    articleTone
-    articleUri
-    articleUrl
-    articleWordCount
-    id
+    authors
+    body
     configs {
       items {
         id
       }
       nextToken
     }
-    keywords {
-      items {
-        id
-      }
-      nextToken
-    }
-    topics {
-      items {
-        id
-      }
-      nextToken
-    }
-    source {
-      articles {
-        nextToken
-      }
-      id
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceDescription
-      sourceLocationId
-      sourceTitle
-      sourceType
-      sourceRanking
-      sourceUri
-    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
 mutation DeleteArticle($input: DeleteArticleInput!) {
   deleteArticle(input: $input) {
-    articleAuthors
-    articleBody
-    articleDataType
-    articleDate
-    articleDateTime
-    articleDatePub
-    articleEventUri
-    articleImage
-    articleLanguage
-    articleQuality
-    articleShare
-    articleSimilarity
-    articleSourceId
-    articleTime
-    articleTitle
-    articleTone
-    articleUri
-    articleUrl
-    articleWordCount
-    id
+    authors
+    body
     configs {
       items {
         id
       }
       nextToken
     }
-    keywords {
-      items {
-        id
-      }
-      nextToken
-    }
-    topics {
-      items {
-        id
-      }
-      nextToken
-    }
-    source {
-      articles {
-        nextToken
-      }
-      id
-      location {
-        id
-        locationType
-        locationLabel
-        locationCountry
-        locationLat
-        locationLong
-      }
-      sourceDescription
-      sourceLocationId
-      sourceTitle
-      sourceType
-      sourceRanking
-      sourceUri
-    }
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-    feedback {
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      userFeedbackPromoterScore
-    }
-    userCognitoId
-    userIsPremium
-    userConfig {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    cognitoId
+    config {
       id
       keywordsToInclude
       keywordsToExclude
@@ -239,54 +137,55 @@ mutation CreateUser($input: CreateUserInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
+    email
+    freeTrial
+    freeTrailStartDate
+    freeTrailEndDate
+    fullName
+    id
+    isPremium
+    isActive
+    lastLogin
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    username
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
   }
 }
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-    feedback {
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      userFeedbackPromoterScore
-    }
-    userCognitoId
-    userIsPremium
-    userConfig {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    cognitoId
+    config {
       id
       keywordsToInclude
       keywordsToExclude
@@ -300,54 +199,55 @@ mutation UpdateUser($input: UpdateUserInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
+    email
+    freeTrial
+    freeTrailStartDate
+    freeTrailEndDate
+    fullName
+    id
+    isPremium
+    isActive
+    lastLogin
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    username
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
   }
 }
 mutation DeleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-    feedback {
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-      userFeedbackDiscovery
-      userFeedbackLeaveReason
-      userFeedbackPromoterScore
-    }
-    userCognitoId
-    userIsPremium
-    userConfig {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    cognitoId
+    config {
       id
       keywordsToInclude
       keywordsToExclude
@@ -361,54 +261,82 @@ mutation DeleteUser($input: DeleteUserInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
+    email
+    freeTrial
+    freeTrailStartDate
+    freeTrailEndDate
+    fullName
+    id
+    isPremium
+    isActive
+    lastLogin
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    username
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
   }
 }
 mutation CreateConfigMember($input: CreateConfigMemberInput!) {
   createConfigMember(input: $input) {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -424,9 +352,27 @@ mutation CreateConfigMember($input: CreateConfigMemberInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -435,44 +381,38 @@ mutation CreateConfigMember($input: CreateConfigMemberInput!) {
 mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
   updateConfigMember(input: $input) {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -488,9 +428,27 @@ mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -499,44 +457,38 @@ mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
 mutation DeleteConfigMember($input: DeleteConfigMemberInput!) {
   deleteConfigMember(input: $input) {
     article {
-      articleAuthors
-      articleBody
-      articleDataType
-      articleDate
-      articleDateTime
-      articleDatePub
-      articleEventUri
-      articleImage
-      articleLanguage
-      articleQuality
-      articleShare
-      articleSimilarity
-      articleSourceId
-      articleTime
-      articleTitle
-      articleTone
-      articleUri
-      articleUrl
-      articleWordCount
-      id
+      authors
+      body
       configs {
         nextToken
       }
-      keywords {
-        nextToken
-      }
-      topics {
-        nextToken
-      }
-      source {
-        id
-        sourceDescription
-        sourceLocationId
-        sourceTitle
-        sourceType
-        sourceRanking
-        sourceUri
-      }
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
     }
     config {
       id
@@ -552,9 +504,27 @@ mutation DeleteConfigMember($input: DeleteConfigMemberInput!) {
         nextToken
       }
       user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        cognitoId
+        email
+        freeTrial
+        freeTrailStartDate
+        freeTrailEndDate
+        fullName
         id
-        userCognitoId
-        userIsPremium
+        isPremium
+        isActive
+        lastLogin
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        username
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     id
@@ -578,32 +548,12 @@ mutation CreateConfig($input: CreateConfigInput!) {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -614,6 +564,22 @@ mutation CreateConfig($input: CreateConfigInput!) {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
@@ -635,32 +601,12 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -671,6 +617,22 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
         topicsToInclude
         topicsToExclude
       }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
+      id
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
@@ -692,32 +654,12 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
       nextToken
     }
     user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      cognitoId
+      config {
         id
         keywordsToInclude
         keywordsToExclude
@@ -728,441 +670,22 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
         topicsToInclude
         topicsToExclude
       }
-    }
-  }
-}
-mutation CreateCustomer($input: CreateCustomerInput!) {
-  createCustomer(input: $input) {
-    billingAddresses {
-      items {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        id
-      }
-      nextToken
-    }
-    customerEmail
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerFullName
-    customerIsPremium
-    customerIsActive
-    customerLastLogin
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerUserCognitoId
-    customerUsername
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
+      email
+      freeTrial
+      freeTrailStartDate
+      freeTrailEndDate
+      fullName
       id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
+      isPremium
+      isActive
+      lastLogin
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      username
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
-  }
-}
-mutation UpdateCustomer($input: UpdateCustomerInput!) {
-  updateCustomer(input: $input) {
-    billingAddresses {
-      items {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        id
-      }
-      nextToken
-    }
-    customerEmail
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerFullName
-    customerIsPremium
-    customerIsActive
-    customerLastLogin
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerUserCognitoId
-    customerUsername
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-  }
-}
-mutation DeleteCustomer($input: DeleteCustomerInput!) {
-  deleteCustomer(input: $input) {
-    billingAddresses {
-      items {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        id
-      }
-      nextToken
-    }
-    customerEmail
-    customerFreeTrial
-    customerFreeTrailStartDate
-    customerFreeTrailEndDate
-    customerFullName
-    customerIsPremium
-    customerIsActive
-    customerLastLogin
-    customerPremiumStartDate
-    customerPremiumEndDate
-    customerPremiumIsExpiring
-    customerUserCognitoId
-    customerUsername
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-  }
-}
-mutation CreateBillingAddress($input: CreateBillingAddressInput!) {
-  createBillingAddress(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-  }
-}
-mutation UpdateBillingAddress($input: UpdateBillingAddressInput!) {
-  updateBillingAddress(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-  }
-}
-mutation DeleteBillingAddress($input: DeleteBillingAddressInput!) {
-  deleteBillingAddress(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
-    customer {
-      billingAddresses {
-        nextToken
-      }
-      customerEmail
-      customerFreeTrial
-      customerFreeTrailStartDate
-      customerFreeTrailEndDate
-      customerFullName
-      customerIsPremium
-      customerIsActive
-      customerLastLogin
-      customerPremiumStartDate
-      customerPremiumEndDate
-      customerPremiumIsExpiring
-      customerUserCognitoId
-      customerUsername
-      id
-      user {
-        id
-        userCognitoId
-        userIsPremium
-      }
-    }
-    id
-  }
-}
-mutation CreateFeedback($input: CreateFeedbackInput!) {
-  createFeedback(input: $input) {
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    userFeedbackPromoterScore
-  }
-}
-mutation UpdateFeedback($input: UpdateFeedbackInput!) {
-  updateFeedback(input: $input) {
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    userFeedbackPromoterScore
-  }
-}
-mutation DeleteFeedback($input: DeleteFeedbackInput!) {
-  deleteFeedback(input: $input) {
-    id
-    user {
-      customer {
-        customerEmail
-        customerFreeTrial
-        customerFreeTrailStartDate
-        customerFreeTrailEndDate
-        customerFullName
-        customerIsPremium
-        customerIsActive
-        customerLastLogin
-        customerPremiumStartDate
-        customerPremiumEndDate
-        customerPremiumIsExpiring
-        customerUserCognitoId
-        customerUsername
-        id
-      }
-      id
-      feedback {
-        id
-        userFeedbackDiscovery
-        userFeedbackLeaveReason
-        userFeedbackPromoterScore
-      }
-      userCognitoId
-      userIsPremium
-      userConfig {
-        id
-        keywordsToInclude
-        keywordsToExclude
-        qualityUpperRange
-        qualityLowerRange
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-      }
-    }
-    userFeedbackDiscovery
-    userFeedbackLeaveReason
-    userFeedbackPromoterScore
   }
 }

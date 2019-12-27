@@ -1,4 +1,4 @@
-import { APIService, ModelStringKeyConditionInput, ModelSortDirection } from './../services/neutrify.service';
+import { APIService, ModelStringKeyConditionInput, ModelSortDirection } from './../services/neutrify-api.service';
 import { FilterService } from './../services/filter.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform } from '@ionic/angular';
@@ -15,6 +15,7 @@ export class NewsFeedPage implements OnInit, OnDestroy {
   displayArticles: Array<any> = new Array<any>();
 
   nextToken: string;
+  limit = 25;
   articleDatePub: ModelStringKeyConditionInput;
 
   menuSubscription$: Subscription;
@@ -55,8 +56,7 @@ export class NewsFeedPage implements OnInit, OnDestroy {
   async ngOnInit()  {
     this.articleDatePub = this.filterService.setDateRange();
     this.queryFilters = this.filterService.getQueryFilters();
-    this.rawArticles = await this.listArticles(25);
-    this.displayArticles = this.rawArticles;
+    await this.handleInitDataLoad();
     // this.displayArticles = this.filterService.filterArticles(this.rawArticles);
   }
 
@@ -75,17 +75,31 @@ export class NewsFeedPage implements OnInit, OnDestroy {
     }
   }
 
+  async handleInitDataLoad() {
+    let i = 1;
+    let newLimit = 25;
+    let nextToken = 'true';
+
+    while (this.rawArticles.length < 15 && nextToken) {
+      newLimit *= i;
+      this.rawArticles = await this.listArticles(newLimit);
+      nextToken = this.nextToken;
+      i *= 8;
+    }
+
+    this.limit = newLimit;
+    this.displayArticles = this.rawArticles;
+  }
+
   async doRefresh(event) {
     this.rawArticles = [];
-    this.displayArticles = [];
-    this.rawArticles = await this.listArticles(25);
-    this.displayArticles = this.rawArticles;
+    await this.handleInitDataLoad();
     event.target.complete();
   }
 
   async getNextPage(event) {
       let newArticles: Array<any> = new Array<any>();
-      newArticles = await this.listArticles(25, this.nextToken);
+      newArticles = await this.listArticles(this.limit, this.nextToken);
       console.log('new articles', newArticles.length, newArticles);
 
       console.log('raw articles before load: ', this.rawArticles.length, this.rawArticles);
@@ -110,6 +124,7 @@ export class NewsFeedPage implements OnInit, OnDestroy {
     const results = await this.neutrifyService.ArticlesByDate('news', this.articleDatePub,
      ModelSortDirection.DESC, this.queryFilters, limit, nextToken);
     this.nextToken = results.nextToken;
+    console.log('is new token null? ', this.nextToken === null);
     return results.items;
   }
 }

@@ -1,4 +1,4 @@
-import { APIService } from './../services/neutrify.service';
+import { APIService } from './../services/neutrify-api.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';
@@ -25,15 +25,15 @@ export class HomePage implements OnInit {
   }
 
   async onSubmit() {
-    const res = await this.apiService.CreateCustomer(
-      this.landingPageForm.value,
-    );
+    // const res = await this.apiService.CreateCustomer(
+    //   this.landingPageForm.value,
+    // );
 
-    this.userDataService.customerId = res.id;
-    this.userDataService.customerEmail = res.customerEmail;
+    // this.userDataService.customerId = res.id;
+    // this.userDataService.customerEmail = res.customerEmail;
 
-    this.router.navigate([]);
-    this.landingPageForm.reset();
+    // this.router.navigate([]);
+    // this.landingPageForm.reset();
   }
 
   navigateToTop() {

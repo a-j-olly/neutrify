@@ -66,5 +66,24 @@
                 "neutrifyb749557b": {}
             }
         }
+    },
+    "authen": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-authen-74215-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-authen-74215-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-authen-74215-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-authen-74215-deployment",
+            "UnauthRoleName": "amplify-neutrify-authen-74215-unauthRole",
+            "StackName": "amplify-neutrify-authen-74215",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-authen-74215/664b62e0-2d33-11ea-89fe-06af0f49b59c"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyb749557b": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Google\",\"client_id\":\"1052212080070-rnh11kkkf9todh93php7k5qrutmhasg0.apps.googleusercontent.com\",\"client_secret\":\"9LYImDZZtXIDIsw1g2I9wz4J\"}]"
+                }
+            }
+        }
     }
 }

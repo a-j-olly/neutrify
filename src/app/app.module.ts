@@ -1,3 +1,4 @@
+import { AuthModalComponent } from './auth-modal/auth-modal.component';
 import { APIService } from './services/neutrify-api.service';
 import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filter.component';
 import { WordFilterComponent } from './menu/filter-menu/word-filter/word-filter.component';
@@ -18,8 +19,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-amplify-angular';
 
 @NgModule({
-  declarations: [AppComponent, FilterMenuComponent, MainMenuComponent, WordFilterComponent, RangeFilterComponent],
-  entryComponents: [],
+  declarations: [
+    AppComponent,
+    FilterMenuComponent,
+    MainMenuComponent,
+    WordFilterComponent,
+    RangeFilterComponent,
+    AuthModalComponent
+  ],
+  entryComponents: [AuthModalComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -27,7 +35,8 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     ReactiveFormsModule,
     AmplifyAngularModule,
     AmplifyIonicModule,
-    AppRoutingModule],
+    AppRoutingModule
+  ],
   providers: [
     APIService,
     StatusBar,

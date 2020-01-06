@@ -6,7 +6,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss'],
 })
-export class FilterMenuComponent implements OnInit, OnDestroy {
+export class FilterMenuComponent implements OnDestroy {
   public toneUserOption;
   public qualityUserOption;
   public sourcesUserOption;
@@ -14,21 +14,19 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
   public keywordsUserOption;
 
   constructor(
-    private filterService: FilterService
+    private filterService: FilterService,
     ) {
-      this.getOptions();
-      const filterOptions = this.filterService.buildFilterOptions({
-        toneUserOption: this.toneUserOption,
-        qualityUserOption: this.qualityUserOption,
-        sourcesUserOption: this.sourcesUserOption,
-        topicsUserOption: this.topicsUserOption,
-        keywordsUserOption: this.keywordsUserOption
-      });
-      console.log('filter options', filterOptions);
-      this.filterService.updateFilterOptions(filterOptions);
+        this.getOptions();
+        const filterOptions = this.filterService.buildFilterOptions({
+          toneUserOption: this.toneUserOption,
+          qualityUserOption: this.qualityUserOption,
+          sourcesUserOption: this.sourcesUserOption,
+          topicsUserOption: this.topicsUserOption,
+          keywordsUserOption: this.keywordsUserOption
+        });
+        console.log('filter options', filterOptions);
+        this.filterService.updateFilterOptions(filterOptions);
     }
-
-  ngOnInit() {}
 
   getOptions() {
     this.toneUserOption = {

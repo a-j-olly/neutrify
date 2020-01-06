@@ -1,9 +1,20 @@
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <ion-item>
-      <ion-label>
-        Start
-      </ion-label>
+    <ion-item class="ion-activatable tappable" (click)="manageAuth()">
+      <div [hidden]="authService.signedIn">
+        <ion-icon slot="start" name="log-in"></ion-icon>
+        <ion-label>
+          Login
+        </ion-label>
+      </div>
+
+      <div [hidden]="!authService.signedIn">
+        <ion-icon slot="start" name="log-in"></ion-icon>
+        <ion-label>
+          Logout
+        </ion-label>
+      </div>
     </ion-item>
+
   </ion-menu-toggle>
 </ion-list>

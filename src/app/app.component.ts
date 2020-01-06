@@ -1,5 +1,6 @@
+import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
-// import { AuthGuardService } from './auth-guard.service';
+// import { AuthGuardService } from './services/auth-guard.service';
 import { Component, OnDestroy } from '@angular/core';
 import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -20,10 +21,10 @@ export class AppComponent implements OnDestroy {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private location: LocationStrategy,
+    // private location: LocationStrategy,
     private menu: MenuController,
-    private menuService: MenuService
-    // private authGuardService: AuthGuardService,
+    private menuService: MenuService,
+    private authService: AuthService,
   ) {
     this.menu.swipeGesture(false, 'filterMenu');
     this.menu.swipeGesture(false, 'mainMenu');
@@ -31,10 +32,10 @@ export class AppComponent implements OnDestroy {
       this.menuStatus = status;
     });
 
-    this.location.onPopState(() => {
-      // this.authGuardService.backClicked = true;
-      return false;
-    });
+    // this.location.onPopState(() => {
+    //   this.authGuardService.backClicked = true;
+    //   return false;
+    // });
 
     this.initializeApp();
   }

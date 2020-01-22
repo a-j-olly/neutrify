@@ -1,0 +1,37 @@
+<form [formGroup]="confirmSignUpForm" (ngSubmit)="confirmSignUp()">
+  <div class="form-group">
+    <p>A verification email has been sent to {{this.authService.signUpEmail}}. Please copy the code from the email and paste it into the field below.</p>
+    <div class="form-item">
+      <ion-item>
+        <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required></ion-input>
+      </ion-item>
+      <span *ngIf="f.vefCode.invalid && f.vefCode.touched">
+        <span *ngIf="f.vefCode.errors.required">
+          <ion-text color="danger">Please enter the code.</ion-text>
+        </span>
+      </span>
+    </div>
+
+    <div class="form-item">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size="12">
+          <ion-button class="form-control" type="submit" expand="full" [disabled]="this.confirmSignUpForm.invalid || buttonClicked">Confirm email</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <span *ngIf="invalidDetails">
+          <ion-text color="danger">Could not verify your email. Make sure you copied the correct code.</ion-text>
+        </span>
+      </ion-row>
+    </div>
+  </div>
+
+  <ion-row class="ion-justify-content-between">
+    <ion-label>Code still not arrived?</ion-label>
+    <ion-text color="primary" tappable (click)="resendEmail()" [hidden]="buttonClicked || resentEmail">Resend verification email</ion-text>
+  </ion-row>
+  <span *ngIf="resentEmail">
+    <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
+  </span>
+
+</form>

@@ -1,19 +1,10 @@
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <ion-item class="ion-activatable tappable" (click)="manageAuth()">
-      <div [hidden]="authService.signedIn">
-        <ion-icon slot="start" name="log-in"></ion-icon>
+    <ion-item *ngIf="authService.signedIn" tappable (click)="signOut()">
+        <ion-icon slot="start" name="log-out"></ion-icon>
         <ion-label>
-          Login
+          Sign out
         </ion-label>
-      </div>
-
-      <div [hidden]="!authService.signedIn">
-        <ion-icon slot="start" name="log-in"></ion-icon>
-        <ion-label>
-          Logout
-        </ion-label>
-      </div>
     </ion-item>
 
   </ion-menu-toggle>

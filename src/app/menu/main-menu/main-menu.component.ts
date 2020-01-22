@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthModalComponent } from './../../auth-modal/auth-modal.component';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,15 +11,17 @@ import { ModalController } from '@ionic/angular';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor(private authService: AuthService, public modalController: ModalController) { }
+  constructor(private authService: AuthService, public modalController: ModalController, private router: Router) { }
 
   ngOnInit() {}
 
-  async manageAuth() {
-    const modal = await this.modalController.create({
-      component: AuthModalComponent
-    });
+  async signOut() {
+    const res = await this.authService.signOut();
 
-    return await modal.present();
+    if (res) {
+      this.router.navigate(['/home']);
+    } else {
+      alert('Could not sign you out. Please try again');
+    }
   }
 }

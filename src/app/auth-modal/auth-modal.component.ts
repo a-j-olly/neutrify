@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-auth-modal',
@@ -7,10 +6,14 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['./auth-modal.component.scss'],
 })
 export class AuthModalComponent implements OnInit {
-  usernameAttributes = 'email';
+  @Input() view: string;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
+  changeView(event) {
+    this.view = event;
+  }
 }

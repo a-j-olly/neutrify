@@ -1,4 +1,3 @@
-import { AuthModalComponent } from './auth-modal/auth-modal.component';
 import { APIService } from './services/neutrify-api.service';
 import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filter.component';
 import { WordFilterComponent } from './menu/filter-menu/word-filter/word-filter.component';
@@ -25,9 +24,9 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     MainMenuComponent,
     WordFilterComponent,
     RangeFilterComponent,
-    AuthModalComponent
+
   ],
-  entryComponents: [AuthModalComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

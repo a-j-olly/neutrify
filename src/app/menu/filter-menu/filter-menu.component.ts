@@ -2,6 +2,7 @@ import { APIService } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-filter-menu',
@@ -18,7 +19,8 @@ export class FilterMenuComponent {
   constructor(
     private filterService: FilterService,
     private neutrifyAPI: APIService,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastController: ToastController
     ) {
       console.log('init filter menu');
       this.initOptions();
@@ -93,14 +95,26 @@ export class FilterMenuComponent {
     const loadedConfig = await this.neutrifyAPI.ConfigByOwner(this.authService.user.username, null, null , 1);
     await this.filterService.updateFilterOptions(loadedConfig.items[0]);
     this.initOptions();
+    await this.presentToast('Your filters have been loaded.', 'primary');
   }
 
   async saveFilters() {
     try {
       console.log('filter to be saved: ', this.filterService.filterOptions);
       await this.neutrifyAPI.UpdateConfig(this.filterService.filterOptions);
+      await this.presentToast('Your filters have been saved.', 'primary');
     } catch (e) {
       console.log('Could not save filters. Service returned this error: ', e);
     }
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

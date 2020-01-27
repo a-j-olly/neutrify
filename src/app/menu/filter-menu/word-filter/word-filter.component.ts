@@ -50,7 +50,7 @@ export class WordFilterComponent implements OnInit {
     this.wordOptionForm.reset();
 
     this.wordFilterList = this.option[this.segmentValue];
-    this.userOptionChanged.emit(this.userOption);
+    this.userOptionChanged.emit(this.option);
   }
 
   removeWord(index) {

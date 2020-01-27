@@ -12,8 +12,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Here is your Neutrify verification code:",
-    "emailVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Neutrify verification code",
+    "emailVerificationMessage": "Greetings from Neutrify. Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
@@ -44,7 +44,7 @@
             "Arn"
         ]
     },
-    "useDefault": "manual",
+    "useDefault": "default",
     "usernameAttributes": [
         "email"
     ],
@@ -52,20 +52,12 @@
         "standard"
     ],
     "dependsOn": [],
-    "thirdPartyAuth": true,
-    "authProviders": [],
     "userPoolGroups": true,
     "adminQueries": false,
     "triggers": "{}",
     "hostedUI": true,
-    "hostedUIDomainName": "neutrify-auth",
-    "authProvidersUserPool": [
-        "Google"
-    ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "permissions": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:4200/\",\"https://neutrify.news/\"],\"LogoutURLs\":[\"http://localhost:4200/home/\",\"https://neutrify.news/home/\"]}"
+    "permissions": []
 }

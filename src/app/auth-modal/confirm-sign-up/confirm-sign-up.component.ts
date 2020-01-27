@@ -1,6 +1,7 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-confirm-sign-up',
@@ -15,7 +16,11 @@ export class ConfirmSignUpComponent implements OnInit {
   resentEmail: boolean;
   buttonClicked = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
     this.authService.setState('confirmSignUp');
@@ -35,6 +40,7 @@ export class ConfirmSignUpComponent implements OnInit {
         this.invalidDetails = false;
         this.confirmSignUpForm.reset();
         this.view.emit('signIn');
+        await this.presentToast('Account creation complete, please sign in.', 'primary');
       } else {
         this.invalidDetails = true;
       }
@@ -48,9 +54,19 @@ export class ConfirmSignUpComponent implements OnInit {
       this.resentEmail = true;
       this.buttonClicked = false;
     } else {
-      alert('Email could not be resent. Please check you have entered the correct email address.');
+      await this.presentToast('Email could not be resent. Please check you have entered the correct email address.', 'danger');
       this.buttonClicked = false;
     }
   }
 
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center',
+      position: 'middle'
+    });
+    toast.present();
+  }
 }

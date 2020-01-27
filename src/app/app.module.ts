@@ -18,7 +18,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-amplify-angular';
 
 @NgModule({
-  declarations: [AppComponent, FilterMenuComponent, MainMenuComponent, WordFilterComponent, RangeFilterComponent],
+  declarations: [
+    AppComponent,
+    FilterMenuComponent,
+    MainMenuComponent,
+    WordFilterComponent,
+    RangeFilterComponent,
+
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -27,7 +34,8 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     ReactiveFormsModule,
     AmplifyAngularModule,
     AmplifyIonicModule,
-    AppRoutingModule],
+    AppRoutingModule
+  ],
   providers: [
     APIService,
     StatusBar,

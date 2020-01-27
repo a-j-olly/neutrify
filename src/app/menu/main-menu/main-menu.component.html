@@ -1,9 +1,11 @@
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <ion-item>
-      <ion-label>
-        Start
-      </ion-label>
+    <ion-item *ngIf="authService.signedIn" tappable (click)="signOut()">
+        <ion-icon slot="start" name="log-out"></ion-icon>
+        <ion-label>
+          Sign out
+        </ion-label>
     </ion-item>
+
   </ion-menu-toggle>
 </ion-list>

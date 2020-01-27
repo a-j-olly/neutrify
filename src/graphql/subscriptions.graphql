@@ -3,12 +3,6 @@ subscription OnCreateArticle {
   onCreateArticle {
     authors
     body
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
     dataType
     date
     dateTime
@@ -42,12 +36,6 @@ subscription OnUpdateArticle {
   onUpdateArticle {
     authors
     body
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
     dataType
     date
     dateTime
@@ -81,12 +69,6 @@ subscription OnDeleteArticle {
   onDeleteArticle {
     authors
     body
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
     dataType
     date
     dateTime
@@ -116,236 +98,8 @@ subscription OnDeleteArticle {
     wordCount
   }
 }
-subscription OnCreateConfigMember {
-  onCreateConfigMember {
-    article {
-      authors
-      body
-      configs {
-        nextToken
-      }
-      dataType
-      date
-      dateTime
-      datePublished
-      displayAuthors
-      displayKeywords
-      displaySourceCountry
-      displaySourceTitle
-      displayTopics
-      eventUri
-      id
-      image
-      keywords
-      language
-      quality
-      share
-      similarity
-      time
-      sourceCountry
-      sourceRanking
-      sourceTitle
-      title
-      tone
-      topics
-      uri
-      url
-      wordCount
-    }
-    config {
-      id
-      keywordsToInclude
-      keywordsToExclude
-      qualityUpperRange
-      qualityLowerRange
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticles {
-        nextToken
-      }
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        cognitoId
-        email
-        freeTrial
-        freeTrailStartDate
-        freeTrailEndDate
-        fullName
-        id
-        isPremium
-        isActive
-        lastLogin
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        username
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-      }
-    }
-    id
-  }
-}
-subscription OnUpdateConfigMember {
-  onUpdateConfigMember {
-    article {
-      authors
-      body
-      configs {
-        nextToken
-      }
-      dataType
-      date
-      dateTime
-      datePublished
-      displayAuthors
-      displayKeywords
-      displaySourceCountry
-      displaySourceTitle
-      displayTopics
-      eventUri
-      id
-      image
-      keywords
-      language
-      quality
-      share
-      similarity
-      time
-      sourceCountry
-      sourceRanking
-      sourceTitle
-      title
-      tone
-      topics
-      uri
-      url
-      wordCount
-    }
-    config {
-      id
-      keywordsToInclude
-      keywordsToExclude
-      qualityUpperRange
-      qualityLowerRange
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticles {
-        nextToken
-      }
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        cognitoId
-        email
-        freeTrial
-        freeTrailStartDate
-        freeTrailEndDate
-        fullName
-        id
-        isPremium
-        isActive
-        lastLogin
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        username
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-      }
-    }
-    id
-  }
-}
-subscription OnDeleteConfigMember {
-  onDeleteConfigMember {
-    article {
-      authors
-      body
-      configs {
-        nextToken
-      }
-      dataType
-      date
-      dateTime
-      datePublished
-      displayAuthors
-      displayKeywords
-      displaySourceCountry
-      displaySourceTitle
-      displayTopics
-      eventUri
-      id
-      image
-      keywords
-      language
-      quality
-      share
-      similarity
-      time
-      sourceCountry
-      sourceRanking
-      sourceTitle
-      title
-      tone
-      topics
-      uri
-      url
-      wordCount
-    }
-    config {
-      id
-      keywordsToInclude
-      keywordsToExclude
-      qualityUpperRange
-      qualityLowerRange
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticles {
-        nextToken
-      }
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        cognitoId
-        email
-        freeTrial
-        freeTrailStartDate
-        freeTrailEndDate
-        fullName
-        id
-        isPremium
-        isActive
-        lastLogin
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        username
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-      }
-    }
-    id
-  }
-}
-subscription OnCreateConfig {
-  onCreateConfig {
+subscription OnCreateConfig($owner: String!) {
+  onCreateConfig(owner: $owner) {
     id
     keywordsToInclude
     keywordsToExclude
@@ -355,12 +109,7 @@ subscription OnCreateConfig {
     toneLowerRange
     topicsToInclude
     topicsToExclude
-    savedArticles {
-      items {
-        id
-      }
-      nextToken
-    }
+    savedArticleIds
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -377,6 +126,8 @@ subscription OnCreateConfig {
         toneLowerRange
         topicsToInclude
         topicsToExclude
+        savedArticleIds
+        owner
       }
       email
       freeTrial
@@ -395,10 +146,11 @@ subscription OnCreateConfig {
       feedbackLeaveReason
       feedbackPromoterScore
     }
+    owner
   }
 }
-subscription OnUpdateConfig {
-  onUpdateConfig {
+subscription OnUpdateConfig($owner: String!) {
+  onUpdateConfig(owner: $owner) {
     id
     keywordsToInclude
     keywordsToExclude
@@ -408,12 +160,7 @@ subscription OnUpdateConfig {
     toneLowerRange
     topicsToInclude
     topicsToExclude
-    savedArticles {
-      items {
-        id
-      }
-      nextToken
-    }
+    savedArticleIds
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -430,6 +177,8 @@ subscription OnUpdateConfig {
         toneLowerRange
         topicsToInclude
         topicsToExclude
+        savedArticleIds
+        owner
       }
       email
       freeTrial
@@ -448,10 +197,11 @@ subscription OnUpdateConfig {
       feedbackLeaveReason
       feedbackPromoterScore
     }
+    owner
   }
 }
-subscription OnDeleteConfig {
-  onDeleteConfig {
+subscription OnDeleteConfig($owner: String!) {
+  onDeleteConfig(owner: $owner) {
     id
     keywordsToInclude
     keywordsToExclude
@@ -461,12 +211,7 @@ subscription OnDeleteConfig {
     toneLowerRange
     topicsToInclude
     topicsToExclude
-    savedArticles {
-      items {
-        id
-      }
-      nextToken
-    }
+    savedArticleIds
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -483,6 +228,8 @@ subscription OnDeleteConfig {
         toneLowerRange
         topicsToInclude
         topicsToExclude
+        savedArticleIds
+        owner
       }
       email
       freeTrial
@@ -501,5 +248,6 @@ subscription OnDeleteConfig {
       feedbackLeaveReason
       feedbackPromoterScore
     }
+    owner
   }
 }

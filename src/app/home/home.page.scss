@@ -14,17 +14,22 @@ ion-icon {
 }
 ion-img.image {
     width: 360px;
-}
+};
 
 ion-img.logo {
     width: 200px;
     height: 64px;
     margin: 0 auto;
-}
+};
 
 .email-section {
     background-color: #4169e1;
-}
+};
+
+.cta-button {
+    max-width: 290px;
+    margin: 0 auto;
+};
 
 .summary-section {
     height: auto;
@@ -32,12 +37,12 @@ ion-img.logo {
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url('../../assets/img/neutrify-banner.png');
-}
+};
 
 .feature-section {
     background-color: white;
-}
+};
 
 .feature {
     max-width: 360px;
-}
+};

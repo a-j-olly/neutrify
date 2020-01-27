@@ -1,12 +1,15 @@
+import { APIService } from './../../services/neutrify-api.service';
+import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-filter-menu',
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss'],
 })
-export class FilterMenuComponent implements OnInit, OnDestroy {
+export class FilterMenuComponent {
   public toneUserOption;
   public qualityUserOption;
   public sourcesUserOption;
@@ -14,57 +17,49 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
   public keywordsUserOption;
 
   constructor(
-    private filterService: FilterService
+    private filterService: FilterService,
+    private neutrifyAPI: APIService,
+    private authService: AuthService,
+    private toastController: ToastController
     ) {
-      this.getOptions();
-      const filterOptions = this.filterService.buildFilterOptions({
-        toneUserOption: this.toneUserOption,
-        qualityUserOption: this.qualityUserOption,
-        sourcesUserOption: this.sourcesUserOption,
-        topicsUserOption: this.topicsUserOption,
-        keywordsUserOption: this.keywordsUserOption
-      });
-      console.log('filter options', filterOptions);
-      this.filterService.updateFilterOptions(filterOptions);
+      console.log('init filter menu');
+      this.initOptions();
     }
 
-  ngOnInit() {}
-
-  getOptions() {
+  initOptions() {
+    const filterOptions = this.filterService.filterOptions;
     this.toneUserOption = {
       value: {
-        lower: -1,
-        upper: 1
+        lower: filterOptions.toneLowerRange,
+        upper: filterOptions.toneUpperRange
       }
     };
 
     this.qualityUserOption = {
       value: {
-        lower: 0,
-        upper: 5
+        lower: filterOptions.qualityLowerRange,
+        upper: filterOptions.qualityUpperRange
       }
     };
 
     this.sourcesUserOption = {
-      include: [],
-      exclude: []
+      include: filterOptions.sourcesToInclude,
+      exclude: filterOptions.sourcesToExclude
     };
 
     this.topicsUserOption = {
-      include: [],
-      exclude: []
+      include: filterOptions.topicsToInclude,
+      exclude: filterOptions.topicsToExclude
     };
 
     this.keywordsUserOption = {
-      include: [],
-      exclude: []
+      include: filterOptions.keywordsToInclude,
+      exclude: filterOptions.keywordsToExclude
     };
   }
 
-  ngOnDestroy() {
-  }
-
-  onFilterChange(event) {
+  async onFilterChange(event) {
+    console.log('filters have changed: ', event);
     switch (event.name) {
       case 'Tone':
         this.toneUserOption = event;
@@ -82,10 +77,10 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
         this.keywordsUserOption = event;
         break;
       default:
-        throw new Error('Unknown event.');
+        throw new Error(`Unknown event: ${JSON.stringify(event)}`);
     }
 
-    const filterOptions = this.filterService.buildFilterOptions({
+    const filterOptions: any = this.filterService.buildFilterOptions({
       toneUserOption: this.toneUserOption,
       qualityUserOption: this.qualityUserOption,
       sourcesUserOption: this.sourcesUserOption,
@@ -93,6 +88,33 @@ export class FilterMenuComponent implements OnInit, OnDestroy {
       keywordsUserOption: this.keywordsUserOption
     });
 
-    this.filterService.updateFilterOptions(filterOptions);
+    await this.filterService.updateFilterOptions(filterOptions);
+  }
+
+  async loadFilters() {
+    const loadedConfig = await this.neutrifyAPI.ConfigByOwner(this.authService.user.username, null, null , 1);
+    await this.filterService.updateFilterOptions(loadedConfig.items[0]);
+    this.initOptions();
+    await this.presentToast('Your filters have been loaded.', 'primary');
+  }
+
+  async saveFilters() {
+    try {
+      console.log('filter to be saved: ', this.filterService.filterOptions);
+      await this.neutrifyAPI.UpdateConfig(this.filterService.filterOptions);
+      await this.presentToast('Your filters have been saved.', 'primary');
+    } catch (e) {
+      console.log('Could not save filters. Service returned this error: ', e);
+    }
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

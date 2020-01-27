@@ -1,0 +1,25 @@
+<ion-grid class="authenticator">
+  <app-sign-in *ngIf="view === 'signIn'" ></app-sign-in>
+  <app-sign-up *ngIf="view === 'signUp'" (view)="changeView($event)" ></app-sign-up>
+  <app-confirm-sign-up *ngIf="view === 'confirmSignUp'" (view)="changeView($event)"></app-confirm-sign-up>
+  <app-forgot-password *ngIf="view === 'forgotPassword'" (view)="changeView($event)"></app-forgot-password>
+
+  <div class="auth-options">
+    <ion-row *ngIf="view === 'signUp'" class="ion-justify-content-between">
+      <ion-label>Already have an account?</ion-label>
+      <ion-text color="primary" tappable (click)="view = 'signIn'">Sign in</ion-text>
+    </ion-row>
+
+    <ion-row *ngIf="view === 'signIn'" class="ion-justify-content-between">
+      <ion-label>Forgotten your password?</ion-label>
+      <ion-text color="primary" tappable (click)="view = 'forgotPassword'">You can reset it here</ion-text>
+    </ion-row>
+
+    <ion-row *ngIf="view === 'signIn'" class="ion-justify-content-between">
+      <ion-label>Don't have an account?</ion-label>
+      <ion-text color="primary" tappable (click)="view = 'signUp'">Create a new account</ion-text>
+    </ion-row>
+  </div>
+
+</ion-grid>
+    

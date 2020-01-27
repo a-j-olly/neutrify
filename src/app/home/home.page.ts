@@ -1,8 +1,10 @@
+import { AuthService } from './../services/auth.service';
+import { AuthModalComponent } from './../auth-modal/auth-modal.component';
 import { APIService } from './../services/neutrify-api.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { IonContent, ModalController } from '@ionic/angular';
 import { UserDataService } from '../services/user-data.service';
 
 @Component({
@@ -14,8 +16,8 @@ export class HomePage implements OnInit {
   @ViewChild('homePage', {static: false}) homePage: IonContent;
   landingPageForm: FormGroup;
 
-  constructor(private router: Router, private apiService: APIService,
-              private userDataService: UserDataService) {}
+  constructor(private router: Router, private authService: AuthService,
+              private userDataService: UserDataService, public modalController: ModalController) {}
 
 
   ngOnInit() {
@@ -24,16 +26,16 @@ export class HomePage implements OnInit {
     });
   }
 
-  async onSubmit() {
-    // const res = await this.apiService.CreateCustomer(
-    //   this.landingPageForm.value,
-    // );
+  async manageAuth(view) {
+    const modal = await this.modalController.create({
+      component: AuthModalComponent,
+      cssClass: 'auth-modal',
+      componentProps: {
+        view
+      }
+    });
 
-    // this.userDataService.customerId = res.id;
-    // this.userDataService.customerEmail = res.customerEmail;
-
-    // this.router.navigate([]);
-    // this.landingPageForm.reset();
+    return await modal.present();
   }
 
   navigateToTop() {

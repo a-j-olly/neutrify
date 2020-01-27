@@ -24,3 +24,14 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* CSS for amplify components */
+// @import '~aws-amplify-angular/Theme.css'
+
+.auth-modal .modal-wrapper{
+    max-height: 320px;
+    max-width: 400px;
+    position: absolute; 
+    display: block;
+    border: 3px solid royalblue;
+}

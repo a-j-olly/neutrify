@@ -26,16 +26,13 @@ export class AppComponent implements OnDestroy {
     private menuService: MenuService,
     private authService: AuthService,
   ) {
-    this.menu.swipeGesture(false, 'filterMenu');
-    this.menu.swipeGesture(false, 'mainMenu');
+    this.menu.enable(false, 'filterMenu');
+    this.menu.enable(false, 'mainMenu');
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
+      console.log('old menu status: ', this.menuStatus);
+      console.log('new menu status: ', status);
       this.menuStatus = status;
     });
-
-    // this.location.onPopState(() => {
-    //   this.authGuardService.backClicked = true;
-    //   return false;
-    // });
 
     this.initializeApp();
   }

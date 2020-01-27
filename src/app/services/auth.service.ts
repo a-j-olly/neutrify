@@ -1,29 +1,61 @@
+import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { FilterService } from './filter.service';
+import { APIService } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { Auth } from 'aws-amplify';
+import * as moment from 'moment';
+const uuid = require('uuid/v4');
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  signedIn: boolean;
+  signedIn = false;
+  loaded = false;
   user: any;
   greeting: string;
   signUpEmail: string;
   forgotPasswordEmail: string;
 
-  constructor(private amplifyService: AmplifyService) {
-    this.amplifyService.authStateChange$
-        .subscribe(authState => {
+  constructor(
+      private amplifyService: AmplifyService,
+      private neutrifyAPI: APIService,
+      private filterService: FilterService,
+      private router: Router,
+      private menu: MenuController
+    ) {
+      this.amplifyService.authStateChange$
+        .subscribe(async authState => {
+          console.log('current auth state: ', authState.state);
           this.signedIn = authState.state === 'signedIn';
+
           if (!authState.user) {
-              this.user = null;
+            this.user = null;
           } else {
-              this.user = authState.user;
-              this.greeting = 'Welcome back ' + this.user.username;
+            this.user = authState.user;
+            this.greeting = 'Welcome back ' + this.user.username;
           }
-    });
+
+          if (this.signedIn) {
+            const config = await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1);
+            console.log('config returned after sign in:', config);
+            if (config.items.length !== 0) {
+              await this.filterService.updateFilterOptions(config.items[0]);
+              this.loaded = true;
+            } else {
+              this.loaded = false;
+            }
+
+            this.menu.enable(true, 'filterMenu');
+            this.menu.enable(true, 'mainMenu');
+            this.menu.swipeGesture(false, 'filterMenu');
+            this.menu.swipeGesture(false, 'mainMenu');
+            console.log('this.loaded: ', this.loaded);
+          }
+      });
   }
 
   setState(state: string, user?: any) {
@@ -32,7 +64,47 @@ export class AuthService {
 
   async signIn(email: string, password: string): Promise<string> {
     try {
-      await Auth.signIn(email, password);
+      const user = await Auth.signIn(email, password);
+      const config = await this.neutrifyAPI.ConfigByOwner(user.username, null, null, 1);
+      if (config.items.length === 0) {
+        const now = moment();
+        const userId = uuid();
+        const configId = uuid();
+
+        const createUserPromise = this.neutrifyAPI.CreateUser({
+          email: user.attributes.email,
+          freeTrial: true,
+          freeTrialStartDate: now.format(),
+          freeTrialEndDate: now.add(1, 'months').format(),
+          id: userId,
+          isPremium: false,
+          userConfigId: configId
+        });
+
+        const createConfigPromise = this.neutrifyAPI.CreateConfig({
+          configUserId: userId,
+          id: configId,
+          keywordsToInclude: [],
+          keywordsToExclude: [],
+          qualityUpperRange: 5,
+          qualityLowerRange: 0,
+          savedArticleIds: [],
+          sourcesToInclude: [],
+          sourcesToExclude: [],
+          toneUpperRange: 1,
+          toneLowerRange: -1,
+          topicsToInclude: [],
+          topicsToExclude: [],
+        });
+
+        const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
+        console.log('creation res', creationRes);
+        if (!this.loaded) {
+          await this.filterService.updateFilterOptions(creationRes[1]);
+          this.loaded = true;
+        }
+      }
+
       return 'true';
     } catch (e) {
       if (e.code === 'UserNotFoundException') {
@@ -65,8 +137,7 @@ export class AuthService {
 
   async signUp(email: string, password: string): Promise<boolean> {
     try {
-      const res = await Auth.signUp({username: email, password, attributes: { email }});
-
+      const res = await Auth.signUp({ username: email, password, attributes: { email } });
       if (res) {
         this.signUpEmail = res.user.getUsername();
         return true;

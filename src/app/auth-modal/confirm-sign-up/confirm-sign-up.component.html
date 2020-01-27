@@ -26,12 +26,14 @@
     </div>
   </div>
 
-  <ion-row class="ion-justify-content-between">
-    <ion-label>Code still not arrived?</ion-label>
-    <ion-text color="primary" tappable (click)="resendEmail()" [hidden]="buttonClicked || resentEmail">Resend verification email</ion-text>
-  </ion-row>
-  <span *ngIf="resentEmail">
-    <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
-  </span>
+  <div class="auth-option">
+    <ion-row class="ion-justify-content-between">
+      <ion-label>Code still not arrived?</ion-label>
+      <ion-text color="primary" tappable (click)="resendEmail()" [hidden]="buttonClicked || resentEmail">Resend verification email</ion-text>
+    </ion-row>
+    <span *ngIf="resentEmail">
+      <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
+    </span>
+  </div>
 
 </form>

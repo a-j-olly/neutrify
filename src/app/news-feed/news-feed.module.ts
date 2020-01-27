@@ -1,3 +1,4 @@
+import { ArticleListComponent } from './article-list/article-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,8 +7,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { NewsFeedPage } from './news-feed.page';
-import { ArticleComponent } from './article/article.component';
-import { RatingComponent } from './article/rating/rating.component';
+import { ArticleComponent } from './article-list/article/article.component';
+import { RatingComponent } from './article-list/article/rating/rating.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,11 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [NewsFeedPage, ArticleComponent, RatingComponent]
+  declarations: [
+    NewsFeedPage,
+    ArticleListComponent,
+    ArticleComponent,
+    RatingComponent,
+  ]
 })
 export class NewsFeedPageModule {}

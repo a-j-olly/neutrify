@@ -3,12 +3,6 @@ query GetArticle($id: ID!, $uri: String!) {
   getArticle(id: $id, uri: $uri) {
     authors
     body
-    configs {
-      items {
-        id
-      }
-      nextToken
-    }
     dataType
     date
     dateTime
@@ -57,9 +51,6 @@ query ListArticles(
     items {
       authors
       body
-      configs {
-        nextToken
-      }
       dataType
       date
       dateTime
@@ -97,39 +88,37 @@ query GetUser($id: ID!) {
     billingAddressHouseNo
     billingAddressPostalCode
     billingAddressStreet
-    cognitoId
     config {
       id
       keywordsToInclude
       keywordsToExclude
+      ownerId
       qualityUpperRange
       qualityLowerRange
       toneUpperRange
       toneLowerRange
       topicsToInclude
       topicsToExclude
-      savedArticles {
-        nextToken
-      }
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
-        cognitoId
         email
         freeTrial
-        freeTrailStartDate
-        freeTrailEndDate
-        fullName
+        freeTrialStartDate
+        freeTrialEndDate
         id
         isPremium
         isActive
         lastLogin
+        ownerId
         premiumEndDate
         premiumIsExpiring
         premiumStartDate
-        username
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
@@ -137,17 +126,16 @@ query GetUser($id: ID!) {
     }
     email
     freeTrial
-    freeTrailStartDate
-    freeTrailEndDate
-    fullName
+    freeTrialStartDate
+    freeTrialEndDate
     id
     isPremium
     isActive
     lastLogin
+    ownerId
     premiumEndDate
     premiumIsExpiring
     premiumStartDate
-    username
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
@@ -164,31 +152,33 @@ query ListUsers(
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
-      cognitoId
       config {
         id
         keywordsToInclude
         keywordsToExclude
+        ownerId
         qualityUpperRange
         qualityLowerRange
         toneUpperRange
         toneLowerRange
         topicsToInclude
         topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
       }
       email
       freeTrial
-      freeTrailStartDate
-      freeTrailEndDate
-      fullName
+      freeTrialStartDate
+      freeTrialEndDate
       id
       isPremium
       isActive
       lastLogin
+      ownerId
       premiumEndDate
       premiumIsExpiring
       premiumStartDate
-      username
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
@@ -201,48 +191,48 @@ query GetConfig($id: ID!) {
     id
     keywordsToInclude
     keywordsToExclude
+    ownerId
     qualityUpperRange
     qualityLowerRange
     toneUpperRange
     toneLowerRange
     topicsToInclude
     topicsToExclude
-    savedArticles {
-      items {
-        id
-      }
-      nextToken
-    }
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
     user {
       billingAddressCity
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
-      cognitoId
       config {
         id
         keywordsToInclude
         keywordsToExclude
+        ownerId
         qualityUpperRange
         qualityLowerRange
         toneUpperRange
         toneLowerRange
         topicsToInclude
         topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
       }
       email
       freeTrial
-      freeTrailStartDate
-      freeTrailEndDate
-      fullName
+      freeTrialStartDate
+      freeTrialEndDate
       id
       isPremium
       isActive
       lastLogin
+      ownerId
       premiumEndDate
       premiumIsExpiring
       premiumStartDate
-      username
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
@@ -259,34 +249,33 @@ query ListConfigs(
       id
       keywordsToInclude
       keywordsToExclude
+      ownerId
       qualityUpperRange
       qualityLowerRange
       toneUpperRange
       toneLowerRange
       topicsToInclude
       topicsToExclude
-      savedArticles {
-        nextToken
-      }
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
-        cognitoId
         email
         freeTrial
-        freeTrailStartDate
-        freeTrailEndDate
-        fullName
+        freeTrialStartDate
+        freeTrialEndDate
         id
         isPremium
         isActive
         lastLogin
+        ownerId
         premiumEndDate
         premiumIsExpiring
         premiumStartDate
-        username
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
@@ -314,9 +303,6 @@ query ArticlesByDate(
     items {
       authors
       body
-      configs {
-        nextToken
-      }
       dataType
       date
       dateTime
@@ -344,6 +330,112 @@ query ArticlesByDate(
       uri
       url
       wordCount
+    }
+    nextToken
+  }
+}
+query UserByOwner(
+  $ownerId: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  userByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+      }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+    }
+    nextToken
+  }
+}
+query ConfigByOwner(
+  $ownerId: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  configByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
+        id
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+      }
     }
     nextToken
   }

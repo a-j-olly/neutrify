@@ -5,94 +5,23 @@ import API, { graphqlOperation } from "@aws-amplify/api";
 import { GraphQLResult } from "@aws-amplify/api/lib/types";
 import * as Observable from "zen-observable";
 
-export type CreateArticleInput = {
-  authors?: Array<string> | null;
-  body: string;
-  dataType: string;
-  date?: string | null;
-  dateTime?: string | null;
-  datePublished: string;
-  displayAuthors?: Array<string> | null;
-  displayKeywords?: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics?: Array<string> | null;
-  eventUri?: string | null;
-  id: string;
-  image?: string | null;
-  keywords?: Array<string> | null;
-  language?: string | null;
-  quality: number;
-  share?: number | null;
-  similarity?: number | null;
-  time?: string | null;
-  sourceCountry: string;
-  sourceRanking?: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics?: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type UpdateArticleInput = {
-  authors?: Array<string> | null;
-  body?: string | null;
-  dataType?: string | null;
-  date?: string | null;
-  dateTime?: string | null;
-  datePublished?: string | null;
-  displayAuthors?: Array<string> | null;
-  displayKeywords?: Array<string> | null;
-  displaySourceCountry?: string | null;
-  displaySourceTitle?: string | null;
-  displayTopics?: Array<string> | null;
-  eventUri?: string | null;
-  id: string;
-  image?: string | null;
-  keywords?: Array<string> | null;
-  language?: string | null;
-  quality?: number | null;
-  share?: number | null;
-  similarity?: number | null;
-  time?: string | null;
-  sourceCountry?: string | null;
-  sourceRanking?: number | null;
-  sourceTitle?: string | null;
-  title?: string | null;
-  tone?: number | null;
-  topics?: Array<string> | null;
-  uri: string;
-  url?: string | null;
-  wordCount?: number | null;
-};
-
-export type DeleteArticleInput = {
-  id: string;
-  uri: string;
-};
-
 export type CreateUserInput = {
-  billingAddressCity: string;
-  billingAddressHouseNo: string;
-  billingAddressPostalCode: string;
-  billingAddressStreet: string;
-  cognitoId: string;
+  billingAddressCity?: string | null;
+  billingAddressHouseNo?: string | null;
+  billingAddressPostalCode?: string | null;
+  billingAddressStreet?: string | null;
   email: string;
   freeTrial: boolean;
-  freeTrailStartDate?: string | null;
-  freeTrailEndDate?: string | null;
-  fullName?: string | null;
+  freeTrialStartDate: string;
+  freeTrialEndDate: string;
   id?: string | null;
   isPremium: boolean;
   isActive?: boolean | null;
   lastLogin?: string | null;
+  ownerId?: string | null;
   premiumEndDate?: string | null;
   premiumIsExpiring?: boolean | null;
   premiumStartDate?: string | null;
-  username?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -104,20 +33,18 @@ export type UpdateUserInput = {
   billingAddressHouseNo?: string | null;
   billingAddressPostalCode?: string | null;
   billingAddressStreet?: string | null;
-  cognitoId?: string | null;
   email?: string | null;
   freeTrial?: boolean | null;
-  freeTrailStartDate?: string | null;
-  freeTrailEndDate?: string | null;
-  fullName?: string | null;
+  freeTrialStartDate?: string | null;
+  freeTrialEndDate?: string | null;
   id: string;
   isPremium?: boolean | null;
   isActive?: boolean | null;
   lastLogin?: string | null;
+  ownerId?: string | null;
   premiumEndDate?: string | null;
   premiumIsExpiring?: boolean | null;
   premiumStartDate?: string | null;
-  username?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -128,32 +55,20 @@ export type DeleteUserInput = {
   id?: string | null;
 };
 
-export type CreateConfigMemberInput = {
-  id?: string | null;
-  configMemberArticleId: string;
-  configMemberConfigId: string;
-};
-
-export type UpdateConfigMemberInput = {
-  id: string;
-  configMemberArticleId?: string | null;
-  configMemberConfigId?: string | null;
-};
-
-export type DeleteConfigMemberInput = {
-  id?: string | null;
-};
-
 export type CreateConfigInput = {
   id?: string | null;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
+  ownerId?: string | null;
   qualityUpperRange: number;
   qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: Array<string | null>;
   topicsToExclude: Array<string | null>;
+  savedArticleIds?: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
   configUserId?: string | null;
 };
 
@@ -161,12 +76,16 @@ export type UpdateConfigInput = {
   id: string;
   keywordsToInclude?: Array<string | null> | null;
   keywordsToExclude?: Array<string | null> | null;
+  ownerId?: string | null;
   qualityUpperRange?: number | null;
   qualityLowerRange?: number | null;
   toneUpperRange?: number | null;
   toneLowerRange?: number | null;
   topicsToInclude?: Array<string | null> | null;
   topicsToExclude?: Array<string | null> | null;
+  savedArticleIds?: Array<string> | null;
+  sourcesToInclude?: Array<string | null> | null;
+  sourcesToExclude?: Array<string | null> | null;
   configUserId?: string | null;
 };
 
@@ -279,20 +198,18 @@ export type ModelUserFilterInput = {
   billingAddressHouseNo?: ModelStringFilterInput | null;
   billingAddressPostalCode?: ModelStringFilterInput | null;
   billingAddressStreet?: ModelStringFilterInput | null;
-  cognitoId?: ModelStringFilterInput | null;
   email?: ModelStringFilterInput | null;
   freeTrial?: ModelBooleanFilterInput | null;
-  freeTrailStartDate?: ModelStringFilterInput | null;
-  freeTrailEndDate?: ModelStringFilterInput | null;
-  fullName?: ModelStringFilterInput | null;
+  freeTrialStartDate?: ModelStringFilterInput | null;
+  freeTrialEndDate?: ModelStringFilterInput | null;
   id?: ModelIDFilterInput | null;
   isPremium?: ModelBooleanFilterInput | null;
   isActive?: ModelBooleanFilterInput | null;
   lastLogin?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
   premiumEndDate?: ModelStringFilterInput | null;
   premiumIsExpiring?: ModelBooleanFilterInput | null;
   premiumStartDate?: ModelStringFilterInput | null;
-  username?: ModelStringFilterInput | null;
   feedbackDiscovery?: ModelStringFilterInput | null;
   feedbackLeaveReason?: ModelStringFilterInput | null;
   feedbackPromoterScore?: ModelIntFilterInput | null;
@@ -310,182 +227,60 @@ export type ModelConfigFilterInput = {
   id?: ModelIDFilterInput | null;
   keywordsToInclude?: ModelStringFilterInput | null;
   keywordsToExclude?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
   qualityUpperRange?: ModelFloatFilterInput | null;
   qualityLowerRange?: ModelFloatFilterInput | null;
   toneUpperRange?: ModelFloatFilterInput | null;
   toneLowerRange?: ModelFloatFilterInput | null;
   topicsToInclude?: ModelStringFilterInput | null;
   topicsToExclude?: ModelStringFilterInput | null;
+  savedArticleIds?: ModelIDFilterInput | null;
+  sourcesToInclude?: ModelStringFilterInput | null;
+  sourcesToExclude?: ModelStringFilterInput | null;
   and?: Array<ModelConfigFilterInput | null> | null;
   or?: Array<ModelConfigFilterInput | null> | null;
   not?: ModelConfigFilterInput | null;
 };
 
-export type CreateArticleMutation = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type UpdateArticleMutation = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type DeleteArticleMutation = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
 export type CreateUserMutation = {
   __typename: "User";
-  billingAddressCity: string;
-  billingAddressHouseNo: string;
-  billingAddressPostalCode: string;
-  billingAddressStreet: string;
-  cognitoId: string;
+  billingAddressCity: string | null;
+  billingAddressHouseNo: string | null;
+  billingAddressPostalCode: string | null;
+  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
     qualityUpperRange: number;
     qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: Array<string | null>;
     topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
     user: {
       __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
       email: string;
       freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
       isPremium: boolean;
       isActive: boolean | null;
       lastLogin: string | null;
+      ownerId: string | null;
       premiumEndDate: string | null;
       premiumIsExpiring: boolean | null;
       premiumStartDate: string | null;
-      username: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -493,17 +288,16 @@ export type CreateUserMutation = {
   } | null;
   email: string;
   freeTrial: boolean;
-  freeTrailStartDate: string | null;
-  freeTrailEndDate: string | null;
-  fullName: string | null;
+  freeTrialStartDate: string;
+  freeTrialEndDate: string;
   id: string;
   isPremium: boolean;
   isActive: boolean | null;
   lastLogin: string | null;
+  ownerId: string | null;
   premiumEndDate: string | null;
   premiumIsExpiring: boolean | null;
   premiumStartDate: string | null;
-  username: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -511,46 +305,43 @@ export type CreateUserMutation = {
 
 export type UpdateUserMutation = {
   __typename: "User";
-  billingAddressCity: string;
-  billingAddressHouseNo: string;
-  billingAddressPostalCode: string;
-  billingAddressStreet: string;
-  cognitoId: string;
+  billingAddressCity: string | null;
+  billingAddressHouseNo: string | null;
+  billingAddressPostalCode: string | null;
+  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
     qualityUpperRange: number;
     qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: Array<string | null>;
     topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
     user: {
       __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
       email: string;
       freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
       isPremium: boolean;
       isActive: boolean | null;
       lastLogin: string | null;
+      ownerId: string | null;
       premiumEndDate: string | null;
       premiumIsExpiring: boolean | null;
       premiumStartDate: string | null;
-      username: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -558,17 +349,16 @@ export type UpdateUserMutation = {
   } | null;
   email: string;
   freeTrial: boolean;
-  freeTrailStartDate: string | null;
-  freeTrailEndDate: string | null;
-  fullName: string | null;
+  freeTrialStartDate: string;
+  freeTrialEndDate: string;
   id: string;
   isPremium: boolean;
   isActive: boolean | null;
   lastLogin: string | null;
+  ownerId: string | null;
   premiumEndDate: string | null;
   premiumIsExpiring: boolean | null;
   premiumStartDate: string | null;
-  username: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -576,46 +366,43 @@ export type UpdateUserMutation = {
 
 export type DeleteUserMutation = {
   __typename: "User";
-  billingAddressCity: string;
-  billingAddressHouseNo: string;
-  billingAddressPostalCode: string;
-  billingAddressStreet: string;
-  cognitoId: string;
+  billingAddressCity: string | null;
+  billingAddressHouseNo: string | null;
+  billingAddressPostalCode: string | null;
+  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
     qualityUpperRange: number;
     qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: Array<string | null>;
     topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
     user: {
       __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
       email: string;
       freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
       isPremium: boolean;
       isActive: boolean | null;
       lastLogin: string | null;
+      ownerId: string | null;
       premiumEndDate: string | null;
       premiumIsExpiring: boolean | null;
       premiumStartDate: string | null;
-      username: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -623,263 +410,19 @@ export type DeleteUserMutation = {
   } | null;
   email: string;
   freeTrial: boolean;
-  freeTrailStartDate: string | null;
-  freeTrailEndDate: string | null;
-  fullName: string | null;
+  freeTrialStartDate: string;
+  freeTrialEndDate: string;
   id: string;
   isPremium: boolean;
   isActive: boolean | null;
   lastLogin: string | null;
+  ownerId: string | null;
   premiumEndDate: string | null;
   premiumIsExpiring: boolean | null;
   premiumStartDate: string | null;
-  username: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
-};
-
-export type CreateConfigMemberMutation = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
-};
-
-export type UpdateConfigMemberMutation = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
-};
-
-export type DeleteConfigMemberMutation = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
 };
 
 export type CreateConfigMutation = {
@@ -887,52 +430,50 @@ export type CreateConfigMutation = {
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
+  ownerId: string | null;
   qualityUpperRange: number;
   qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: Array<string | null>;
   topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
+  savedArticleIds: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
   user: {
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -944,52 +485,50 @@ export type UpdateConfigMutation = {
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
+  ownerId: string | null;
   qualityUpperRange: number;
   qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: Array<string | null>;
   topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
+  savedArticleIds: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
   user: {
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -1001,52 +540,50 @@ export type DeleteConfigMutation = {
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
+  ownerId: string | null;
   qualityUpperRange: number;
   qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: Array<string | null>;
   topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
+  savedArticleIds: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
   user: {
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -1057,14 +594,6 @@ export type GetArticleQuery = {
   __typename: "Article";
   authors: Array<string> | null;
   body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
   dataType: string;
   date: string | null;
   dateTime: string | null;
@@ -1100,10 +629,6 @@ export type ListArticlesQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
     dataType: string;
     date: string | null;
     dateTime: string | null;
@@ -1137,46 +662,43 @@ export type ListArticlesQuery = {
 
 export type GetUserQuery = {
   __typename: "User";
-  billingAddressCity: string;
-  billingAddressHouseNo: string;
-  billingAddressPostalCode: string;
-  billingAddressStreet: string;
-  cognitoId: string;
+  billingAddressCity: string | null;
+  billingAddressHouseNo: string | null;
+  billingAddressPostalCode: string | null;
+  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
     qualityUpperRange: number;
     qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: Array<string | null>;
     topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
     user: {
       __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
       email: string;
       freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
       isPremium: boolean;
       isActive: boolean | null;
       lastLogin: string | null;
+      ownerId: string | null;
       premiumEndDate: string | null;
       premiumIsExpiring: boolean | null;
       premiumStartDate: string | null;
-      username: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -1184,17 +706,16 @@ export type GetUserQuery = {
   } | null;
   email: string;
   freeTrial: boolean;
-  freeTrailStartDate: string | null;
-  freeTrailEndDate: string | null;
-  fullName: string | null;
+  freeTrialStartDate: string;
+  freeTrialEndDate: string;
   id: string;
   isPremium: boolean;
   isActive: boolean | null;
   lastLogin: string | null;
+  ownerId: string | null;
   premiumEndDate: string | null;
   premiumIsExpiring: boolean | null;
   premiumStartDate: string | null;
-  username: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -1204,36 +725,38 @@ export type ListUsersQuery = {
   __typename: "ModelUserConnection";
   items: Array<{
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -1246,52 +769,50 @@ export type GetConfigQuery = {
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
+  ownerId: string | null;
   qualityUpperRange: number;
   qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: Array<string | null>;
   topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
+  savedArticleIds: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
   user: {
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -1305,36 +826,34 @@ export type ListConfigsQuery = {
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
     qualityUpperRange: number;
     qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: Array<string | null>;
     topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
     user: {
       __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
       email: string;
       freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
       isPremium: boolean;
       isActive: boolean | null;
       lastLogin: string | null;
+      ownerId: string | null;
       premiumEndDate: string | null;
       premiumIsExpiring: boolean | null;
       premiumStartDate: string | null;
-      username: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -1349,10 +868,6 @@ export type ArticlesByDateQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
     dataType: string;
     date: string | null;
     dateTime: string | null;
@@ -1384,706 +899,96 @@ export type ArticlesByDateQuery = {
   nextToken: string | null;
 };
 
-export type OnCreateArticleSubscription = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type OnUpdateArticleSubscription = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type OnDeleteArticleSubscription = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  configs: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  dataType: string;
-  date: string | null;
-  dateTime: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type OnCreateConfigMemberSubscription = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
-};
-
-export type OnUpdateConfigMemberSubscription = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
-};
-
-export type OnDeleteConfigMemberSubscription = {
-  __typename: "ConfigMember";
-  article: {
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    configs: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    dataType: string;
-    date: string | null;
-    dateTime: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  };
-  config: {
-    __typename: "Config";
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: Array<string | null>;
-    topicsToExclude: Array<string | null>;
-    savedArticles: {
-      __typename: "ModelConfigMemberConnection";
-      nextToken: string | null;
-    } | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string;
-      billingAddressHouseNo: string;
-      billingAddressPostalCode: string;
-      billingAddressStreet: string;
-      cognitoId: string;
-      email: string;
-      freeTrial: boolean;
-      freeTrailStartDate: string | null;
-      freeTrailEndDate: string | null;
-      fullName: string | null;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      username: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-    } | null;
-  };
-  id: string;
-};
-
-export type OnCreateConfigSubscription = {
-  __typename: "Config";
-  id: string;
-  keywordsToInclude: Array<string | null>;
-  keywordsToExclude: Array<string | null>;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
-  toneUpperRange: number;
-  toneLowerRange: number;
-  topicsToInclude: Array<string | null>;
-  topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  user: {
+export type UserByOwnerQuery = {
+  __typename: "ModelUserConnection";
+  items: Array<{
     __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
+    billingAddressCity: string | null;
+    billingAddressHouseNo: string | null;
+    billingAddressPostalCode: string | null;
+    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
       qualityUpperRange: number;
       qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: Array<string | null>;
       topicsToExclude: Array<string | null>;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+    freeTrialStartDate: string;
+    freeTrialEndDate: string;
     id: string;
     isPremium: boolean;
     isActive: boolean | null;
     lastLogin: string | null;
+    ownerId: string | null;
     premiumEndDate: string | null;
     premiumIsExpiring: boolean | null;
     premiumStartDate: string | null;
-    username: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-  } | null;
+  } | null> | null;
+  nextToken: string | null;
 };
 
-export type OnUpdateConfigSubscription = {
-  __typename: "Config";
-  id: string;
-  keywordsToInclude: Array<string | null>;
-  keywordsToExclude: Array<string | null>;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
-  toneUpperRange: number;
-  toneLowerRange: number;
-  topicsToInclude: Array<string | null>;
-  topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
-      id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  user: {
-    __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
-    config: {
-      __typename: "Config";
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: Array<string | null>;
-      topicsToExclude: Array<string | null>;
-    } | null;
-    email: string;
-    freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
+export type ConfigByOwnerQuery = {
+  __typename: "ModelConfigConnection";
+  items: Array<{
+    __typename: "Config";
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
-    lastLogin: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
-    username: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-  } | null;
-};
-
-export type OnDeleteConfigSubscription = {
-  __typename: "Config";
-  id: string;
-  keywordsToInclude: Array<string | null>;
-  keywordsToExclude: Array<string | null>;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
-  toneUpperRange: number;
-  toneLowerRange: number;
-  topicsToInclude: Array<string | null>;
-  topicsToExclude: Array<string | null>;
-  savedArticles: {
-    __typename: "ModelConfigMemberConnection";
-    items: Array<{
-      __typename: "ConfigMember";
+    keywordsToInclude: Array<string | null>;
+    keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
+    qualityUpperRange: number;
+    qualityLowerRange: number;
+    toneUpperRange: number;
+    toneLowerRange: number;
+    topicsToInclude: Array<string | null>;
+    topicsToExclude: Array<string | null>;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
+    user: {
+      __typename: "User";
+      billingAddressCity: string | null;
+      billingAddressHouseNo: string | null;
+      billingAddressPostalCode: string | null;
+      billingAddressStreet: string | null;
+      email: string;
+      freeTrial: boolean;
+      freeTrialStartDate: string;
+      freeTrialEndDate: string;
       id: string;
-    } | null> | null;
-    nextToken: string | null;
-  } | null;
-  user: {
-    __typename: "User";
-    billingAddressCity: string;
-    billingAddressHouseNo: string;
-    billingAddressPostalCode: string;
-    billingAddressStreet: string;
-    cognitoId: string;
-    config: {
-      __typename: "Config";
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: Array<string | null>;
-      topicsToExclude: Array<string | null>;
+      isPremium: boolean;
+      isActive: boolean | null;
+      lastLogin: string | null;
+      ownerId: string | null;
+      premiumEndDate: string | null;
+      premiumIsExpiring: boolean | null;
+      premiumStartDate: string | null;
+      feedbackDiscovery: string | null;
+      feedbackLeaveReason: string | null;
+      feedbackPromoterScore: number | null;
     } | null;
-    email: string;
-    freeTrial: boolean;
-    freeTrailStartDate: string | null;
-    freeTrailEndDate: string | null;
-    fullName: string | null;
-    id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
-    lastLogin: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
-    username: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-  } | null;
+  } | null> | null;
+  nextToken: string | null;
 };
 
 @Injectable({
   providedIn: "root"
 })
 export class APIService {
-  async CreateArticle(
-    input: CreateArticleInput
-  ): Promise<CreateArticleMutation> {
-    const statement = `mutation CreateArticle($input: CreateArticleInput!) {
-        createArticle(input: $input) {
-          __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <CreateArticleMutation>response.data.createArticle;
-  }
-  async UpdateArticle(
-    input: UpdateArticleInput
-  ): Promise<UpdateArticleMutation> {
-    const statement = `mutation UpdateArticle($input: UpdateArticleInput!) {
-        updateArticle(input: $input) {
-          __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <UpdateArticleMutation>response.data.updateArticle;
-  }
-  async DeleteArticle(
-    input: DeleteArticleInput
-  ): Promise<DeleteArticleMutation> {
-    const statement = `mutation DeleteArticle($input: DeleteArticleInput!) {
-        deleteArticle(input: $input) {
-          __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <DeleteArticleMutation>response.data.deleteArticle;
-  }
   async CreateUser(input: CreateUserInput): Promise<CreateUserMutation> {
     const statement = `mutation CreateUser($input: CreateUserInput!) {
         createUser(input: $input) {
@@ -2092,42 +997,39 @@ export class APIService {
           billingAddressHouseNo
           billingAddressPostalCode
           billingAddressStreet
-          cognitoId
           config {
             __typename
             id
             keywordsToInclude
             keywordsToExclude
+            ownerId
             qualityUpperRange
             qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
             topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
-              cognitoId
               email
               freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
+              freeTrialStartDate
+              freeTrialEndDate
               id
               isPremium
               isActive
               lastLogin
+              ownerId
               premiumEndDate
               premiumIsExpiring
               premiumStartDate
-              username
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -2135,17 +1037,16 @@ export class APIService {
           }
           email
           freeTrial
-          freeTrailStartDate
-          freeTrailEndDate
-          fullName
+          freeTrialStartDate
+          freeTrialEndDate
           id
           isPremium
           isActive
           lastLogin
+          ownerId
           premiumEndDate
           premiumIsExpiring
           premiumStartDate
-          username
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -2167,42 +1068,39 @@ export class APIService {
           billingAddressHouseNo
           billingAddressPostalCode
           billingAddressStreet
-          cognitoId
           config {
             __typename
             id
             keywordsToInclude
             keywordsToExclude
+            ownerId
             qualityUpperRange
             qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
             topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
-              cognitoId
               email
               freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
+              freeTrialStartDate
+              freeTrialEndDate
               id
               isPremium
               isActive
               lastLogin
+              ownerId
               premiumEndDate
               premiumIsExpiring
               premiumStartDate
-              username
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -2210,17 +1108,16 @@ export class APIService {
           }
           email
           freeTrial
-          freeTrailStartDate
-          freeTrailEndDate
-          fullName
+          freeTrialStartDate
+          freeTrialEndDate
           id
           isPremium
           isActive
           lastLogin
+          ownerId
           premiumEndDate
           premiumIsExpiring
           premiumStartDate
-          username
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -2242,42 +1139,39 @@ export class APIService {
           billingAddressHouseNo
           billingAddressPostalCode
           billingAddressStreet
-          cognitoId
           config {
             __typename
             id
             keywordsToInclude
             keywordsToExclude
+            ownerId
             qualityUpperRange
             qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
             topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
-              cognitoId
               email
               freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
+              freeTrialStartDate
+              freeTrialEndDate
               id
               isPremium
               isActive
               lastLogin
+              ownerId
               premiumEndDate
               premiumIsExpiring
               premiumStartDate
-              username
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -2285,17 +1179,16 @@ export class APIService {
           }
           email
           freeTrial
-          freeTrailStartDate
-          freeTrailEndDate
-          fullName
+          freeTrialStartDate
+          freeTrialEndDate
           id
           isPremium
           isActive
           lastLogin
+          ownerId
           premiumEndDate
           premiumIsExpiring
           premiumStartDate
-          username
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -2309,285 +1202,6 @@ export class APIService {
     )) as any;
     return <DeleteUserMutation>response.data.deleteUser;
   }
-  async CreateConfigMember(
-    input: CreateConfigMemberInput
-  ): Promise<CreateConfigMemberMutation> {
-    const statement = `mutation CreateConfigMember($input: CreateConfigMemberInput!) {
-        createConfigMember(input: $input) {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <CreateConfigMemberMutation>response.data.createConfigMember;
-  }
-  async UpdateConfigMember(
-    input: UpdateConfigMemberInput
-  ): Promise<UpdateConfigMemberMutation> {
-    const statement = `mutation UpdateConfigMember($input: UpdateConfigMemberInput!) {
-        updateConfigMember(input: $input) {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <UpdateConfigMemberMutation>response.data.updateConfigMember;
-  }
-  async DeleteConfigMember(
-    input: DeleteConfigMemberInput
-  ): Promise<DeleteConfigMemberMutation> {
-    const statement = `mutation DeleteConfigMember($input: DeleteConfigMemberInput!) {
-        deleteConfigMember(input: $input) {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      input
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <DeleteConfigMemberMutation>response.data.deleteConfigMember;
-  }
   async CreateConfig(input: CreateConfigInput): Promise<CreateConfigMutation> {
     const statement = `mutation CreateConfig($input: CreateConfigInput!) {
         createConfig(input: $input) {
@@ -2595,52 +1209,50 @@ export class APIService {
           id
           keywordsToInclude
           keywordsToExclude
+          ownerId
           qualityUpperRange
           qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
           topicsToExclude
-          savedArticles {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
+          savedArticleIds
+          sourcesToInclude
+          sourcesToExclude
           user {
             __typename
             billingAddressCity
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -2662,52 +1274,50 @@ export class APIService {
           id
           keywordsToInclude
           keywordsToExclude
+          ownerId
           qualityUpperRange
           qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
           topicsToExclude
-          savedArticles {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
+          savedArticleIds
+          sourcesToInclude
+          sourcesToExclude
           user {
             __typename
             billingAddressCity
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -2729,52 +1339,50 @@ export class APIService {
           id
           keywordsToInclude
           keywordsToExclude
+          ownerId
           qualityUpperRange
           qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
           topicsToExclude
-          savedArticles {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
+          savedArticleIds
+          sourcesToInclude
+          sourcesToExclude
           user {
             __typename
             billingAddressCity
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -2795,14 +1403,6 @@ export class APIService {
           __typename
           authors
           body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
           dataType
           date
           dateTime
@@ -2856,10 +1456,6 @@ export class APIService {
             __typename
             authors
             body
-            configs {
-              __typename
-              nextToken
-            }
             dataType
             date
             dateTime
@@ -2923,42 +1519,39 @@ export class APIService {
           billingAddressHouseNo
           billingAddressPostalCode
           billingAddressStreet
-          cognitoId
           config {
             __typename
             id
             keywordsToInclude
             keywordsToExclude
+            ownerId
             qualityUpperRange
             qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
             topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
-              cognitoId
               email
               freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
+              freeTrialStartDate
+              freeTrialEndDate
               id
               isPremium
               isActive
               lastLogin
+              ownerId
               premiumEndDate
               premiumIsExpiring
               premiumStartDate
-              username
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -2966,17 +1559,16 @@ export class APIService {
           }
           email
           freeTrial
-          freeTrailStartDate
-          freeTrailEndDate
-          fullName
+          freeTrialStartDate
+          freeTrialEndDate
           id
           isPremium
           isActive
           lastLogin
+          ownerId
           premiumEndDate
           premiumIsExpiring
           premiumStartDate
-          username
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -3004,32 +1596,34 @@ export class APIService {
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -3059,52 +1653,50 @@ export class APIService {
           id
           keywordsToInclude
           keywordsToExclude
+          ownerId
           qualityUpperRange
           qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
           topicsToExclude
-          savedArticles {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
+          savedArticleIds
+          sourcesToInclude
+          sourcesToExclude
           user {
             __typename
             billingAddressCity
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -3132,36 +1724,34 @@ export class APIService {
             id
             keywordsToInclude
             keywordsToExclude
+            ownerId
             qualityUpperRange
             qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
             topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
-              cognitoId
               email
               freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
+              freeTrialStartDate
+              freeTrialEndDate
               id
               isPremium
               isActive
               lastLogin
+              ownerId
               premiumEndDate
               premiumIsExpiring
               premiumStartDate
-              username
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -3200,10 +1790,6 @@ export class APIService {
             __typename
             authors
             body
-            configs {
-              __typename
-              nextToken
-            }
             dataType
             date
             dateTime
@@ -3259,606 +1845,148 @@ export class APIService {
     )) as any;
     return <ArticlesByDateQuery>response.data.articlesByDate;
   }
-  OnCreateArticleListener: Observable<
-    OnCreateArticleSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateArticle {
-        onCreateArticle {
+  async UserByOwner(
+    ownerId?: string,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelUserFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<UserByOwnerQuery> {
+    const statement = `query UserByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+        userByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`
-    )
-  ) as Observable<OnCreateArticleSubscription>;
-
-  OnUpdateArticleListener: Observable<
-    OnUpdateArticleSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateArticle {
-        onUpdateArticle {
-          __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`
-    )
-  ) as Observable<OnUpdateArticleSubscription>;
-
-  OnDeleteArticleListener: Observable<
-    OnDeleteArticleSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteArticle {
-        onDeleteArticle {
-          __typename
-          authors
-          body
-          configs {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          dataType
-          date
-          dateTime
-          datePublished
-          displayAuthors
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          uri
-          url
-          wordCount
-        }
-      }`
-    )
-  ) as Observable<OnDeleteArticleSubscription>;
-
-  OnCreateConfigMemberListener: Observable<
-    OnCreateConfigMemberSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateConfigMember {
-        onCreateConfigMember {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`
-    )
-  ) as Observable<OnCreateConfigMemberSubscription>;
-
-  OnUpdateConfigMemberListener: Observable<
-    OnUpdateConfigMemberSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateConfigMember {
-        onUpdateConfigMember {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`
-    )
-  ) as Observable<OnUpdateConfigMemberSubscription>;
-
-  OnDeleteConfigMemberListener: Observable<
-    OnDeleteConfigMemberSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteConfigMember {
-        onDeleteConfigMember {
-          __typename
-          article {
-            __typename
-            authors
-            body
-            configs {
-              __typename
-              nextToken
-            }
-            dataType
-            date
-            dateTime
-            datePublished
-            displayAuthors
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            uri
-            url
-            wordCount
-          }
-          config {
-            __typename
-            id
-            keywordsToInclude
-            keywordsToExclude
-            qualityUpperRange
-            qualityLowerRange
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticles {
-              __typename
-              nextToken
-            }
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              cognitoId
-              email
-              freeTrial
-              freeTrailStartDate
-              freeTrailEndDate
-              fullName
-              id
-              isPremium
-              isActive
-              lastLogin
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              username
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-            }
-          }
-          id
-        }
-      }`
-    )
-  ) as Observable<OnDeleteConfigMemberSubscription>;
-
-  OnCreateConfigListener: Observable<OnCreateConfigSubscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateConfig {
-        onCreateConfig {
-          __typename
-          id
-          keywordsToInclude
-          keywordsToExclude
-          qualityUpperRange
-          qualityLowerRange
-          toneUpperRange
-          toneLowerRange
-          topicsToInclude
-          topicsToExclude
-          savedArticles {
-            __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          user {
+          items {
             __typename
             billingAddressCity
             billingAddressHouseNo
             billingAddressPostalCode
             billingAddressStreet
-            cognitoId
             config {
               __typename
               id
               keywordsToInclude
               keywordsToExclude
+              ownerId
               qualityUpperRange
               qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
               topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
             }
             email
             freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
+            freeTrialStartDate
+            freeTrialEndDate
             id
             isPremium
             isActive
             lastLogin
+            ownerId
             premiumEndDate
             premiumIsExpiring
             premiumStartDate
-            username
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
           }
+          nextToken
         }
-      }`
-    )
-  ) as Observable<OnCreateConfigSubscription>;
-
-  OnUpdateConfigListener: Observable<OnUpdateConfigSubscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateConfig {
-        onUpdateConfig {
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (ownerId) {
+      gqlAPIServiceArguments.ownerId = ownerId;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <UserByOwnerQuery>response.data.userByOwner;
+  }
+  async ConfigByOwner(
+    ownerId?: string,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelConfigFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ConfigByOwnerQuery> {
+    const statement = `query ConfigByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
+        configByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
-          id
-          keywordsToInclude
-          keywordsToExclude
-          qualityUpperRange
-          qualityLowerRange
-          toneUpperRange
-          toneLowerRange
-          topicsToInclude
-          topicsToExclude
-          savedArticles {
+          items {
             __typename
-            items {
-              __typename
-              id
-            }
-            nextToken
-          }
-          user {
-            __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
-            cognitoId
-            config {
-              __typename
-              id
-              keywordsToInclude
-              keywordsToExclude
-              qualityUpperRange
-              qualityLowerRange
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-            }
-            email
-            freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
             id
-            isPremium
-            isActive
-            lastLogin
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
-            username
-            feedbackDiscovery
-            feedbackLeaveReason
-            feedbackPromoterScore
-          }
-        }
-      }`
-    )
-  ) as Observable<OnUpdateConfigSubscription>;
-
-  OnDeleteConfigListener: Observable<OnDeleteConfigSubscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteConfig {
-        onDeleteConfig {
-          __typename
-          id
-          keywordsToInclude
-          keywordsToExclude
-          qualityUpperRange
-          qualityLowerRange
-          toneUpperRange
-          toneLowerRange
-          topicsToInclude
-          topicsToExclude
-          savedArticles {
-            __typename
-            items {
+            keywordsToInclude
+            keywordsToExclude
+            ownerId
+            qualityUpperRange
+            qualityLowerRange
+            toneUpperRange
+            toneLowerRange
+            topicsToInclude
+            topicsToExclude
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
+            user {
               __typename
+              billingAddressCity
+              billingAddressHouseNo
+              billingAddressPostalCode
+              billingAddressStreet
+              email
+              freeTrial
+              freeTrialStartDate
+              freeTrialEndDate
               id
+              isPremium
+              isActive
+              lastLogin
+              ownerId
+              premiumEndDate
+              premiumIsExpiring
+              premiumStartDate
+              feedbackDiscovery
+              feedbackLeaveReason
+              feedbackPromoterScore
             }
-            nextToken
           }
-          user {
-            __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
-            cognitoId
-            config {
-              __typename
-              id
-              keywordsToInclude
-              keywordsToExclude
-              qualityUpperRange
-              qualityLowerRange
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-            }
-            email
-            freeTrial
-            freeTrailStartDate
-            freeTrailEndDate
-            fullName
-            id
-            isPremium
-            isActive
-            lastLogin
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
-            username
-            feedbackDiscovery
-            feedbackLeaveReason
-            feedbackPromoterScore
-          }
+          nextToken
         }
-      }`
-    )
-  ) as Observable<OnDeleteConfigSubscription>;
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (ownerId) {
+      gqlAPIServiceArguments.ownerId = ownerId;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ConfigByOwnerQuery>response.data.configByOwner;
+  }
 }

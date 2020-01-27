@@ -1,4 +1,4 @@
-import { ModelArticleFilterInput, ModelStringKeyConditionInput } from './neutrify-api.service';
+import { ModelArticleFilterInput, ModelStringKeyConditionInput, GetConfigQuery } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -12,9 +12,10 @@ export class FilterService {
 
   constructor() { }
 
-  buildFilterOptions(userOptions): object {
+  buildFilterOptions(userOptions) {
 
     return {
+      id: this.filterOptions.id,
       toneUpperRange: userOptions.toneUserOption.value.upper,
       toneLowerRange: userOptions.toneUserOption.value.lower,
       qualityUpperRange: userOptions.qualityUserOption.value.upper,
@@ -38,10 +39,7 @@ export class FilterService {
   }
 
   getQueryFilters(): ModelArticleFilterInput {
-    const newDate = new Date();
-    const dateLimit = new Date(newDate);
     const ops = this.filterOptions;
-    dateLimit.setDate(dateLimit.getDate() - 3);
 
     const filterInput: ModelArticleFilterInput = {
       tone: {
@@ -102,18 +100,5 @@ export class FilterService {
       res[key][operation] = word.toLowerCase();
       return res;
     });
-  }
-
-
-  setDateRange(): ModelStringKeyConditionInput {
-    const newDate = new Date();
-    const dateLimit = new Date(newDate);
-    dateLimit.setDate(dateLimit.getDate() - 3);
-
-    return {
-      between: [
-        dateLimit.toISOString(), newDate.toISOString()
-      ]
-    };
   }
 }

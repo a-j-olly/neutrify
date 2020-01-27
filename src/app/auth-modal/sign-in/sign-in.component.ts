@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,10 +17,12 @@ export class SignInComponent implements OnInit {
   invalidDetails = false;
   buttonClicked = false;
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService,
-              private router: Router,
-              private modalController: ModalController) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private modalController: ModalController,
+  ) { }
 
   ngOnInit() {
     this.authService.setState('signIn');
@@ -45,7 +47,7 @@ export class SignInComponent implements OnInit {
       if (res === 'true') {
         this.invalidDetails = false;
         this.modalController.dismiss();
-        this.router.navigate(['/app']);
+        this.router.navigate(['./app']);
       } else if (res === 'false') {
         this.invalidDetails = true;
         this.signInForm.reset();

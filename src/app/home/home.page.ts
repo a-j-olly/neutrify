@@ -27,8 +27,6 @@ export class HomePage implements OnInit {
   }
 
   async manageAuth(view) {
-    // this.authService.setState('signUp');
-
     const modal = await this.modalController.create({
       component: AuthModalComponent,
       cssClass: 'auth-modal',
@@ -38,15 +36,6 @@ export class HomePage implements OnInit {
     });
 
     return await modal.present();
-    // const res = await this.apiService.CreateCustomer(
-    //   this.landingPageForm.value,
-    // );
-
-    // this.userDataService.customerId = res.id;
-    // this.userDataService.customerEmail = res.customerEmail;
-
-    // this.router.navigate([]);
-    // this.landingPageForm.reset();
   }
 
   navigateToTop() {

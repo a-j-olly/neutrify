@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu type="overlay" side="end" contentId="mainContent" menuId="mainMenu" (ionDidOpen)="mainMenuOpen()" (ionDidClose)="mainMenuClosed()">
+  <ion-menu *ngIf="authService.loaded" type="overlay" side="end" contentId="mainContent" menuId="mainMenu" (ionDidOpen)="mainMenuOpen()" (ionDidClose)="mainMenuClosed()">
     <ion-header>
       <ion-toolbar>
         <ion-title>MAIN MENU</ion-title>
@@ -12,7 +12,7 @@
   </ion-menu>
   
   <ion-split-pane contentId="mainContent" when="{{ menuStatus ? '(min-width: 1084px)' : 'false' }}">
-    <ion-menu *ngIf="authService.signedIn" side="start" contentId="mainContent" menuId="filterMenu" (ionDidOpen)="filterMenuOpen()" (ionDidClose)="filterMenuClosed()">
+    <ion-menu side="start" contentId="mainContent" menuId="filterMenu" (ionDidOpen)="filterMenuOpen()" (ionDidClose)="filterMenuClosed()">
       <ion-header>
         <ion-toolbar>
           <ion-title>FILTER MENU</ion-title>
@@ -25,10 +25,12 @@
       </ion-header>
 
       <ion-content>
-        <app-filter-menu></app-filter-menu>
+        <app-filter-menu *ngIf="authService.loaded"></app-filter-menu>
       </ion-content>
     </ion-menu>
 
     <ion-router-outlet id="mainContent"></ion-router-outlet>
   </ion-split-pane>
+
+  <div *ngIf="authService.signedIn && !authService.loaded">loading...</div>
 </ion-app>

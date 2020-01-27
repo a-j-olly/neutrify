@@ -1,10 +1,10 @@
-type Article @model
+type Article @model(mutations: null, subscriptions: null)
     @key(fields: ["id", "uri"])
     @key(name: "byDate", fields: ["dataType", "datePublished"], queryField: "articlesByDate")
+    @auth(rules: [{ allow: private, operations: [read]}])
 {
     authors: [String!]
     body: String!
-    configs: [ConfigMember!] @connection(name: "ArticleConfigMembers")
     dataType: String!
     date: String
     dateTime: String
@@ -32,50 +32,50 @@ type Article @model
     uri: String!
     url: String!
     wordCount: Int!
-    
 }
 
-type User @model(subscriptions: null) {
-    billingAddressCity: String!
-    billingAddressHouseNo: String!
-    billingAddressPostalCode: String!
-    billingAddressStreet: String!
-    cognitoId: String!
+type User @model(subscriptions: null) 
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
+{
+    billingAddressCity: String
+    billingAddressHouseNo: String
+    billingAddressPostalCode: String
+    billingAddressStreet: String
     config: Config @connection(name: "UserConfig")
     email: String!
     freeTrial: Boolean!
-    freeTrailStartDate: String
-    freeTrailEndDate: String
-    fullName: String
+    freeTrialStartDate: String!
+    freeTrialEndDate: String!
     id: ID!
     isPremium: Boolean!
     isActive: Boolean
     lastLogin: String
+    ownerId: String
     premiumEndDate: String
     premiumIsExpiring: Boolean
     premiumStartDate: String
-    username: String
     feedbackDiscovery: String
     feedbackLeaveReason: String
     feedbackPromoterScore: Int
 }
 
-type ConfigMember @model(queries: null) {
-    article: Article! @connection(name: "ArticleConfigMembers")
-    config: Config! @connection(name: "ConfigMembersConnection")
+type Config @model(subscriptions: null)
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "configByOwner")
+{
     id: ID!
-}
-
-type Config @model {
-    id: ID!
-    keywordsToInclude: [String]!,
-    keywordsToExclude: [String]!,
-    qualityUpperRange: Float!,
-    qualityLowerRange: Float!,
-    toneUpperRange: Float!,
-    toneLowerRange: Float!,
-    topicsToInclude: [String]!,
-    topicsToExclude: [String]!,
-    savedArticles: [ConfigMember!] @connection(name: "ConfigMembersConnection")
+    keywordsToInclude: [String]!
+    keywordsToExclude: [String]!
+    ownerId: String
+    qualityUpperRange: Float!
+    qualityLowerRange: Float!
+    toneUpperRange: Float!
+    toneLowerRange: Float!
+    topicsToInclude: [String]!
+    topicsToExclude: [String]!
+    savedArticleIds: [ID!]
+    sourcesToInclude: [String]!
+    sourcesToExclude: [String]!
     user: User @connection(name: "UserConfig")
 }

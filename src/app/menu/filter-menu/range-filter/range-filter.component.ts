@@ -9,7 +9,6 @@ export class RangeFilterComponent implements OnInit {
   @Input() userOption;
   @Input() rangeFilterType: string;
 
-  displayRange;
   rangeSettings: object;
 
   showFilter = false;
@@ -60,14 +59,32 @@ export class RangeFilterComponent implements OnInit {
         }
       };
     }
-
-    this.displayRange = this.userOption.value;
-    this.userOption.name = this.rangeFilterType;
   }
 
-  onChange() {
-    this.userOption.value = this.displayRange;
-    this.userOptionChanged.emit(this.userOption);
+  onChange(event) {
+    console.log('old range: ', this.userOption.value);
+    console.log('new range: ', event.detail.value);
+
+    if (this.hasChanged(event)) {
+      this.userOption.value = event.detail.value;
+      this.userOption.name = this.rangeFilterType;
+      this.userOptionChanged.emit(this.userOption);
+    }
   }
 
+
+  hasChanged(event): boolean {
+    let changed = false;
+    if (event.detail.value && this.userOption.value) {
+      const oldValue = this.userOption.value;
+      const newValue = event.detail.value;
+      if (newValue.lower !== oldValue.lower || newValue.upper !== oldValue.upper) {
+        changed = true;
+      } else {
+        changed = false;
+      }
+    }
+    console.log('has value changed?', changed);
+    return changed;
+  }
 }

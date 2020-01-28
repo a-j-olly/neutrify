@@ -3,6 +3,7 @@ import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-article-list',
@@ -22,13 +23,15 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   constructor(
     private neutrfiyAPI: APIService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private toastController: ToastController
     ) {
 
-    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(ops => {
+    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async ops => {
       console.log('ops', ops);
       this.filters = this.filterService.getQueryFilters();
       console.log('this.queryFilters', this.filters);
+      await this.handleInitDataLoad();
     });
   }
 
@@ -39,6 +42,14 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     await this.handleInitDataLoad();
   }
 
+  async resetArticles() {
+    return new Promise((resolve, reject) => {
+      this.rawArticles = new Array();
+      this.displayArticles = new Array();
+      resolve();
+    });
+  }
+
   ngOnDestroy() {
     this.filterSubcription$.unsubscribe();
   }
@@ -47,7 +58,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     let i = 1;
     let newLimit = 25;
     let nextToken = 'true';
-
+    await this.resetArticles();
+    console.log('current no. of articles', this.rawArticles.length);
     while (this.rawArticles.length < 15 && nextToken) {
       newLimit *= i;
       this.rawArticles = await this.listArticles(newLimit);
@@ -60,12 +72,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   setDateRange(): ModelStringKeyConditionInput {
-    const now = moment();
-    const dateLimit = now.subtract(3, 'hours');
+    const dateLimit = moment().subtract(1, 'months');
 
     return {
       between: [
-        dateLimit.toISOString(), now.toISOString()
+        dateLimit.toISOString(), moment().toISOString()
       ]
     };
   }
@@ -77,6 +88,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async getNextPage(event) {
+    if (this.nextToken) {
       let newArticles: Array<any> = new Array<any>();
       newArticles = await this.listArticles(this.limit, this.nextToken);
       console.log('new articles', newArticles.length, newArticles);
@@ -87,23 +99,35 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
       console.log('display articles before load: ', this.displayArticles.length, this.displayArticles);
       this.displayArticles = this.rawArticles;
-      // this.displayArticles.push(...this.filterService.filterArticles(newArticles));
       console.log('display articles after load: ', this.displayArticles.length, this.displayArticles);
       event.target.complete();
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      if (this.nextToken === null) {
-        event.target.disabled = true;
-      }
+    } else {
+      this.presentToast('There are no more articles to be read.', 'primary');
+      event.target.complete();
+    }
   }
 
   async listArticles(limit?, nextToken?) {
-    console.log('list articles', limit);
+    console.log('List article request params: ');
+    console.log('article date published: ', this.articleDatePub);
+    console.log('filters: ', this.filters);
+    console.log('next token:', this.nextToken);
+
+    console.log('Limit: ', limit);
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.articleDatePub,
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
     console.log('is new token null? ', this.nextToken === null);
     return results.items;
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

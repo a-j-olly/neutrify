@@ -54,6 +54,8 @@ export class AuthService {
             this.menu.swipeGesture(false, 'filterMenu');
             this.menu.swipeGesture(false, 'mainMenu');
             console.log('this.loaded: ', this.loaded);
+          } else {
+            this.loaded = false;
           }
       });
   }

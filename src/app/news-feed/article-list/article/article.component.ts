@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-article',
@@ -22,7 +23,7 @@ export class ArticleComponent implements OnInit {
     this.dateAge = this.getArticleAge(this.article.datePublished);
   }
 
-  public onCardClick(eventLocation) {
+  onCardClick(eventLocation) {
 
     if (eventLocation === 'close') {
       this.closeClickEvent = true;
@@ -39,21 +40,11 @@ export class ArticleComponent implements OnInit {
     }
   }
 
-  public goToArticle() {
-    // go to article
+  goToArticle() {
+    window.open(this.article.url, '_blank');
   }
 
-  private getArticleAge(date: string) {
-    const age = Math.floor(Math.abs((new Date().valueOf() - new Date(date).valueOf()) / 36e5));
-
-    if (age < 1) {
-      return `Just Now`;
-    } else if (age <= 23) {
-      return `${age} Hours Ago`;
-    } else if (age <= 47) {
-      return `Yesterday`;
-    } else {
-      return new Date(date).toLocaleDateString();
-    }
+  getArticleAge(date: string) {
+    return moment(date).fromNow();
   }
 }

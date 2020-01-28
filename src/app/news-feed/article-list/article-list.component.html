@@ -1,17 +1,24 @@
-<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-  <ion-refresher-content refreshingText="Get latest articles"></ion-refresher-content>
-</ion-refresher>
-    
-<ion-list>
-  <div id="feed" [hidden]="displayArticles === 0" *ngFor="let article of displayArticles">
-    <app-article [article]="article"></app-article>
-  </div>
-  <div [hidden]="displayArticles !== 0" class="ion-text-center">
-    <h2>Could not find any articles. It is likely your filters are too strict.</h2>
-  </div>
-</ion-list>
-    
-<ion-infinite-scroll (ionInfinite)="getNextPage($event)">
-  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
-  </ion-infinite-scroll-content>
-</ion-infinite-scroll>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content  
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull down to get latest articles"
+      refreshingSpinner="circles"
+      refreshingText="Updating">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-list>
+    <div id="feed" [hidden]="displayArticles === 0" *ngFor="let article of displayArticles">
+      <app-article [article]="article"></app-article>
+    </div>
+    <div [hidden]="displayArticles !== 0" class="ion-text-center">
+      <h2>Could not find any articles. It is likely your filters are too strict.</h2>
+    </div>
+  </ion-list>
+      
+  <ion-infinite-scroll (ionInfinite)="getNextPage($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

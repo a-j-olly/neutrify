@@ -1,5 +1,4 @@
 import { MenuController } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { FilterService } from './filter.service';
 import { APIService } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
@@ -24,12 +23,10 @@ export class AuthService {
       private amplifyService: AmplifyService,
       private neutrifyAPI: APIService,
       private filterService: FilterService,
-      private router: Router,
       private menu: MenuController
     ) {
       this.amplifyService.authStateChange$
         .subscribe(async authState => {
-          console.log('current auth state: ', authState.state);
           this.signedIn = authState.state === 'signedIn';
 
           if (!authState.user) {
@@ -41,7 +38,6 @@ export class AuthService {
 
           if (this.signedIn) {
             const config = await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1);
-            console.log('config returned after sign in:', config);
             if (config.items.length !== 0) {
               await this.filterService.updateFilterOptions(config.items[0]);
               this.loaded = true;
@@ -53,7 +49,6 @@ export class AuthService {
             this.menu.enable(true, 'mainMenu');
             this.menu.swipeGesture(false, 'filterMenu');
             this.menu.swipeGesture(false, 'mainMenu');
-            console.log('this.loaded: ', this.loaded);
           } else {
             this.loaded = false;
           }
@@ -100,7 +95,6 @@ export class AuthService {
         });
 
         const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
-        console.log('creation res', creationRes);
         if (!this.loaded) {
           await this.filterService.updateFilterOptions(creationRes[1]);
           this.loaded = true;

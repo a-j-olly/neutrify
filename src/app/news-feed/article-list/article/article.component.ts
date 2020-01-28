@@ -19,7 +19,6 @@ export class ArticleComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log('incoming article', this.article);
     this.dateAge = this.getArticleAge(this.article.datePublished);
   }
 

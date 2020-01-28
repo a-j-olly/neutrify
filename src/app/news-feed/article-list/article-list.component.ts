@@ -28,16 +28,13 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async ops => {
-      console.log('ops', ops);
       this.filters = this.filterService.getQueryFilters();
-      console.log('this.queryFilters', this.filters);
       await this.handleInitDataLoad();
     });
   }
 
   async ngOnInit() {
     this.filters = this.filterService.getQueryFilters();
-    console.log('article-list filters', this.filters);
     this.articleDatePub = this.setDateRange();
     await this.handleInitDataLoad();
   }
@@ -59,7 +56,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     let newLimit = 25;
     let nextToken = 'true';
     await this.resetArticles();
-    console.log('current no. of articles', this.rawArticles.length);
     while (this.rawArticles.length < 15 && nextToken) {
       newLimit *= i;
       this.rawArticles = await this.listArticles(newLimit);
@@ -91,15 +87,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     if (this.nextToken) {
       let newArticles: Array<any> = new Array<any>();
       newArticles = await this.listArticles(this.limit, this.nextToken);
-      console.log('new articles', newArticles.length, newArticles);
-
-      console.log('raw articles before load: ', this.rawArticles.length, this.rawArticles);
       this.rawArticles.push(...newArticles);
-      console.log('raw articles after load: ', this.rawArticles.length, this.rawArticles);
-
-      console.log('display articles before load: ', this.displayArticles.length, this.displayArticles);
       this.displayArticles = this.rawArticles;
-      console.log('display articles after load: ', this.displayArticles.length, this.displayArticles);
       event.target.complete();
     } else {
       this.presentToast('There are no more articles to be read.', 'primary');
@@ -108,16 +97,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async listArticles(limit?, nextToken?) {
-    console.log('List article request params: ');
-    console.log('article date published: ', this.articleDatePub);
-    console.log('filters: ', this.filters);
-    console.log('next token:', this.nextToken);
-
-    console.log('Limit: ', limit);
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.articleDatePub,
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
-    console.log('is new token null? ', this.nextToken === null);
     return results.items;
   }
 

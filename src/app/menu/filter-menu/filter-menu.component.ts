@@ -22,7 +22,6 @@ export class FilterMenuComponent {
     private authService: AuthService,
     private toastController: ToastController
     ) {
-      console.log('init filter menu');
       this.initOptions();
     }
 
@@ -59,7 +58,6 @@ export class FilterMenuComponent {
   }
 
   async onFilterChange(event) {
-    console.log('filters have changed: ', event);
     switch (event.name) {
       case 'Tone':
         this.toneUserOption = event;
@@ -100,7 +98,6 @@ export class FilterMenuComponent {
 
   async saveFilters() {
     try {
-      console.log('filter to be saved: ', this.filterService.filterOptions);
       await this.neutrifyAPI.UpdateConfig(this.filterService.filterOptions);
       await this.presentToast('Your filters have been saved.', 'primary');
     } catch (e) {

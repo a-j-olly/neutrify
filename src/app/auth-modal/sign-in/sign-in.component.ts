@@ -40,7 +40,6 @@ export class SignInComponent implements OnInit {
 
   async signIn() {
     this.buttonClicked = true;
-    console.log('login submit', this.signInForm.value);
     if (this.signInForm.valid) {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 

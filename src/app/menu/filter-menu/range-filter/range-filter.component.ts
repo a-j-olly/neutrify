@@ -62,9 +62,6 @@ export class RangeFilterComponent implements OnInit {
   }
 
   onChange(event) {
-    console.log('old range: ', this.userOption.value);
-    console.log('new range: ', event.detail.value);
-
     if (this.hasChanged(event)) {
       this.userOption.value = event.detail.value;
       this.userOption.name = this.rangeFilterType;
@@ -84,7 +81,6 @@ export class RangeFilterComponent implements OnInit {
         changed = false;
       }
     }
-    console.log('has value changed?', changed);
     return changed;
   }
 }

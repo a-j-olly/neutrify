@@ -33,7 +33,6 @@ export class ConfirmSignUpComponent implements OnInit {
 
   async confirmSignUp() {
     if (this.confirmSignUpForm.valid) {
-      console.log(this.confirmSignUpForm.value);
       const res = await this.authService.confirmSignUp(this.confirmSignUpForm.value.vefCode);
 
       if (res) {

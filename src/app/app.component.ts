@@ -29,8 +29,6 @@ export class AppComponent implements OnDestroy {
     this.menu.enable(false, 'filterMenu');
     this.menu.enable(false, 'mainMenu');
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
-      console.log('old menu status: ', this.menuStatus);
-      console.log('new menu status: ', status);
       this.menuStatus = status;
     });
 

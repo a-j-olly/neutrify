@@ -16,37 +16,57 @@
             }
         }
     },
-    "develop": {
+    "aoliver": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-neutrify-develop-161258-authRole",
-            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-161258-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-161258-authRole",
+            "AuthRoleName": "amplify-neutrify-aoliver-162024-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-162024-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-162024-authRole",
             "Region": "eu-west-2",
-            "DeploymentBucketName": "amplify-neutrify-develop-161258-deployment",
-            "UnauthRoleName": "amplify-neutrify-develop-161258-unauthRole",
-            "StackName": "amplify-neutrify-develop-161258",
-            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-develop-161258/cc6bb6f0-fe54-11e9-b577-0a3915ca55a4"
+            "DeploymentBucketName": "amplify-neutrify-aoliver-162024-deployment",
+            "UnauthRoleName": "amplify-neutrify-aoliver-162024-unauthRole",
+            "StackName": "amplify-neutrify-aoliver-162024",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-aoliver-162024/f7b8f470-201f-11ea-b997-06b0998bdefc"
         },
         "categories": {
             "auth": {
-                "neutrifyc0793d08": {}
+                "neutrifyb749557b": {}
             }
         }
     },
-    "aoliver": {
+    "authen": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-neutrify-aoliver-174126-authRole",
-            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-aoliver-174126-authRole",
+            "AuthRoleName": "amplify-neutrify-authen-74215-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-authen-74215-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-authen-74215-authRole",
             "Region": "eu-west-2",
-            "DeploymentBucketName": "amplify-neutrify-aoliver-174126-deployment",
-            "UnauthRoleName": "amplify-neutrify-aoliver-174126-unauthRole",
-            "StackName": "amplify-neutrify-aoliver-174126",
-            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-aoliver-174126/d2a07270-0185-11ea-b937-06af0f49b59c"
+            "DeploymentBucketName": "amplify-neutrify-authen-74215-deployment",
+            "UnauthRoleName": "amplify-neutrify-authen-74215-unauthRole",
+            "StackName": "amplify-neutrify-authen-74215",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-authen-74215/664b62e0-2d33-11ea-89fe-06af0f49b59c",
+            "AmplifyAppId": "d26a1bjhie27xv"
         },
         "categories": {
             "auth": {
-                "neutrifyc0793d08": {}
+                "neutrifyb749557b": {}
+            }
+        }
+    },
+    "develop": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-neutrify-develop-122702-authRole",
+            "UnauthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-122702-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::367347839712:role/amplify-neutrify-develop-122702-authRole",
+            "Region": "eu-west-2",
+            "DeploymentBucketName": "amplify-neutrify-develop-122702-deployment",
+            "UnauthRoleName": "amplify-neutrify-develop-122702-unauthRole",
+            "StackName": "amplify-neutrify-develop-122702",
+            "StackId": "arn:aws:cloudformation:eu-west-2:367347839712:stack/amplify-neutrify-develop-122702/abfa7dc0-4292-11ea-b8b3-0617023ccf6e",
+            "AmplifyAppId": "de4dytjmwbthf"
+        },
+        "categories": {
+            "auth": {
+                "neutrifyb749557b": {},
+                "userPoolGroups": {}
             }
         }
     }

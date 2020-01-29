@@ -1,8 +1,14 @@
-<ion-content #homePage>
+<ion-header>
+  <ion-toolbar>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
 
-  <div class="email-section">
-    <ion-img class="logo" src="../../assets/img/logo/neutrify-1600px512px.png"></ion-img>
-  </div>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="manageAuth('signIn')">Sign In</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #homePage>
 
   <div class="summary-section">
     <div class="cta">
@@ -16,7 +22,7 @@
                           <ion-icon name="options" slot="start"></ion-icon>
                         </ion-item>
                         <ion-item>
-                          <h2>Use professional news analytics to work out an articles trustworthiness.</h2>
+                          <h2>Use professional news analytics to work out an article's trustworthiness.</h2>
                           <ion-icon name="stats" slot="start"></ion-icon>
                         </ion-item>
                         <ion-item>
@@ -31,18 +37,16 @@
                   </ion-card-content>
                 </ion-card>
               </ion-row>     
+              <ion-row class="ion-justify-content-center ion-text-center">
+                <ion-col size="8">
+                  <ion-button class="cta-button" type="submit" expand="full" color="primary" (click)="manageAuth('signUp')">Try it!</ion-button>
+                </ion-col>
+              </ion-row>
               <ion-row class="ion-justify-content-center">
-                  <form class="ion-padding" [formGroup]="landingPageForm" (ngSubmit)="onSubmit()">
-                    <ion-item>
-                      <ion-input name="customerEmail" size="40px" class="form-control" type="email" 
-                      placeholder="Enter email address..." formControlName="customerEmail"></ion-input>
-                      <ion-button class="form-control" type="submit" color="tertiary" [disabled]="landingPageForm.invalid">Try it!</ion-button>
-                    </ion-item> 
-                    <ion-label class="ion-text-center" color="light" position="stacked">
-                        <p>Give Neutrify a try. No credit card needed.</p>
-                    </ion-label>
-                  </form>
-                </ion-row>
+                <ion-label class="ion-text-center" color="light">
+                  <p>Give Neutrify a try. No credit card needed.</p>
+                </ion-label>
+              </ion-row>
           </ion-grid>
     </div>
   </div>

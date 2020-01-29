@@ -1,135 +1,81 @@
-type Article @model {
+type Article @model(mutations: null, subscriptions: null)
+    @key(fields: ["id", "uri"])
+    @key(name: "byDate", fields: ["dataType", "datePublished"], queryField: "articlesByDate")
+    @auth(rules: [{ allow: private, operations: [read]}])
+{
+    authors: [String!]
+    body: String!
+    dataType: String!
+    date: String
+    dateTime: String
+    datePublished: AWSDateTime!
+    displayAuthors: [String!]
+    displayKeywords: [String!]
+    displaySourceCountry: String!
+    displaySourceTitle: String!
+    displayTopics: [String!]
+    eventUri: String
     id: ID!
-    articleBody: String!
-    articleDataType: String
-    articleDate: String
-    articleDateTime: String
-    articleDateTimePub: String!
-    articleEventUri: String
-    articleImage: String
-    articleLanguage: String
-    articleSentiment: Float
-    articleShare: Int
-    articleSimilarity: Float
-    articleTime: String
-    articleTitle: String!
-    articleUri: String!
-    articleURL: String!
-    source: Source! @connection(name: "SourceArticles")
-    categories: [CategoryMember] @connection(name: "ArticleCategoryMembers")
-    concepts: [ConceptMember!] @connection(name: "ArticleConceptMembers")
-    configs: [ConfigMember!] @connection(name: "ArticleConfigMembers")
-}
-
-type CategoryMember @model(queries: null) {
-    id: ID!
-    article: Article! @connection(name: "ArticleCategoryMembers")
-    category: Category! @connection(name: "CategoryMembersConnection")
-}
-
-type Category @model @key(name:"categoryLabel-index", fields: ["categoryLabel"]) {
-    id: ID!
-    categoryLabel: String!
-    categoryUri: String!
-    articles: [CategoryMember] @connection(name: "CategoryMembersConnection")
-}
-
-type Source @model @key(name:"sourceUri-index", fields: ["sourceUri", "sourceTitle"]) {
-    id: ID!
-    sourceUri: String!
-    sourceType: String
-    sourceTitle: String!
-    sourceDescription: String
-    location: Location! @connection(name: "LocationSources")
+    image: String
+    keywords: [String!]
+    language: String
+    quality: Int!
+    share: Int
+    similarity: Float
+    time: String
+    sourceCountry: String!
     sourceRanking: Int
-    articles: [Article!] @connection(name: "SourceArticles")
+    sourceTitle: String!
+    title: String!
+    tone: Float!
+    topics: [String!]
+    uri: String!
+    url: String!
+    wordCount: Int!
 }
 
-type ConceptMember @model(queries: null) {
+type User @model(subscriptions: null) 
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
+{
+    billingAddressCity: String
+    billingAddressHouseNo: String
+    billingAddressPostalCode: String
+    billingAddressStreet: String
+    config: Config @connection(name: "UserConfig")
+    email: String!
+    freeTrial: Boolean!
+    freeTrialStartDate: String!
+    freeTrialEndDate: String!
     id: ID!
-    article: Article! @connection(name: "ArticleConceptMembers")
-    concept: Concept! @connection(name: "ConceptMembersConnection")
+    isPremium: Boolean!
+    isActive: Boolean
+    lastLogin: String
+    ownerId: String
+    premiumEndDate: String
+    premiumIsExpiring: Boolean
+    premiumStartDate: String
+    feedbackDiscovery: String
+    feedbackLeaveReason: String
+    feedbackPromoterScore: Int
 }
 
-type Concept @model @key(name:"conceptLabel-index", fields: ["conceptLabel"]) {
+type Config @model(subscriptions: null)
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "configByOwner")
+{
     id: ID!
-    conceptLabel: String!
-    conceptScore: Int
-    conceptUri: String!
-    conceptType: String!
-    location: Location @connection(name: "LocationConcepts")
-    conceptSynonyms: [String!]
-    articles: [ConceptMember!] @connection(name: "ConceptMembersConnection")
-}
-
-type Location @model @key(name:"locationLabel-index", fields: ["locationLabel"]) {
-    id: ID!
-    locationType: String!
-    locationLabel: String!
-    locationCountry: String
-    locationLat: Float
-    locationLong: Float
-    concepts: [Concept!] @connection(name: "LocationConcepts")
-    sources: [Source!] @connection(name: "LocationSources")
-}
-
-type User @model {
-    id: ID!
-    userCognitoId: String!
-    userIsPremium: Boolean
-    userConfig: Config @connection(name: "UserConfig")
-    customer: Customer @connection(name: "UserCustomer")
-    feedback: Feedback @connection(name: "UserFeedback")
-}
-
-type ConfigMember @model(queries: null) {
-    id: ID!
-    article: Article! @connection(name: "ArticleConfigMembers")
-    concept: Config! @connection(name: "ConfigMembersConnection")
-}
-
-type Config @model {
-    id: ID!
-    configKeywordFilter: [String!]
-    configSentimentRangeUpperBound: Float
-    configSentimentRangeLowerBound: Float
-    configStoryNeutralityThreshold: Float
-    savedArticles: [ConfigMember!] @connection(name: "ConfigMembersConnection")
+    keywordsToInclude: [String]!
+    keywordsToExclude: [String]!
+    ownerId: String
+    qualityUpperRange: Float!
+    qualityLowerRange: Float!
+    toneUpperRange: Float!
+    toneLowerRange: Float!
+    topicsToInclude: [String]!
+    topicsToExclude: [String]!
+    savedArticleIds: [ID!]
+    sourcesToInclude: [String]!
+    sourcesToExclude: [String]!
     user: User @connection(name: "UserConfig")
-}
-
-type Customer @model {
-    id: ID!
-    customerUserCognitoId: String!
-    customerUsername: String
-    customerEmail: String!
-    customerBillingFullName: String
-    billingAddresses: [BillingAddress!] @connection(name: "CustomerBillingAddresses")
-    customerFreeTrial: Boolean!
-    customerFreeTrailStartDate: String
-    customerFreeTrailEndDate: String
-    customerIsPremium: Boolean!
-    customerPremiumStartDate: String
-    customerPremiumEndDate: String
-    customerPremiumIsExpiring: Boolean
-    customerIsActive: Boolean
-    customerLastLogin: String
-    user: User @connection(name: "UserCustomer")
-}
-
-type BillingAddress @model {
-    id: ID!
-    billingAddressHouseNo: String!
-    billingAddressStreet: String!
-    billingAddressCity: String!
-    billingAddressPostalCode: String!
-    customer: Customer @connection(name: "CustomerBillingAddresses")
-}
-
-type Feedback @model {
-    id: ID!
-    userFeedbackPromoterScore: Int
-    userFeedbackDiscovery: String
-    userFeedbackLeaveReason: String
-    user: User @connection(name: "UserFeedback")
 }

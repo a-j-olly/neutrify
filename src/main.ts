@@ -7,11 +7,10 @@ import { environment } from './environments/environment';
 import PubSub from '@aws-amplify/pubsub';
 import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
-import { Analytics, Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 
 PubSub.configure(awsconfig);
 API.configure(awsconfig);
-Analytics.configure(awsconfig);
 Auth.configure(awsconfig);
 
 if (environment.production) {

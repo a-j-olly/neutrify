@@ -1,0 +1,11 @@
+ion-icon {
+    font-size: 32px;
+    
+    &:hover {
+        cursor: pointer;
+    };
+
+    &:active {
+        fill: #c48b02;
+    };
+};

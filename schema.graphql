@@ -1,0 +1,77 @@
+type Article @model
+    @key(fields: ["id", "uri"])
+    @key(name: "byDate", fields: ["dataType", "datePublished"], queryField: "articlesByDate")
+{
+    authors: [String!]
+    body: String!
+    dataType: String!
+    date: String
+    dateTime: String
+    datePublished: AWSDateTime!
+    displayAuthors: [String!]
+    displayKeywords: [String!]
+    displaySourceCountry: String!
+    displaySourceTitle: String!
+    displayTopics: [String!]
+    eventUri: String
+    id: ID!
+    image: String
+    keywords: [String!]
+    language: String
+    quality: Int!
+    share: Int
+    similarity: Float
+    time: String
+    sourceCountry: String!
+    sourceRanking: Int
+    sourceTitle: String!
+    title: String!
+    tone: Float!
+    topics: [String!]
+    uri: String!
+    url: String!
+    wordCount: Int!
+}
+
+type User @model(subscriptions: null) 
+    @auth(rules:  [{ allow: owner, operations: [ create, update, delete, read ] }])
+{
+    billingAddressCity: String!
+    billingAddressHouseNo: String!
+    billingAddressPostalCode: String!
+    billingAddressStreet: String!
+    cognitoId: String!
+    config: Config @connection(name: "UserConfig")
+    email: String!
+    freeTrial: Boolean!
+    freeTrailStartDate: String
+    freeTrailEndDate: String
+    fullName: String
+    id: ID!
+    isPremium: Boolean!
+    isActive: Boolean
+    lastLogin: String
+    premiumEndDate: String
+    premiumIsExpiring: Boolean
+    premiumStartDate: String
+    username: String
+    feedbackDiscovery: String
+    feedbackLeaveReason: String
+    feedbackPromoterScore: Int
+}
+
+type Config @model 
+    @auth(rules:  [{ allow: owner, operations: [ create, update, delete, read ] }])
+{
+    id: ID!
+    keywordsToInclude: [String]!
+    keywordsToExclude: [String]!
+    qualityUpperRange: Float!
+    qualityLowerRange: Float!
+    toneUpperRange: Float!
+    toneLowerRange: Float!
+    topicsToInclude: [String]!
+    topicsToExclude: [String]!
+    savedArticleIds: [ID!]
+    user: User @connection(name: "UserConfig")
+}

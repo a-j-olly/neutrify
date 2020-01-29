@@ -171,8 +171,6 @@ export type ModelIntFilterInput = {
   lt?: number | null;
   ge?: number | null;
   gt?: number | null;
-  contains?: number | null;
-  notContains?: number | null;
   between?: Array<number | null> | null;
 };
 
@@ -183,8 +181,6 @@ export type ModelFloatFilterInput = {
   lt?: number | null;
   ge?: number | null;
   gt?: number | null;
-  contains?: number | null;
-  notContains?: number | null;
   between?: Array<number | null> | null;
 };
 

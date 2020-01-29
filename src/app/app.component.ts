@@ -21,10 +21,9 @@ export class AppComponent implements OnDestroy {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    // private location: LocationStrategy,
     private menu: MenuController,
     private menuService: MenuService,
-    private authService: AuthService,
+    public authService: AuthService,
   ) {
     this.menu.enable(false, 'filterMenu');
     this.menu.enable(false, 'mainMenu');

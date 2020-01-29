@@ -9,10 +9,10 @@
   </ion-refresher>
   
   <ion-list>
-    <div id="feed" [hidden]="displayArticles === 0" *ngFor="let article of displayArticles">
+    <div id="feed" [hidden]="displayArticles.length === 0" *ngFor="let article of displayArticles">
       <app-article [article]="article"></app-article>
     </div>
-    <div [hidden]="displayArticles !== 0" class="ion-text-center">
+    <div [hidden]="displayArticles.length !== 0" class="ion-text-center">
       <h2>Could not find any articles. It is likely your filters are too strict.</h2>
     </div>
   </ion-list>

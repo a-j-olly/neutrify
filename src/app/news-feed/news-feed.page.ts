@@ -20,7 +20,7 @@ export class NewsFeedPage implements OnDestroy {
     private menuService: MenuService,
     private menu: MenuController,
     private platform: Platform,
-    private authService: AuthService
+    public authService: AuthService
   ) {
     this.platform.ready().then(() => {
       this.platformWidth = this.platform.width();

@@ -12,7 +12,7 @@ import { MenuService } from 'src/app/services/menu.service';
 export class MainMenuComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     public modalController: ModalController,
     private router: Router,
     private menuService: MenuService,

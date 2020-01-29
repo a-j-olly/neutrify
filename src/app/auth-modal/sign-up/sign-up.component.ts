@@ -16,7 +16,7 @@ export class SignUpComponent implements OnInit {
   invalidDetails = false;
   buttonClicked = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {}
+  constructor(private formBuilder: FormBuilder, public authService: AuthService) {}
 
   ngOnInit() {
     this.authService.setState('signUp');

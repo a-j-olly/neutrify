@@ -19,7 +19,7 @@ export class FilterMenuComponent {
   constructor(
     private filterService: FilterService,
     private neutrifyAPI: APIService,
-    private authService: AuthService,
+    public authService: AuthService,
     private toastController: ToastController
     ) {
       this.initOptions();

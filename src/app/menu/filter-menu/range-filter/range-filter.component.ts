@@ -9,7 +9,7 @@ export class RangeFilterComponent implements OnInit {
   @Input() userOption;
   @Input() rangeFilterType: string;
 
-  rangeSettings: object;
+  rangeSettings: any;
 
   showFilter = false;
 

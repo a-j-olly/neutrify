@@ -19,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
   invalidCode = false;
   sentResetEmail = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private formBuilder: FormBuilder, public authService: AuthService) { }
 
   ngOnInit() {
     this.authService.setState('forgotPassword');

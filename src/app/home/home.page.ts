@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   @ViewChild('homePage', {static: false}) homePage: IonContent;
   landingPageForm: FormGroup;
 
-  constructor(private router: Router, private authService: AuthService,
+  constructor(private router: Router, public authService: AuthService,
               private userDataService: UserDataService, public modalController: ModalController) {}
 
 

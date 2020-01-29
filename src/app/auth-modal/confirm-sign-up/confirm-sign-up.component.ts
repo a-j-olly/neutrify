@@ -18,7 +18,7 @@ export class ConfirmSignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService,
+    public authService: AuthService,
     private toastController: ToastController
   ) { }
 

@@ -20,6 +20,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   nextToken: string;
   limit = 25;
   articleDatePub: ModelStringKeyConditionInput;
+  updatingArticles = false;
 
   constructor(
     private neutrfiyAPI: APIService,
@@ -52,6 +53,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async handleInitDataLoad() {
+    this.updatingArticles = true;
     let i = 1;
     let newLimit = 25;
     let nextToken = 'true';
@@ -65,6 +67,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
     this.limit = newLimit;
     this.displayArticles = this.rawArticles;
+    this.updatingArticles = false;
   }
 
   setDateRange(): ModelStringKeyConditionInput {

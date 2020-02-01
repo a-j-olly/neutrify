@@ -1,3 +1,4 @@
+import { ImageModalComponent } from './article-list/article/image-modal/image-modal.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,8 @@ const routes: Routes = [
     ArticleListComponent,
     ArticleComponent,
     RatingComponent,
-  ]
+    ImageModalComponent
+  ],
+  entryComponents: [ImageModalComponent],
 })
 export class NewsFeedPageModule {}

@@ -28,10 +28,39 @@
 /* CSS for amplify components */
 // @import '~aws-amplify-angular/Theme.css'
 
-.auth-modal .modal-wrapper{
+.auth-modal .modal-wrapper {
     max-height: 320px;
     max-width: 400px;
     position: absolute; 
     display: block;
     border: 3px solid royalblue;
-}
+};
+
+ion-modal.auto-height {
+    &.bottom {
+        align-items: flex-end;
+    };
+
+    @media screen and (min-width: 480px) {
+        --width: 475px;
+    }
+    @media screen and (min-width: 720px) {
+        --width: 712px;
+    }
+    @media screen and (min-width: 1080px) {
+        --width: 1066px;
+    }
+    --height: auto;
+
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 0px;
+        };
+    };
+};

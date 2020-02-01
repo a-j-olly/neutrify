@@ -1,0 +1,19 @@
+.image-modal {
+    max-width: 1066px;
+    margin: 0px auto;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+};
+
+.dismiss-icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 32px;
+
+    &:hover {
+        cursor: pointer; 
+    };
+};

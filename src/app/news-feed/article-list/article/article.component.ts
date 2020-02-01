@@ -1,5 +1,7 @@
+import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-article',
@@ -10,13 +12,13 @@ export class ArticleComponent implements OnInit {
   @Input() article: any;
   public dateAge: string;
 
-  public hasRated = false;
+  // public hasRated = false;
 
   public isCardExpanded = false;
   public cardClickEvent = false;
   public closeClickEvent = false;
 
-  constructor() {}
+  constructor(private modalController: ModalController) {}
 
   ngOnInit() {
     this.dateAge = this.getArticleAge(this.article.datePublished);
@@ -37,6 +39,18 @@ export class ArticleComponent implements OnInit {
         this.closeClickEvent = false;
       }
     }
+  }
+
+  async viewImage() {
+    const modal = await this.modalController.create({
+      component: ImageModalComponent,
+      componentProps: {
+        image: this.article.image
+      },
+      cssClass: 'auto-height'
+    });
+
+    return await modal.present();
   }
 
   goToArticle() {

@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="updatingArticles">
     <ion-refresher-content  
       pullingIcon="arrow-dropdown"
       pullingText="Pull down to get latest articles"
@@ -20,7 +20,7 @@
     </div>
   </ion-list>
       
-  <ion-infinite-scroll (ionInfinite)="getNextPage($event)">
+  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" [disabled]="updatingArticles">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

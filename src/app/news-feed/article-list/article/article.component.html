@@ -30,42 +30,46 @@
             </ion-row>
           </ion-grid>
         </ion-slide>
-          
+
         <ion-slide>
           <ion-grid class="ion-no-margin ion-no-padding">
-              <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-                <div class="metric-item ion-no-margin ion-no-padding">
-                  <ion-row class="ion-justify-content-center">
-                      <h4>Attitude</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
-                      value="{{ article.tone >= 0 ? '0' : article.tone}}"></ion-range>
-                    <ion-range min="0" max="1" step="0.1" color="primary"
-                    value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
-                  </ion-row>
-                </div>
-                  
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>Word Count</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <ion-label color="primary">
-                      {{ article.wordCount}}
-                    </ion-label>
-                  </ion-row>
-                </div>
 
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>Quality of journalism</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <app-rating [(rating)]="article.quality" [(hasRated)]="hasRated"></app-rating>
-                  </ion-row>
-                </div>
-              </ion-row>
+            <ion-img class="article-img" [src]="article.image" alt="Grabbing image" (click)="viewImage()"></ion-img>
+
+            <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+              <div class="metric-item ion-no-margin ion-no-padding">
+                <ion-row class="ion-justify-content-center">
+                    <h4>Attitude</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
+                    value="{{ article.tone >= 0 ? '0' : article.tone}}"></ion-range>
+                  <ion-range min="0" max="1" step="0.1" color="primary"
+                  value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
+                </ion-row>
+              </div>
+                
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Word Count</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <ion-label color="primary">
+                    {{ article.wordCount}}
+                  </ion-label>
+                </ion-row>
+              </div>
+
+              <!-- <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Quality of journalism</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <app-rating [(rating)]="article.quality" [(hasRated)]="hasRated"></app-rating>
+                </ion-row>
+              </div> -->
+            </ion-row>
+
           </ion-grid>
         </ion-slide>
 
@@ -83,7 +87,7 @@
                 </ion-row>
               </div>
 
-              <div class="text-list-item" [hidden]="!article.displayKeywords && article.displayKeywords.length === 0">
+              <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Keywords</h4>
                 </ion-row>

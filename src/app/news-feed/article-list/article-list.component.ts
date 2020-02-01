@@ -41,11 +41,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async resetArticles() {
-    return new Promise((resolve, reject) => {
-      this.rawArticles = new Array();
-      this.displayArticles = new Array();
-      resolve();
-    });
+    this.rawArticles = new Array();
+    this.displayArticles = new Array();
   }
 
   ngOnDestroy() {
@@ -54,20 +51,34 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   async handleInitDataLoad() {
     this.updatingArticles = true;
+    await this.resetArticles();
+
     let i = 1;
     let newLimit = 25;
-    let nextToken = 'true';
-    await this.resetArticles();
-    while (this.rawArticles.length < 15 && nextToken) {
-      newLimit *= i;
-      this.rawArticles = await this.listArticles(newLimit);
-      nextToken = this.nextToken;
-      i *= 8;
-    }
+    do {
+
+      if (i === 2) {
+        newLimit = 200;
+        this.rawArticles = await this.listArticles(newLimit);
+      } else if (i === 3) {
+        newLimit = 1000;
+        this.rawArticles = await this.listArticles(newLimit);
+      } else if (i > 3) {
+        this.rawArticles.push(...await this.listArticles(newLimit, this.nextToken));
+      } else {
+        this.rawArticles = await this.listArticles(newLimit);
+      }
+
+      i++;
+    } while (this.nextToken && this.rawArticles.length < 15);
 
     this.limit = newLimit;
     this.displayArticles = this.rawArticles;
     this.updatingArticles = false;
+
+    if (!this.nextToken && this.rawArticles.length < 15) {
+      await this.presentToast('Could only find a few articles that fit your criteria. Perhaps loosen your filters.', 'primary');
+    }
   }
 
   setDateRange(): ModelStringKeyConditionInput {
@@ -81,9 +92,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async doRefresh(event) {
+    this.updatingArticles = true;
     this.rawArticles = [];
     await this.handleInitDataLoad();
     event.target.complete();
+    this.updatingArticles = false;
   }
 
   async getNextPage(event) {

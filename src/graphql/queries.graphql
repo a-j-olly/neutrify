@@ -102,6 +102,8 @@ query GetUser($id: ID!) {
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
@@ -166,6 +168,8 @@ query ListUsers(
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial
@@ -201,6 +205,8 @@ query GetConfig($id: ID!) {
     savedArticleIds
     sourcesToInclude
     sourcesToExclude
+    locationsToInclude
+    locationsToExclude
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -220,6 +226,8 @@ query GetConfig($id: ID!) {
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial
@@ -259,6 +267,8 @@ query ListConfigs(
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
@@ -367,6 +377,8 @@ query UserByOwner(
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial
@@ -415,6 +427,8 @@ query ConfigByOwner(
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo

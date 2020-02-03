@@ -69,6 +69,8 @@ export type CreateConfigInput = {
   savedArticleIds?: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
   configUserId?: string | null;
 };
 
@@ -86,6 +88,8 @@ export type UpdateConfigInput = {
   savedArticleIds?: Array<string> | null;
   sourcesToInclude?: Array<string | null> | null;
   sourcesToExclude?: Array<string | null> | null;
+  locationsToInclude?: Array<string | null> | null;
+  locationsToExclude?: Array<string | null> | null;
   configUserId?: string | null;
 };
 
@@ -233,6 +237,8 @@ export type ModelConfigFilterInput = {
   savedArticleIds?: ModelIDFilterInput | null;
   sourcesToInclude?: ModelStringFilterInput | null;
   sourcesToExclude?: ModelStringFilterInput | null;
+  locationsToInclude?: ModelStringFilterInput | null;
+  locationsToExclude?: ModelStringFilterInput | null;
   and?: Array<ModelConfigFilterInput | null> | null;
   or?: Array<ModelConfigFilterInput | null> | null;
   not?: ModelConfigFilterInput | null;
@@ -259,6 +265,8 @@ export type CreateUserMutation = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -320,6 +328,8 @@ export type UpdateUserMutation = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -381,6 +391,8 @@ export type DeleteUserMutation = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -436,6 +448,8 @@ export type CreateConfigMutation = {
   savedArticleIds: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -457,6 +471,8 @@ export type CreateConfigMutation = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -491,6 +507,8 @@ export type UpdateConfigMutation = {
   savedArticleIds: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -512,6 +530,8 @@ export type UpdateConfigMutation = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -546,6 +566,8 @@ export type DeleteConfigMutation = {
   savedArticleIds: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -567,6 +589,8 @@ export type DeleteConfigMutation = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -677,6 +701,8 @@ export type GetUserQuery = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -740,6 +766,8 @@ export type ListUsersQuery = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -775,6 +803,8 @@ export type GetConfigQuery = {
   savedArticleIds: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -796,6 +826,8 @@ export type GetConfigQuery = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -832,6 +864,8 @@ export type ListConfigsQuery = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -918,6 +952,8 @@ export type UserByOwnerQuery = {
       savedArticleIds: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -955,6 +991,8 @@ export type ConfigByOwnerQuery = {
     savedArticleIds: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
@@ -1008,6 +1046,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity
@@ -1079,6 +1119,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity
@@ -1150,6 +1192,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity
@@ -1215,6 +1259,8 @@ export class APIService {
           savedArticleIds
           sourcesToInclude
           sourcesToExclude
+          locationsToInclude
+          locationsToExclude
           user {
             __typename
             billingAddressCity
@@ -1236,6 +1282,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1280,6 +1328,8 @@ export class APIService {
           savedArticleIds
           sourcesToInclude
           sourcesToExclude
+          locationsToInclude
+          locationsToExclude
           user {
             __typename
             billingAddressCity
@@ -1301,6 +1351,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1345,6 +1397,8 @@ export class APIService {
           savedArticleIds
           sourcesToInclude
           sourcesToExclude
+          locationsToInclude
+          locationsToExclude
           user {
             __typename
             billingAddressCity
@@ -1366,6 +1420,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1530,6 +1586,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity
@@ -1607,6 +1665,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1659,6 +1719,8 @@ export class APIService {
           savedArticleIds
           sourcesToInclude
           sourcesToExclude
+          locationsToInclude
+          locationsToExclude
           user {
             __typename
             billingAddressCity
@@ -1680,6 +1742,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1730,6 +1794,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity
@@ -1872,6 +1938,8 @@ export class APIService {
               savedArticleIds
               sourcesToInclude
               sourcesToExclude
+              locationsToInclude
+              locationsToExclude
             }
             email
             freeTrial
@@ -1938,6 +2006,8 @@ export class APIService {
             savedArticleIds
             sourcesToInclude
             sourcesToExclude
+            locationsToInclude
+            locationsToExclude
             user {
               __typename
               billingAddressCity

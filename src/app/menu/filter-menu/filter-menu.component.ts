@@ -15,6 +15,7 @@ export class FilterMenuComponent {
   public sourcesUserOption;
   public topicsUserOption;
   public keywordsUserOption;
+  public locationsUserOption;
 
   constructor(
     private filterService: FilterService,
@@ -55,6 +56,11 @@ export class FilterMenuComponent {
       include: filterOptions.keywordsToInclude,
       exclude: filterOptions.keywordsToExclude
     };
+
+    this.locationsUserOption = {
+      include: filterOptions.locationsToInclude,
+      exclude: filterOptions.locationsToExclude
+    };
   }
 
   async onFilterChange(event) {
@@ -71,6 +77,9 @@ export class FilterMenuComponent {
       case 'Topics':
         this.topicsUserOption = event;
         break;
+      case 'Locations':
+        this.locationsUserOption = event;
+        break;
       case 'Keywords':
         this.keywordsUserOption = event;
         break;
@@ -83,7 +92,8 @@ export class FilterMenuComponent {
       qualityUserOption: this.qualityUserOption,
       sourcesUserOption: this.sourcesUserOption,
       topicsUserOption: this.topicsUserOption,
-      keywordsUserOption: this.keywordsUserOption
+      keywordsUserOption: this.keywordsUserOption,
+      locationsUserOption: this.locationsUserOption
     });
 
     await this.filterService.updateFilterOptions(filterOptions);

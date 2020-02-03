@@ -16,6 +16,10 @@
   </ion-item> -->
 
   <ion-item>
+    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption" wordFilterType="Locations"></app-word-filter>
+  </ion-item>
+
+  <ion-item>
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
   </ion-item>
   

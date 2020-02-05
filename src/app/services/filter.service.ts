@@ -25,7 +25,9 @@ export class FilterService {
       topicsToInclude: userOptions.topicsUserOption.include,
       topicsToExclude: userOptions.topicsUserOption.exclude,
       keywordsToInclude: userOptions.keywordsUserOption.include,
-      keywordsToExclude: userOptions.keywordsUserOption.exclude
+      keywordsToExclude: userOptions.keywordsUserOption.exclude,
+      locationsToInclude: userOptions.locationsUserOption.include,
+      locationsToExclude: userOptions.locationsUserOption.exclude
     };
   }
 
@@ -55,14 +57,19 @@ export class FilterService {
     };
 
     if (ops.sourcesToInclude.length > 0 || ops.sourcesToExclude.length > 0 || ops.topicsToInclude.length > 0 ||
-        ops.topicsToExclude.length > 0 || ops.keywordsToInclude.length > 0 || ops.keywordsToExclude.length > 0) {
+        ops.topicsToExclude.length > 0 || ops.keywordsToInclude.length > 0 || ops.keywordsToExclude.length > 0 ||
+        ops.locationsToInclude.length > 0 || ops.locationsToExclude.length > 0) {
       filterInput.and = [];
 
-      if (ops.sourcesToInclude.length > 0) {
+      if (ops.sourcesToInclude.length > 0 || ops.locationsToInclude.length > 0) {
         const orFilter: Array<ModelArticleFilterInput> = [];
 
         if (ops.sourcesToInclude) {
           orFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+        }
+
+        if (ops.locationsToInclude) {
+          orFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
         }
 
         filterInput.and.push({or: orFilter});
@@ -82,6 +89,10 @@ export class FilterService {
 
       if (ops.keywordsToExclude) {
         filterInput.and.push(...this.buildWordFilter(ops.keywordsToExclude, 'keywords', 'notContains'));
+      }
+
+      if (ops.locationsToExclude) {
+        filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne'));
       }
 
       if (ops.topicsToExclude) {

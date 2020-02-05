@@ -1,11 +1,8 @@
 import { AuthService } from './../services/auth.service';
 import { AuthModalComponent } from './../auth-modal/auth-modal.component';
-import { APIService } from './../services/neutrify-api.service';
-import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { IonContent, ModalController } from '@ionic/angular';
-import { UserDataService } from '../services/user-data.service';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +13,10 @@ export class HomePage implements OnInit {
   @ViewChild('homePage', {static: false}) homePage: IonContent;
   landingPageForm: FormGroup;
 
-  constructor(private router: Router, public authService: AuthService,
-              private userDataService: UserDataService, public modalController: ModalController) {}
+  constructor(
+    public authService: AuthService,
+    public modalController: ModalController
+  ) {}
 
 
   ngOnInit() {

@@ -77,5 +77,7 @@ type Config @model(subscriptions: null)
     savedArticleIds: [ID!]
     sourcesToInclude: [String]!
     sourcesToExclude: [String]!
+    locationsToInclude: [String]!
+    locationsToExclude: [String]!
     user: User @connection(name: "UserConfig")
 }

@@ -19,6 +19,8 @@ mutation CreateUser($input: CreateUserInput!) {
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
@@ -78,6 +80,8 @@ mutation UpdateUser($input: UpdateUserInput!) {
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
@@ -137,6 +141,8 @@ mutation DeleteUser($input: DeleteUserInput!) {
       savedArticleIds
       sourcesToInclude
       sourcesToExclude
+      locationsToInclude
+      locationsToExclude
       user {
         billingAddressCity
         billingAddressHouseNo
@@ -191,6 +197,8 @@ mutation CreateConfig($input: CreateConfigInput!) {
     savedArticleIds
     sourcesToInclude
     sourcesToExclude
+    locationsToInclude
+    locationsToExclude
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -210,6 +218,8 @@ mutation CreateConfig($input: CreateConfigInput!) {
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial
@@ -244,6 +254,8 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
     savedArticleIds
     sourcesToInclude
     sourcesToExclude
+    locationsToInclude
+    locationsToExclude
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -263,6 +275,8 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial
@@ -297,6 +311,8 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
     savedArticleIds
     sourcesToInclude
     sourcesToExclude
+    locationsToInclude
+    locationsToExclude
     user {
       billingAddressCity
       billingAddressHouseNo
@@ -316,6 +332,8 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
         savedArticleIds
         sourcesToInclude
         sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
       email
       freeTrial

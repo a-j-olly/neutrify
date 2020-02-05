@@ -92,6 +92,8 @@ export class AuthService {
           toneLowerRange: -1,
           topicsToInclude: [],
           topicsToExclude: [],
+          locationsToInclude: [],
+          locationsToExclude: []
         });
 
         const creationRes = await Promise.all([createUserPromise, createConfigPromise]);

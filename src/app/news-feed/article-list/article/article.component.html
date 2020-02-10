@@ -87,7 +87,7 @@
         <ion-slide *ngIf="(article.displayTopics && article.displayTopics.length > 0) || (article.displayKeywords && article.displayKeywords.length > 0)">
           <ion-grid class="ion-no-margin ion-no-padding">
             <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-              <div class="text-list-item" [hidden]="!article.displayTopics && article.topics.length === 0">
+              <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Topics</h4>
                 </ion-row>

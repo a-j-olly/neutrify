@@ -1,4 +1,4 @@
-import { ModelArticleFilterInput, ModelStringKeyConditionInput, GetConfigQuery } from './neutrify-api.service';
+import { ModelArticleFilterInput, ModelStringKeyConditionInput, GetConfigQuery, UpdateConfigInput } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -9,6 +9,8 @@ export class FilterService {
 
   filterOptions: any;
   filterOptions$ = new Subject<object>();
+
+  topicsUserOption: any = {};
 
   constructor() { }
 
@@ -22,8 +24,8 @@ export class FilterService {
       qualityLowerRange: userOptions.qualityUserOption.value.lower,
       sourcesToInclude: userOptions.sourcesUserOption.include,
       sourcesToExclude: userOptions.sourcesUserOption.exclude,
-      topicsToInclude: userOptions.topicsUserOption.include,
-      topicsToExclude: userOptions.topicsUserOption.exclude,
+      topicsToInclude: this.mergeTopics(userOptions.topicsUserOption.include),
+      topicsToExclude: this.mergeTopics(userOptions.topicsUserOption.exclude),
       keywordsToInclude: userOptions.keywordsUserOption.include,
       keywordsToExclude: userOptions.keywordsUserOption.exclude,
       locationsToInclude: userOptions.locationsUserOption.include,
@@ -31,13 +33,49 @@ export class FilterService {
     };
   }
 
+  mergeTopics(optionObj): Array<string> {
+    return [
+      ...optionObj.arts,
+      ...optionObj.games,
+      ...optionObj.news,
+      ...optionObj.regional,
+      ...optionObj.society,
+      ...optionObj.business,
+      ...optionObj.health,
+      ...optionObj.recreation,
+      ...optionObj.science,
+      ...optionObj.sport,
+      ...optionObj.computers,
+      ...optionObj.home,
+      ...optionObj.shopping,
+    ];
+  }
+
   updateFilterOptions(newFilterOptions) {
     this.filterOptions = newFilterOptions;
+
+    if (typeof newFilterOptions.topicsToInclude === 'string' || typeof newFilterOptions.topicsToExclude === 'string') {
+      const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
+      const parsedExclude = JSON.parse(newFilterOptions.topicsToExclude);
+      this.topicsUserOption.include = parsedInclude;
+      this.topicsUserOption.exclude = parsedExclude;
+      this.filterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
+      this.filterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
+    }
+
     this.filterOptions$.next(this.filterOptions);
   }
 
   getFilterOptions() {
     return this.filterOptions$.asObservable();
+  }
+
+  marshalRequest(): UpdateConfigInput {
+    const req = this.filterOptions;
+    req.topicsToInclude = JSON.stringify(this.topicsUserOption.include);
+    req.topicsToExclude = JSON.stringify(this.topicsUserOption.exclude);
+
+    return req;
   }
 
   getQueryFilters(): ModelArticleFilterInput {

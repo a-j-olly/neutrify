@@ -1,4 +1,4 @@
-import { APIService } from './../../services/neutrify-api.service';
+import { APIService, UpdateConfigInput } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component } from '@angular/core';
@@ -28,6 +28,7 @@ export class FilterMenuComponent {
 
   initOptions() {
     const filterOptions = this.filterService.filterOptions;
+
     this.toneUserOption = {
       value: {
         lower: filterOptions.toneLowerRange,
@@ -47,11 +48,6 @@ export class FilterMenuComponent {
       exclude: filterOptions.sourcesToExclude
     };
 
-    this.topicsUserOption = {
-      include: filterOptions.topicsToInclude,
-      exclude: filterOptions.topicsToExclude
-    };
-
     this.keywordsUserOption = {
       include: filterOptions.keywordsToInclude,
       exclude: filterOptions.keywordsToExclude
@@ -61,6 +57,44 @@ export class FilterMenuComponent {
       include: filterOptions.locationsToInclude,
       exclude: filterOptions.locationsToExclude
     };
+
+    // const topicsToInclude = this.filterService.topicsUserOption.iclud;
+    // const topicsToExclude = filterOptions.topicsToExclude;
+    this.topicsUserOption = {};
+    this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
+    this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
+    // this.topicsUserOption = {
+    //   include: {
+    //     arts: topicsToInclude.arts,
+    //     games: topicsToInclude.games,
+    //     news: topicsToInclude.news,
+    //     regional: topicsToInclude.regional,
+    //     society: topicsToInclude.society,
+    //     business: topicsToInclude.business,
+    //     health: topicsToInclude.health,
+    //     recreation: topicsToInclude.recreation,
+    //     science: topicsToInclude.science,
+    //     sport: topicsToInclude.sport,
+    //     computers: topicsToInclude.computers,
+    //     home: topicsToInclude.home,
+    //     shopping: topicsToInclude.shopping,
+    //   },
+    //   exclude: {
+    //     arts: topicsToExclude.arts,
+    //     games: topicsToExclude.games,
+    //     news: topicsToExclude.news,
+    //     regional: topicsToExclude.regional,
+    //     society: topicsToExclude.society,
+    //     business: topicsToExclude.business,
+    //     health: topicsToExclude.health,
+    //     recreation: topicsToExclude.recreation,
+    //     science: topicsToExclude.science,
+    //     sport: topicsToExclude.sport,
+    //     computers: topicsToExclude.computers,
+    //     home: topicsToExclude.home,
+    //     shopping: topicsToExclude.shopping,
+    //   }
+    // };
   }
 
   async onFilterChange(event) {
@@ -75,6 +109,7 @@ export class FilterMenuComponent {
         this.sourcesUserOption = event;
         break;
       case 'Topics':
+        this.filterService.topicsUserOption = event;
         this.topicsUserOption = event;
         break;
       case 'Locations':
@@ -108,7 +143,8 @@ export class FilterMenuComponent {
 
   async saveFilters() {
     try {
-      await this.neutrifyAPI.UpdateConfig(this.filterService.filterOptions);
+      const reqBody: UpdateConfigInput = this.filterService.marshalRequest();
+      await this.neutrifyAPI.UpdateConfig(reqBody);
       await this.presentToast('Your filters have been saved.', 'primary');
     } catch (e) {
       console.log('Could not save filters. Service returned this error: ', e);

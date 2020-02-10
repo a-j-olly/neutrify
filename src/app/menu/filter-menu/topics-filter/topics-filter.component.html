@@ -1,0 +1,209 @@
+<ion-grid>
+  <div class="ion-activatable tappable" (click)="showFilter = !showFilter">
+    <ion-ripple-effect type="unbound"></ion-ripple-effect>
+    <ion-row class="ion-no-margin ion-no-padding">
+      <ion-col size="10">
+        <h4>Topics</h4>
+      </ion-col>
+      <ion-col size="2" class="ion-text-end">
+        <ion-icon name="arrow-dropdown" [hidden]="showFilter"></ion-icon>
+        <ion-icon name="arrow-dropup" [hidden]="!showFilter"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div [hidden]="!showFilter">
+    <ion-row class="ion-justify-content-center">
+      <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
+        <ion-segment-button value="include">
+          <ion-label>Include</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="exclude">
+          <ion-label>Exclude</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableArts" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Arts</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].arts" [disabled]="disableArts" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let art of selectOptions.arts">{{art.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableGames" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Games</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].games" [disabled]="disableGames" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let game of selectOptions.games">{{game.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableNews" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>News</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].news" [disabled]="disableNews" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let n of selectOptions.news">{{n.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableRegional" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Regional</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].regional" [disabled]="disableRegional" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let region of selectOptions.regional">{{region.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableSociety" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Society</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].society" [disabled]="disableSociety" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let s of selectOptions.society">{{s.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableBusiness" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Business</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].business" [disabled]="disableBusiness" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let b of selectOptions.business">{{b.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableHealth" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Health</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].health" [disabled]="disableHealth" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let h of selectOptions.health">{{h.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableRecreation" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Recreation</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].recreation" [disabled]="disableRecreation" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let r of selectOptions.recreation">{{r.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableScience" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Science</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].science" [disabled]="disableScience" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let s of selectOptions.science">{{s.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableSport" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Sport</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].sport" [disabled]="disableSport" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let s of selectOptions.sport">{{s.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableComputers" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Computers</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].computers" [disabled]="disableComputers" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let computer of selectOptions.computers">{{computer.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableHome" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Home</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].home" [disabled]="disableHome" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let h of selectOptions.home">{{h.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-col size="2">
+        <ion-checkbox [(ngModel)]="disableShopping" (ionChange)="checkboxClicked()"></ion-checkbox>
+      </ion-col>
+      <ion-col size="10">
+        <ion-item>
+          <ion-label>Shopping</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].shopping" [disabled]="disableShopping" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let s of selectOptions.shopping">{{s.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-grid>

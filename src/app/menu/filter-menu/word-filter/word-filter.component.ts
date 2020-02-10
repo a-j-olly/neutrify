@@ -24,7 +24,7 @@ export class WordFilterComponent implements OnInit {
   wordFilterList: Array<string>;
   wordOptionForm: FormGroup;
   wordListToggle = true;
-  segmentValue: string;
+  segmentValue = 'include';
   showFilter = false;
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
@@ -32,7 +32,6 @@ export class WordFilterComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.segmentValue = 'include';
     this.wordFilterList = this.option[this.segmentValue];
 
     this.wordOptionForm = new FormGroup({

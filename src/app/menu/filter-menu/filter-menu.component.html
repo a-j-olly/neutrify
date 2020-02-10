@@ -11,12 +11,12 @@
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="Sources"></app-word-filter>
   </ion-item>
 
-  <!-- <ion-item>
-    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption" wordFilterType="Topics"></app-word-filter>
-  </ion-item> -->
-
   <ion-item>
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption" wordFilterType="Locations"></app-word-filter>
+  </ion-item>
+
+  <ion-item>
+    <app-topics-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption"></app-topics-filter>
   </ion-item>
 
   <ion-item>

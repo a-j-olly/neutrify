@@ -72,8 +72,8 @@ type Config @model(subscriptions: null)
     qualityLowerRange: Float!
     toneUpperRange: Float!
     toneLowerRange: Float!
-    topicsToInclude: [String]!
-    topicsToExclude: [String]!
+    topicsToInclude: AWSJSON!
+    topicsToExclude: AWSJSON!
     savedArticleIds: [ID!]
     sourcesToInclude: [String]!
     sourcesToExclude: [String]!

@@ -34,6 +34,7 @@ type Article @model(mutations: null, subscriptions: null)
     wordCount: Int!
 }
 
+# Used to store most user information 
 type User @model(subscriptions: null) 
     @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
     @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
@@ -60,6 +61,7 @@ type User @model(subscriptions: null)
     feedbackPromoterScore: Int
 }
 
+# Used to store all filter options
 type Config @model(subscriptions: null)
     @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
     @key(name: "ByOwner" fields: ["ownerId"], queryField: "configByOwner")

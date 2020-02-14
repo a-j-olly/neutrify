@@ -100,44 +100,45 @@ export class FilterService {
       filterInput.and = [];
 
       if (ops.sourcesToInclude.length > 0 || ops.locationsToInclude.length > 0) {
-        const orFilter: Array<ModelArticleFilterInput> = [];
-
-        if (ops.sourcesToInclude) {
-          orFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+        if (ops.sourcesToInclude.length > 0) {
+          const sourceFilter: Array<ModelArticleFilterInput> = [];
+          sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+          filterInput.and.push({or: sourceFilter});
         }
 
-        if (ops.locationsToInclude) {
-          orFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
+        if (ops.locationsToInclude.length > 0) {
+          const locationFilter: Array<ModelArticleFilterInput> = [];
+          locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
+          filterInput.and.push({or: locationFilter});
         }
-
-        filterInput.and.push({or: orFilter});
       }
 
-      if (ops.keywordsToInclude) {
+      if (ops.keywordsToInclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
       }
 
-      if (ops.topicsToInclude) {
+      if (ops.topicsToInclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
       }
 
-      if (ops.sourcesToExclude) {
+      if (ops.sourcesToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.sourcesToExclude, 'sourceTitle', 'ne'));
       }
 
-      if (ops.keywordsToExclude) {
+      if (ops.keywordsToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.keywordsToExclude, 'keywords', 'notContains'));
       }
 
-      if (ops.locationsToExclude) {
+      if (ops.locationsToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne'));
       }
 
-      if (ops.topicsToExclude) {
+      if (ops.topicsToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.topicsToExclude, 'topics', 'notContains'));
       }
     }
 
+    console.log('filter input: ', filterInput);
     return filterInput;
   }
 
@@ -146,7 +147,7 @@ export class FilterService {
       const res: object = {};
 
       res[key] = {};
-      res[key][operation] = word.toLowerCase();
+      res[key][operation] = word.trim().toLowerCase();
       return res;
     });
   }

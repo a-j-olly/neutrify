@@ -152,13 +152,13 @@
 
     <ion-row class="ion-justify-content-between">
       <ion-col size="2">
-        <ion-checkbox [(ngModel)]="disableSport" (ionChange)="checkboxClicked()"></ion-checkbox>
+        <ion-checkbox [(ngModel)]="disableSports" (ionChange)="checkboxClicked()"></ion-checkbox>
       </ion-col>
       <ion-col size="10">
         <ion-item>
-          <ion-label>Sport</ion-label>
-          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].sport" [disabled]="disableSport" (ionBlur)="selectChanged()">
-            <ion-select-option *ngFor="let s of selectOptions.sport">{{s.label}}</ion-select-option>
+          <ion-label>Sports</ion-label>
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].sports" [disabled]="disableSport" (ionBlur)="selectChanged()">
+            <ion-select-option *ngFor="let s of selectOptions.sports">{{s.label}}</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>

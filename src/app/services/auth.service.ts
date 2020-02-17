@@ -28,6 +28,7 @@ export class AuthService {
       this.amplifyService.authStateChange$
         .subscribe(async authState => {
           this.signedIn = authState.state === 'signedIn';
+          console.log('auth state: ', authState.state);
 
           if (!authState.user) {
             this.user = null;
@@ -52,6 +53,7 @@ export class AuthService {
           } else {
             this.loaded = false;
           }
+
       });
   }
 

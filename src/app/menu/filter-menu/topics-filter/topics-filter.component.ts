@@ -9,7 +9,7 @@ import {
   Health,
   Recreation,
   Science,
-  Sport,
+  Sports,
   Computers,
   Home,
   Shopping
@@ -36,7 +36,7 @@ export class TopicsFilterComponent implements OnInit {
   public disableHealth = false;
   public disableRecreation = false;
   public disableScience = false;
-  public disableSport = false;
+  public disableSports = false;
   public disableComputers = false;
   public disableHome = false;
   public disableShopping = false;
@@ -61,7 +61,7 @@ export class TopicsFilterComponent implements OnInit {
     this.selectOptions.health = Health;
     this.selectOptions.recreation = Recreation;
     this.selectOptions.science = Science;
-    this.selectOptions.sport = Sport;
+    this.selectOptions.sports = Sports;
     this.selectOptions.computers = Computers;
     this.selectOptions.home = Home;
     this.selectOptions.shopping = Shopping;
@@ -187,17 +187,17 @@ export class TopicsFilterComponent implements OnInit {
       this.disableScience = false;
     }
 
-    if (this.option[this.segmentValue].sport.length > 1) {
-      this.disableSport = false;
-    } else if (this.option[this.segmentValue].sport.length === 1) {
+    if (this.option[this.segmentValue].sports.length > 1) {
+      this.disableSports = false;
+    } else if (this.option[this.segmentValue].sports.length === 1) {
 
-      if (this.option[this.segmentValue].sport[0] === 'sport') {
-        this.disableSport = true;
+      if (this.option[this.segmentValue].sports[0] === 'sports') {
+        this.disableSports = true;
       } else {
-        this.disableSport = false;
+        this.disableSports = false;
       }
     } else {
-      this.disableSport = false;
+      this.disableSports = false;
     }
 
     if (this.option[this.segmentValue].computers.length > 1) {
@@ -344,14 +344,14 @@ export class TopicsFilterComponent implements OnInit {
       }
     }
 
-    if (this.disableSport) {
-      this.topicList[this.segmentValue].sport = new Array();
-      this.topicList[this.segmentValue].sport.push('sport');
+    if (this.disableSports) {
+      this.topicList[this.segmentValue].sports = new Array();
+      this.topicList[this.segmentValue].sports.push('sport');
     } else {
-      const topicIndex = this.topicList[this.segmentValue].sport.findIndex(topic => topic === 'sport');
+      const topicIndex = this.topicList[this.segmentValue].sports.findIndex(topic => topic === 'sports');
 
       if (topicIndex !== -1) {
-        this.topicList[this.segmentValue].sport.splice(topicIndex, 1);
+        this.topicList[this.segmentValue].sports.splice(topicIndex, 1);
       }
     }
 

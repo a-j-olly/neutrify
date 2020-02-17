@@ -1394,7 +1394,7 @@ export const Science = [
     },
 ];
 
-export const Sport = [
+export const Sports = [
     {
         id: 1,
         label: 'Adventure Racing',

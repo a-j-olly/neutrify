@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-chip color="primary" (click)="backToApp()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Back</ion-label>
+      </ion-chip>
+      
+    </ion-buttons>
+
+    <ion-title>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="subscription">
+        <h5>Subscription</h5>
+      </ion-tab-button>
+      <ion-tab-button tab="billing">
+        <h5>Billing Details</h5>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

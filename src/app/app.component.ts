@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
 // import { AuthGuardService } from './services/auth-guard.service';
@@ -7,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { LocationStrategy } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,16 @@ export class AppComponent implements OnDestroy {
     private menu: MenuController,
     private menuService: MenuService,
     public authService: AuthService,
+    private location: LocationStrategy,
+    private router: Router,
   ) {
+    this.location.onPopState(() => {
+      if (this.router.url.startsWith('/app/account')) {
+        this.menu.enable(true, 'filterMenu');
+      }
+      return false;
+    });
+
     this.menu.enable(false, 'filterMenu');
     this.menu.enable(false, 'mainMenu');
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {

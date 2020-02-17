@@ -28,10 +28,15 @@ export class MainMenuComponent implements OnInit {
       this.menuService.closeMenu();
       this.menu.enable(false, 'filterMenu');
       this.menu.enable(false, 'mainMenu');
-      // this.menu.close('filterMenu');
-      this.router.navigate(['/home']);
+      this.router.navigate(['home']);
     } else {
       alert('Could not sign you out. Please try again.');
     }
+  }
+
+  goToAccountSettings() {
+    this.menuService.closeMenu();
+    this.menu.enable(false, 'filterMenu');
+    this.router.navigate(['app/account']);
   }
 }

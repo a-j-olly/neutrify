@@ -3,7 +3,10 @@
       <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="manageAuth('signIn')">Sign In</ion-button>
+      <ion-chip color="primary" (click)="manageAuth('signIn')">
+        <ion-label>Sign In</ion-label>
+        <ion-icon name="log-in"></ion-icon>
+      </ion-chip>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

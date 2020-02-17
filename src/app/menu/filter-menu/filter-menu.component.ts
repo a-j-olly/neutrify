@@ -58,43 +58,9 @@ export class FilterMenuComponent {
       exclude: filterOptions.locationsToExclude
     };
 
-    // const topicsToInclude = this.filterService.topicsUserOption.iclud;
-    // const topicsToExclude = filterOptions.topicsToExclude;
     this.topicsUserOption = {};
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
-    // this.topicsUserOption = {
-    //   include: {
-    //     arts: topicsToInclude.arts,
-    //     games: topicsToInclude.games,
-    //     news: topicsToInclude.news,
-    //     regional: topicsToInclude.regional,
-    //     society: topicsToInclude.society,
-    //     business: topicsToInclude.business,
-    //     health: topicsToInclude.health,
-    //     recreation: topicsToInclude.recreation,
-    //     science: topicsToInclude.science,
-    //     sport: topicsToInclude.sport,
-    //     computers: topicsToInclude.computers,
-    //     home: topicsToInclude.home,
-    //     shopping: topicsToInclude.shopping,
-    //   },
-    //   exclude: {
-    //     arts: topicsToExclude.arts,
-    //     games: topicsToExclude.games,
-    //     news: topicsToExclude.news,
-    //     regional: topicsToExclude.regional,
-    //     society: topicsToExclude.society,
-    //     business: topicsToExclude.business,
-    //     health: topicsToExclude.health,
-    //     recreation: topicsToExclude.recreation,
-    //     science: topicsToExclude.science,
-    //     sport: topicsToExclude.sport,
-    //     computers: topicsToExclude.computers,
-    //     home: topicsToExclude.home,
-    //     shopping: topicsToExclude.shopping,
-    //   }
-    // };
   }
 
   async onFilterChange(event) {

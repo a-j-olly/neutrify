@@ -44,7 +44,7 @@ export class FilterService {
       ...optionObj.health,
       ...optionObj.recreation,
       ...optionObj.science,
-      ...optionObj.sport,
+      ...optionObj.sports,
       ...optionObj.computers,
       ...optionObj.home,
       ...optionObj.shopping,
@@ -138,7 +138,6 @@ export class FilterService {
       }
     }
 
-    console.log('filter input: ', filterInput);
     return filterInput;
   }
 

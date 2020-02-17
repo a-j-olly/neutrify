@@ -157,7 +157,7 @@
       <ion-col size="10">
         <ion-item>
           <ion-label>Sports</ion-label>
-          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].sports" [disabled]="disableSport" (ionBlur)="selectChanged()">
+          <ion-select multiple="true" [(ngModel)]="topicList[this.segmentValue].sports" [disabled]="disableSports" (ionBlur)="selectChanged()">
             <ion-select-option *ngFor="let s of selectOptions.sports">{{s.label}}</ion-select-option>
           </ion-select>
         </ion-item>

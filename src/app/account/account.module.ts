@@ -14,7 +14,7 @@ const routes: Routes = [
     path: '',
     component: AccountPage,
     children: [
-      { path: '', redirectTo: '/app/account/subscription', pathMatch: 'full'},
+      { path: '', redirectTo: '/app/account/subscription', pathMatch: 'full' },
       { path: 'billing', component: BillingComponent},
       { path: 'subscription', component: SubscriptionComponent}
     ]

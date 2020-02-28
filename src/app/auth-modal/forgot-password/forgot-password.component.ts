@@ -1,7 +1,8 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MustMatch } from '../helper/must-match.validator';
+import { MustMatch } from '../../helper/must-match.validator';
+import { Strong } from 'src/app/helper/strong.validator';
 
 @Component({
   selector: 'app-forgot-password',
@@ -29,7 +30,7 @@ export class ForgotPasswordComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required]],
     }, {
-      validators: MustMatch('password', 'confirmPassword')
+      validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
   }
 

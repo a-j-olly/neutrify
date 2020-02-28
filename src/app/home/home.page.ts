@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { AuthModalComponent } from './../auth-modal/auth-modal.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +16,8 @@ export class HomePage implements OnInit {
 
   constructor(
     public authService: AuthService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private router: Router,
   ) {}
 
 
@@ -35,6 +37,10 @@ export class HomePage implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  signUp() {
+    this.router.navigateByUrl('/signup');
   }
 
   navigateToTop() {

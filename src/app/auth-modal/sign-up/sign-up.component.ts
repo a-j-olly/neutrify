@@ -1,7 +1,7 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MustMatch } from '../helper/must-match.validator';
+import { MustMatch } from '../../helper/must-match.validator';
 
 @Component({
   selector: 'app-sign-up',

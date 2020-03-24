@@ -91,10 +91,13 @@
                 <ion-row class="ion-justify-content-center">
                   <h4>Topics</h4>
                 </ion-row>
-                <ion-row class="ion-justify-content-center">
-                  <ion-label class="ion-text-wrap" color="primary">
-                    {{ article.displayTopics.length > 8 ? article.displayTopics.slice(0, 8).join(', ') : article.displayTopics.join(', ') }}
-                  </ion-label>
+                <ion-row class="ion-text-wrap ion-justify-content-start">
+                  <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
+                    <div class="list-label">
+                      <ion-label color="primary">{{ topic }}</ion-label>
+                      <ion-label color="primary" [hidden]="i === article.displayTopics.length - 1">,</ion-label>
+                    </div>
+                  </ion-col>
                 </ion-row>
               </div>
 
@@ -102,11 +105,20 @@
                 <ion-row class="ion-justify-content-center">
                   <h4>Keywords</h4>
                 </ion-row>
-                <ion-row class="ion-justify-content-center">
+                <ion-row class="ion-text-wrap ion-justify-content-start">
+                  <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of article.displayKeywords; let i = index">
+                    <div class="list-label">
+                      <ion-label color="primary">{{ keyword }}</ion-label>
+                      <ion-label color="primary" [hidden]="i === article.displayKeywords.length - 1">,</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-row>
+
+                <!-- <ion-row class="ion-justify-content-center">
                   <ion-label class="ion-text-wrap" color="primary">
                       {{ article.displayKeywords.length > 20 ? article.displayKeywords.slice(0, 20).join(', ') : article.displayKeywords.join(', ') }}
                   </ion-label>
-                </ion-row>
+                </ion-row> -->
               </div>
             </ion-row>
           </ion-grid>

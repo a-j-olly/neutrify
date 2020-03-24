@@ -506,7 +506,7 @@ export const Society = [
     },
     {
         id: 2,
-        label: 'Advice',
+        label: 'Advide',
         value: 'advice'
     },
     {
@@ -587,8 +587,8 @@ export const Society = [
     },
     {
         id: 18,
-        label: 'Organizati­ons',
-        value: 'organizati­ons'
+        label: 'Organizations',
+        value: 'organizations'
     },
     {
         id: 19,
@@ -602,8 +602,8 @@ export const Society = [
     },
     {
         id: 21,
-        label: 'Philanthro­py',
-        value: 'philanthro­py'
+        label: 'Philanthropy',
+        value: 'philanthropy'
     },
     {
         id: 22,
@@ -617,13 +617,13 @@ export const Society = [
     },
     {
         id: 24,
-        label: 'Relationsh­ips',
-        value: 'relationsh­ips'
+        label: 'Relationships',
+        value: 'relationships'
     },
     {
         id: 25,
-        label: 'Religion and Spirituali­ty',
-        value: 'religion and spirituali­ty'
+        label: 'Religion and Spirituality',
+        value: 'religion and spirituality'
     },
     {
         id: 26,
@@ -632,8 +632,8 @@ export const Society = [
     },
     {
         id: 27,
-        label: 'Subculture­s',
-        value: 'subculture­s'
+        label: 'Subcultures',
+        value: 'subcultures'
     },
     {
         id: 28,
@@ -642,8 +642,8 @@ export const Society = [
     },
     {
         id: 29,
-        label: 'Transgende­red',
-        value: 'transgende­red'
+        label: 'Transgendered',
+        value: 'transgendered'
     },
     {
         id: 30,

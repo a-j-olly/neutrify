@@ -152,3 +152,12 @@ ion-col {
     margin: 0;
     padding: 0;
 };
+
+.list-label {
+    margin-left: 3px;
+    margin-right: 3px;
+
+    &:hover {
+        cursor: pointer;
+    }
+};

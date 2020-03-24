@@ -1,5 +1,3 @@
-import { ConfirmDetailsComponent } from './confirm-details/confirm-details.component';
-import { SetupBillingComponent } from './setup-billing/setup-billing.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,8 +15,6 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: '/signup/create-account', pathMatch: 'full' },
       { path: 'create-account', component: CreateAccountComponent },
-      // { path: 'setup-billing', component: SetupBillingComponent },
-      // { path: 'confirm-details', component: ConfirmDetailsComponent }
     ]
   }
 ];
@@ -31,6 +27,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SignUpPage, CreateAccountComponent, SetupBillingComponent, ConfirmDetailsComponent]
+  declarations: [SignUpPage, CreateAccountComponent]
 })
 export class SignUpPageModule {}

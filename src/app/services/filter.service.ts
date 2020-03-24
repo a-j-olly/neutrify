@@ -1,6 +1,7 @@
-import { ModelArticleFilterInput, ModelStringKeyConditionInput, GetConfigQuery, UpdateConfigInput } from './neutrify-api.service';
+import { ModelArticleFilterInput, UpdateConfigInput } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import * as TopicGroups from '../model/topic-options';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,57 @@ export class FilterService {
     return this.filterOptions$.asObservable();
   }
 
+  addToFilterOptions(optionType, operation, value) {
+    if (optionType === 'topics') {
+      console.log('addToFilterOptions topics user option', this.topicsUserOption);
+      console.log('addToFilterOptions filter options', this.filterOptions);
+
+      if (operation === 'include') {
+        this.filterOptions.topicsToInclude.push(value.toLowerCase());
+      } else {
+        this.filterOptions.topicsToExclude.push(value.toLowerCase());
+      }
+
+      const topicGroup = this.findTopicsGroup(value);
+      console.log('group: ', topicGroup);
+      this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+    } else if (optionType === 'keywords') {
+      if (operation === 'include') {
+        this.filterOptions.keywordsToInclude.push(value.toLowerCase());
+      } else {
+        this.filterOptions.keywordsToExclude.push(value.toLowerCase());
+      }
+    }
+    this.filterOptions$.next(this.filterOptions);
+  }
+
+  findTopicsGroup(value: string) {
+    console.log('find topics group params: ', value);
+    let group;
+    console.log('topic groups: ', TopicGroups);
+    Object.keys(TopicGroups).forEach((groupKey) => {
+      console.log('group key: ', groupKey);
+      if (group) {
+        return;
+      }
+
+      if (groupKey.toLowerCase() === value.toLowerCase()) {
+        group = groupKey;
+      }
+
+      const index = TopicGroups[groupKey].findIndex((option: any) => {
+        return option.value === value.toLowerCase();
+      });
+
+
+      if (index !== -1) {
+        group = groupKey;
+      }
+    });
+
+    return group;
+  }
+
   marshalRequest(): UpdateConfigInput {
     const req = this.filterOptions;
     req.topicsToInclude = JSON.stringify(this.topicsUserOption.include);
@@ -134,9 +186,12 @@ export class FilterService {
       }
 
       if (ops.topicsToExclude.length > 0) {
+        console.log('there are topics to exclude');
         filterInput.and.push(...this.buildWordFilter(ops.topicsToExclude, 'topics', 'notContains'));
       }
     }
+
+    console.log('filter input', filterInput);
 
     return filterInput;
   }

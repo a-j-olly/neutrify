@@ -3,6 +3,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, MenuController } from '@ionic/angular';
 import { MenuService } from 'src/app/services/menu.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main-menu',
@@ -10,6 +11,8 @@ import { MenuService } from 'src/app/services/menu.service';
   styleUrls: ['./main-menu.component.scss'],
 })
 export class MainMenuComponent implements OnInit {
+
+  private accountSettingToggle;
 
   constructor(
     public authService: AuthService,
@@ -19,7 +22,9 @@ export class MainMenuComponent implements OnInit {
     private menu: MenuController,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.accountSettingToggle = environment.accountSettingToggle;
+  }
 
   async signOut() {
     const res = await this.authService.signOut();

@@ -8,10 +8,11 @@
     </ion-refresher-content>
   </ion-refresher>
   
-  <ion-list>
-    <div id="feed" [hidden]="displayArticles.length === 0" *ngFor="let article of displayArticles">
-      <app-article [article]="article"></app-article>
-    </div>
+  <ion-list id="feed">
+    <app-article  [hidden]="displayArticles.length === 0" 
+      *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}"
+      (articleExpanded)="handleArticleToggle($event, i)" [article]="article">
+    </app-article>
     <div [hidden]="displayArticles.length !== 0 || updatingArticles" class="ion-text-center">
       <h2>Could not find any articles. It is likely your filters are too strict.</h2>
     </div>

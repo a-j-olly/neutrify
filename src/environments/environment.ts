@@ -8,7 +8,8 @@ export const environment = {
   endpoint: 'https://sbwsnv45u5emjln2ykvzmpbx6y.appsync-api.eu-west-2.amazonaws.com/graphql',
   neutrifyUrl: 'http://localhost:8100',
   stripeSK: 'sk_test_yKn6yS9EuUNLSZawIG1r6yAk00PQSNGMAm',
-  stripePrimaryProduct: 'plan_GkxcHqdHyMbWY3'
+  stripePrimaryProduct: 'plan_GkxcHqdHyMbWY3',
+  accountSettingToggle: false
 };
 
 /*

@@ -26,7 +26,7 @@ export class FilterMenuComponent {
       this.initOptions();
     }
 
-  initOptions() {
+  async initOptions() {
     const filterOptions = this.filterService.filterOptions;
 
     this.toneUserOption = {
@@ -61,6 +61,8 @@ export class FilterMenuComponent {
     this.topicsUserOption = {};
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
+
+    await this.buildOptions();
   }
 
   async onFilterChange(event) {
@@ -88,6 +90,10 @@ export class FilterMenuComponent {
         throw new Error(`Unknown event: ${JSON.stringify(event)}`);
     }
 
+    await this.buildOptions();
+  }
+
+  async buildOptions() {
     const filterOptions: any = this.filterService.buildFilterOptions({
       toneUserOption: this.toneUserOption,
       qualityUserOption: this.qualityUserOption,
@@ -110,7 +116,9 @@ export class FilterMenuComponent {
   async saveFilters() {
     try {
       const reqBody: UpdateConfigInput = this.filterService.marshalRequest();
+      console.log('req body for save: ', reqBody);
       await this.neutrifyAPI.UpdateConfig(reqBody);
+      await this.buildOptions();
       await this.presentToast('Your filters have been saved.', 'primary');
     } catch (e) {
       console.log('Could not save filters. Service returned this error: ', e);

@@ -32,9 +32,18 @@ export class AuthGuardService implements CanActivate {
                 console.log('is signed in, navigating to app');
                 return true;
             } else {
-                console.log('is NOT signed in, navigating to home');
-                this.router.navigate(['/home']);
-                return false;
+                console.log('is NOT signed in (1)');
+                setTimeout(() => {
+                    if (this.authService.signedIn) {
+                        console.log('is signed in, navigating to app');
+                        this.router.navigate(['/app']);
+                        return true;
+                    } else {
+                        console.log('is still NOT signed in (2), navigating to home');
+                        this.router.navigate(['/home']);
+                        return false;
+                    }
+                }, 3000);
             }
         }
     }

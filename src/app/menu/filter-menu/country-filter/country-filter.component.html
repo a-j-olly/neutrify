@@ -1,0 +1,54 @@
+<ion-grid>
+  <div class="ion-activatable tappable" (click)="showFilter = !showFilter">
+    <ion-ripple-effect type="unbound"></ion-ripple-effect>
+    <ion-row class="ion-no-margin ion-no-padding">
+      <ion-col size="10">
+        <h4>Countries</h4>
+      </ion-col>
+      <ion-col size="2" class="ion-text-end">
+        <ion-icon name="arrow-dropdown" [hidden]="showFilter"></ion-icon>
+        <ion-icon name="arrow-dropup" [hidden]="!showFilter"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div [hidden]="!showFilter">
+    <ion-row class="ion-justify-content-center" >
+      <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
+        <ion-segment-button value="include">
+          <ion-label>Include</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="exclude">
+          <ion-label>Exclude</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row>
+    
+    <ion-row class="country-list ion-justify-content-start">
+      <ion-col *ngFor="let country of countryFilterList; let i = index">
+        <ion-badge (click)="removeWord(i)">
+          {{ country }}<ion-icon name="close"></ion-icon>
+        </ion-badge>
+      </ion-col>
+      <ion-col [hidden]="countryFilterList && countryFilterList.length !== 0">
+        <p>Add countries to {{ segmentValue }} below:</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+        <ion-item>
+          <ion-label>Suggested countries</ion-label>
+          <ion-select multiple="true" [ngModel]="this.selectList" [disabled]="disableCountries" (ionChange)="selectChanged($event)">
+            <ion-select-option *ngFor="let country of countryOptions">{{country.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+    </ion-row>
+    
+    <form [formGroup]="countryOptionForm" (ngSubmit)="addWord()">
+      <ion-row class="ion-no-margin ion-no-padding">
+        <ion-input formControlName="countryInput" placeholder=" Type here..."></ion-input>
+        <ion-button type="submit" [disabled]="countryOptionForm.invalid">Add</ion-button>
+      </ion-row>
+    </form>
+  </div>
+</ion-grid>

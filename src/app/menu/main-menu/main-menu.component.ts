@@ -12,7 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class MainMenuComponent implements OnInit {
 
-  private accountSettingToggle;
+  public accountSettingToggle;
 
   constructor(
     public authService: AuthService,

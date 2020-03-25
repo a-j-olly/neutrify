@@ -1,9 +1,10 @@
+import { ArticleComponent } from './article/article.component';
 import { Subscription } from 'rxjs';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as moment from 'moment';
-import { ToastController } from '@ionic/angular';
+import { ToastController, IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-article-list',
@@ -22,10 +23,15 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   articleDatePub: ModelStringKeyConditionInput;
   updatingArticles = false;
 
+  @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
+  openArticleId: string;
+
   constructor(
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private changeDetector: ChangeDetectorRef
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async ops => {
@@ -56,7 +62,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     let i = 1;
     let newLimit = 25;
     do {
-
       if (i === 2) {
         newLimit = 200;
         this.rawArticles = await this.listArticles(newLimit);
@@ -77,12 +82,36 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     this.updatingArticles = false;
 
     if (!this.nextToken && this.rawArticles.length < 15) {
-      await this.presentToast('Could only find a few articles that fit your criteria. Perhaps loosen your filters.', 'primary');
+      await this.presentToast('Could only find a few articles that fit your criteria. Try to remove some filters.', 'primary');
     }
   }
 
+  async handleArticleToggle(status, id) {
+    if (status) {
+      if (this.openArticleId) {
+        const article = this.articles.find((a: ArticleComponent) => {
+          return a.id === this.openArticleId;
+        });
+        article.isCardExpanded = false;
+        this.openArticleId = id.toString();
+      } else {
+        this.openArticleId = id.toString();
+      }
+    } else {
+      this.openArticleId = null;
+    }
+
+    this.changeDetector.detectChanges();
+    await this.scrollTo(id.toString());
+  }
+
+  async scrollTo(id: string) {
+    const yOffset = document.getElementById(id).offsetTop;
+    await this.content.scrollToPoint(0, yOffset, 200);
+  }
+
   setDateRange(): ModelStringKeyConditionInput {
-    const dateLimit = moment().subtract(1, 'months');
+    const dateLimit = moment().subtract(3, 'days');
 
     return {
       between: [

@@ -1,6 +1,7 @@
-import { ModelArticleFilterInput, ModelStringKeyConditionInput, GetConfigQuery, UpdateConfigInput } from './neutrify-api.service';
+import { ModelArticleFilterInput, UpdateConfigInput } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import * as TopicGroups from '../model/topic-options';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,60 @@ export class FilterService {
 
   getFilterOptions() {
     return this.filterOptions$.asObservable();
+  }
+
+  addToFilterOptions(optionType, operation, value) {
+    if (optionType === 'topics') {
+
+      if (operation === 'include') {
+        this.filterOptions.topicsToInclude.push(value.toLowerCase());
+      } else {
+        this.filterOptions.topicsToExclude.push(value.toLowerCase());
+      }
+
+      const topicGroup = this.findTopicsGroup(value);
+      this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+    }
+
+    if (operation === 'include') {
+      if (optionType === 'keywords') {
+        this.filterOptions.keywordsToInclude.push(value.toLowerCase());
+      } else if (optionType === 'locations') {
+        this.filterOptions.locationsToInclude.push(value.toLowerCase());
+      }
+    } else {
+      if (optionType === 'keywords') {
+        this.filterOptions.keywordsToExclude.push(value.toLowerCase());
+      } else if (optionType === 'locations') {
+        this.filterOptions.locationsToExclude.push(value.toLowerCase());
+      }
+    }
+
+    this.filterOptions$.next(this.filterOptions);
+  }
+
+  findTopicsGroup(value: string) {
+    let group;
+    Object.keys(TopicGroups).forEach((groupKey) => {
+      if (group) {
+        return;
+      }
+
+      if (groupKey.toLowerCase() === value.toLowerCase()) {
+        group = groupKey;
+      }
+
+      const index = TopicGroups[groupKey].findIndex((option: any) => {
+        return option.value === value.toLowerCase();
+      });
+
+
+      if (index !== -1) {
+        group = groupKey;
+      }
+    });
+
+    return group;
   }
 
   marshalRequest(): UpdateConfigInput {

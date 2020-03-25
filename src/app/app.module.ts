@@ -1,3 +1,4 @@
+import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
 import { TopicsFilterComponent } from './menu/filter-menu/topics-filter/topics-filter.component';
 import { APIService } from './services/neutrify-api.service';
 import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filter.component';
@@ -25,7 +26,8 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     MainMenuComponent,
     WordFilterComponent,
     RangeFilterComponent,
-    TopicsFilterComponent
+    TopicsFilterComponent,
+    CountryFilterComponent
   ],
   entryComponents: [],
   imports: [

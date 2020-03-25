@@ -1,3 +1,4 @@
+import { AddFilterPopoverComponent } from './article-list/article/add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './article-list/article/image-modal/image-modal.component';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { NgModule } from '@angular/core';
@@ -30,8 +31,12 @@ const routes: Routes = [
     ArticleListComponent,
     ArticleComponent,
     RatingComponent,
-    ImageModalComponent
+    ImageModalComponent,
+    AddFilterPopoverComponent
   ],
-  entryComponents: [ImageModalComponent],
+  entryComponents: [
+    ImageModalComponent,
+    AddFilterPopoverComponent
+  ],
 })
 export class NewsFeedPageModule {}

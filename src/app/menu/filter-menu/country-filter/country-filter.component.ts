@@ -45,7 +45,6 @@ export class CountryFilterComponent implements OnInit {
   }
 
   selectChanged(event) {
-    console.log('on change event: ', event);
     this.selectList.push(...event.target.value);
     this.countryFilterList = [...new Set([...this.countryFilterList, ...event.target.value])];
     this.option[this.segmentValue] = this.countryFilterList;

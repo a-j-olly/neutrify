@@ -116,7 +116,6 @@ export class FilterMenuComponent {
   async saveFilters() {
     try {
       const reqBody: UpdateConfigInput = this.filterService.marshalRequest();
-      console.log('req body for save: ', reqBody);
       await this.neutrifyAPI.UpdateConfig(reqBody);
       await this.buildOptions();
       await this.presentToast('Your filters have been saved.', 'primary');

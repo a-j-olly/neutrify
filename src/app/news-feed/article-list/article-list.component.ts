@@ -93,8 +93,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
           return a.id === this.openArticleId;
         });
         article.isCardExpanded = false;
-        article.cardClickEvent = false;
-        article.closeClickEvent = false;
         this.openArticleId = id.toString();
       } else {
         this.openArticleId = id.toString();
@@ -109,7 +107,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   async scrollTo(id: string) {
     const yOffset = document.getElementById(id).offsetTop;
-    await this.content.scrollToPoint(0, yOffset, 500);
+    await this.content.scrollToPoint(0, yOffset, 200);
   }
 
   setDateRange(): ModelStringKeyConditionInput {

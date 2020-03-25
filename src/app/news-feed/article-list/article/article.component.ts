@@ -19,8 +19,7 @@ export class ArticleComponent implements OnInit {
   // public hasRated = false;
 
   public isCardExpanded = false;
-  public cardClickEvent = false;
-  public closeClickEvent = false;
+  public imageFailed = false;
 
   constructor(
     private modalController: ModalController,
@@ -30,22 +29,13 @@ export class ArticleComponent implements OnInit {
     this.dateAge = this.getArticleAge(this.article.datePublished);
   }
 
-  onCardClick(eventLocation) {
+  onCardClick() {
+    this.isCardExpanded = !this.isCardExpanded;
 
-    if (eventLocation === 'close') {
-      this.closeClickEvent = true;
-      this.isCardExpanded = false;
+    if (this.isCardExpanded) {
+      this.articleExpanded.emit(true);
+    } else {
       this.articleExpanded.emit(false);
-    }
-
-    if (eventLocation === 'card') {
-      this.cardClickEvent = true;
-      if (this.cardClickEvent && !this.closeClickEvent) {
-        this.articleExpanded.emit(true);
-        this.isCardExpanded = true;
-      } else if (!this.isCardExpanded) {
-        this.closeClickEvent = false;
-      }
     }
   }
 
@@ -61,6 +51,10 @@ export class ArticleComponent implements OnInit {
     return await modal.present();
   }
 
+  imageError() {
+    this.imageFailed = true;
+  }
+
   async openFilterPopover(event, optionType, value) {
     const popover = await this.popoverController.create({
       component: AddFilterPopoverComponent,
@@ -69,7 +63,9 @@ export class ArticleComponent implements OnInit {
         value
       },
       event,
-      showBackdrop: false
+      showBackdrop: false,
+      translucent: true,
+      cssClass: 'filter-popover'
     });
     return await popover.present();
   }

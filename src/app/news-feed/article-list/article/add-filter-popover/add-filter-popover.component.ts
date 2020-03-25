@@ -22,7 +22,6 @@ export class AddFilterPopoverComponent implements OnInit {
 
   addFilter(operation) {
     this.clicked = true;
-    console.log('addFilter params: ', this.optionType, operation, this.value);
     this.filterService.addToFilterOptions(this.optionType, operation, this.value);
     this.dismiss();
   }

@@ -73,8 +73,6 @@ export class FilterService {
 
   addToFilterOptions(optionType, operation, value) {
     if (optionType === 'topics') {
-      console.log('addToFilterOptions topics user option', this.topicsUserOption);
-      console.log('addToFilterOptions filter options', this.filterOptions);
 
       if (operation === 'include') {
         this.filterOptions.topicsToInclude.push(value.toLowerCase());
@@ -83,24 +81,29 @@ export class FilterService {
       }
 
       const topicGroup = this.findTopicsGroup(value);
-      console.log('group: ', topicGroup);
       this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
-    } else if (optionType === 'keywords') {
-      if (operation === 'include') {
+    }
+
+    if (operation === 'include') {
+      if (optionType === 'keywords') {
         this.filterOptions.keywordsToInclude.push(value.toLowerCase());
-      } else {
+      } else if (optionType === 'locations') {
+        this.filterOptions.locationsToInclude.push(value.toLowerCase());
+      }
+    } else {
+      if (optionType === 'keywords') {
         this.filterOptions.keywordsToExclude.push(value.toLowerCase());
+      } else if (optionType === 'locations') {
+        this.filterOptions.locationsToExclude.push(value.toLowerCase());
       }
     }
+
     this.filterOptions$.next(this.filterOptions);
   }
 
   findTopicsGroup(value: string) {
-    console.log('find topics group params: ', value);
     let group;
-    console.log('topic groups: ', TopicGroups);
     Object.keys(TopicGroups).forEach((groupKey) => {
-      console.log('group key: ', groupKey);
       if (group) {
         return;
       }
@@ -186,12 +189,9 @@ export class FilterService {
       }
 
       if (ops.topicsToExclude.length > 0) {
-        console.log('there are topics to exclude');
         filterInput.and.push(...this.buildWordFilter(ops.topicsToExclude, 'topics', 'notContains'));
       }
     }
-
-    console.log('filter input', filterInput);
 
     return filterInput;
   }

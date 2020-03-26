@@ -116,7 +116,6 @@ export class FilterService {
         return option.value === value.toLowerCase();
       });
 
-
       if (index !== -1) {
         group = groupKey;
       }

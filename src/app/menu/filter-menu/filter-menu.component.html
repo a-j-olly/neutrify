@@ -1,15 +1,12 @@
-<ion-list>    
+<ion-list> 
+    
   <ion-item>
     <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Tone"></app-range-filter>
   </ion-item>
-
+ 
   <ion-item>
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="Sources"></app-word-filter>
   </ion-item>
-
-  <!-- <ion-item>
-    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption" wordFilterType="Locations"></app-word-filter>
-  </ion-item> -->
 
   <ion-item>
     <app-country-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption"></app-country-filter>

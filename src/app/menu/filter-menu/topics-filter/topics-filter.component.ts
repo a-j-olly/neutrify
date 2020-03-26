@@ -1,6 +1,4 @@
-import { Subscription } from 'rxjs';
-import { FilterService } from './../../../services/filter.service';
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   Arts,
   Games,
@@ -21,7 +19,7 @@ import {
   templateUrl: './topics-filter.component.html',
   styleUrls: ['./topics-filter.component.scss'],
 })
-export class TopicsFilterComponent implements OnInit, OnDestroy {
+export class TopicsFilterComponent implements OnInit {
   private option: any;
   public includedTopics: any = {};
   public excludedTopics: any = {};
@@ -42,8 +40,6 @@ export class TopicsFilterComponent implements OnInit, OnDestroy {
   public homeDisabled = false;
   public shoppingDisabled = false;
 
-  topicUserOption$: Subscription;
-
   @Input()
   set userOption(val: any) {
     this.option = val;
@@ -52,7 +48,8 @@ export class TopicsFilterComponent implements OnInit, OnDestroy {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
     this.selectOptions = [
@@ -69,10 +66,6 @@ export class TopicsFilterComponent implements OnInit, OnDestroy {
       { name: 'home', label: 'Home', values: Home, disabledField: 'homeDisabled' },
       { name: 'shopping', label: 'Shopping', values: Shopping, disabledField: 'shoppingDisabled' },
     ];
-  }
-
-  ngOnDestroy() {
-    this.topicUserOption$.unsubscribe();
   }
 
   initTopicView() {

@@ -850,8 +850,8 @@ export const Business = [
     },
     {
         id: 40,
-        label: 'Marketing and Advertisin­g',
-        value: 'marketing and advertisin­g'
+        label: 'Marketing and Advertising',
+        value: 'marketing and advertising'
     },
     {
         id: 41,

@@ -1,16 +1,21 @@
-<ion-grid>
-  <div class="ion-activatable tappable" (click)="showFilter = !showFilter">
-    <ion-ripple-effect type="unbound"></ion-ripple-effect>
+<ion-grid class="ion-no-padding">
     <ion-row class="ion-no-margin ion-no-padding">
-      <ion-col size="10">
+      <ion-col class="ion-no-margin ion-no-padding" size="1">
+        <div class="tooltip">
+          <ion-icon size="small" name="help-circle"></ion-icon>
+          <span class="tooltiptext">Use the checkbox to select all categories within a topic or click on the dropdown menu to specify.</span>
+        </div> 
+      </ion-col>
+
+      <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
         <h4>Topics</h4>
       </ion-col>
-      <ion-col size="2" class="ion-text-end">
+
+      <ion-col class="ion-text-end ion-activatable tappable ion-text-right" size="2" (click)="showFilter = !showFilter">
         <ion-icon name="arrow-dropdown" [hidden]="showFilter"></ion-icon>
         <ion-icon name="arrow-dropup" [hidden]="!showFilter"></ion-icon>
       </ion-col>
     </ion-row>
-  </div>
 
   <div [hidden]="!showFilter">
     <ion-row class="ion-justify-content-center">
@@ -32,7 +37,7 @@
         <ion-col size="10">
           <ion-item>
             <ion-label>{{option.label}}</ion-label>
-            <ion-select name="{{option.name}}" multiple="true" [ngModel]="includedTopics[option.name]" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
+            <ion-select name="{{option.name}}" multiple="true" [value]="includedTopics[option.name]" [compareWith]="compareWithFn" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
               <ion-select-option *ngFor="let value of option.values">{{value.label}}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -48,7 +53,7 @@
         <ion-col size="10">
           <ion-item>
             <ion-label>{{option.label}}</ion-label>
-            <ion-select name="{{option.name}}" multiple="true" [ngModel]="excludedTopics[option.name]" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
+            <ion-select name="{{option.name}}" multiple="true" [value]="excludedTopics[option.name]" (ngModelChange)="modelChanged()" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
               <ion-select-option *ngFor="let value of option.values">{{value.label}}</ion-select-option>
             </ion-select>
           </ion-item>

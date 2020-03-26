@@ -7,6 +7,8 @@ import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -32,6 +34,7 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
   entryComponents: [],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,

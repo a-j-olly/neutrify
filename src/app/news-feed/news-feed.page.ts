@@ -41,7 +41,7 @@ export class NewsFeedPage implements OnDestroy {
   }
 
   toggleMenu() {
-    if (this.platformWidth <= 1084) {
+    if (this.platformWidth < 1080) {
       this.menuService.closeMenu();
       this.menu.toggle('filterMenu');
     } else {

@@ -1,12 +1,24 @@
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { trigger, style, animate, transition } from '@angular/animations';
 import * as moment from 'moment';
 import { ModalController, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-article',
   templateUrl: './article.component.html',
+  animations: [
+    trigger('panelInOut', [
+      transition('void => *', [
+          style({transform: 'translateY(-100%)', opacity: 0}),
+          animate(200)
+      ]),
+      transition('* => void', [
+          animate(200, style({transform: 'translateY(-100%)', opacity: 0}))
+      ])
+  ])
+  ],
   styleUrls: ['./article.component.scss'],
 })
 export class ArticleComponent implements OnInit {

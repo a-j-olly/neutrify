@@ -28,8 +28,8 @@
     </ion-row>
   </div>
 
-  <ion-card-content class="ion-no-margin ion-no-padding">        
-    <div *ngIf="isCardExpanded">
+  <ion-card-content class="ion-no-margin ion-no-padding">
+    <div *ngIf="isCardExpanded" [@panelInOut]>
       <ion-slides>
         <ion-slide>
           <ion-grid class="ion-no-padding ion-no-margin">
@@ -120,15 +120,15 @@
           </ion-grid>
         </ion-slide>
       </ion-slides>
-    </div>
-
-    <div class="ion-no-margin ion-no-padding" [hidden]="!isCardExpanded">
-      <ion-buttons class="ion-justify-content-evenly">
-        <ion-chip class="ion-no-margin" color="primary" (click)="goToArticle()">
-          <ion-icon name="open"></ion-icon>
-          <ion-label>More</ion-label>
-        </ion-chip>
-      </ion-buttons>
+      
+      <div class="ion-no-margin ion-no-padding">
+        <ion-buttons class="ion-justify-content-evenly">
+          <ion-chip class="ion-no-margin" color="primary" (click)="goToArticle()">
+            <ion-icon name="open"></ion-icon>
+            <ion-label>More</ion-label>
+          </ion-chip>
+        </ion-buttons>
+      </div>
     </div>
 
     <ion-row class="ion-justify-content-between footer" (click)="onCardClick()">

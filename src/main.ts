@@ -8,6 +8,7 @@ import PubSub from '@aws-amplify/pubsub';
 import API from '@aws-amplify/api';
 import awsconfig from './aws-exports';
 import { Auth } from 'aws-amplify';
+import '@angular/compiler';
 
 PubSub.configure(awsconfig);
 API.configure(awsconfig);

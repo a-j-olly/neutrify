@@ -11,7 +11,7 @@ import { IonContent, ModalController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  @ViewChild('homePage', {static: false}) homePage: IonContent;
+  @ViewChild('homePage') homePage: IonContent;
   landingPageForm: FormGroup;
 
   constructor(

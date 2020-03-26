@@ -23,7 +23,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   articleDatePub: ModelStringKeyConditionInput;
   updatingArticles = false;
 
-  @ViewChild(IonContent, {static: false}) content: IonContent;
+  @ViewChild(IonContent) content: IonContent;
   @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
   openArticleId: string;
 

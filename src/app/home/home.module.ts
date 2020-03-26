@@ -32,6 +32,5 @@ import { HomePage } from './home.page';
     ConfirmSignUpComponent,
     ForgotPasswordComponent
   ],
-  entryComponents: [AuthModalComponent],
 })
 export class HomePageModule {}

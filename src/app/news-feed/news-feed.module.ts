@@ -34,9 +34,5 @@ const routes: Routes = [
     ImageModalComponent,
     AddFilterPopoverComponent
   ],
-  entryComponents: [
-    ImageModalComponent,
-    AddFilterPopoverComponent
-  ],
 })
 export class NewsFeedPageModule {}

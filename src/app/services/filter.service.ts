@@ -124,9 +124,6 @@ export class FilterService {
     return group;
   }
 
-  getTopicsUserOptions() {
-  }
-
   marshalRequest(): UpdateConfigInput {
     const req = this.filterOptions;
     req.topicsToInclude = JSON.stringify(this.topicsUserOption.include);

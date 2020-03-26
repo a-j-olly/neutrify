@@ -101,11 +101,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       this.openArticleId = null;
     }
 
-    setTimeout(async () => {
-      this.changeDetector.detectChanges();
-      await this.scrollTo(id.toString());
-    }, 300);
-
+    this.changeDetector.detectChanges();
+    await this.scrollTo(id.toString());
   }
 
   async scrollTo(id: string) {

@@ -14,9 +14,9 @@ import { ModalController, PopoverController } from '@ionic/angular';
           style({transform: 'translateY(-100%)', opacity: 0}),
           animate(200)
       ]),
-      transition('* => void', [
-          animate(200, style({transform: 'translateY(-100%)', opacity: 0}))
-      ])
+      // transition('* => void', [
+      //     animate(200, style({transform: 'translateY(-100%)', opacity: 0}))
+      // ])
   ])
   ],
   styleUrls: ['./article.component.scss'],

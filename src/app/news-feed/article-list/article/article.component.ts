@@ -14,9 +14,6 @@ import { ModalController, PopoverController } from '@ionic/angular';
           style({transform: 'translateY(-100%)', opacity: 0}),
           animate(200)
       ]),
-      // transition('* => void', [
-      //     animate(200, style({transform: 'translateY(-100%)', opacity: 0}))
-      // ])
   ])
   ],
   styleUrls: ['./article.component.scss'],
@@ -27,8 +24,6 @@ export class ArticleComponent implements OnInit {
   public dateAge: string;
 
   @Output() articleExpanded: EventEmitter<boolean> = new EventEmitter();
-
-  // public hasRated = false;
 
   public isCardExpanded = false;
   public imageFailed = false;

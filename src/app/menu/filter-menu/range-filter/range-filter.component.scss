@@ -26,7 +26,7 @@ h4 {
 }
 
 .tooltip {
-    top: 8px;
+    top: 3px;
     margin-left: 0px;
     padding-left: 0px;
     position: relative;
@@ -38,13 +38,13 @@ h4 {
     @media screen and (min-width: 1080px) {
         font-size: 14px;
         width: 240px;
-        top: -12px;
+        top: -11px;
     }
 
     @media screen and (min-width: 1600px) {
         font-size: 16px;
         width: 320px;
-        top: -12px;
+        top: -13px;
     }
 
     font-size: 12px;

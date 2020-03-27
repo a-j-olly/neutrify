@@ -9,11 +9,11 @@ const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule), canActivate: [AuthGuardService]},
   { path: 'app', canActivate: [AuthGuardService], children: [
-    { path: '', loadChildren: './news-feed/news-feed.module#NewsFeedPageModule' },
+    { path: '', loadChildren: () => import('./news-feed/news-feed.module').then(m => m.NewsFeedPageModule)},
     { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountPageModule),
       canActivate: [AuthGuardService]}
   ]},
-  { path: 'signup', loadChildren: './sign-up/sign-up.module#SignUpPageModule' },
+  { path: 'signup', loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpPageModule) },
   ];
 
 @NgModule({

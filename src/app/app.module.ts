@@ -31,7 +31,6 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     TopicsFilterComponent,
     CountryFilterComponent
   ],
-  entryComponents: [],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

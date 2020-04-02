@@ -1,8 +1,7 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { ModalController, MenuController } from '@ionic/angular';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sign-in',
@@ -10,7 +9,6 @@ import { ModalController, MenuController } from '@ionic/angular';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-  @Output() view: EventEmitter<string> = new EventEmitter();
 
   signInForm: FormGroup;
   passwordType = 'password';
@@ -21,7 +19,6 @@ export class SignInComponent implements OnInit {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private router: Router,
-    private modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -45,16 +42,22 @@ export class SignInComponent implements OnInit {
 
       if (res === 'true') {
         this.invalidDetails = false;
-        this.modalController.dismiss();
-        this.router.navigate(['./app']);
+        this.router.navigateByUrl('/app');
       } else if (res === 'false') {
         this.invalidDetails = true;
         this.signInForm.reset();
         this.buttonClicked = false;
       } else {
-        this.view.emit(res);
         this.buttonClicked = false;
       }
     }
+  }
+
+  navToSignUp() {
+    this.router.navigateByUrl('/auth/create-account');
+  }
+
+  navToResetPassword() {
+    this.router.navigateByUrl('/auth/reset-password');
   }
 }

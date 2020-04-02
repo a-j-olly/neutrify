@@ -17,7 +17,7 @@ export class AuthService {
   user: any;
   greeting: string;
   signUpEmail: string;
-  forgotPasswordEmail: string;
+  resetPasswordEmail: string;
 
   constructor(
       private amplifyService: AmplifyService,
@@ -198,12 +198,16 @@ export class AuthService {
     }
   }
 
-  async resendSignUp(): Promise<boolean> {
-    if (this.signUpEmail) {
+  async resendSignUp(email?: string): Promise<boolean> {
+    if (this.signUpEmail || email) {
       try {
-        const res = await Auth.resendSignUp(this.signUpEmail);
+        const res = await Auth.resendSignUp(email ? email : this.signUpEmail);
 
         if (res) {
+          if (email && !this.signUpEmail) {
+            this.signUpEmail = email;
+          }
+
           return true;
         } else {
           return false;
@@ -215,12 +219,12 @@ export class AuthService {
     }
   }
 
-  async forgotPassword(email: string): Promise<boolean> {
+  async resetPassword(email: string): Promise<boolean> {
     try {
       const res = await Auth.forgotPassword(email);
 
       if (res) {
-        this.forgotPasswordEmail = email;
+        this.resetPasswordEmail = email;
         return true;
       } else {
         return false;
@@ -231,10 +235,10 @@ export class AuthService {
     }
   }
 
-  async forgotPasswordSubmit(vefCode, password): Promise<boolean> {
-    if (this.forgotPasswordEmail) {
+  async resetPasswordSubmit(vefCode, password): Promise<boolean> {
+    if (this.resetPasswordEmail) {
       try {
-        await Auth.forgotPasswordSubmit(this.forgotPasswordEmail, vefCode, password);
+        await Auth.forgotPasswordSubmit(this.resetPasswordEmail, vefCode, password);
         return true;
       } catch (e) {
         console.log('Could not reset forgotten password. Service returned this error: ', e);

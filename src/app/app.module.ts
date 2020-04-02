@@ -29,7 +29,7 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     WordFilterComponent,
     RangeFilterComponent,
     TopicsFilterComponent,
-    CountryFilterComponent
+    CountryFilterComponent,
   ],
   imports: [
     BrowserModule,

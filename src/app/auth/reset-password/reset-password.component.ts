@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -5,14 +6,12 @@ import { MustMatch } from '../../helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss'],
 })
-export class ForgotPasswordComponent implements OnInit {
-  @Output() view: EventEmitter<string> = new EventEmitter();
-
-  forgotPasswordForm: FormGroup;
+export class ResetPasswordComponent implements OnInit {
+  resetPasswordForm: FormGroup;
   passwordType = 'password';
   confirmPasswordType = 'password';
   invalidEmailDetails = false;
@@ -20,11 +19,15 @@ export class ForgotPasswordComponent implements OnInit {
   invalidCode = false;
   sentResetEmail = false;
 
-  constructor(private formBuilder: FormBuilder, public authService: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    public authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
-    this.authService.setState('forgotPassword');
-    this.forgotPasswordForm = this.formBuilder.group({
+    this.authService.setState('resetPassword');
+    this.resetPasswordForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       vefCode: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],
@@ -34,12 +37,12 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  get f() { return this.forgotPasswordForm.controls; }
+  get f() { return this.resetPasswordForm.controls; }
 
-  async forgotPassword() {
+  async resetPassword() {
     this.buttonClicked = true;
     if (this.f.email.valid) {
-      const res = await this.authService.forgotPassword(this.f.email.value);
+      const res = await this.authService.resetPassword(this.f.email.value);
       if (res) {
         this.sentResetEmail = true;
         this.buttonClicked = false;
@@ -50,24 +53,23 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
 
-  changeView(event) {
-    this.view.emit(event);
-  }
-
-  async forgotPasswordSubmit() {
+  async resetPasswordSubmit() {
     this.buttonClicked = true;
     if (this.sentResetEmail && !this.invalidEmailDetails) {
       if (this.f.password.valid && this.f.confirmPassword.valid && this.f.vefCode.valid) {
-        const res = await this.authService.forgotPasswordSubmit(this.f.vefCode.value, this.f.password.value);
+        const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, this.f.password.value);
         if (res) {
           this.buttonClicked = false;
-          this.forgotPasswordForm.reset();
-          this.view.emit('signIn');
+          this.resetPasswordForm.reset();
         } else {
           this.invalidCode = true;
           this.buttonClicked = false;
         }
       }
     }
+  }
+
+  navToSignIn() {
+    this.router.navigateByUrl('/auth/sign-in');
   }
 }

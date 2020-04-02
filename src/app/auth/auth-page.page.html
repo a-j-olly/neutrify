@@ -14,20 +14,23 @@
 </ion-header>
 
 <ion-content>
-  <app-create-account></app-create-account>
-  <!-- <ion-tabs>
-    <ion-tab-bar slot="top">
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
       <ion-tab-button tab="create-account">
-        <h5>Create Account</h5>
+        <ion-icon name="person-add"></ion-icon>
+        <ion-label>Create new account</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="setup-billing">
-        <h5>Setup Billing</h5>
+      <ion-tab-button tab="sign-in">
+        <ion-icon name="log-in"></ion-icon>
+        <ion-label>Sign in</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="confirm-details" [disabled]="!signupService.setupBillingComplete">
-        <h5>Confirm Details</h5>
+      <ion-tab-button tab="reset-password">
+        <ion-icon name="help"></ion-icon>
+        <ion-label>Reset password</ion-label>
       </ion-tab-button>
+  
     </ion-tab-bar>
-  </ion-tabs> -->
+  </ion-tabs>
 </ion-content>

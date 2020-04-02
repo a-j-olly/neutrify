@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, MenuController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { MenuService } from 'src/app/services/menu.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +16,6 @@ export class MainMenuComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    public modalController: ModalController,
     private router: Router,
     private menuService: MenuService,
     private menu: MenuController,
@@ -33,7 +32,7 @@ export class MainMenuComponent implements OnInit {
       this.menuService.closeMenu();
       this.menu.enable(false, 'filterMenu');
       this.menu.enable(false, 'mainMenu');
-      this.router.navigate(['home']);
+      this.router.navigateByUrl('/home');
     } else {
       alert('Could not sign you out. Please try again.');
     }

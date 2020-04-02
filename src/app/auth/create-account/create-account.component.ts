@@ -19,6 +19,8 @@ export class CreateAccountComponent implements OnInit {
   invalidDetails = false;
   buttonClicked = false;
 
+  signUpInterrupted = false;
+  resetEmail: string;
   showConfirmSignUp = false;
   resentEmail: boolean;
   confirmSignUpForm: FormGroup;
@@ -36,7 +38,8 @@ export class CreateAccountComponent implements OnInit {
     this.signUpForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
-      confirmPassword: [null, Validators.required]
+      confirmPassword: [null, Validators.required],
+      // resetEmail: [null, [Validators.email]]
     }, {
       validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
@@ -87,7 +90,7 @@ export class CreateAccountComponent implements OnInit {
         this.invalidDetails = false;
         this.confirmSignUpForm.reset();
         this.signUpService.createAccountComplete = true;
-        this.router.navigateByUrl('signup/setup-billing');
+        this.navToSignIn();
         await this.presentToast('Successfully created your account.', 'primary');
       } else {
         this.invalidDetails = true;
@@ -95,12 +98,20 @@ export class CreateAccountComponent implements OnInit {
     }
   }
 
-  async resendEmail() {
+  async resendEmail(email?: string) {
     this.buttonClicked = true;
-    const res = await this.authService.resendSignUp();
+    if (email) {
+      this.signUpInterrupted = false;
+    }
+
+    const res = await this.authService.resendSignUp(email);
     if (res) {
       this.resentEmail = true;
       this.buttonClicked = false;
+      if (email) {
+        this.signUpForm.reset();
+        this.initConfirmSignUp();
+      }
     } else {
       await this.presentToast('Email could not be resent. Please check you have entered the correct email address.', 'danger');
       this.buttonClicked = false;
@@ -118,8 +129,8 @@ export class CreateAccountComponent implements OnInit {
     toast.present();
   }
 
-  goToHome() {
-    this.router.navigateByUrl('home');
+  navToSignIn() {
+    this.router.navigateByUrl('/auth/sign-in');
   }
 }
 

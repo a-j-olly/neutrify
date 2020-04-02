@@ -3,11 +3,11 @@ import { SignUpService } from './../services/sign-up.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.page.html',
-  styleUrls: ['./sign-up.page.scss'],
+  selector: 'app-auth-page',
+  templateUrl: './auth-page.page.html',
+  styleUrls: ['./auth-page.page.scss'],
 })
-export class SignUpPage implements OnInit {
+export class AuthPage implements OnInit {
 
   constructor(
     public signupService: SignUpService,

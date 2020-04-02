@@ -16,6 +16,10 @@ p {
     font-size: 12px;
 };
 
+.ion-activatable:hover {
+    cursor: pointer;
+};
+
 .tooltip {
     top: 3px;
     margin-left: 0px;

@@ -1,6 +1,3 @@
-import { SubscriptionComponent } from './account/subscription/subscription.component';
-import { BillingComponent } from './account/billing/billing.component';
-
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -13,7 +10,8 @@ const routes: Routes = [
     { path: 'account', loadChildren: () => import('./account/account.module').then(m => m.AccountPageModule),
       canActivate: [AuthGuardService]}
   ]},
-  { path: 'signup', loadChildren: () => import('./sign-up/sign-up.module').then(m => m.SignUpPageModule) },
+  { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule) },
+
   ];
 
 @NgModule({

@@ -7,3 +7,11 @@ ion-img.logo {
 ion-content {
     --overflow: hidden;
 };
+
+ion-tab-bar {
+    @media screen and (min-width: 1080px) {
+        display: none;
+    }
+
+    display: inherit;
+}

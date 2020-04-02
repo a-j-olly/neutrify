@@ -1,3 +1,6 @@
+import { SignInComponent } from './sign-in/sign-in.component';
+import { AuthPage } from './auth-page.page';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -6,15 +9,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SignUpPage } from './sign-up.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SignUpPage,
+    component: AuthPage,
     children: [
-      { path: '', redirectTo: '/signup/create-account', pathMatch: 'full' },
+      { path: '', redirectTo: '/auth/create-account', pathMatch: 'full' },
       { path: 'create-account', component: CreateAccountComponent },
+      { path: 'sign-in', component: SignInComponent },
+      { path: 'reset-password', component: ResetPasswordComponent },
     ]
   }
 ];
@@ -27,6 +31,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SignUpPage, CreateAccountComponent]
+  declarations: [AuthPage, CreateAccountComponent, SignInComponent, ResetPasswordComponent]
 })
-export class SignUpPageModule {}
+export class AuthPageModule {}

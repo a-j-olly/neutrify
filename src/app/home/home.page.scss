@@ -26,6 +26,12 @@ ion-img.logo {
     background-color: #4169e1;
 };
 
+.text-caption {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 2px;
+}
+
 .cta-button {
     max-width: 290px;
     margin: 0 auto;
@@ -45,4 +51,9 @@ ion-img.logo {
 
 .feature {
     max-width: 360px;
+};
+
+.footer {
+    padding: 5px;
+    background-color: whitesmoke;
 };

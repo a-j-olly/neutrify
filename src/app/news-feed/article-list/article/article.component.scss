@@ -75,7 +75,7 @@ ion-card {
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
-                // -webkit-line-clamp: 14; /* number of lines to show */
+                -webkit-line-clamp: 14; /* number of lines to show */
                 line-height: 20px;        /* fallback */
                 max-height: 280px;       /* fallback */
             };
@@ -87,35 +87,42 @@ ion-card {
         };
     };
 
-    .article-img {
-        @media screen and (min-width: 720px) {
-            max-width: 480px;
-            max-height: 280px;
+    .img-container {
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        ion-img {
+            @media screen and (min-width: 720px) {
+                max-width: 480px;
+                max-height: 280px;
+            }
+    
+            max-width: 320px;
+            margin: 2px auto;
+            transition: 0.3s;
+    
+            &:hover {
+                cursor: pointer;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            };
         }
-
-        max-width: 320px;
-        margin: 2px auto;
-        transition: 0.3s;
-
-        &:hover {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        };
     };
 
     .metrics-line-wrap {
+        @media screen and (min-width: 720px) {
+            line-height: 22px;
+            max-height: 484px;
+        }
+        
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        // -webkit-line-clamp: 14; /* number of lines to show */
-        @media screen and (min-width: 720px) {
-
-            max-height: 484px;
-            line-height: 22px;        /* fallback */
-        }
-        
-        line-height: 18px;        /* fallback */
-        max-height: 314px;       /* fallback */
+        // -webkit-line-clamp: 14; /* number of lines to show */        
+        line-height: 18px;
+        max-height: 314px;
 
         ion-label {
             @media screen and (min-width: 720px) {
@@ -171,6 +178,23 @@ ion-card {
         padding: 0;
         margin: 0;
     };
+
+    .arrow-container {
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            background: rgba(white, 0);
+
+            &[disabled] {
+                cursor: default;
+                opacity: 0.4;
+                pointer-events: none;
+            }
+        }
+    }
 };
 
 .negative-range {

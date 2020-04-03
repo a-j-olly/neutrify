@@ -19,7 +19,13 @@ ion-img.image {
 ion-img.logo {
     max-width: 150px;
     max-height: 48px;
-    margin-left: 10px;
+    margin-left: auto;
+    margin-right: auto;
+};
+
+.toolbar-buttons {
+    position: absolute;
+    right: 0px;
 };
 
 .email-section {

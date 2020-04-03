@@ -29,6 +29,11 @@ ion-input {
 
 .word-list {
     margin: 12px;
+
+    ion-col {
+        margin-left: 2px;
+        margin-right: 2px;
+    };
 };
 
 .ion-activatable:hover {

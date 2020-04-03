@@ -91,7 +91,7 @@ export class CreateAccountComponent implements OnInit {
         this.confirmSignUpForm.reset();
         this.signUpService.createAccountComplete = true;
         this.navToSignIn();
-        await this.presentToast('Successfully created your account.', 'primary');
+        await this.presentToast('Successfully created your account. Please sign in.', 'primary');
       } else {
         this.invalidDetails = true;
       }

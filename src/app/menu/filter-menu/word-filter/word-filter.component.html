@@ -29,8 +29,8 @@
         </ion-segment-button>
       </ion-segment>
     </ion-row>
-    <ion-row class="word-list ion-justify-content-start">
-      <ion-col *ngFor="let word of wordFilterList; let i = index">
+    <ion-row class="word-list ion-justify-content-start ion-align-items-center">
+      <ion-col class="ion-justify-content-center" *ngFor="let word of wordFilterList; let i = index">
         <ion-badge (click)="removeWord(i)">
           {{ word }}<ion-icon name="close"></ion-icon>
         </ion-badge>

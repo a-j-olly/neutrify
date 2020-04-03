@@ -28,14 +28,6 @@
 /* CSS for amplify components */
 // @import '~aws-amplify-angular/Theme.css'
 
-.auth-modal .modal-wrapper {
-    max-height: 320px;
-    max-width: 400px;
-    position: absolute; 
-    display: block;
-    border: 3px solid royalblue;
-};
-
 ion-modal.auto-height {
     &.bottom {
         align-items: flex-end;
@@ -67,8 +59,6 @@ ion-modal.auto-height {
 
 .filter-popover .popover-wrapper  {
     .popover-content {
-        background: whitesmoke !important;
-        opacity: 0.95;
+        background: rgba(whitesmoke, 0.8);
     }
-
 };

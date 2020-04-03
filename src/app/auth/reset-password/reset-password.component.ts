@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
@@ -22,7 +23,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController,
     ) { }
 
   ngOnInit() {
@@ -61,12 +63,25 @@ export class ResetPasswordComponent implements OnInit {
         if (res) {
           this.buttonClicked = false;
           this.resetPasswordForm.reset();
+          this.navToSignIn();
+          await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
         } else {
           this.invalidCode = true;
           this.buttonClicked = false;
         }
       }
     }
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center',
+      position: 'middle'
+    });
+    toast.present();
   }
 
   navToSignIn() {

@@ -35,7 +35,7 @@
         <div class="form-item">
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
-              <ion-button class="form-control" type="submit" expand="full" [disabled]="this.signInForm.invalid || buttonClicked">Sign in</ion-button>
+              <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || buttonClicked" (keydown.enter)="signIn()">Sign in</button>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -57,7 +57,7 @@
     <div class="auth-options">
       <ion-row class="ion-justify-content-between ion-align-items-center">
         <ion-label>Forgotten your password?</ion-label>
-        <ion-button size="small" (click)="navToResetPassword()">Reset it</ion-button>
+        <ion-button size="small" (click)="navToResetPassword()">Reset It</ion-button>
       </ion-row>
     </div>
   </div>

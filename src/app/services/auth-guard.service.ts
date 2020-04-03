@@ -19,7 +19,7 @@ export class AuthGuardService implements CanActivate {
 
         if (url === '' || url.startsWith('/home')) {
             if (this.authService.signedIn) {
-                this.router.navigate(['/app']);
+                this.router.navigateByUrl('/app');
                 return false;
             } else {
                 return true;
@@ -30,10 +30,10 @@ export class AuthGuardService implements CanActivate {
             } else {
                 setTimeout(() => {
                     if (this.authService.signedIn) {
-                        this.router.navigate(['/app']);
+                        this.router.navigateByUrl('/app');
                         return true;
                     } else {
-                        this.router.navigate(['/home']);
+                        this.router.navigateByUrl('/home');
                         return false;
                     }
                 }, 3000);

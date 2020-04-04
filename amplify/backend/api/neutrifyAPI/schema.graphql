@@ -1,15 +1,86 @@
-type Customer @model {
-  id: ID!
-  customerEmail: String!
-  survey: Survey @connection(name: "CustomerSurvey")
+# The article model contains all data field that are found on a news article.
+type Article @model(mutations: null, subscriptions: null)
+    @key(fields: ["id", "uri"])
+    @key(name: "byDate", fields: ["dataType", "datePublished"], queryField: "articlesByDate")
+    @auth(rules: [{ allow: private, operations: [read]}])
+{
+    authors: [String!]
+    body: String!
+    dataType: String!
+    date: String
+    dateTime: String
+    datePublished: AWSDateTime!
+    displayAuthors: [String!]
+    displayKeywords: [String!]
+    displaySourceCountry: String!
+    displaySourceTitle: String!
+    displayTopics: [String!]
+    eventUri: String
+    id: ID!
+    image: String
+    keywords: [String!]
+    language: String
+    quality: Int!
+    share: Int
+    similarity: Float
+    time: String
+    sourceCountry: String!
+    sourceRanking: Int
+    sourceTitle: String!
+    title: String!
+    tone: Float!
+    topics: [String!]
+    uri: String!
+    url: String!
+    wordCount: Int!
 }
 
-type Survey @model {
-  id: ID!
-  surveyTryReason: String!
-  surveyLeaveComments: Boolean!
-  surveyLocalityOption: String!
-  surveyBiasOption: String!
-  surveyUsedServices: [String!]
-  customer: Customer! @connection(name: "CustomerSurvey")
+# Used to store most user information 
+type User @model(subscriptions: null) 
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
+{
+    billingAddressCity: String
+    billingAddressHouseNo: String
+    billingAddressPostalCode: String
+    billingAddressStreet: String
+    config: Config @connection(name: "UserConfig")
+    email: String!
+    freeTrial: Boolean!
+    freeTrialStartDate: String!
+    freeTrialEndDate: String!
+    id: ID!
+    isPremium: Boolean!
+    isActive: Boolean
+    lastLogin: String
+    ownerId: String
+    premiumEndDate: String
+    premiumIsExpiring: Boolean
+    premiumStartDate: String
+    feedbackDiscovery: String
+    feedbackLeaveReason: String
+    feedbackPromoterScore: Int
+}
+
+# Used to store all filter options
+type Config @model(subscriptions: null)
+    @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
+    @key(name: "ByOwner" fields: ["ownerId"], queryField: "configByOwner")
+{
+    id: ID!
+    keywordsToInclude: [String]!
+    keywordsToExclude: [String]!
+    ownerId: String
+    qualityUpperRange: Float!
+    qualityLowerRange: Float!
+    toneUpperRange: Float!
+    toneLowerRange: Float!
+    topicsToInclude: AWSJSON!
+    topicsToExclude: AWSJSON!
+    savedArticleIds: [ID!]
+    sourcesToInclude: [String]!
+    sourcesToExclude: [String]!
+    locationsToInclude: [String]!
+    locationsToExclude: [String]!
+    user: User @connection(name: "UserConfig")
 }

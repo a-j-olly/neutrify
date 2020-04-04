@@ -1,121 +1,35 @@
 # this is an auto generated file. This will be overwritten
-subscription OnCreateCustomer {
-  onCreateCustomer {
+subscription OnCreateArticle {
+  onCreateArticle {
+    authors
+    body
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
     id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
-        id
-        customerEmail
-      }
-    }
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
-subscription OnUpdateCustomer {
-  onUpdateCustomer {
-    id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
-        id
-        customerEmail
-      }
-    }
-  }
-}
-subscription OnDeleteCustomer {
-  onDeleteCustomer {
-    id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
-        id
-        customerEmail
-      }
-    }
-  }
-}
-subscription OnCreateSurvey {
-  onCreateSurvey {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
-subscription OnUpdateSurvey {
-  onUpdateSurvey {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
-subscription OnDeleteSurvey {
-  onDeleteSurvey {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
+

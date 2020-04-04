@@ -1,0 +1,140 @@
+<ion-content> 
+  <div class="container" *ngIf="!showConfirmSignUp">
+    <form  [formGroup]="signUpForm" (ngSubmit)="signUp()">
+      <div class="form-group">
+        <p>To begin using Neutrify, you must first create an account. Please fill in the form below.</p>
+        <div class="form-item">
+          <ion-item>
+            <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required></ion-input>
+          </ion-item>
+          <span *ngIf="sf.email.invalid && sf.email.touched">
+            <span *ngIf="sf.email.errors.email">
+              <ion-text color="danger">This email address is invalid.</ion-text>
+            </span>
+            <span *ngIf="sf.email.errors.required">
+              <ion-text color="danger">You must enter an email address.</ion-text>
+            </span>
+          </span>
+        </div>
+        
+        <div class="form-item">
+          <ion-item>
+            <ion-input class="form-control" [type]="passwordType" placeholder="Password" formControlName="password" required></ion-input>
+            <ion-icon name="eye" position="fixed" slot="end" tappable (click)="togglePasswordType()"></ion-icon>
+          </ion-item>
+          <span *ngIf="sf.password.invalid && sf.password.touched">
+            <span *ngIf="sf.password.errors.required">
+              <ion-text color="danger">You must enter a password.</ion-text>
+            </span>
+            <span *ngIf="sf.password.errors.minlength">
+              <ion-text color="danger">Your password must be greater than 7 characters.</ion-text>
+            </span>
+            <span *ngIf="sf.password.errors.strong">
+              <ion-text color="danger">Your password must contain an uppercase character and a number.</ion-text>
+            </span>
+          </span>
+        </div>
+    
+        <div class="form-item">
+          <ion-item>
+            <ion-input class="form-control" [type]="confirmPasswordType" placeholder="Re-enter password" formControlName="confirmPassword" required></ion-input>
+            <ion-icon name="eye" position="fixed" slot="end" tappable (click)="toggleConfirmPasswordType()"></ion-icon>
+          </ion-item>
+          <span *ngIf="sf.confirmPassword.invalid && sf.confirmPassword.touched">
+            <span *ngIf="sf.confirmPassword.errors.required">
+              <ion-text color="danger">You must re-enter your password.</ion-text>
+            </span>
+            <span *ngIf="sf.confirmPassword.errors.mustMatch">
+              <ion-text color="danger">The passwords you've entered don't match.</ion-text>
+            </span>
+          </span>
+        </div>
+    
+        <div class="form-item">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12">
+              <button class="form-control submit-button" type="submit" [disabled]="this.signUpForm.invalid || buttonClicked" (keydown.enter)="signUp()">Create account</button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <span *ngIf="invalidDetails">
+              <ion-text color="danger">Could not sign you up. Try a different email.</ion-text>
+            </span>
+          </ion-row>
+        </div>
+      </div>
+    </form>
+
+    <div class="auth-options">
+      <ion-row class="ion-justify-content-between ion-align-items-center">
+        <ion-label>Already have an account?</ion-label>
+        <ion-button size="small" (click)="navToSignIn()">Sign In</ion-button>
+      </ion-row>
+    </div>
+
+    <div class="auth-options">
+      <ion-row class="ion-justify-content-between ion-align-items-center">
+        <ion-label>Get interrupted earlier?</ion-label>
+        <ion-button size="small" (click)="signUpInterrupted = true" *ngIf="!signUpInterrupted">Resume</ion-button>
+      </ion-row>
+    </div>
+
+    <div class="form-item" *ngIf="signUpInterrupted">
+      <p>Enter the email you signed up with below.</p>
+      <ion-item>
+        <ion-input class="form-control" name="resetSubmit" type="text" placeholder="Email"
+        [(ngModel)]="resetEmail" email required #resetEmailCtrl="ngModel"></ion-input>
+        <ion-button size="small" [disabled]="resetEmailCtrl.invalid" (click)="resendEmail(this.resetEmail)">Resend</ion-button>
+      </ion-item>
+      <span *ngIf="resetEmailCtrl.invalid && resetEmailCtrl.touched">
+        <span *ngIf="resetEmailCtrl.errors.email">
+          <ion-text color="danger">This email address is invalid.</ion-text>
+        </span>
+        <span *ngIf="resetEmailCtrl.errors.required">
+          <ion-text color="danger">You must enter an email address.</ion-text>
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="showConfirmSignUp">
+    <form  [formGroup]="confirmSignUpForm" (ngSubmit)="confirmSignUp()" >
+      <div class="form-group">
+        <p>A verification email has been sent to {{this.authService.signUpEmail}}. Please copy the code from the email and paste it into the field below.</p>
+        <div class="form-item">
+          <ion-item>
+            <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required></ion-input>
+          </ion-item>
+          <span *ngIf="cSF.vefCode.invalid && cSF.vefCode.touched">
+            <span *ngIf="cSF.vefCode.errors.required">
+              <ion-text color="danger">Please enter the code.</ion-text>
+            </span>
+          </span>
+        </div>
+    
+        <div class="form-item">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12">
+              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || buttonClicked" (keydown.enter)="confirmSignUp()">Confirm email</button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <span *ngIf="invalidDetails">
+              <ion-text color="danger">Could not verify your email. Make sure you copied the correct code.</ion-text>
+            </span>
+          </ion-row>
+        </div>
+      </div>
+    </form>
+
+    <div class="auth-options">
+      <ion-row class="ion-justify-content-between ion-align-items-center">
+        <ion-label>Sign up code still not arrived?</ion-label>
+        <ion-button size="small" (click)="resendEmail()">Resend</ion-button>
+      </ion-row>
+      <span *ngIf="resentEmail">
+        <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
+      </span>
+    </div>
+  </div>
+</ion-content>

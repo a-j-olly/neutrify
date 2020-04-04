@@ -1,121 +1,355 @@
 # this is an auto generated file. This will be overwritten
-mutation CreateCustomer($input: CreateCustomerInput!) {
-  createCustomer(input: $input) {
-    id
-    customerEmail
-    survey {
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    config {
       id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
         id
-        customerEmail
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
+    }
+    email
+    freeTrial
+    freeTrialStartDate
+    freeTrialEndDate
+    id
+    isPremium
+    isActive
+    lastLogin
+    ownerId
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
+  }
+}
+mutation UpdateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    config {
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
+        id
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+      }
+    }
+    email
+    freeTrial
+    freeTrialStartDate
+    freeTrialEndDate
+    id
+    isPremium
+    isActive
+    lastLogin
+    ownerId
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
+  }
+}
+mutation DeleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    config {
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
+        id
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+      }
+    }
+    email
+    freeTrial
+    freeTrialStartDate
+    freeTrialEndDate
+    id
+    isPremium
+    isActive
+    lastLogin
+    ownerId
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
+  }
+}
+mutation CreateConfig($input: CreateConfigInput!) {
+  createConfig(input: $input) {
+    id
+    keywordsToInclude
+    keywordsToExclude
+    ownerId
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
+    locationsToInclude
+    locationsToExclude
+    user {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+      }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
-mutation UpdateCustomer($input: UpdateCustomerInput!) {
-  updateCustomer(input: $input) {
+mutation UpdateConfig($input: UpdateConfigInput!) {
+  updateConfig(input: $input) {
     id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
+    keywordsToInclude
+    keywordsToExclude
+    ownerId
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
+    locationsToInclude
+    locationsToExclude
+    user {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
         id
-        customerEmail
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }
-mutation DeleteCustomer($input: DeleteCustomerInput!) {
-  deleteCustomer(input: $input) {
+mutation DeleteConfig($input: DeleteConfigInput!) {
+  deleteConfig(input: $input) {
     id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
+    keywordsToInclude
+    keywordsToExclude
+    ownerId
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
+    locationsToInclude
+    locationsToExclude
+    user {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
         id
-        customerEmail
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
       }
-    }
-  }
-}
-mutation CreateSurvey($input: CreateSurveyInput!) {
-  createSurvey(input: $input) {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
       id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
-mutation UpdateSurvey($input: UpdateSurveyInput!) {
-  updateSurvey(input: $input) {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
-mutation DeleteSurvey($input: DeleteSurveyInput!) {
-  deleteSurvey(input: $input) {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
     }
   }
 }

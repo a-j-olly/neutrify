@@ -1,0 +1,33 @@
+<ion-grid class="ion-no-padding">
+  <ion-row class="ion-no-margin ion-no-padding">
+    <ion-col class="ion-no-margin ion-no-padding" size="1">
+      <div class="tooltip">
+        <ion-icon size="small" name="help-circle"></ion-icon>
+        <span class="tooltiptext">Adjust the slider to alter the tone of the articles you see.</span>
+      </div> 
+    </ion-col>
+    
+    <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
+      <h4>{{ rangeFilterType }}</h4>
+    </ion-col>
+
+    <ion-col class="ion-text-end ion-activatable tappable ion-text-right" size="2" (click)="showFilter = !showFilter">
+      <ion-icon name="chevron-down-outline" [hidden]="showFilter"></ion-icon>
+      <ion-icon name="chevron-up-outline" [hidden]="!showFilter"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <div [hidden]="!showFilter">
+    <ion-row>
+      <p>Filter articles based on {{ rangeFilterType.toLowerCase() }}:</p>
+    </ion-row>
+    <ion-row>
+      <ion-range min="{{ rangeSettings.min }}" max="{{ rangeSettings.max }}" step="{{ rangeSettings.step }}" dualKnobs="{{ rangeSettings.dualKnobs }}"
+      ticks="{{ rangeSettings.ticks }}" snaps="{{ rangeSettings.snaps }}" pin="{{ rangeSettings.pin }}" debounce="250" [ngModel]="userOption.value" (ionChange)="onChange($event)">
+        <ion-icon slot="start" name="{{ rangeSettings.rangeIcons.start.name }}" color="{{ rangeSettings.rangeIcons.start.color }}"></ion-icon>
+        <ion-icon slot="end" name="{{ rangeSettings.rangeIcons.end.name }}" color="{{ rangeSettings.rangeIcons.end.color }}"></ion-icon>
+      </ion-range>
+    </ion-row>  
+  </div>
+</ion-grid>
+

@@ -1,0 +1,79 @@
+h4 {
+    padding: 0px;
+    margin: 0px 0px 4px 0px;
+    font-size: 20px;
+};
+
+ion-icon {
+    font-size: 20px;
+
+    &:hover {
+        cursor: pointer;
+    }
+};
+
+p {
+    font-size: 12px;
+};
+
+.ion-activatable:hover {
+    cursor: pointer;
+};
+
+.tooltip {
+    top: 3px;
+    margin-left: 0px;
+    padding-left: 0px;
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+.tooltip .tooltiptext {
+    @media screen and (min-width: 1080px) {
+        font-size: 12px;
+        width: 240px;
+        top: -13px;
+        line-height: 12px;
+    }
+
+    @media screen and (min-width: 1600px) {
+        font-size: 14px;
+        width: 320px;
+        top: -10px;
+        line-height: 14px;
+    }
+
+    font-size: 10px;
+    line-height: 10px;
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: -10px;
+    left: 110%;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+};

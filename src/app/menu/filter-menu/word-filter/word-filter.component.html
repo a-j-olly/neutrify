@@ -1,0 +1,49 @@
+<ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-margin ion-no-padding">
+      <ion-col class="ion-no-margin ion-no-padding" size="1">
+        <div class="tooltip">
+          <ion-icon size="small" name="help-circle"></ion-icon>
+          <span class="tooltiptext" *ngIf="wordFilterType === 'Sources'">Build a list of news sources you want to read articles from.</span>
+          <span class="tooltiptext" *ngIf="wordFilterType === 'Keywords'">Build a list of keywords that you want to read about in the articles you see.</span>
+        </div> 
+      </ion-col>
+
+      <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
+        <h4>{{ wordFilterType }}</h4>
+      </ion-col>
+
+      <ion-col class="ion-text-end ion-activatable tappable ion-text-right" size="2" class="ion-text-end" (click)="showFilter = !showFilter">
+        <ion-icon name="chevron-down-outline" [hidden]="showFilter"></ion-icon>
+        <ion-icon name="chevron-up-outline" [hidden]="!showFilter"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+  <div [hidden]="!showFilter">
+    <ion-row class="ion-justify-content-center" >
+      <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
+        <ion-segment-button value="include">
+          <ion-label>Include</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="exclude">
+          <ion-label>Exclude</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-row>
+    <ion-row class="word-list ion-justify-content-start ion-align-items-center">
+      <ion-col class="ion-justify-content-center" *ngFor="let word of wordFilterList; let i = index">
+        <ion-badge (click)="removeWord(i)">
+          {{ word }}<ion-icon name="close"></ion-icon>
+        </ion-badge>
+      </ion-col>
+      <ion-col [hidden]="wordFilterList && wordFilterList.length !== 0">
+        <p>Add {{ wordFilterType.toLowerCase() }} to {{ segmentValue }} below:</p>
+      </ion-col>
+    </ion-row>
+    <form [formGroup]="wordOptionForm" (ngSubmit)="addWord()">
+      <ion-row class="ion-no-margin ion-no-padding">
+        <ion-input formControlName="wordInput" placeholder=" Type here..."></ion-input>
+        <ion-button type="submit" [disabled]="wordOptionForm.invalid">Add</ion-button>
+      </ion-row>
+    </form>
+  </div>
+</ion-grid>

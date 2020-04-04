@@ -57,7 +57,7 @@
   env: { DEBUG: undefined },
 };
 
-import './zone-flags.ts';
+import './zone-flags';
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.

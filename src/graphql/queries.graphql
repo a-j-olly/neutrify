@@ -1,81 +1,454 @@
 # this is an auto generated file. This will be overwritten
-query GetCustomer($id: ID!) {
-  getCustomer(id: $id) {
+query GetArticle($id: ID!, $uri: String!) {
+  getArticle(id: $id, uri: $uri) {
+    authors
+    body
+    dataType
+    date
+    dateTime
+    datePublished
+    displayAuthors
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
     id
-    customerEmail
-    survey {
-      id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
-        id
-        customerEmail
-      }
-    }
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    uri
+    url
+    wordCount
   }
 }
-query ListCustomers(
-  $filter: ModelCustomerFilterInput
+query ListArticles(
+  $id: ID
+  $uri: ModelStringKeyConditionInput
+  $filter: ModelArticleFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listArticles(
+    id: $id
+    uri: $uri
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      authors
+      body
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
+    }
+    nextToken
+  }
+}
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    billingAddressCity
+    billingAddressHouseNo
+    billingAddressPostalCode
+    billingAddressStreet
+    config {
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
+        id
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+      }
+    }
+    email
+    freeTrial
+    freeTrialStartDate
+    freeTrialEndDate
+    id
+    isPremium
+    isActive
+    lastLogin
+    ownerId
+    premiumEndDate
+    premiumIsExpiring
+    premiumStartDate
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listCustomers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+      }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+    }
+    nextToken
+  }
+}
+query GetConfig($id: ID!) {
+  getConfig(id: $id) {
+    id
+    keywordsToInclude
+    keywordsToExclude
+    ownerId
+    qualityUpperRange
+    qualityLowerRange
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
+    locationsToInclude
+    locationsToExclude
+    user {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+      }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+    }
+  }
+}
+query ListConfigs(
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      customerEmail
-      survey {
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
         id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     nextToken
   }
 }
-query GetSurvey($id: ID!) {
-  getSurvey(id: $id) {
-    id
-    surveyTryReason
-    surveyLeaveComments
-    surveyLocalityOption
-    surveyBiasOption
-    surveyUsedServices
-    customer {
-      id
-      customerEmail
-      survey {
-        id
-        surveyTryReason
-        surveyLeaveComments
-        surveyLocalityOption
-        surveyBiasOption
-        surveyUsedServices
-      }
-    }
-  }
-}
-query ListSurveys(
-  $filter: ModelSurveyFilterInput
+query ArticlesByDate(
+  $dataType: String
+  $datePublished: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelArticleFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listSurveys(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  articlesByDate(
+    dataType: $dataType
+    datePublished: $datePublished
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      authors
+      body
+      dataType
+      date
+      dateTime
+      datePublished
+      displayAuthors
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      uri
+      url
+      wordCount
+    }
+    nextToken
+  }
+}
+query UserByOwner(
+  $ownerId: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  userByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      billingAddressCity
+      billingAddressHouseNo
+      billingAddressPostalCode
+      billingAddressStreet
+      config {
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        qualityUpperRange
+        qualityLowerRange
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+      }
+      email
+      freeTrial
+      freeTrialStartDate
+      freeTrialEndDate
+      id
+      isPremium
+      isActive
+      lastLogin
+      ownerId
+      premiumEndDate
+      premiumIsExpiring
+      premiumStartDate
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+    }
+    nextToken
+  }
+}
+query ConfigByOwner(
+  $ownerId: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  configByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
     items {
       id
-      surveyTryReason
-      surveyLeaveComments
-      surveyLocalityOption
-      surveyBiasOption
-      surveyUsedServices
-      customer {
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      qualityUpperRange
+      qualityLowerRange
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      user {
+        billingAddressCity
+        billingAddressHouseNo
+        billingAddressPostalCode
+        billingAddressStreet
+        email
+        freeTrial
+        freeTrialStartDate
+        freeTrialEndDate
         id
-        customerEmail
+        isPremium
+        isActive
+        lastLogin
+        ownerId
+        premiumEndDate
+        premiumIsExpiring
+        premiumStartDate
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
       }
     }
     nextToken

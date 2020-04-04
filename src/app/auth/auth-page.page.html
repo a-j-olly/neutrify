@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons class="toolbar-buttons" slot="start">
+      <ion-chip color="primary" (click)="backToHome()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Back</ion-label>
+      </ion-chip>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="create-account">
+        <ion-icon name="person-add"></ion-icon>
+        <ion-label>Create new account</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="sign-in">
+        <ion-icon name="log-in"></ion-icon>
+        <ion-label>Sign in</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="reset-password">
+        <ion-icon name="help"></ion-icon>
+        <ion-label>Reset password</ion-label>
+      </ion-tab-button>
+  
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

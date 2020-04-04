@@ -1,0 +1,158 @@
+
+<ion-card>
+  <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onCardClick()" [hidden]="isCardExpanded">
+    <ion-ripple-effect type="unbound"></ion-ripple-effect>
+    <ion-row>
+      <ion-col size="11">
+        <div class="title">
+          <h1 class="two-line-no-wrap">{{ article.title }}</h1>
+        </div>
+      </ion-col>
+      <ion-col size="1" class="ion-text-end">
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onCardClick()" [hidden]="!isCardExpanded">
+    <ion-ripple-effect type="unbound"></ion-ripple-effect>
+    <ion-row>
+      <ion-col size="11">
+        <div class="title">
+          <h1>{{ article.title }}</h1>
+        </div>
+      </ion-col>
+      <ion-col size="1" class="ion-text-end">
+        <ion-icon name="chevron-up-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </div>
+  
+  <ion-card-content class="ion-no-margin ion-no-padding">
+    
+    <div *ngIf="isCardExpanded" [@panelInOut]>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="arrow-container" size="1">
+            <button (click)="slidePrev()" [disabled]="leftArrowDisabled">
+              <ion-icon slot="icon-only" name="arrow-back" color="primary"></ion-icon>
+            </button>
+          </ion-col>
+
+          <ion-col size="10">
+            <ion-slides [options]="slideOpts" #slides (ionSlidesDidLoad)="checkSlidesPos()" (ionSlideDidChange)="checkSlidesPos()">
+              <ion-slide>
+                <ion-grid class="ion-no-padding ion-no-margin">
+                  <ion-row> 
+                    <div class="body">
+                      <h4>{{ article.displayAuthors && article.displayAuthors.length > 0 ? article.displayAuthors.join(', ') : '' }}</h4>
+                      <p class="body-line-wrap" [innerHTML]="article.body"></p>
+                    </div>
+                  </ion-row>
+                </ion-grid>
+              </ion-slide>
+      
+              <ion-slide class="img-container" *ngIf="article.image && !imageFailed">
+                  <ion-img [src]="article.image" alt="Loading image..." (click)="viewImage()" (ionError)="imageError()"></ion-img>
+              </ion-slide>
+      
+              <ion-slide *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 
+                article.displaySourceCountry || (article.displayKeywords && article.displayKeywords.length > 0) || article.wordCount">
+                <ion-grid class="ion-no-margin ion-no-padding">
+                  <div class="metrics-line-wrap">
+                    <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+                      <div class="metric-item ion-no-margin ion-no-padding">
+                        <ion-row class="ion-justify-content-center">
+                            <h4>Attitude</h4>
+                        </ion-row>
+                        <ion-row class="ion-justify-content-center">
+                          <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
+                            value="{{ article.tone >= 0 ? '0' : article.tone}}"></ion-range>
+                          <ion-range min="0" max="1" step="0.1" color="primary"
+                          value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
+                        </ion-row>
+                      </div>
+                        
+                      <div class="metric-item">
+                        <ion-row class="ion-justify-content-center">
+                          <h4>Word Count</h4>
+                        </ion-row>
+                        <ion-row class="ion-justify-content-center">
+                          <ion-label color="primary">
+                            {{ article.wordCount}}
+                          </ion-label>
+                        </ion-row>
+                      </div>
+        
+                      <div class="metric-item">
+                        <ion-row class="ion-justify-content-center">
+                          <h4>Article Origin</h4>
+                        </ion-row>
+                        <ion-row class="ion-justify-content-center">
+                          <ion-label class="clickable" color="primary" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</ion-label>
+                        </ion-row>
+                      </div>
+        
+                      <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
+                        <ion-row class="ion-justify-content-center">
+                          <h4>Topics</h4>
+                        </ion-row>
+                        <ion-row class="ion-text-wrap ion-justify-content-start">
+                          <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
+                            <div class="list-label">
+                              <ion-label color="primary" size="small">{{ topic }}</ion-label>
+                              <ion-label color="primary" size="small" [hidden]="i === article.displayTopics.length - 1">,</ion-label>
+                            </div>
+                          </ion-col>
+                        </ion-row>
+                      </div>
+        
+                      <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
+                        <ion-row class="ion-justify-content-center">
+                          <h4>Keywords</h4>
+                        </ion-row>
+                        <ion-row class="ion-text-wrap ion-justify-content-start">
+                          <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of article.displayKeywords; let i = index">
+                            <div class="list-label">
+                              <ion-label color="primary" size="small">{{ keyword }}</ion-label>
+                              <ion-label color="primary" size="small" [hidden]="i === article.displayKeywords.length - 1">,</ion-label>
+                            </div>
+                          </ion-col>
+                        </ion-row>
+                      </div>
+                    </ion-row>
+                  </div>
+                </ion-grid>
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+          <ion-col class="arrow-container" size="1">
+            <button (click)="slideNext()" [disabled]="rightArrowDisabled">
+              <ion-icon slot="icon-only" name="arrow-forward" color="primary"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+      <div class="ion-no-margin ion-no-padding">
+        <ion-buttons class="ion-justify-content-evenly">
+          <ion-chip class="ion-no-margin" color="primary" (click)="goToArticle()">
+            <ion-icon name="open"></ion-icon>
+            <ion-label>More</ion-label>
+          </ion-chip>
+        </ion-buttons>
+      </div>
+    </div>
+
+    <ion-row class="ion-justify-content-between footer" (click)="onCardClick()">
+      <ion-row class="ion-justify-content-start">
+        <ion-label>{{ article.displaySourceTitle }}</ion-label>
+      </ion-row>
+
+      <ion-row class="ion-justify-content-end">
+        <ion-label>{{ dateAge }}</ion-label>
+      </ion-row>
+    </ion-row>
+
+  </ion-card-content>
+</ion-card>

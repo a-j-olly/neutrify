@@ -1,0 +1,28 @@
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="updatingArticles">
+    <ion-refresher-content  
+      pullingIcon="chevron-down-outline"
+      pullingText="Pull down to get latest articles"
+      refreshingSpinner="circles"
+      refreshingText="Updating">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-list id="feed">
+    <app-article  [hidden]="displayArticles.length === 0" 
+      *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}"
+      (articleExpanded)="handleArticleToggle($event, i)" [article]="article">
+    </app-article>
+    <div [hidden]="displayArticles.length !== 0 || updatingArticles" class="ion-text-center">
+      <h2>Could not find any articles. It is likely your filters are too strict.</h2>
+    </div>
+    <div [hidden]="!updatingArticles" class="ion-text-center">
+      <h2>Loading articles...</h2>
+    </div>
+  </ion-list>
+      
+  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

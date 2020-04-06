@@ -30,8 +30,6 @@ export class MainMenuComponent implements OnInit {
 
     if (res) {
       this.menuService.closeMenu();
-      this.menu.enable(false, 'filterMenu');
-      this.menu.enable(false, 'mainMenu');
       this.router.navigateByUrl('/home');
     } else {
       alert('Could not sign you out. Please try again.');

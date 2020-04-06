@@ -18,8 +18,8 @@ export class AccountPage implements OnInit {
   }
 
   backToApp() {
-    this.router.navigateByUrl('/app');
     this.menu.enable(true, 'filterMenu');
+    this.router.navigateByUrl('/app');
   }
 
 }

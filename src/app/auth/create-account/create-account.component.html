@@ -53,7 +53,7 @@
         <div class="form-item">
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.signUpForm.invalid || buttonClicked" (keydown.enter)="signUp()">Create account</button>
+              <button class="form-control submit-button" type="submit" [disabled]="this.signUpForm.invalid || loading" (keydown.enter)="signUp()">Create account</button>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -115,7 +115,7 @@
         <div class="form-item">
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || buttonClicked" (keydown.enter)="confirmSignUp()">Confirm email</button>
+              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Confirm email</button>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -136,5 +136,9 @@
         <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
       </span>
     </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <ion-spinner class="spinner" name="crescent" ></ion-spinner>
   </div>
 </ion-content>

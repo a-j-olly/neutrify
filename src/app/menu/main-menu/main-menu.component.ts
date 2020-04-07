@@ -1,9 +1,7 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
 import { MenuService } from 'src/app/services/menu.service';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main-menu',
@@ -12,8 +10,6 @@ import { environment } from 'src/environments/environment';
 })
 export class MainMenuComponent implements OnInit {
 
-  public accountSettingToggle;
-
   constructor(
     public authService: AuthService,
     private router: Router,
@@ -21,7 +17,6 @@ export class MainMenuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.accountSettingToggle = environment.accountSettingToggle;
   }
 
   async signOut() {

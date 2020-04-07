@@ -18,7 +18,6 @@ export class MainMenuComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private menuService: MenuService,
-    private menu: MenuController,
   ) {}
 
   ngOnInit() {
@@ -34,11 +33,5 @@ export class MainMenuComponent implements OnInit {
     } else {
       alert('Could not sign you out. Please try again.');
     }
-  }
-
-  goToAccountSettings() {
-    this.menuService.closeMenu();
-    this.menu.enable(false, 'filterMenu');
-    this.router.navigate(['app/account']);
   }
 }

@@ -9,11 +9,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit {
-
   signInForm: FormGroup;
   passwordType = 'password';
   invalidDetails = false;
-  buttonClicked = false;
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,19 +35,22 @@ export class SignInComponent implements OnInit {
   }
 
   async signIn() {
-    this.buttonClicked = true;
+    this.loading = true;
     if (this.signInForm.valid) {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
-        this.invalidDetails = false;
         this.router.navigateByUrl('/app');
+        this.invalidDetails = false;
+        this.loading = false;
+        this.signInForm.reset();
       } else if (res === 'false') {
         this.invalidDetails = true;
         this.signInForm.reset();
-        this.buttonClicked = false;
+        this.loading = false;
       } else {
-        this.buttonClicked = false;
+        this.loading = false;
+        this.signInForm.reset();
       }
     }
   }

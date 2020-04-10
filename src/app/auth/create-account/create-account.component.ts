@@ -17,7 +17,7 @@ export class CreateAccountComponent implements OnInit {
   passwordType = 'password';
   confirmPasswordType = 'password';
   invalidDetails = false;
-  buttonClicked = false;
+  loading = false;
 
   signUpInterrupted = false;
   resetEmail: string;
@@ -39,7 +39,6 @@ export class CreateAccountComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
-      // resetEmail: [null, [Validators.email]]
     }, {
       validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
@@ -56,18 +55,21 @@ export class CreateAccountComponent implements OnInit {
   }
 
   async signUp() {
-    this.buttonClicked = true;
+    this.loading = true;
     if (this.signUpForm.valid) {
       const res = await this.authService.signUp(this.signUpForm.value.email, this.signUpForm.value.password);
 
       if (res) {
         this.invalidDetails = false;
         this.signUpForm.reset();
-        this.buttonClicked = false;
         this.initConfirmSignUp();
+        this.loading = false;
+        await this.presentToast('Please verify your email account.', 'secondary');
       } else {
+        this.signUpForm.reset();
         this.invalidDetails = true;
-        this.buttonClicked = false;
+        this.loading = false;
+        await this.presentToast('Unable to create a new account. Are you sure you don\'t already have an account?', 'danger');
       }
     }
   }
@@ -83,6 +85,7 @@ export class CreateAccountComponent implements OnInit {
   get cSF() { return this.confirmSignUpForm.controls; }
 
   async confirmSignUp() {
+    this.loading = true;
     if (this.confirmSignUpForm.valid) {
       const res = await this.authService.confirmSignUp(this.confirmSignUpForm.value.vefCode);
 
@@ -90,16 +93,20 @@ export class CreateAccountComponent implements OnInit {
         this.invalidDetails = false;
         this.confirmSignUpForm.reset();
         this.signUpService.createAccountComplete = true;
+        this.showConfirmSignUp = false;
         this.navToSignIn();
+        this.loading = false;
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
       } else {
         this.invalidDetails = true;
+        this.confirmSignUpForm.reset();
+        this.loading = false;
       }
     }
   }
 
   async resendEmail(email?: string) {
-    this.buttonClicked = true;
+    this.loading = true;
     if (email) {
       this.signUpInterrupted = false;
     }
@@ -107,14 +114,14 @@ export class CreateAccountComponent implements OnInit {
     const res = await this.authService.resendSignUp(email);
     if (res) {
       this.resentEmail = true;
-      this.buttonClicked = false;
       if (email) {
         this.signUpForm.reset();
         this.initConfirmSignUp();
       }
+      this.loading = false;
     } else {
       await this.presentToast('Email could not be resent. Please check you have entered the correct email address.', 'danger');
-      this.buttonClicked = false;
+      this.loading = false;
     }
   }
 

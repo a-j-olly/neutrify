@@ -29,7 +29,7 @@
       </ion-content>
     </ion-menu>
 
-    <ion-router-outlet id="mainContent"></ion-router-outlet>
+    <ion-router-outlet [swipeGesture]="false" id="mainContent"></ion-router-outlet>
   </ion-split-pane>
 
   <div *ngIf="authService.signedIn && !authService.loaded">loading...</div>

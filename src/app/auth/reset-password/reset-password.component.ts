@@ -16,9 +16,9 @@ export class ResetPasswordComponent implements OnInit {
   passwordType = 'password';
   confirmPasswordType = 'password';
   invalidEmailDetails = false;
-  buttonClicked = false;
+  loading = false;
   invalidCode = false;
-  sentResetEmail = false;
+  showSubmit = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,35 +42,48 @@ export class ResetPasswordComponent implements OnInit {
   get f() { return this.resetPasswordForm.controls; }
 
   async resetPassword() {
-    this.buttonClicked = true;
+    this.loading = true;
     if (this.f.email.valid) {
       const res = await this.authService.resetPassword(this.f.email.value);
       if (res) {
-        this.sentResetEmail = true;
-        this.buttonClicked = false;
+        this.showSubmit = true;
+        this.loading = false;
       } else {
         this.invalidEmailDetails = true;
-        this.buttonClicked = false;
+        this.loading = false;
       }
     }
   }
 
   async resetPasswordSubmit() {
-    this.buttonClicked = true;
-    if (this.sentResetEmail && !this.invalidEmailDetails) {
-      if (this.f.password.valid && this.f.confirmPassword.valid && this.f.vefCode.valid) {
-        const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, this.f.password.value);
-        if (res) {
-          this.buttonClicked = false;
-          this.resetPasswordForm.reset();
-          this.navToSignIn();
-          await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
-        } else {
-          this.invalidCode = true;
-          this.buttonClicked = false;
-        }
+    this.loading = true;
+    if (this.showSubmit && !this.invalidEmailDetails && this.resetPasswordForm.valid) {
+      const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, this.f.password.value);
+      if (res) {
+        this.resetPasswordForm.reset();
+        this.showSubmit = false;
+        this.navToSignIn();
+        this.loading = false;
+        await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
+      } else {
+        console.log('reset password failed. this.showSubmit', this.showSubmit, '!this.invalidEmailDetails',
+        !this.invalidEmailDetails, 'this.resetPasswordForm.valid', this.resetPasswordForm.valid);
+        this.invalidCode = true;
+        this.resetPasswordForm.reset();
+        this.loading = false;
       }
+    } else {
+      console.log('failed to submit. this.showSubmit', this.showSubmit, '!this.invalidEmailDetails',
+       !this.invalidEmailDetails, 'this.resetPasswordForm.valid', this.resetPasswordForm.valid);
     }
+  }
+
+  togglePasswordType() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+  }
+
+  toggleConfirmPasswordType() {
+    this.confirmPasswordType = this.confirmPasswordType === 'text' ? 'password' : 'text';
   }
 
   async presentToast(message, color) {

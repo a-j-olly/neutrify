@@ -35,7 +35,7 @@
         <div class="form-item">
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || buttonClicked" (keydown.enter)="signIn()">Sign in</button>
+              <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -60,6 +60,10 @@
         <ion-button size="small" (click)="navToResetPassword()">Reset It</ion-button>
       </ion-row>
     </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <ion-spinner class="spinner" name="crescent" ></ion-spinner>
   </div>
 </ion-content>
 

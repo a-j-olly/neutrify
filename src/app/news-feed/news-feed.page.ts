@@ -2,14 +2,14 @@ import { AuthService } from './../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform } from '@ionic/angular';
 import { MenuService } from '../services/menu.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-news-feed',
   templateUrl: './news-feed.page.html',
   styleUrls: ['./news-feed.page.scss'],
 })
-export class NewsFeedPage implements OnDestroy {
+export class NewsFeedPage {
   menuSubscription$: Subscription;
   menuStatus = false;
 
@@ -35,7 +35,12 @@ export class NewsFeedPage implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ionViewWillEnter() {
+    this.menu.enable(true, 'filterMenu');
+    this.menu.enable(true, 'mainMenu');
+  }
+
+  ionViewWillLeave() {
     this.menuSubscription$.unsubscribe();
     this.platformResize$.unsubscribe();
   }

@@ -2,7 +2,7 @@ import { ArticleComponent } from './article/article.component';
 import { Subscription } from 'rxjs';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
-import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as moment from 'moment';
 import { ToastController, IonContent } from '@ionic/angular';
 
@@ -11,7 +11,7 @@ import { ToastController, IonContent } from '@ionic/angular';
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.scss'],
 })
-export class ArticleListComponent implements OnInit, OnDestroy {
+export class ArticleListComponent implements OnInit {
   filters: any;
   filterSubcription$: Subscription;
 
@@ -20,7 +20,6 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   nextToken: string;
   limit = 25;
-  articleDatePub: ModelStringKeyConditionInput;
   updatingArticles = false;
 
   @ViewChild(IonContent) content: IonContent;
@@ -34,7 +33,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef
     ) {
 
-    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async ops => {
+    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
       await this.handleInitDataLoad();
     });
@@ -42,16 +41,16 @@ export class ArticleListComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.filters = this.filterService.getQueryFilters();
-    this.articleDatePub = this.setDateRange();
     await this.handleInitDataLoad();
   }
 
   async resetArticles() {
+    this.nextToken = null;
     this.rawArticles = new Array();
     this.displayArticles = new Array();
   }
 
-  ngOnDestroy() {
+  ionViewWillLeave() {
     this.filterSubcription$.unsubscribe();
   }
 
@@ -142,7 +141,15 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   async listArticles(limit?, nextToken?) {
-    const results = await this.neutrfiyAPI.ArticlesByDate('news', this.articleDatePub,
+    if (nextToken === undefined) {
+      nextToken = this.nextToken;
+    }
+
+    if (limit === undefined) {
+      limit = 25;
+    }
+
+    const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
     return results.items;

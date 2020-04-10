@@ -20,7 +20,6 @@ export class ArticleListComponent implements OnInit {
 
   nextToken: string;
   limit = 25;
-  articleDatePub: ModelStringKeyConditionInput;
   updatingArticles = false;
 
   @ViewChild(IonContent) content: IonContent;
@@ -42,7 +41,6 @@ export class ArticleListComponent implements OnInit {
 
   async ngOnInit() {
     this.filters = this.filterService.getQueryFilters();
-    this.articleDatePub = this.setDateRange();
     await this.handleInitDataLoad();
   }
 
@@ -151,7 +149,7 @@ export class ArticleListComponent implements OnInit {
       limit = 25;
     }
 
-    const results = await this.neutrfiyAPI.ArticlesByDate('news', this.articleDatePub,
+    const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
     return results.items;

@@ -112,9 +112,9 @@ export type ModelArticleFilterInput = {
   body?: ModelStringFilterInput | null;
   dataType?: ModelStringFilterInput | null;
   date?: ModelStringFilterInput | null;
-  dateTime?: ModelStringFilterInput | null;
   datePublished?: ModelStringFilterInput | null;
   displayAuthors?: ModelStringFilterInput | null;
+  displayDateTime?: ModelStringFilterInput | null;
   displayKeywords?: ModelStringFilterInput | null;
   displaySourceCountry?: ModelStringFilterInput | null;
   displaySourceTitle?: ModelStringFilterInput | null;
@@ -616,9 +616,9 @@ export type GetArticleQuery = {
   body: string;
   dataType: string;
   date: string | null;
-  dateTime: string | null;
   datePublished: string;
   displayAuthors: Array<string> | null;
+  displayDateTime: string;
   displayKeywords: Array<string> | null;
   displaySourceCountry: string;
   displaySourceTitle: string;
@@ -651,9 +651,9 @@ export type ListArticlesQuery = {
     body: string;
     dataType: string;
     date: string | null;
-    dateTime: string | null;
     datePublished: string;
     displayAuthors: Array<string> | null;
+    displayDateTime: string;
     displayKeywords: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
@@ -900,9 +900,9 @@ export type ArticlesByDateQuery = {
     body: string;
     dataType: string;
     date: string | null;
-    dateTime: string | null;
     datePublished: string;
     displayAuthors: Array<string> | null;
+    displayDateTime: string;
     displayKeywords: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
@@ -1457,9 +1457,9 @@ export class APIService {
           body
           dataType
           date
-          dateTime
           datePublished
           displayAuthors
+          displayDateTime
           displayKeywords
           displaySourceCountry
           displaySourceTitle
@@ -1510,9 +1510,9 @@ export class APIService {
             body
             dataType
             date
-            dateTime
             datePublished
             displayAuthors
+            displayDateTime
             displayKeywords
             displaySourceCountry
             displaySourceTitle
@@ -1854,9 +1854,9 @@ export class APIService {
             body
             dataType
             date
-            dateTime
             datePublished
             displayAuthors
+            displayDateTime
             displayKeywords
             displaySourceCountry
             displaySourceTitle

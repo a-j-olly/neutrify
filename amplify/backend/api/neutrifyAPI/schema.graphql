@@ -8,9 +8,9 @@ type Article @model(mutations: null, subscriptions: null)
     body: String!
     dataType: String!
     date: String
-    dateTime: String
     datePublished: AWSDateTime!
     displayAuthors: [String!]
+    displayDateTime: AWSDateTime!
     displayKeywords: [String!]
     displaySourceCountry: String!
     displaySourceTitle: String!

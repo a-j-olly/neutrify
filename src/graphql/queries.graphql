@@ -5,9 +5,9 @@ query GetArticle($id: ID!, $uri: String!) {
     body
     dataType
     date
-    dateTime
     datePublished
     displayAuthors
+    displayDateTime
     displayKeywords
     displaySourceCountry
     displaySourceTitle
@@ -53,9 +53,9 @@ query ListArticles(
       body
       dataType
       date
-      dateTime
       datePublished
       displayAuthors
+      displayDateTime
       displayKeywords
       displaySourceCountry
       displaySourceTitle
@@ -315,9 +315,9 @@ query ArticlesByDate(
       body
       dataType
       date
-      dateTime
       datePublished
       displayAuthors
+      displayDateTime
       displayKeywords
       displaySourceCountry
       displaySourceTitle

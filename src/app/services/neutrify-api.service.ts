@@ -1839,14 +1839,14 @@ export class APIService {
   }
   async ArticlesByDate(
     dataType?: string,
-    datePublished?: ModelStringKeyConditionInput,
+    displayDateTime?: ModelStringKeyConditionInput,
     sortDirection?: ModelSortDirection,
     filter?: ModelArticleFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ArticlesByDateQuery> {
-    const statement = `query ArticlesByDate($dataType: String, $datePublished: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
-        articlesByDate(dataType: $dataType, datePublished: $datePublished, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+    const statement = `query ArticlesByDate($dataType: String, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+        articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
             __typename
@@ -1887,8 +1887,8 @@ export class APIService {
     if (dataType) {
       gqlAPIServiceArguments.dataType = dataType;
     }
-    if (datePublished) {
-      gqlAPIServiceArguments.datePublished = datePublished;
+    if (displayDateTime) {
+      gqlAPIServiceArguments.displayDateTime = displayDateTime;
     }
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;

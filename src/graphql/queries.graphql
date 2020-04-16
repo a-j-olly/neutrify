@@ -296,7 +296,7 @@ query ListConfigs(
 }
 query ArticlesByDate(
   $dataType: String
-  $datePublished: ModelStringKeyConditionInput
+  $displayDateTime: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelArticleFilterInput
   $limit: Int
@@ -304,7 +304,7 @@ query ArticlesByDate(
 ) {
   articlesByDate(
     dataType: $dataType
-    datePublished: $datePublished
+    displayDateTime: $displayDateTime
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit

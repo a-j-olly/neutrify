@@ -43,7 +43,7 @@ export class ArticleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.dateAge = this.getArticleAge(this.article.datePublished);
+    this.dateAge = this.getArticleAge(this.article.displayDateTime ? this.article.displayDateTime : this.article.datePublished);
   }
 
   onCardClick() {

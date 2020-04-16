@@ -5,7 +5,7 @@
         <p>To begin using Neutrify, you must first create an account. Please fill in the form below.</p>
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required></ion-input>
+            <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
           </ion-item>
           <span *ngIf="sf.email.invalid && sf.email.touched">
             <span *ngIf="sf.email.errors.email">
@@ -19,7 +19,7 @@
         
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" [type]="passwordType" placeholder="Password" formControlName="password" required></ion-input>
+            <ion-input class="form-control" [type]="passwordType" placeholder="Password" formControlName="password" required oninput="this.value = this.value.trim()"></ion-input>
             <ion-icon name="eye" position="fixed" slot="end" tappable (click)="togglePasswordType()"></ion-icon>
           </ion-item>
           <span *ngIf="sf.password.invalid && sf.password.touched">
@@ -37,7 +37,8 @@
     
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" [type]="confirmPasswordType" placeholder="Re-enter password" formControlName="confirmPassword" required></ion-input>
+            <ion-input class="form-control" [type]="confirmPasswordType" placeholder="Re-enter password" 
+            formControlName="confirmPassword" required oninput="this.value = this.value.trim()"></ion-input>
             <ion-icon name="eye" position="fixed" slot="end" tappable (click)="toggleConfirmPasswordType()"></ion-icon>
           </ion-item>
           <span *ngIf="sf.confirmPassword.invalid && sf.confirmPassword.touched">
@@ -83,7 +84,7 @@
       <p>Enter the email you signed up with below.</p>
       <ion-item>
         <ion-input class="form-control" name="resetSubmit" type="text" placeholder="Email"
-        [(ngModel)]="resetEmail" email required #resetEmailCtrl="ngModel"></ion-input>
+        [(ngModel)]="resetEmail" email required #resetEmailCtrl="ngModel" oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
         <ion-button size="small" [disabled]="resetEmailCtrl.invalid" (click)="resendEmail(this.resetEmail)">Resend</ion-button>
       </ion-item>
       <span *ngIf="resetEmailCtrl.invalid && resetEmailCtrl.touched">
@@ -103,7 +104,7 @@
         <p>A verification email has been sent to {{this.authService.signUpEmail}}. Please copy the code from the email and paste it into the field below.</p>
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required></ion-input>
+            <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required oninput="this.value = this.value.trim()"></ion-input>
           </ion-item>
           <span *ngIf="cSF.vefCode.invalid && cSF.vefCode.touched">
             <span *ngIf="cSF.vefCode.errors.required">

@@ -1,7 +1,7 @@
 # The article model contains all data field that are found on a news article.
 type Article @model(mutations: null, subscriptions: null)
     @key(fields: ["id", "uri"])
-    @key(name: "byDate", fields: ["dataType", "datePublished"], queryField: "articlesByDate")
+    @key(name: "byDate", fields: ["dataType", "displayDateTime"], queryField: "articlesByDate")
     @auth(rules: [{ allow: private, operations: [read]}])
 {
     authors: [String!]

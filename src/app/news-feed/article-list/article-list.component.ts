@@ -110,11 +110,12 @@ export class ArticleListComponent implements OnInit {
   }
 
   setDateRange(): ModelStringKeyConditionInput {
-    const dateLimit = moment().subtract(3, 'days');
+    const start = moment().subtract(3, 'day');
+    const end = moment().add(1, 'hour');
 
     return {
       between: [
-        dateLimit.toISOString(), moment().toISOString()
+        start.toISOString(), end.toISOString()
       ]
     };
   }
@@ -149,6 +150,8 @@ export class ArticleListComponent implements OnInit {
       limit = 25;
     }
 
+    console.log('filters', this.filters);
+    console.log('data range: ', this.setDateRange());
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;

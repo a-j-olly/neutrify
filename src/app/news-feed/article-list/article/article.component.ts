@@ -92,7 +92,17 @@ export class ArticleComponent implements OnInit {
   }
 
   getArticleAge(date: string) {
-    return moment(date).fromNow();
+    const diff = new Date().valueOf() - new Date(date).valueOf();
+    const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
+    let age: string;
+    console.log('age in minutes: ', ageInMinutes);
+    if (ageInMinutes <= 15) {
+      age = 'Just Now';
+    } else {
+      age = moment(date).fromNow();
+    }
+
+    return age;
   }
 
   async slideNext() {

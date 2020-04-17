@@ -78,7 +78,6 @@ export class ArticleListComponent implements OnInit {
 
     this.limit = newLimit;
     this.displayArticles = this.rawArticles;
-    console.log('no of articles: ', this.displayArticles.length);
     this.updatingArticles = false;
 
     if (!this.nextToken && this.rawArticles.length < 15) {
@@ -135,7 +134,6 @@ export class ArticleListComponent implements OnInit {
       newArticles = await this.listArticles(this.limit, this.nextToken);
       this.rawArticles.push(...newArticles);
       this.displayArticles = this.rawArticles;
-      console.log('no of articles: ', this.displayArticles.length);
       event.target.complete();
     } else {
       this.presentToast('There are no more articles to be read.', 'primary');
@@ -152,8 +150,6 @@ export class ArticleListComponent implements OnInit {
       limit = 25;
     }
 
-    console.log('filters', this.filters);
-    console.log('data range: ', this.setDateRange());
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;

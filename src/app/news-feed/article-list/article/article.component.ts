@@ -22,6 +22,8 @@ export class ArticleComponent implements OnInit {
   @Input() id!: string;
   @Input() article: any;
   public dateAge: string;
+  public datePublished: string;
+  public timePublished: string;
 
   @Output() articleExpanded: EventEmitter<boolean> = new EventEmitter();
 
@@ -44,6 +46,8 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit() {
     this.dateAge = this.getArticleAge(this.article.displayDateTime ? this.article.displayDateTime : this.article.datePublished);
+    this.datePublished = moment(this.article.datePublished).format('L');
+    this.timePublished = moment(this.article.datePublished).format('LT');
   }
 
   onCardClick() {
@@ -95,7 +99,6 @@ export class ArticleComponent implements OnInit {
     const diff = new Date().valueOf() - new Date(date).valueOf();
     const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
     let age: string;
-    console.log('age in minutes: ', ageInMinutes);
     if (ageInMinutes <= 15) {
       age = 'Just Now';
     } else {

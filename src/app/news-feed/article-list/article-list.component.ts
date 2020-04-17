@@ -150,8 +150,6 @@ export class ArticleListComponent implements OnInit {
       limit = 25;
     }
 
-    console.log('filters', this.filters);
-    console.log('data range: ', this.setDateRange());
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;

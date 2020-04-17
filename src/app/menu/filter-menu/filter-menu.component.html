@@ -1,11 +1,14 @@
 <ion-list> 
-    
   <ion-item>
-    <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Tone"></app-range-filter>
+    <app-topics-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption"></app-topics-filter>
   </ion-item>
- 
+
   <ion-item>
-    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="Sources"></app-word-filter>
+    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
+  </ion-item>
+
+  <ion-item>
+    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="News Sources"></app-word-filter>
   </ion-item>
 
   <ion-item>
@@ -13,11 +16,7 @@
   </ion-item>
 
   <ion-item>
-    <app-topics-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption"></app-topics-filter>
-  </ion-item>
-
-  <ion-item>
-    <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
+    <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Attitude"></app-range-filter>
   </ion-item>
   
   <ion-row class="ion-justify-content-evenly">

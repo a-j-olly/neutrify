@@ -5,9 +5,9 @@ query GetArticle($id: ID!, $uri: String!) {
     body
     dataType
     date
-    dateTime
     datePublished
     displayAuthors
+    displayDateTime
     displayKeywords
     displaySourceCountry
     displaySourceTitle
@@ -53,9 +53,9 @@ query ListArticles(
       body
       dataType
       date
-      dateTime
       datePublished
       displayAuthors
+      displayDateTime
       displayKeywords
       displaySourceCountry
       displaySourceTitle
@@ -296,7 +296,7 @@ query ListConfigs(
 }
 query ArticlesByDate(
   $dataType: String
-  $datePublished: ModelStringKeyConditionInput
+  $displayDateTime: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelArticleFilterInput
   $limit: Int
@@ -304,7 +304,7 @@ query ArticlesByDate(
 ) {
   articlesByDate(
     dataType: $dataType
-    datePublished: $datePublished
+    displayDateTime: $displayDateTime
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -315,9 +315,9 @@ query ArticlesByDate(
       body
       dataType
       date
-      dateTime
       datePublished
       displayAuthors
+      displayDateTime
       displayKeywords
       displaySourceCountry
       displaySourceTitle

@@ -1,8 +1,0 @@
-{
-  "appId": "news.neutrify.app",
-  "appName": "neutrify",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "cordova": {}
-}

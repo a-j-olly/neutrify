@@ -140,11 +140,6 @@ export class FilterService {
         between: [
           ops.toneLowerRange, ops.toneUpperRange
         ]
-      },
-      quality: {
-        between: [
-          ops.qualityLowerRange, ops.qualityUpperRange
-        ]
       }
     };
 

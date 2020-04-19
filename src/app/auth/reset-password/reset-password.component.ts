@@ -66,15 +66,10 @@ export class ResetPasswordComponent implements OnInit {
         this.loading = false;
         await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
       } else {
-        console.log('reset password failed. this.showSubmit', this.showSubmit, '!this.invalidEmailDetails',
-        !this.invalidEmailDetails, 'this.resetPasswordForm.valid', this.resetPasswordForm.valid);
         this.invalidCode = true;
         this.resetPasswordForm.reset();
         this.loading = false;
       }
-    } else {
-      console.log('failed to submit. this.showSubmit', this.showSubmit, '!this.invalidEmailDetails',
-       !this.invalidEmailDetails, 'this.resetPasswordForm.valid', this.resetPasswordForm.valid);
     }
   }
 

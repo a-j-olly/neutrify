@@ -5,7 +5,7 @@
     <ion-row>
       <ion-col size="11">
         <div class="title">
-          <h1 class="two-line-no-wrap">{{ article.title }}</h1>
+          <h1 class="two-line-wrap">{{ article.title }}</h1>
         </div>
       </ion-col>
       <ion-col size="1" class="ion-text-end">
@@ -19,7 +19,7 @@
     <ion-row>
       <ion-col size="11">
         <div class="title">
-          <h1>{{ article.title }}</h1>
+          <h1 class="four-line-wrap">{{ article.title }}</h1>
         </div>
       </ion-col>
       <ion-col size="1" class="ion-text-end">
@@ -60,6 +60,20 @@
                 article.displaySourceCountry || (article.displayKeywords && article.displayKeywords.length > 0) || article.wordCount">
                 <ion-grid class="ion-no-margin ion-no-padding">
                   <div class="metrics-line-wrap">
+                    <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
+                      <ion-row class="ion-justify-content-center">
+                        <h4>Topics</h4>
+                      </ion-row>
+                      <ion-row class="ion-text-wrap ion-justify-content-start">
+                        <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
+                          <div class="list-label">
+                            <ion-label color="primary" size="small">{{ topic }}</ion-label>
+                            <ion-label color="primary" size="small" [hidden]="i === article.displayTopics.length - 1">,</ion-label>
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </div>
+
                     <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
                       <div class="metric-item ion-no-margin ion-no-padding">
                         <ion-row class="ion-justify-content-center">
@@ -92,21 +106,18 @@
                           <ion-label class="clickable" color="primary" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</ion-label>
                         </ion-row>
                       </div>
-        
-                      <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
+
+                      <div class="metric-item">
                         <ion-row class="ion-justify-content-center">
-                          <h4>Topics</h4>
+                          <h4>Date Published</h4>
                         </ion-row>
-                        <ion-row class="ion-text-wrap ion-justify-content-start">
-                          <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
-                            <div class="list-label">
-                              <ion-label color="primary" size="small">{{ topic }}</ion-label>
-                              <ion-label color="primary" size="small" [hidden]="i === article.displayTopics.length - 1">,</ion-label>
-                            </div>
-                          </ion-col>
+                        <ion-row class="ion-justify-content-center">
+                          <ion-label color="primary">
+                            {{ datePublished }} {{ timePublished }}
+                          </ion-label>
                         </ion-row>
                       </div>
-        
+
                       <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
                         <ion-row class="ion-justify-content-center">
                           <h4>Keywords</h4>
@@ -137,8 +148,8 @@
       <div class="ion-no-margin ion-no-padding">
         <ion-buttons class="ion-justify-content-evenly">
           <ion-chip class="ion-no-margin" color="primary" (click)="goToArticle()">
+            <ion-label>Go to Website</ion-label>
             <ion-icon name="open"></ion-icon>
-            <ion-label>More</ion-label>
           </ion-chip>
         </ion-buttons>
       </div>

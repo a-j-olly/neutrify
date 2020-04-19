@@ -4,6 +4,12 @@ ion-img.logo {
     margin: 0 auto;
 };
 
+.hide-label {
+    @media screen and (max-width: 600px) {
+        display: none;
+    }
+}
+
 ion-content {
     --overflow: hidden;
 };

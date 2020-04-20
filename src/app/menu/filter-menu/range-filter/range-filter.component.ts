@@ -18,7 +18,7 @@ export class RangeFilterComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.rangeFilterType === 'Tone') {
+    if (this.rangeFilterType === 'Attitude') {
       this.rangeSettings = {
         max: '1',
         min: '-1',

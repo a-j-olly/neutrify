@@ -1,6 +1,13 @@
   <ion-toolbar>
-    <ion-buttons class="ion-justify-content-evenly">
-      <ion-button color="primary" (click)="addFilter('include')" [disabled]="clicked">Include</ion-button>
-      <ion-button color="danger" (click)="addFilter('exclude')" [disabled]="clicked">Exclude</ion-button>
-    </ion-buttons>
+    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-center">
+      <ion-label class="title">{{value}}</ion-label>
+    </ion-row>
+    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-center">
+      <ion-chip color="primary" (click)="addFilter('include')">
+        <ion-label>Include</ion-label>
+      </ion-chip>
+      <ion-chip color="danger" (click)="addFilter('exclude')">
+        <ion-label>Exclude</ion-label>
+      </ion-chip>
+    </ion-row>
   </ion-toolbar>

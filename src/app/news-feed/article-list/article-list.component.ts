@@ -110,11 +110,12 @@ export class ArticleListComponent implements OnInit {
   }
 
   setDateRange(): ModelStringKeyConditionInput {
-    const dateLimit = moment().subtract(3, 'days');
+    const start = moment().subtract(3, 'day');
+    const end = moment().add(1, 'hour');
 
     return {
       between: [
-        dateLimit.toISOString(), moment().toISOString()
+        start.toISOString(), end.toISOString()
       ]
     };
   }

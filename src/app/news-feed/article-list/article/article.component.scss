@@ -42,7 +42,7 @@ ion-card {
             margin-top: 5px;
             margin-bottom: 5px;
             
-            &.two-line-no-wrap {
+            &.two-line-wrap {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
@@ -50,6 +50,16 @@ ion-card {
                 -webkit-line-clamp: 2; /* number of lines to show */
                 line-height: 18px;        /* fallback */
                 max-height: 36px;       /* fallback */
+            };
+
+            &.four-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4; /* number of lines to show */
+                line-height: 18px;        /* fallback */
+                max-height: 72px;       /* fallback */
             };
         };
     };
@@ -112,17 +122,16 @@ ion-card {
 
     .metrics-line-wrap {
         @media screen and (min-width: 720px) {
-            line-height: 22px;
-            max-height: 484px;
+            line-height: 20px;
+            max-height: 465px;
         }
         
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        // -webkit-line-clamp: 14; /* number of lines to show */        
-        line-height: 18px;
-        max-height: 314px;
+        line-height: 16px;
+        max-height: 293px;
 
         ion-label {
             @media screen and (min-width: 720px) {
@@ -134,7 +143,7 @@ ion-card {
     };
 
     .metric-item {
-        min-width: 150px;
+        min-width: 100px;
         max-width: 200px;
         margin-bottom: 5px;        
 
@@ -150,7 +159,7 @@ ion-card {
     };
 
     .text-list-item {
-        min-width: 120px;
+        min-width: 100px;
         max-width: auto;
         margin-bottom: 10px;
 

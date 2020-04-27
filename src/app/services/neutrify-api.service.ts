@@ -112,9 +112,9 @@ export type ModelArticleFilterInput = {
   body?: ModelStringFilterInput | null;
   dataType?: ModelStringFilterInput | null;
   date?: ModelStringFilterInput | null;
-  dateTime?: ModelStringFilterInput | null;
   datePublished?: ModelStringFilterInput | null;
   displayAuthors?: ModelStringFilterInput | null;
+  displayDateTime?: ModelStringFilterInput | null;
   displayKeywords?: ModelStringFilterInput | null;
   displaySourceCountry?: ModelStringFilterInput | null;
   displaySourceTitle?: ModelStringFilterInput | null;
@@ -134,6 +134,7 @@ export type ModelArticleFilterInput = {
   title?: ModelStringFilterInput | null;
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
+  timeToLive?: ModelIntFilterInput | null;
   uri?: ModelStringFilterInput | null;
   url?: ModelStringFilterInput | null;
   wordCount?: ModelIntFilterInput | null;
@@ -616,9 +617,9 @@ export type GetArticleQuery = {
   body: string;
   dataType: string;
   date: string | null;
-  dateTime: string | null;
   datePublished: string;
   displayAuthors: Array<string> | null;
+  displayDateTime: string;
   displayKeywords: Array<string> | null;
   displaySourceCountry: string;
   displaySourceTitle: string;
@@ -638,6 +639,7 @@ export type GetArticleQuery = {
   title: string;
   tone: number;
   topics: Array<string> | null;
+  timeToLive: number | null;
   uri: string;
   url: string;
   wordCount: number;
@@ -651,9 +653,9 @@ export type ListArticlesQuery = {
     body: string;
     dataType: string;
     date: string | null;
-    dateTime: string | null;
     datePublished: string;
     displayAuthors: Array<string> | null;
+    displayDateTime: string;
     displayKeywords: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
@@ -673,6 +675,7 @@ export type ListArticlesQuery = {
     title: string;
     tone: number;
     topics: Array<string> | null;
+    timeToLive: number | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -900,9 +903,9 @@ export type ArticlesByDateQuery = {
     body: string;
     dataType: string;
     date: string | null;
-    dateTime: string | null;
     datePublished: string;
     displayAuthors: Array<string> | null;
+    displayDateTime: string;
     displayKeywords: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
@@ -922,6 +925,7 @@ export type ArticlesByDateQuery = {
     title: string;
     tone: number;
     topics: Array<string> | null;
+    timeToLive: number | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -1457,9 +1461,9 @@ export class APIService {
           body
           dataType
           date
-          dateTime
           datePublished
           displayAuthors
+          displayDateTime
           displayKeywords
           displaySourceCountry
           displaySourceTitle
@@ -1479,6 +1483,7 @@ export class APIService {
           title
           tone
           topics
+          timeToLive
           uri
           url
           wordCount
@@ -1510,9 +1515,9 @@ export class APIService {
             body
             dataType
             date
-            dateTime
             datePublished
             displayAuthors
+            displayDateTime
             displayKeywords
             displaySourceCountry
             displaySourceTitle
@@ -1532,6 +1537,7 @@ export class APIService {
             title
             tone
             topics
+            timeToLive
             uri
             url
             wordCount
@@ -1839,14 +1845,14 @@ export class APIService {
   }
   async ArticlesByDate(
     dataType?: string,
-    datePublished?: ModelStringKeyConditionInput,
+    displayDateTime?: ModelStringKeyConditionInput,
     sortDirection?: ModelSortDirection,
     filter?: ModelArticleFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ArticlesByDateQuery> {
-    const statement = `query ArticlesByDate($dataType: String, $datePublished: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
-        articlesByDate(dataType: $dataType, datePublished: $datePublished, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+    const statement = `query ArticlesByDate($dataType: String, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+        articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
             __typename
@@ -1854,9 +1860,9 @@ export class APIService {
             body
             dataType
             date
-            dateTime
             datePublished
             displayAuthors
+            displayDateTime
             displayKeywords
             displaySourceCountry
             displaySourceTitle
@@ -1876,6 +1882,7 @@ export class APIService {
             title
             tone
             topics
+            timeToLive
             uri
             url
             wordCount
@@ -1887,8 +1894,8 @@ export class APIService {
     if (dataType) {
       gqlAPIServiceArguments.dataType = dataType;
     }
-    if (datePublished) {
-      gqlAPIServiceArguments.datePublished = datePublished;
+    if (displayDateTime) {
+      gqlAPIServiceArguments.displayDateTime = displayDateTime;
     }
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;

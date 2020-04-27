@@ -15,6 +15,7 @@ export class NewsFeedPage {
 
   platformResize$: Subscription;
   platformWidth: number;
+  platformHeight: number;
 
   constructor(
     private menuService: MenuService,
@@ -24,6 +25,7 @@ export class NewsFeedPage {
   ) {
     this.platform.ready().then(() => {
       this.platformWidth = this.platform.width();
+      this.platformHeight = this.platform.height();
     });
 
     this.platformResize$ = this.platform.resize.subscribe(() => {

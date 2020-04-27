@@ -45,7 +45,6 @@ export class ArticleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('article: ', this.article.timeToLive);
     this.dateAge = this.getArticleAge(this.article.displayDateTime ? this.article.displayDateTime : this.article.datePublished);
     this.datePublished = moment(this.article.datePublished).format('L');
     this.timePublished = moment(this.article.datePublished).format('LT');

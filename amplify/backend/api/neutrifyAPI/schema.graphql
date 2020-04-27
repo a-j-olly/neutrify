@@ -30,7 +30,7 @@ type Article @model(mutations: null, subscriptions: null)
     title: String!
     tone: Float!
     topics: [String!]
-    timeToLive: AWSTimestamp
+    timeToLive: Float
     uri: String!
     url: String!
     wordCount: Int!

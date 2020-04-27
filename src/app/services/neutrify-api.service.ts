@@ -134,7 +134,7 @@ export type ModelArticleFilterInput = {
   title?: ModelStringFilterInput | null;
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
-  timeToLive?: ModelIntFilterInput | null;
+  timeToLive?: ModelFloatFilterInput | null;
   uri?: ModelStringFilterInput | null;
   url?: ModelStringFilterInput | null;
   wordCount?: ModelIntFilterInput | null;

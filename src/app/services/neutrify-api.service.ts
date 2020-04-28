@@ -134,6 +134,7 @@ export type ModelArticleFilterInput = {
   title?: ModelStringFilterInput | null;
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
+  timeToLive?: ModelFloatFilterInput | null;
   uri?: ModelStringFilterInput | null;
   url?: ModelStringFilterInput | null;
   wordCount?: ModelIntFilterInput | null;
@@ -638,6 +639,7 @@ export type GetArticleQuery = {
   title: string;
   tone: number;
   topics: Array<string> | null;
+  timeToLive: number | null;
   uri: string;
   url: string;
   wordCount: number;
@@ -673,6 +675,7 @@ export type ListArticlesQuery = {
     title: string;
     tone: number;
     topics: Array<string> | null;
+    timeToLive: number | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -922,6 +925,7 @@ export type ArticlesByDateQuery = {
     title: string;
     tone: number;
     topics: Array<string> | null;
+    timeToLive: number | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -1479,6 +1483,7 @@ export class APIService {
           title
           tone
           topics
+          timeToLive
           uri
           url
           wordCount
@@ -1532,6 +1537,7 @@ export class APIService {
             title
             tone
             topics
+            timeToLive
             uri
             url
             wordCount
@@ -1876,6 +1882,7 @@ export class APIService {
             title
             tone
             topics
+            timeToLive
             uri
             url
             wordCount

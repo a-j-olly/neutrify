@@ -5,10 +5,12 @@
             "Type": "String",
             "Default": "authneutrifyb749557bUserPoolId"
         },
+        
         "authneutrifyb749557bIdentityPoolId": {
             "Type": "String",
             "Default": "authneutrifyb749557bIdentityPoolId"
         },
+        
         "authneutrifyb749557bAppClientID": {
             "Type": "String",
             "Default": "authneutrifyb749557bAppClientID"
@@ -44,17 +46,20 @@
           "Properties" : {
               "GroupName" : "standard",
               "Precedence" : 1,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "standardGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authneutrifyb749557bUserPoolId"
               } 
             }
         },
+        
         "standardGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -78,12 +83,18 @@
                             "Principal": {
                                 "Federated": "cognito-identity.amazonaws.com"
                             },
-                            "Action": "sts:AssumeRoleWithWebIdentity"
+                            "Action": "sts:AssumeRoleWithWebIdentity",
+                            "Condition": {
+                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authneutrifyb749557bIdentityPoolId"}},
+                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                            }
                         }
                     ]
                 }
             }
         },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -279,7 +290,9 @@
             },
             "DependsOn": ["RoleMapFunction"]
         }
+   
     },
+    
     "Outputs": {
       
         "standardGroupRole": {
@@ -294,4 +307,5 @@
         
       
     }
+    
 }

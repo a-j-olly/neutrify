@@ -1,3 +1,5 @@
+import { environment } from './../environments/environment';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
 import { Component } from '@angular/core';
@@ -5,6 +7,9 @@ import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription } from 'rxjs';
+
+// tslint:disable-next-line:ban-types
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -22,7 +27,13 @@ export class AppComponent {
     private menu: MenuController,
     private menuService: MenuService,
     public authService: AuthService,
+    public router: Router
   ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        gtag('config', environment.gaTrackingId, { page_path: event.urlAfterRedirects });
+      }
+    });
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;

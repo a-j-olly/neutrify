@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apikey: 'da2-m4v3n5kqpnad3i3bz3aiywca24',
   endpoint: 'https://sbwsnv45u5emjln2ykvzmpbx6y.appsync-api.eu-west-2.amazonaws.com/graphql',
+  gaTrackingId: 'UA-151389291-1'
 };
 
 /*

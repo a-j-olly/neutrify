@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -30,7 +31,8 @@ export class CreateAccountComponent implements OnInit {
     public authService: AuthService,
     private toastController: ToastController,
     private signUpService: SignUpService,
-    private router: Router
+    private router: Router,
+    private ga: GoogleAnalyticsService
   ) {}
 
   ngOnInit() {
@@ -65,6 +67,7 @@ export class CreateAccountComponent implements OnInit {
         this.initConfirmSignUp();
         this.loading = false;
         await this.presentToast('Please verify your email account.', 'secondary');
+        this.ga.eventEmitter('begin_sign_up', 'engagement', 'Begin signing up');
       } else {
         this.signUpForm.reset();
         this.invalidDetails = true;
@@ -97,6 +100,7 @@ export class CreateAccountComponent implements OnInit {
         this.navToSignIn();
         this.loading = false;
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
+        this.ga.eventEmitter('sign_up', 'engagement', 'Sign up');
       } else {
         this.invalidDetails = true;
         this.confirmSignUpForm.reset();

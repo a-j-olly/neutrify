@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Countries } from './../../../model/country-options';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
@@ -29,7 +30,8 @@ export class CountryFilterComponent implements OnInit {
   }
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
-  constructor() { }
+
+  constructor(private ga: GoogleAnalyticsService) { }
 
   ngOnInit() {
     this.countryFilterList = this.option[this.segmentValue];
@@ -50,6 +52,7 @@ export class CountryFilterComponent implements OnInit {
     this.option[this.segmentValue] = this.countryFilterList;
     this.option.name = 'Locations';
     this.userOptionChanged.emit(this.option);
+    this.ga.eventEmitter('use_filter', 'engagement', 'Source filter used');
   }
 
   addWord() {
@@ -60,6 +63,7 @@ export class CountryFilterComponent implements OnInit {
     this.countryFilterList = this.option[this.segmentValue];
     this.selectList = this.countryFilterList;
     this.userOptionChanged.emit(this.option);
+    this.ga.eventEmitter('use_filter', 'engagement', 'Location filter used');
   }
 
   removeWord(index) {

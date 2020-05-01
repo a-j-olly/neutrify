@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
 import { APIService } from './neutrify-api.service';
@@ -11,11 +12,10 @@ const uuid = require('uuid/v4');
   providedIn: 'root'
 })
 export class AuthService {
-
   signedIn = false;
   loaded = false;
   user: any;
-  greeting: string;
+  userEmail: string;
   signUpEmail: string;
   resetPasswordEmail: string;
 
@@ -23,7 +23,8 @@ export class AuthService {
       private amplifyService: AmplifyService,
       private neutrifyAPI: APIService,
       private filterService: FilterService,
-      private menu: MenuController
+      private menu: MenuController,
+      private ga: GoogleAnalyticsService
     ) {
       this.amplifyService.authStateChange$
         .subscribe(async authState => {
@@ -33,7 +34,7 @@ export class AuthService {
             this.user = null;
           } else {
             this.user = authState.user;
-            this.greeting = 'Welcome back ' + this.user.username;
+            this.userEmail = this.user.attributes.email;
           }
 
           if (this.signedIn) {
@@ -49,6 +50,7 @@ export class AuthService {
             this.menu.enable(true, 'mainMenu');
             this.menu.swipeGesture(false, 'filterMenu');
             this.menu.swipeGesture(false, 'mainMenu');
+            this.ga.eventEmitter('login', 'engagement', 'Login');
           } else {
             this.loaded = false;
           }

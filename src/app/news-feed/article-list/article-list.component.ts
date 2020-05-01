@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Subscription } from 'rxjs';
 import { ArticleComponent } from './article/article.component';
 import { FilterService } from './../../services/filter.service';
@@ -32,7 +33,7 @@ export class ArticleListComponent implements OnInit {
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
     private toastController: ToastController,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {

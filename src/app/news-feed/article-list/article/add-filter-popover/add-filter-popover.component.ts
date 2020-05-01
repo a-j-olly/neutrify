@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../../services/google-analytics.service';
 import { PopoverController } from '@ionic/angular';
 import { FilterService } from './../../../../services/filter.service';
 import { Component, OnInit, Input } from '@angular/core';
@@ -15,7 +16,8 @@ export class AddFilterPopoverComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private ga: GoogleAnalyticsService
   ) {}
 
   ngOnInit() {}
@@ -24,6 +26,7 @@ export class AddFilterPopoverComponent implements OnInit {
     this.clicked = true;
     this.filterService.addToFilterOptions(this.optionType, operation, this.value);
     this.dismiss();
+    this.ga.eventEmitter('use_filter', 'engagement', 'Popover filter used');
   }
 
   dismiss() {

@@ -27,6 +27,7 @@ query GetArticle($id: ID!, $uri: String!) {
     title
     tone
     topics
+    timeToLive
     uri
     url
     wordCount
@@ -75,6 +76,7 @@ query ListArticles(
       title
       tone
       topics
+      timeToLive
       uri
       url
       wordCount
@@ -337,6 +339,7 @@ query ArticlesByDate(
       title
       tone
       topics
+      timeToLive
       uri
       url
       wordCount

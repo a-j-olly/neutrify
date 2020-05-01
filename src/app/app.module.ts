@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
 import { TopicsFilterComponent } from './menu/filter-menu/topics-filter/topics-filter.component';
 import { APIService } from './services/neutrify-api.service';
@@ -46,6 +47,7 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService  } from 'aws-a
     StatusBar,
     AmplifyService,
     SplashScreen,
+    GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

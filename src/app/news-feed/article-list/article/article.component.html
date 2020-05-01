@@ -58,19 +58,17 @@
       
               <ion-slide *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 
                 article.displaySourceCountry || (article.displayKeywords && article.displayKeywords.length > 0) || article.wordCount">
-                <ion-grid class="ion-no-margin ion-no-padding">
                   <div class="metrics-line-wrap">
                     <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
                       <ion-row class="ion-justify-content-center">
                         <h4>Topics</h4>
                       </ion-row>
                       <ion-row class="ion-text-wrap ion-justify-content-start">
-                        <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
-                          <div class="list-label">
-                            <ion-label color="primary" size="small">{{ topic }}</ion-label>
-                            <ion-label color="primary" size="small" [hidden]="i === article.displayTopics.length - 1">,</ion-label>
-                          </div>
-                        </ion-col>
+                        <p>
+                          <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
+                            {{ topic }}{{ i === article.displayTopics.length - 1 ? "" : ","}}
+                          </ion-col>
+                        </p>
                       </ion-row>
                     </div>
 
@@ -86,15 +84,22 @@
                           value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
                         </ion-row>
                       </div>
+
+                      <div class="metric-item">
+                        <ion-row class="ion-justify-content-center">
+                          <h4>News Source</h4>
+                        </ion-row>
+                        <ion-row class="ion-justify-content-center">
+                          <p class="clickable" (click)="openFilterPopover($event, 'sources', article.displaySourceTitle)">{{ article.displaySourceTitle }}</p>
+                        </ion-row>
+                      </div>
                         
                       <div class="metric-item">
                         <ion-row class="ion-justify-content-center">
                           <h4>Word Count</h4>
                         </ion-row>
                         <ion-row class="ion-justify-content-center">
-                          <ion-label color="primary">
-                            {{ article.wordCount}}
-                          </ion-label>
+                          <p>{{ article.wordCount }}</p>
                         </ion-row>
                       </div>
         
@@ -103,7 +108,7 @@
                           <h4>Article Origin</h4>
                         </ion-row>
                         <ion-row class="ion-justify-content-center">
-                          <ion-label class="clickable" color="primary" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</ion-label>
+                          <p class="clickable" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</p>
                         </ion-row>
                       </div>
 
@@ -112,28 +117,24 @@
                           <h4>Date Published</h4>
                         </ion-row>
                         <ion-row class="ion-justify-content-center">
-                          <ion-label color="primary">
-                            {{ datePublished }} {{ timePublished }}
-                          </ion-label>
-                        </ion-row>
-                      </div>
-
-                      <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
-                        <ion-row class="ion-justify-content-center">
-                          <h4>Keywords</h4>
-                        </ion-row>
-                        <ion-row class="ion-text-wrap ion-justify-content-start">
-                          <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of article.displayKeywords; let i = index">
-                            <div class="list-label">
-                              <ion-label color="primary" size="small">{{ keyword }}</ion-label>
-                              <ion-label color="primary" size="small" [hidden]="i === article.displayKeywords.length - 1">,</ion-label>
-                            </div>
-                          </ion-col>
+                          <p>{{ datePublished }} {{ timePublished }}<p>
                         </ion-row>
                       </div>
                     </ion-row>
+
+                    <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
+                      <ion-row class="ion-justify-content-center">
+                        <h4>Keywords</h4>
+                      </ion-row>
+                      <ion-row class="ion-text-wrap ion-justify-content-start">
+                        <p>
+                          <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of article.displayKeywords; let i = index">
+                            {{ keyword }}{{ i === article.displayKeywords.length - 1 ? "" : "," }}
+                          </ion-col>
+                        </p>
+                      </ion-row>
+                    </div>
                   </div>
-                </ion-grid>
               </ion-slide>
             </ion-slides>
           </ion-col>

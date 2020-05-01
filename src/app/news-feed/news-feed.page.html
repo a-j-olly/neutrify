@@ -19,5 +19,5 @@
 </ion-header>
 
 <ion-content>
-  <app-article-list *ngIf="authService.loaded"></app-article-list>
+  <app-article-list *ngIf="authService.loaded" [platformHeight]="platformHeight"></app-article-list>
 </ion-content>

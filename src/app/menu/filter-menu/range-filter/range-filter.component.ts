@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -15,7 +16,7 @@ export class RangeFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private ga: GoogleAnalyticsService) { }
 
   ngOnInit() {
     if (this.rangeFilterType === 'Attitude') {
@@ -66,6 +67,7 @@ export class RangeFilterComponent implements OnInit {
       this.userOption.value = event.detail.value;
       this.userOption.name = this.rangeFilterType;
       this.userOptionChanged.emit(this.userOption);
+      this.ga.eventEmitter('use_filter', 'engagement', 'Tone filter used');
     }
   }
 

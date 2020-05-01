@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
@@ -29,7 +30,7 @@ export class WordFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private ga: GoogleAnalyticsService) { }
 
   ngOnInit() {
     this.wordFilterList = this.option[this.segmentValue];
@@ -50,6 +51,7 @@ export class WordFilterComponent implements OnInit {
 
     this.wordFilterList = this.option[this.segmentValue];
     this.userOptionChanged.emit(this.option);
+    this.ga.eventEmitter('use_filter', 'engagement', `${this.wordFilterType} filter used`);
   }
 
   removeWord(index) {

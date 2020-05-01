@@ -1,7 +1,7 @@
 {
-  "name": "neutrify-exp",
-  "version": "0.0.1",
-  "author": "Aaron Oliver",
+  "name": "neutrify",
+  "version": "0.5.0",
+  "author": "Neutrify LTD",
   "homepage": "https://neutrify.news/",
   "scripts": {
     "ng": "ng",

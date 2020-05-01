@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { APIService, UpdateConfigInput } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
@@ -21,7 +22,8 @@ export class FilterMenuComponent {
     private filterService: FilterService,
     private neutrifyAPI: APIService,
     public authService: AuthService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private ga: GoogleAnalyticsService
     ) {
       this.initOptions();
     }
@@ -108,6 +110,8 @@ export class FilterMenuComponent {
     await this.filterService.updateFilterOptions(loadedConfig.items[0]);
     this.initOptions();
     await this.presentToast('Your filters have been loaded.', 'primary');
+    this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+
   }
 
   async saveFilters() {
@@ -116,6 +120,7 @@ export class FilterMenuComponent {
       await this.neutrifyAPI.UpdateConfig(reqBody);
       await this.buildOptions();
       await this.presentToast('Your filters have been saved.', 'primary');
+      this.ga.eventEmitter('save_filters', 'engagement', 'Saved filters');
     } catch (e) {
       console.log('Could not save filters. Service returned this error: ', e);
     }

@@ -123,29 +123,35 @@ ion-card {
     .metrics-line-wrap {
         @media screen and (min-width: 720px) {
             line-height: 20px;
-            max-height: 465px;
         }
         
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         line-height: 16px;
-        max-height: 293px;
+        max-height: 304px;
 
-        ion-label {
+        p {
+            color: var(--ion-color-primary);
+            font-size: 14px;
+
             @media screen and (min-width: 720px) {
                 font-size: 18px;
             }
 
-            font-size: 14px;
+            &:hover {
+                cursor: pointer;
+            };
+            
         };
     };
 
     .metric-item {
         min-width: 100px;
         max-width: 200px;
-        margin-bottom: 5px;        
+        margin-bottom: 0px;      
 
         h4 {
             color: #999;
@@ -166,6 +172,7 @@ ion-card {
         h4 {
             color: #999;
         };
+
     };
 
     .footer {
@@ -203,7 +210,7 @@ ion-card {
                 pointer-events: none;
             }
         }
-    }
+    };
 };
 
 .negative-range {
@@ -225,13 +232,4 @@ ion-row {
 ion-col {
     margin: 0;
     padding: 0;
-};
-
-.list-label {
-    margin-left: 3px;
-    margin-right: 3px;
-
-    &:hover {
-        cursor: pointer;
-    };
 };

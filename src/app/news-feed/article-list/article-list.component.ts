@@ -1,8 +1,9 @@
-import { ArticleComponent } from './article/article.component';
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Subscription } from 'rxjs';
+import { ArticleComponent } from './article/article.component';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
-import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import * as moment from 'moment';
 import { ToastController, IonContent } from '@ionic/angular';
 
@@ -12,25 +13,27 @@ import { ToastController, IonContent } from '@ionic/angular';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
+  @Input() platformHeight: number;
+  @ViewChild(IonContent) content: IonContent;
+  @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
+  openArticleId: string;
+
   filters: any;
   filterSubcription$: Subscription;
 
   rawArticles: Array<any> = new Array<any>();
   displayArticles: Array<any> = new Array<any>();
+  displayThreshold = 15;
 
   nextToken: string;
   limit = 25;
   updatingArticles = false;
 
-  @ViewChild(IonContent) content: IonContent;
-  @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
-  openArticleId: string;
-
   constructor(
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
     private toastController: ToastController,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
@@ -40,6 +43,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.displayThreshold = this.setDisplayThreshold();
     this.filters = this.filterService.getQueryFilters();
     await this.handleInitDataLoad();
   }
@@ -59,28 +63,30 @@ export class ArticleListComponent implements OnInit {
     await this.resetArticles();
 
     let i = 1;
-    let newLimit = 25;
+    let newLimit = 50;
     do {
-      if (i === 2) {
-        newLimit = 200;
+      if (i === 1) {
+        this.rawArticles = await this.listArticles(newLimit);
+      } else if (i === 2) {
+        newLimit = 100;
         this.rawArticles = await this.listArticles(newLimit);
       } else if (i === 3) {
-        newLimit = 1000;
+        newLimit = 200;
         this.rawArticles = await this.listArticles(newLimit);
-      } else if (i > 3) {
-        this.rawArticles.push(...await this.listArticles(newLimit, this.nextToken));
-      } else {
+      } else if (i === 4) {
+        newLimit = 300;
         this.rawArticles = await this.listArticles(newLimit);
+      } else if (i > 4) {
+        this.rawArticles.push(...await this.listArticles(1000, this.nextToken));
       }
-
+      this.displayArticles = this.rawArticles;
       i++;
-    } while (this.nextToken && this.rawArticles.length < 15);
+    } while (this.nextToken && this.rawArticles.length < this.displayThreshold);
 
     this.limit = newLimit;
-    this.displayArticles = this.rawArticles;
     this.updatingArticles = false;
 
-    if (!this.nextToken && this.rawArticles.length < 15) {
+    if (!this.nextToken && this.rawArticles.length < this.displayThreshold) {
       await this.presentToast('Could only find a few articles that fit your criteria. Try to remove some filters.', 'primary');
     }
   }
@@ -109,6 +115,28 @@ export class ArticleListComponent implements OnInit {
     await this.content.scrollToPoint(0, yOffset, 200);
   }
 
+  setDisplayThreshold(): number {
+    let result;
+
+    if (this.platformHeight <= 360) {
+      result = 5;
+    } else if (this.platformHeight <= 480) {
+      result = 7;
+    } else if (this.platformHeight <= 640) {
+      result = 9;
+    } else if (this.platformHeight <= 812) {
+      result = 11;
+    } else if (this.platformHeight <= 1024) {
+      result = 16;
+    } else if (this.platformHeight <= 1366) {
+      result = 23;
+    } else {
+      result = 25;
+    }
+
+    return result;
+  }
+
   setDateRange(): ModelStringKeyConditionInput {
     const start = moment().subtract(3, 'day');
     const end = moment().add(1, 'hour');
@@ -130,15 +158,24 @@ export class ArticleListComponent implements OnInit {
 
   async getNextPage(event) {
     if (this.nextToken) {
-      let newArticles: Array<any> = new Array<any>();
-      newArticles = await this.listArticles(this.limit, this.nextToken);
-      this.rawArticles.push(...newArticles);
-      this.displayArticles = this.rawArticles;
-      event.target.complete();
+      this.updatingArticles = true;
+      let noNewArticles = 0;
+      do {
+        const newArticles: Array<any> = new Array<any>();
+        newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+        noNewArticles += newArticles.length;
+        if (newArticles.length > 0) {
+          this.rawArticles.push(...newArticles);
+        }
+
+        this.displayArticles = this.rawArticles;
+      } while (this.nextToken && noNewArticles < 5);
+
+      this.updatingArticles = false;
     } else {
-      this.presentToast('There are no more articles to be read.', 'primary');
-      event.target.complete();
+      this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
+    event.target.complete();
   }
 
   async listArticles(limit?, nextToken?) {

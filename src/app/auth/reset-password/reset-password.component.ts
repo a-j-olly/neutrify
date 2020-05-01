@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
@@ -25,6 +26,7 @@ export class ResetPasswordComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private toastController: ToastController,
+    private ga: GoogleAnalyticsService
     ) { }
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class ResetPasswordComponent implements OnInit {
       if (res) {
         this.showSubmit = true;
         this.loading = false;
+        this.ga.eventEmitter('begin_reset_password', 'engagement', 'Begin resetting password');
       } else {
         this.invalidEmailDetails = true;
         this.loading = false;
@@ -65,6 +68,7 @@ export class ResetPasswordComponent implements OnInit {
         this.navToSignIn();
         this.loading = false;
         await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
+        this.ga.eventEmitter('reset_password', 'engagement', 'Reset password');
       } else {
         this.invalidCode = true;
         this.resetPasswordForm.reset();

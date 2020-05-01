@@ -10,6 +10,7 @@ import { MenuService } from 'src/app/services/menu.service';
   styleUrls: ['./main-menu.component.scss'],
 })
 export class MainMenuComponent implements OnInit {
+  userEmail: string;
 
   constructor(
     public authService: AuthService,
@@ -19,6 +20,7 @@ export class MainMenuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.userEmail = this.authService.userEmail;
   }
 
   async signOut() {

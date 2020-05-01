@@ -123,7 +123,6 @@ ion-card {
     .metrics-line-wrap {
         @media screen and (min-width: 720px) {
             line-height: 20px;
-            // max-height: 465px;
         }
         
         white-space: nowrap;
@@ -133,14 +132,6 @@ ion-card {
         -webkit-box-orient: vertical;
         line-height: 16px;
         max-height: 304px;
-
-        // ion-label {
-        //     @media screen and (min-width: 720px) {
-        //         font-size: 18px;
-        //     }
-
-        //     font-size: 14px;
-        // };
 
         p {
             color: var(--ion-color-primary);

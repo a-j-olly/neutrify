@@ -15,7 +15,7 @@ export class AuthService {
   signedIn = false;
   loaded = false;
   user: any;
-  greeting: string;
+  userEmail: string;
   signUpEmail: string;
   resetPasswordEmail: string;
 
@@ -34,7 +34,7 @@ export class AuthService {
             this.user = null;
           } else {
             this.user = authState.user;
-            this.greeting = 'Welcome back ' + this.user.username;
+            this.userEmail = this.user.attributes.email;
           }
 
           if (this.signedIn) {

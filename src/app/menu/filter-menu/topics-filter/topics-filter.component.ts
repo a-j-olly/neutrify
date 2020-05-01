@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   Arts,
@@ -48,7 +49,7 @@ export class TopicsFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
+  constructor(private ga: GoogleAnalyticsService) {
   }
 
   ngOnInit() {
@@ -174,5 +175,6 @@ export class TopicsFilterComponent implements OnInit {
     this.option[this.segmentValue] = this[`${this.segmentValue}dTopics`];
     this.option.name = 'Topics';
     this.userOptionChanged.emit(this.option);
+    this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
   }
 }

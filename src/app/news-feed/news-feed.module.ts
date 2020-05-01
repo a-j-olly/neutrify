@@ -10,7 +10,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { NewsFeedPage } from './news-feed.page';
 import { ArticleComponent } from './article-list/article/article.component';
-import { RatingComponent } from './article-list/article/rating/rating.component';
 
 const routes: Routes = [
   {
@@ -30,7 +29,6 @@ const routes: Routes = [
     NewsFeedPage,
     ArticleListComponent,
     ArticleComponent,
-    RatingComponent,
     ImageModalComponent,
     AddFilterPopoverComponent
   ],

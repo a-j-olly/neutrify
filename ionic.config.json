@@ -1,5 +1,7 @@
 {
-  "name": "neutrify-exp",
-  "integrations": {},
+  "name": "Neutrify",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

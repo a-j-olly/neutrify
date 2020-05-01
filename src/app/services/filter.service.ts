@@ -89,12 +89,16 @@ export class FilterService {
         this.filterOptions.keywordsToInclude.push(value.toLowerCase());
       } else if (optionType === 'locations') {
         this.filterOptions.locationsToInclude.push(value.toLowerCase());
+      } else if (optionType === 'sources') {
+        this.filterOptions.sourcesToInclude.push(value.toLowerCase());
       }
     } else {
       if (optionType === 'keywords') {
         this.filterOptions.keywordsToExclude.push(value.toLowerCase());
       } else if (optionType === 'locations') {
         this.filterOptions.locationsToExclude.push(value.toLowerCase());
+      }  else if (optionType === 'sources') {
+        this.filterOptions.sourcesToExclude.push(value.toLowerCase());
       }
     }
 

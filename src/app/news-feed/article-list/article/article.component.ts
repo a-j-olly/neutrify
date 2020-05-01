@@ -1,3 +1,4 @@
+import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
@@ -42,6 +43,7 @@ export class ArticleComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private popoverController: PopoverController,
+    private ga: GoogleAnalyticsService
   ) {}
 
   ngOnInit() {
@@ -54,6 +56,7 @@ export class ArticleComponent implements OnInit {
     this.isCardExpanded = !this.isCardExpanded;
 
     if (this.isCardExpanded) {
+      this.ga.eventEmitter('view_item', 'engagement', 'Viewed article');
       this.articleExpanded.emit(true);
     } else {
       this.articleExpanded.emit(false);
@@ -68,7 +71,7 @@ export class ArticleComponent implements OnInit {
       },
       cssClass: 'auto-height'
     });
-
+    this.ga.eventEmitter('select_content', 'engagement', 'Opened image');
     return await modal.present();
   }
 
@@ -93,6 +96,7 @@ export class ArticleComponent implements OnInit {
 
   goToArticle() {
     window.open(this.article.url, '_blank');
+    this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
   }
 
   getArticleAge(date: string) {

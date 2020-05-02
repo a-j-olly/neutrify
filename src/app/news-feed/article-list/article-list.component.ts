@@ -63,21 +63,16 @@ export class ArticleListComponent implements OnInit {
     await this.resetArticles();
 
     let i = 1;
-    let newLimit = 50;
+    let newLimit = 100;
     do {
       if (i === 1) {
         this.rawArticles = await this.listArticles(newLimit);
       } else if (i === 2) {
-        newLimit = 100;
-        this.rawArticles = await this.listArticles(newLimit);
-      } else if (i === 3) {
-        newLimit = 200;
-        this.rawArticles = await this.listArticles(newLimit);
-      } else if (i === 4) {
-        newLimit = 300;
-        this.rawArticles = await this.listArticles(newLimit);
-      } else if (i > 4) {
-        this.rawArticles.push(...await this.listArticles(1000, this.nextToken));
+        newLimit = 400;
+        this.rawArticles = await this.listArticles(newLimit, null);
+      } else if (i > 2) {
+        newLimit = 1000;
+        this.rawArticles.push(...await this.listArticles(newLimit, this.nextToken));
       }
       this.displayArticles = this.rawArticles;
       i++;

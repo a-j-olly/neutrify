@@ -20,7 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AmplifyService } from 'aws-amplify-angular';
+import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,9 @@ import { AmplifyService } from 'aws-amplify-angular';
     IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AmplifyAngularModule,
+    AmplifyIonicModule
   ],
   providers: [
     APIService,

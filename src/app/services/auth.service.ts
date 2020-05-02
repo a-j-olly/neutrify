@@ -5,7 +5,7 @@ import { APIService } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { Auth } from 'aws-amplify';
-import * as moment from 'moment';
+import { add } from 'date-fns';
 const uuid = require('uuid/v4');
 
 @Injectable({
@@ -67,15 +67,15 @@ export class AuthService {
       const user = await Auth.signIn(email, password);
       const config = await this.neutrifyAPI.ConfigByOwner(user.username, null, null, 1);
       if (config.items.length === 0) {
-        const now = moment();
+        const now = new Date();
         const userId = uuid();
         const configId = uuid();
 
         const createUserPromise = this.neutrifyAPI.CreateUser({
           email: user.attributes.email,
           freeTrial: true,
-          freeTrialStartDate: now.format(),
-          freeTrialEndDate: now.add(1, 'months').format(),
+          freeTrialStartDate: now.toISOString(),
+          freeTrialEndDate: add(now, {months: 1}).toISOString(),
           id: userId,
           isPremium: false,
           userConfigId: configId

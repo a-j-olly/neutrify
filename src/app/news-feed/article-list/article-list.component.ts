@@ -1,10 +1,9 @@
-import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Subscription } from 'rxjs';
 import { ArticleComponent } from './article/article.component';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
 import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
-import * as moment from 'moment';
+import { add, sub } from 'date-fns';
 import { ToastController, IonContent } from '@ionic/angular';
 
 @Component({
@@ -133,8 +132,8 @@ export class ArticleListComponent implements OnInit {
   }
 
   setDateRange(): ModelStringKeyConditionInput {
-    const start = moment().subtract(3, 'day');
-    const end = moment().add(1, 'hour');
+    const start = sub(new Date(), { days: 3 });
+    const end = add(new Date(), { hours: 1 });
 
     return {
       between: [

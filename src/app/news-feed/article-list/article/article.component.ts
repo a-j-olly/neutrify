@@ -3,8 +3,9 @@ import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popov
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { trigger, style, animate, transition } from '@angular/animations';
-import * as moment from 'moment';
 import { ModalController, PopoverController, IonSlides } from '@ionic/angular';
+import { format, formatDistanceToNow } from 'date-fns';
+import { enGB } from 'date-fns/locale';
 
 @Component({
   selector: 'app-article',
@@ -48,8 +49,7 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit() {
     this.dateAge = this.getArticleAge(this.article.displayDateTime ? this.article.displayDateTime : this.article.datePublished);
-    this.datePublished = moment(this.article.datePublished).format('L');
-    this.timePublished = moment(this.article.datePublished).format('LT');
+    this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
   }
 
   onCardClick() {
@@ -106,7 +106,7 @@ export class ArticleComponent implements OnInit {
     if (ageInMinutes <= 15) {
       age = 'Just Now';
     } else {
-      age = moment(date).fromNow();
+      age = `${formatDistanceToNow(new Date(date))} ago`;
     }
 
     return age;

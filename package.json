@@ -32,7 +32,7 @@
     "@ionic-native/status-bar": "^5.23.0",
     "@ionic/angular": "^5.0.7",
     "aws-amplify": "^3.0.10",
-    "aws-amplify-angular": "^5.0.10",
+    "aws-amplify-angular": "^3.1.3",
     "core-js": "^2.5.4",
     "date-fns": "^2.12.0",
     "rxjs": "~6.5.4",

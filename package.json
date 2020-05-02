@@ -6,10 +6,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build -c=dev",
     "build-prod": "ng build --prod",
     "analyse-bundle": "ng build --prod --named-chunks --stats-json && webpack-bundle-analyzer www/stats-es2015.json",
-    "sync-app-android": "ng build && npx cap copy android && npx cap open android",
+    "sync-app-android": "ng build -c=dev && npx cap copy android && npx cap open android",
     "sync-app-android-prod": "ng build --prod && npx cap copy android && npx cap open android",
     "test": "ng test",
     "lint": "ng lint",

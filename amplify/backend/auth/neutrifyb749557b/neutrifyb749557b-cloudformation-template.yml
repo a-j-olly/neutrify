@@ -10,13 +10,13 @@ Parameters:
   
   
 
-    
+
   identityPoolName:
     Type: String
                 
   allowUnauthenticatedIdentities:
     Type: String
-            
+
   resourceNameTruncated:
     Type: String
               
@@ -173,10 +173,10 @@ Resources:
       Policies:
         PasswordPolicy:
           MinimumLength: !Ref passwordPolicyMinLength
-          RequireLowercase: false
-          RequireNumbers: false
+          RequireLowercase: true
+          RequireNumbers: true
           RequireSymbols: false
-          RequireUppercase: false
+          RequireUppercase: true
       
       UsernameAttributes: !Ref usernameAttributes
           
@@ -210,7 +210,7 @@ Resources:
       
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
-      
+
       RefreshTokenValidity: !Ref userpoolClientRefreshTokenValidity
       UserPoolId: !Ref UserPool
     DependsOn: UserPool
@@ -220,7 +220,7 @@ Resources:
     Type: "AWS::Cognito::UserPoolClient"
     Properties:
       ClientName: neutrib749557b_app_client
-      
+
       ReadAttributes: !Ref userpoolClientReadAttributes
       WriteAttributes: !Ref userpoolClientWriteAttributes
       
@@ -462,7 +462,7 @@ Resources:
       smsConfigExternalId: neutrib749557b_role_external_id
     DependsOn: MFALogPolicy
   
-    
+
   # BEGIN IDENTITY POOL RESOURCES
   
  

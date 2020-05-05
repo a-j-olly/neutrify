@@ -14,9 +14,13 @@
     "smsVerificationMessage": "Your verification code is {####}",
     "emailVerificationSubject": "Neutrify verification code",
     "emailVerificationMessage": "Greetings from Neutrify. Your verification code is {####}",
-    "defaultPasswordPolicy": false,
+    "defaultPasswordPolicy": true,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [],
+    "passwordPolicyCharacters": [
+        "Requires Lowercase",
+        "Requires Uppercase",
+        "Requires Numbers"
+    ],
     "requiredAttributes": [
         "email"
     ],
@@ -44,7 +48,7 @@
             "Arn"
         ]
     },
-    "useDefault": "default",
+    "useDefault": "manual",
     "usernameAttributes": [
         "email"
     ],
@@ -55,7 +59,7 @@
     "userPoolGroups": true,
     "adminQueries": false,
     "triggers": "{}",
-    "hostedUI": true,
+    "hostedUI": false,
     "parentStack": {
         "Ref": "AWS::StackId"
     },

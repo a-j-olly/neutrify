@@ -56,10 +56,12 @@ export class SignInComponent implements OnInit {
   }
 
   navToSignUp() {
+    this.signInForm.reset();
     this.router.navigateByUrl('/auth/create-account');
   }
 
   navToResetPassword() {
+    this.signInForm.reset();
     this.router.navigateByUrl('/auth/reset-password');
   }
 }

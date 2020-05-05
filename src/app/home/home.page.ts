@@ -1,4 +1,4 @@
-import { MenuController } from '@ionic/angular';
+import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
     public authService: AuthService,
     private router: Router,
     private menuCtrl: MenuController,
+    private alertController: AlertController
   ) {}
 
 
@@ -24,7 +25,13 @@ export class HomePage implements OnInit {
     setTimeout(() => {
       this.menuCtrl.enable(false, 'filterMenu');
       this.menuCtrl.enable(false, 'mainMenu');
-    }, 1000);
+    }, 500);
+  }
+
+  async ionViewDidEnter() {
+    if (this.authService.signedIn) {
+      await this.presentAlertConfirm();
+    }
   }
 
   navToSignUp() {
@@ -33,5 +40,29 @@ export class HomePage implements OnInit {
 
   navToSignIn() {
     this.router.navigateByUrl('/auth/sign-in');
+  }
+
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      message: 'You are signed in. Would you like to go to the app?',
+      buttons: [
+        {
+          text: 'Sign Out',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: async () => {
+            await this.authService.signOut();
+          }
+        }, {
+          text: 'Go To App',
+          handler: () => {
+            this.router.navigateByUrl('/app');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

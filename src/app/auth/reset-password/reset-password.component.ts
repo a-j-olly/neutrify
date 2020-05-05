@@ -97,6 +97,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   navToSignIn() {
+    this.resetPasswordForm.reset();
     this.router.navigateByUrl('/auth/sign-in');
   }
 }

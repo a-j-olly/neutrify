@@ -34,7 +34,9 @@ export class AuthService {
             this.user = null;
           } else {
             this.user = authState.user;
-            this.userEmail = this.user.attributes.email;
+            if (this.signedIn) {
+              this.userEmail = this.user.attributes.email;
+            }
           }
 
           if (this.signedIn) {

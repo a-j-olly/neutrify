@@ -1,3 +1,4 @@
+import { HomePage } from './home/home.page';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
 import { TopicsFilterComponent } from './menu/filter-menu/topics-filter/topics-filter.component';
@@ -31,6 +32,7 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
     RangeFilterComponent,
     TopicsFilterComponent,
     CountryFilterComponent,
+    HomePage
   ],
   imports: [
     BrowserModule,

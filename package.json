@@ -1,7 +1,7 @@
 {
   "name": "neutrify",
   "version": "0.5.0",
-  "author": "Neutrify LTD",
+  "author": "Neutrify Ltd.",
   "homepage": "https://neutrify.news/",
   "scripts": {
     "ng": "ng",

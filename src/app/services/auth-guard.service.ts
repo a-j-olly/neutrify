@@ -28,15 +28,8 @@ export class AuthGuardService implements CanActivate {
             if (this.authService.signedIn) {
                 return true;
             } else {
-                setTimeout(() => {
-                    if (this.authService.signedIn) {
-                        this.router.navigateByUrl('/app');
-                        return true;
-                    } else {
-                        this.router.navigateByUrl('/home');
-                        return false;
-                    }
-                }, 3000);
+                this.router.navigateByUrl('/auth/sign-in');
+                return false;
             }
         }
     }

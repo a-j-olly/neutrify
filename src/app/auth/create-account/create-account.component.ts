@@ -141,6 +141,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   navToSignIn() {
+    this.signUpForm.reset();
     this.router.navigateByUrl('/auth/sign-in');
   }
 }

@@ -14,18 +14,19 @@ export class AuthGuardService implements CanActivate {
         private router: Router,
         public authService: AuthService,
         ) { }
-    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         const url: string = state.url;
 
+        const isAuthenticated = await this.authService.isAuthenticated();
         if (url === '' || url.startsWith('/home')) {
-            if (this.authService.signedIn) {
+            if (isAuthenticated) {
                 this.router.navigateByUrl('/app');
                 return false;
             } else {
                 return true;
             }
         } else if (url.startsWith('/app')) {
-            if (this.authService.signedIn) {
+            if (isAuthenticated) {
                 return true;
             } else {
                 this.router.navigateByUrl('/auth/sign-in');

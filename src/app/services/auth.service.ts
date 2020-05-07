@@ -253,4 +253,16 @@ export class AuthService {
       return false;
     }
   }
+
+  async isAuthenticated(): Promise<boolean> {
+    let creds;
+
+    try {
+      creds = (await Auth.currentAuthenticatedUser());
+    } catch (e) {
+      return false;
+    }
+
+    return creds ? true : false;
+  }
 }

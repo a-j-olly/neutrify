@@ -17,7 +17,6 @@ export class HomePage implements OnInit {
     private alertController: AlertController
   ) {}
 
-
   ngOnInit() {
   }
 
@@ -29,7 +28,7 @@ export class HomePage implements OnInit {
   }
 
   async ionViewDidEnter() {
-    if (this.authService.signedIn) {
+    if (await this.authService.isAuthenticated()) {
       await this.presentAlertConfirm();
     }
   }
@@ -41,7 +40,6 @@ export class HomePage implements OnInit {
   navToSignIn() {
     this.router.navigateByUrl('/auth/sign-in');
   }
-
 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({

@@ -181,6 +181,9 @@
             "production": {
               "devServerTarget": "app:serve:production"
             },
+            "dev": {
+              "devServerTarget": "app:serve:dev"
+            },
             "ci": {
               "devServerTarget": "app:serve:ci"
             }
@@ -194,6 +197,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "dev": {
+              "browserTarget": "app:build:dev"
             }
           }
         },
@@ -207,6 +213,10 @@
             "production": {
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"
+            },
+            "dev": {
+              "cordovaBuildTarget": "app:ionic-cordova-build:dev",
+              "devServerTarget": "app:serve:dev"
             }
           }
         }

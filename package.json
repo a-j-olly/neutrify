@@ -8,11 +8,9 @@
     "start": "ng serve",
     "build": "ng build -c=dev",
     "build-prod": "ng build --prod",
-    "run-cordova-dev": "ionic cordova run browser -c=dev",
-    "build-cordova-dev": "ionic cordova build android -c=dev",
+    "build-android": "ionic cordova build android -c=dev",
+    "build-android-prod": "ionic cordova build android -c=prod",
     "analyse-bundle": "ng build --prod --named-chunks --stats-json && webpack-bundle-analyzer www/stats-es2015.json",
-    "sync-app-android": "ng build -c=dev && npx cap copy android && npx cap open android",
-    "sync-app-android-prod": "ng build --prod && npx cap copy android && npx cap open android",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

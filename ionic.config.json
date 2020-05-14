@@ -1,7 +1,6 @@
 {
   "name": "Neutrify",
   "integrations": {
-    "capacitor": {},
     "cordova": {}
   },
   "type": "angular"

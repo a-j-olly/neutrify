@@ -71,8 +71,12 @@ export class AppComponent {
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
+    this.platform.ready().then((readySource) => {
+      if (readySource === 'iOS') {
+        this.statusBar.overlaysWebView(false);
+      }
+      this.statusBar.backgroundColorByHexString('#333');
+      this.statusBar.styleLightContent();
       this.splashScreen.hide();
     });
   }

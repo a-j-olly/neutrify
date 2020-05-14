@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { AdMob } from '@admob-plus/ionic';
 import { IonicModule } from '@ionic/angular';
+import { AdsenseModule } from 'ng2-adsense';
 
 import { NewsFeedPage } from './news-feed.page';
 import { ArticleComponent } from './article-list/article/article.component';
@@ -23,7 +24,11 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-1312649730148564',
+      adSlot: 7499925030,
+    }),
   ],
   declarations: [
     NewsFeedPage,

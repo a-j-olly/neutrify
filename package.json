@@ -38,6 +38,7 @@
     "cordova-android": "^8.1.0",
     "core-js": "^2.6.11",
     "date-fns": "^2.13.0",
+    "ng2-adsense": "^8.0.1",
     "rxjs": "^6.5.5",
     "tslib": "^1.11.2",
     "uuid": "^3.4.0",

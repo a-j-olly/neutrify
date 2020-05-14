@@ -13,6 +13,7 @@ import { ToastController, IonContent } from '@ionic/angular';
 })
 export class ArticleListComponent implements OnInit {
   @Input() platformHeight: number;
+  @Input() displayAd: boolean;
   @ViewChild(IonContent) content: IonContent;
   @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
   openArticleId: string;

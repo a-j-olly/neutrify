@@ -1,3 +1,5 @@
+import { AdMob } from '@admob-plus/ionic';
+import { environment } from './../../environments/environment';
 import { AuthService } from './../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform } from '@ionic/angular';
@@ -12,6 +14,7 @@ import { Component } from '@angular/core';
 export class NewsFeedPage {
   menuSubscription$: Subscription;
   menuStatus = false;
+  public displayAd = false;
 
   platformResize$: Subscription;
   platformWidth: number;
@@ -21,11 +24,22 @@ export class NewsFeedPage {
     private menuService: MenuService,
     private menu: MenuController,
     private platform: Platform,
-    public authService: AuthService
+    public authService: AuthService,
+    private admob: AdMob
   ) {
-    this.platform.ready().then(() => {
+    this.platform.ready().then((readySource) => {
+      if (readySource !== 'dom') {
+        if (!environment.production) {
+          admob.setDevMode(true);
+        }
+        admob.setAppVolume(0);
+        console.log('set app volume 0');
+        admob.banner.show({ id: 'test' });
+      }
+
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
+      this.displayAd = readySource === 'dom' && environment.production;
     });
 
     this.platformResize$ = this.platform.resize.subscribe(() => {

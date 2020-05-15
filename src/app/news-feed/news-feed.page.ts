@@ -29,12 +29,7 @@ export class NewsFeedPage {
   ) {
     this.platform.ready().then((readySource) => {
       if (readySource !== 'dom') {
-        if (!environment.production) {
-          admob.setDevMode(true);
-        }
-        admob.setAppVolume(0);
-        console.log('set app volume 0');
-        admob.banner.show({ id: 'test' });
+        this.admob.banner.show({ id: 'test' });
       }
 
       this.platformWidth = this.platform.width();

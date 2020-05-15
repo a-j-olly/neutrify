@@ -7,6 +7,7 @@ import { Platform, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription } from 'rxjs';
+import { AdMob } from '@admob-plus/ionic';
 
 // tslint:disable-next-line:ban-types
 declare let gtag: Function;
@@ -27,7 +28,8 @@ export class AppComponent {
     private menu: MenuController,
     private menuService: MenuService,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    private admob: AdMob
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -75,6 +77,14 @@ export class AppComponent {
       if (readySource === 'iOS') {
         this.statusBar.overlaysWebView(false);
       }
+
+      if (readySource !== 'dom') {
+        if (!environment.production) {
+          this.admob.setDevMode(true);
+        }
+        this.admob.setAppVolume(0);
+      }
+
       this.statusBar.backgroundColorByHexString('#333');
       this.statusBar.styleLightContent();
       this.splashScreen.hide();

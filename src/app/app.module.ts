@@ -1,3 +1,4 @@
+import { AdsenseModule } from 'ng2-adsense';
 import { HomePage } from './home/home.page';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
@@ -22,6 +23,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
+import { AdMob } from '@admob-plus/ionic';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,11 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
     ReactiveFormsModule,
     AppRoutingModule,
     AmplifyAngularModule,
-    AmplifyIonicModule
+    AmplifyIonicModule,
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-1312649730148564',
+      adSlot: 7499925030,
+    }),
   ],
   providers: [
     APIService,
@@ -50,7 +56,8 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
     AmplifyService,
     SplashScreen,
     GoogleAnalyticsService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AdMob,
   ],
   bootstrap: [AppComponent]
 })

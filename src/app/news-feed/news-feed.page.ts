@@ -28,8 +28,16 @@ export class NewsFeedPage {
     private admob: AdMob
   ) {
     this.platform.ready().then((readySource) => {
-      if (readySource !== 'dom') {
-        this.admob.banner.show({ id: 'test' });
+      if (environment.production) {
+        if (readySource === 'iOS') {
+          this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2740135529' });
+        } else if (readySource === 'android') {
+          this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2037976682' });
+        }
+      } else {
+        if (readySource !== 'dom') {
+          this.admob.banner.show({ id: 'test' });
+        }
       }
 
       this.platformWidth = this.platform.width();

@@ -1,6 +1,5 @@
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SignUpService } from './../services/sign-up.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,7 +10,6 @@ import { Component, OnInit } from '@angular/core';
 export class AuthPage implements OnInit {
 
   constructor(
-    public signupService: SignUpService,
     private router: Router,
     private menuCtrl: MenuController
     ) { }

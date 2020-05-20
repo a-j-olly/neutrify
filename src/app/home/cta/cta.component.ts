@@ -1,14 +1,14 @@
 import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from './../services/auth.service';
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-cta',
+  templateUrl: './cta.component.html',
+  styleUrls: ['./cta.component.scss'],
 })
-export class HomePage implements OnInit {
+export class CtaComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
@@ -20,17 +20,8 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-  async ionViewWillEnter() {
-    setTimeout(() => {
-      this.menuCtrl.enable(false, 'filterMenu');
-      this.menuCtrl.enable(false, 'mainMenu');
-    }, 200);
-  }
-
-  async ionViewDidEnter() {
-    if (await this.authService.isAuthenticated()) {
-      await this.presentAlertConfirm();
-    }
+  navToSignUp() {
+    this.router.navigateByUrl('/auth/create-account');
   }
 
   navToSignIn() {

@@ -28,7 +28,7 @@ export class MainMenuComponent implements OnInit {
 
     if (res) {
       this.menuService.closeMenu();
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/home/welcome');
       this.ga.eventEmitter('logout', 'engagement', 'Logout');
     } else {
       alert('Could not sign you out. Please try again.');

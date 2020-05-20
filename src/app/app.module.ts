@@ -1,5 +1,9 @@
-import { AdsenseModule } from 'ng2-adsense';
+import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
+import { FooterComponent } from './home/footer/footer.component';
+import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
+import { CtaComponent } from './home/cta/cta.component';
 import { HomePage } from './home/home.page';
+import { AdsenseModule } from 'ng2-adsense';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
 import { TopicsFilterComponent } from './menu/filter-menu/topics-filter/topics-filter.component';
@@ -34,7 +38,11 @@ import { AdMob } from '@admob-plus/ionic';
     RangeFilterComponent,
     TopicsFilterComponent,
     CountryFilterComponent,
-    HomePage
+    HomePage,
+    CtaComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

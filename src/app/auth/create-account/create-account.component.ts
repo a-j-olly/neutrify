@@ -2,7 +2,6 @@ import { GoogleAnalyticsService } from './../../services/google-analytics.servic
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { SignUpService } from './../../services/sign-up.service';
 import { Component, OnInit } from '@angular/core';
 import { MustMatch } from 'src/app/helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
@@ -30,7 +29,6 @@ export class CreateAccountComponent implements OnInit {
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private toastController: ToastController,
-    private signUpService: SignUpService,
     private router: Router,
     private ga: GoogleAnalyticsService
   ) {}
@@ -95,7 +93,6 @@ export class CreateAccountComponent implements OnInit {
       if (res) {
         this.invalidDetails = false;
         this.confirmSignUpForm.reset();
-        this.signUpService.createAccountComplete = true;
         this.showConfirmSignUp = false;
         this.navToSignIn();
         this.loading = false;

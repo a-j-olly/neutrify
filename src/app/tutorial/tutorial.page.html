@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+    <ion-title>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
+    <ion-slide>
+      <h1>How to use Neutrify</h1>
+      <h2>News feed</h2>
+    </ion-slide>
+
+    <ion-slide>
+      <h2>Using filters</h2>
+    </ion-slide>
+
+    <ion-slide>
+      <h1>Setup some filters</h1>
+      <form></form>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

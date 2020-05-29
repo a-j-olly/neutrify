@@ -1,5 +1,6 @@
+import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 @Component({
@@ -9,6 +10,7 @@ import { Storage } from '@ionic/storage';
 })
 export class TutorialPage implements OnInit {
   public showSkip = true;
+  @ViewChild('page') page: IonContent;
 
   constructor(
     private router: Router,
@@ -16,17 +18,19 @@ export class TutorialPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.getLang());
   }
 
   ionViewWillEnter() {
     this.storage.get('ion_did_tutorial').then(res => {
       if (res === true) {
-        this.router.navigateByUrl('/app', { replaceUrl: true });
+        // this.router.navigateByUrl('/app', { replaceUrl: true });
       }
     });
   }
 
   onSlideChangeStart(event) {
+    this.pageScroller();
     event.target.isEnd().then(isEnd => {
       this.showSkip = !isEnd;
     });
@@ -36,5 +40,13 @@ export class TutorialPage implements OnInit {
     this.router
       .navigateByUrl('/app', { replaceUrl: true })
       .then(() => this.storage.set('ion_did_tutorial', true));
+  }
+
+  public pageScroller() {
+    this.page.scrollToTop();
+  }
+
+  getLang() {
+    return (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
   }
 }

@@ -1,43 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
-    </ion-buttons>
     <ion-title>
       <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content #page>
-  <ion-slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="false">
-    <ion-slide>
-      <ion-grid class="ion-no-padding ion-no-margin">
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-1-720px-min.png"></ion-img>
-        </ion-row>
-
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-2-720px-min.png"></ion-img>
-        </ion-row>
-
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-3-720px-min.png"></ion-img>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-grid>
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/filter-annotation-1-720px-min.png"></ion-img>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-
-    <ion-slide>
-      <h1>Setup some filters</h1>
-      <form></form>
-    </ion-slide>
-  </ion-slides>
+<ion-content>
+  <h1>Setup some filters</h1>
+  <form></form>
 </ion-content>

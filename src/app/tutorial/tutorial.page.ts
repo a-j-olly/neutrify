@@ -9,8 +9,6 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./tutorial.page.scss'],
 })
 export class TutorialPage implements OnInit {
-  public showSkip = true;
-  @ViewChild('page') page: IonContent;
 
   constructor(
     private router: Router,
@@ -27,23 +25,6 @@ export class TutorialPage implements OnInit {
         // this.router.navigateByUrl('/app', { replaceUrl: true });
       }
     });
-  }
-
-  onSlideChangeStart(event) {
-    this.pageScroller();
-    event.target.isEnd().then(isEnd => {
-      this.showSkip = !isEnd;
-    });
-  }
-
-  startApp() {
-    this.router
-      .navigateByUrl('/app', { replaceUrl: true })
-      .then(() => this.storage.set('ion_did_tutorial', true));
-  }
-
-  public pageScroller() {
-    this.page.scrollToTop();
   }
 
   getLang() {

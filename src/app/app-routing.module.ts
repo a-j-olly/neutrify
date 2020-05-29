@@ -16,11 +16,12 @@ const routes: Routes = [
   ], canActivate: [AuthGuardService]},
   { path: 'app', loadChildren: () => import('./news-feed/news-feed.module')
   .then(m => m.NewsFeedPageModule), canActivate: [AuthGuardService] },
-  { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule) },  {
+  { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule) },
+  {
     path: 'tutorial',
     loadChildren: () => import('./tutorial/tutorial.module').then( m => m.TutorialPageModule)
   },
-
+  
 ];
 
 

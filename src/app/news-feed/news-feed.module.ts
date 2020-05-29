@@ -13,8 +13,15 @@ import { ArticleComponent } from './article-list/article/article.component';
 const routes: Routes = [
   {
     path: '',
-    component: NewsFeedPage
-  }
+    component: NewsFeedPage,
+    children: [
+      {
+        path: 'help',
+        loadChildren: () => import('../help/help.module').then( m => m.HelpPageModule)
+      },
+    ]
+  },
+  
 ];
 
 @NgModule({

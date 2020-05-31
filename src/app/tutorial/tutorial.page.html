@@ -7,6 +7,38 @@
 </ion-header>
 
 <ion-content>
-  <h1>Setup some filters</h1>
-  <form></form>
+  <div class="container">
+    <ion-grid>
+      <h1>Quick Start</h1>
+      <form [formGroup]="tutorialForm" (ngSubmit)="submit()">
+        <p>
+          As this is your first time using Neutrify, you may want to answer the following questions in order to quickly get started. 
+          You can change any of these settings later in the filter menu. 
+        </p>
+        <ion-item>
+          <ion-label class="ion-text-wrap">See only national news?
+          </ion-label>
+          
+          <!-- <div class="interactive-text">
+            <ion-text color="primary">({{ localCountry }})</ion-text><ion-icon color="primary" name="chevron-down-outline"></ion-icon>
+          </div> -->
+          <ion-toggle slot="start" class="form-control" formControlName="nationalNews" (ionChange)="toggleNews($event)"></ion-toggle>
+          <ion-select formControlName="selectCountry" (ionChange)="selectChanged($event)">
+            <ion-select-option *ngFor="let country of countryOptions">{{country.label}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <span class="ion-text-center" *ngIf="f.nationalNews.value">
+          <p>You will only see articles published in {{ localCountry }}.</p>
+        </span>
+
+        <!-- <ion-item *ngIf="f.nationalNews.value" style="font-size: 14px;">
+          <ion-label class="ion-text-wrap">Change your national country?</ion-label>
+          <ion-select formControlName="selectCountry" (ionChange)="selectChanged($event)" >
+            <ion-select-option *ngFor="let country of countryOptions">{{country.label}}</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+      </form>
+    </ion-grid>
+  </div>
 </ion-content>

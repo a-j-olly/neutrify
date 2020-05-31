@@ -20,8 +20,7 @@ const routes: Routes = [
   {
     path: 'tutorial',
     loadChildren: () => import('./tutorial/tutorial.module').then( m => m.TutorialPageModule)
-  },
-  
+  }
 ];
 
 

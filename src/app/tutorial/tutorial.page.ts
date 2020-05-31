@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Countries } from './../model/country-options';
 import LocaleCode from 'locale-code';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tutorial',
@@ -18,14 +19,16 @@ export class TutorialPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private storage: Storage
+    private storage: Storage,
+    private toastController: ToastController,
   ) { }
 
   ngOnInit() {
     this.localCountry = LocaleCode.getCountryName(this.getLang());
     this.tutorialForm = this.formBuilder.group({
       nationalNews: [false],
-      selectCountry: [{ value: this.localCountry, disabled: true }]
+      selectCountry: [{ value: this.localCountry, disabled: true }],
+      positiveNews: [false]
     });
   }
 
@@ -43,7 +46,7 @@ export class TutorialPage implements OnInit {
     return (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
   }
 
-  toggleNews(event) {
+  toggleNationalNews(event) {
     if (event.detail.checked) {
       this.f.selectCountry.enable();
     } else {
@@ -51,8 +54,20 @@ export class TutorialPage implements OnInit {
     }
   }
 
-  selectChanged(event) {
+  async selectChanged(event) {
     this.localCountry = event.target.value;
+    await this.presentToast(`You will only see articles published in ${this.localCountry}`, 'primary');
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center',
+      position: 'middle'
+    });
+    toast.present();
   }
 
   submit() {

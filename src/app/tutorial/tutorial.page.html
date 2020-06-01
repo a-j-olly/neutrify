@@ -12,14 +12,14 @@
       <h1>Quick Start</h1>
       <form [formGroup]="tutorialForm" (ngSubmit)="submit()">
         <p>
-          As this is your first time using Neutrify, you may want to answer the following questions in order to quickly get started. 
-          You can adjust any of the settings and more in the filter menu. 
+          As this is your first time using Neutrify, you may want to answer a few simple questions in order to tailor the news feed to your taste. 
+          You can adjust any of these settings in the filter menu. 
         </p>
         <ion-list>
           <ion-item lines="full">
-            <ion-label class="ion-text-wrap">Read only the national news?</ion-label>
+            <ion-label class="ion-text-wrap">Read only national news articles?</ion-label>
             <ion-toggle slot="start" class="form-control" formControlName="nationalNews" (ionChange)="toggleNationalNews($event)"></ion-toggle>
-            <ion-select class="form-control" formControlName="selectCountry" (ionChange)="selectChanged($event)">
+            <ion-select class="form-control" formControlName="selectCountry" (ionChange)="localCountryChanged($event)">
               <ion-select-option *ngFor="let country of countryOptions">{{ country.label }}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -31,6 +31,13 @@
           <ion-item lines="full">
             <ion-label class="ion-text-wrap">Read only positive news articles?</ion-label>
             <ion-toggle slot="start" class="form-control" formControlName="positiveNews"></ion-toggle>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Are there any topics you <b>don't</b> want to read about?</ion-label>
+            <ion-select class="form-control" formControlName="topicsToExclude" multiple="true" (ionChange)="excludedTopicsChanged($event)">
+              <ion-select-option *ngFor="let topic of topicList">{{ topic.label }}</ion-select-option>
+            </ion-select>
           </ion-item>
         </ion-list>
       </form>

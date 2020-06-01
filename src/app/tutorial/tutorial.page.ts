@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Countries } from './../model/country-options';
+import { TopicList } from './../model/topic-list';
+
 import LocaleCode from 'locale-code';
 import { ToastController } from '@ionic/angular';
 
@@ -15,6 +17,7 @@ export class TutorialPage implements OnInit {
   public localCountry: string;
   public tutorialForm: FormGroup;
   public countryOptions = Countries;
+  public topicList = TopicList;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +31,8 @@ export class TutorialPage implements OnInit {
     this.tutorialForm = this.formBuilder.group({
       nationalNews: [false],
       selectCountry: [{ value: this.localCountry, disabled: true }],
-      positiveNews: [false]
+      positiveNews: [false],
+      topicsToExclude: [[]]
     });
   }
 
@@ -54,9 +58,12 @@ export class TutorialPage implements OnInit {
     }
   }
 
-  async selectChanged(event) {
+  async localCountryChanged(event) {
     this.localCountry = event.target.value;
-    await this.presentToast(`You will only see articles published in ${this.localCountry}`, 'primary');
+  }
+
+  async excludedTopicsChanged(event) {
+    console.log(this.f.topicsToExclude.value);
   }
 
   async presentToast(message, color) {

@@ -13,14 +13,14 @@
       <form [formGroup]="tutorialForm" (ngSubmit)="submit()">
         <p>
           As this is your first time using Neutrify, you may want to answer the following questions in order to quickly get started. 
-          You can adjust any of these settings and more in the filter menu. 
+          You can adjust any of the settings and more in the filter menu. 
         </p>
         <ion-list>
-          <ion-item>
-            <ion-label class="ion-text-wrap">See only the national news?</ion-label>
+          <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Read only the national news?</ion-label>
             <ion-toggle slot="start" class="form-control" formControlName="nationalNews" (ionChange)="toggleNationalNews($event)"></ion-toggle>
             <ion-select class="form-control" formControlName="selectCountry" (ionChange)="selectChanged($event)">
-              <ion-select-option *ngFor="let country of countryOptions">{{country.label}}</ion-select-option>
+              <ion-select-option *ngFor="let country of countryOptions">{{ country.label }}</ion-select-option>
             </ion-select>
           </ion-item>
   
@@ -28,8 +28,8 @@
             <p>You will only see articles published in {{ localCountry }}.</p>
           </span>
 
-          <ion-item>
-            <ion-label class="ion-text-wrap">See only positive news?</ion-label>
+          <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Read only positive news articles?</ion-label>
             <ion-toggle slot="start" class="form-control" formControlName="positiveNews"></ion-toggle>
           </ion-item>
         </ion-list>

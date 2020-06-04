@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery, UpdateConfigInput } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { Auth } from 'aws-amplify';
@@ -40,9 +40,23 @@ export class AuthService {
           }
 
           if (this.signedIn) {
-            const config = await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1);
-            if (config.items.length !== 0) {
-              await this.filterService.updateFilterOptions(config.items[0]);
+            const config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+            if (config) {
+              const filters = {
+                id: config.id,
+                keywordsToInclude: config.keywordsToInclude,
+                keywordsToExclude: config.keywordsToExclude,
+                toneUpperRange: config.toneUpperRange,
+                toneLowerRange: config.toneLowerRange,
+                topicsToInclude: config.topicsToInclude,
+                topicsToExclude: config.topicsToExclude,
+                sourcesToInclude: config.sourcesToInclude,
+                sourcesToExclude: config.sourcesToExclude,
+                locationsToInclude: config.locationsToInclude,
+                locationsToExclude: config.locationsToExclude
+              };
+
+              await this.filterService.updateFilterOptions(filters);
               this.loaded = true;
             } else {
               this.loaded = false;

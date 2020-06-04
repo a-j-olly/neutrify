@@ -8,9 +8,9 @@
 
 <ion-content>
   <div class="container">
-    <ion-grid>
-      <h1>Quick Start</h1>
-      <form [formGroup]="tutorialForm" (ngSubmit)="submit()">
+    <form [formGroup]="tutorialForm" (ngSubmit)="submit()">
+      <ion-grid>
+        <h1>Quick Start</h1>
         <p>
           As this is your first time using Neutrify, you may want to answer a few simple questions in order to tailor the news feed to your taste. 
           You can adjust any of these settings in the filter menu. 
@@ -40,7 +40,14 @@
             </ion-select>
           </ion-item>
         </ion-list>
-      </form>
-    </ion-grid>
+        <ion-row class="ion-justify-content-center">
+          <ion-button type="submit" [disabled]="!authService.loaded">Done</ion-button>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
+
+  <div class="spinner-container" *ngIf="loading">
+    <ion-spinner class="spinner" name="crescent" ></ion-spinner>
   </div>
 </ion-content>

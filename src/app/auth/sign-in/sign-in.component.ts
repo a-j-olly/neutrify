@@ -47,7 +47,6 @@ export class SignInComponent implements OnInit {
         this.storage.get('ion_did_tutorial').then(async (result) => {
           if (result) {
             await this.router.navigateByUrl('/app', { replaceUrl: true });
-
           } else {
             await this.presentAlertConfirm();
           }

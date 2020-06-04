@@ -30,6 +30,7 @@ export class FilterMenuComponent {
 
   async initOptions() {
     const filterOptions = this.filterService.filterOptions;
+    console.log('(initOptions - filer-menu) filterOptions: ', filterOptions);
 
     this.toneUserOption = {
       value: {
@@ -64,7 +65,7 @@ export class FilterMenuComponent {
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
 
-    await this.buildOptions();
+    // await this.buildOptions();
   }
 
   async onFilterChange(event) {

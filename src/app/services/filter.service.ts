@@ -52,18 +52,24 @@ export class FilterService {
     ];
   }
 
-  updateFilterOptions(newFilterOptions) {
-    this.filterOptions = newFilterOptions;
+  async updateFilterOptions(inputFilterOptions) {
+    console.log('(updatedFilterOptions) params: ', inputFilterOptions);
+    const newFilterOptions = Object.assign(inputFilterOptions);
+    console.log('(updatedFilterOptions) newFilterOptions: ', newFilterOptions);
 
-    if (typeof newFilterOptions.topicsToInclude === 'string' || typeof newFilterOptions.topicsToExclude === 'string') {
+    console.log((typeof newFilterOptions.topicsToExclude), newFilterOptions.topicsToExclude);
+
+    if ((typeof newFilterOptions.topicsToInclude) === 'string' || (typeof newFilterOptions.topicsToExclude) === 'string') {
       const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
       const parsedExclude = JSON.parse(newFilterOptions.topicsToExclude);
+      console.log('parse topics to exclude', parsedExclude);
       this.topicsUserOption.include = parsedInclude;
       this.topicsUserOption.exclude = parsedExclude;
-      this.filterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
-      this.filterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
+      newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
+      newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     }
-
+    console.log('(updatedFilterOptions) after parsing', newFilterOptions);
+    this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
   }
 
@@ -138,6 +144,7 @@ export class FilterService {
 
   getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
+    console.log('(getQueryFilters) options: ', ops);
 
     const filterInput: ModelArticleFilterInput = {
       tone: {
@@ -170,6 +177,10 @@ export class FilterService {
         filterInput.and.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
       }
 
+      if (typeof ops.topicsToInclude === 'string') {
+        ops.topicsToInclude = this.mergeTopics(JSON.parse(ops.topicsToInclude));
+      }
+
       if (ops.topicsToInclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
       }
@@ -184,6 +195,10 @@ export class FilterService {
 
       if (ops.locationsToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne'));
+      }
+
+      if (typeof ops.topicsToExclude === 'string') {
+        ops.topicsToExclude = this.mergeTopics(JSON.parse(ops.topicsToExclude));
       }
 
       if (ops.topicsToExclude.length > 0) {

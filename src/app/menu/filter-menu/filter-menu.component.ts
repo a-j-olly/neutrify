@@ -30,7 +30,6 @@ export class FilterMenuComponent {
 
   async initOptions() {
     const filterOptions = this.filterService.filterOptions;
-    console.log('(initOptions - filer-menu) filterOptions: ', filterOptions);
 
     this.toneUserOption = {
       value: {

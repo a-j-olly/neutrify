@@ -1,22 +1,22 @@
-import { AuthService } from './../services/auth.service';
-import { FilterService } from './../services/filter.service';
-import { APIService, UpdateConfigInput } from './../services/neutrify-api.service';
+import { AuthService } from '../services/auth.service';
+import { FilterService } from '../services/filter.service';
+import { APIService, UpdateConfigInput } from '../services/neutrify-api.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { Countries } from './../model/country-options';
-import { TopicList } from './../model/topic-list';
+import { Countries } from '../model/country-options';
+import { TopicList } from '../model/topic-list';
 
 import LocaleCode from 'locale-code';
 import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tutorial',
-  templateUrl: './tutorial.page.html',
-  styleUrls: ['./tutorial.page.scss'],
+  templateUrl: './quick-start.page.html',
+  styleUrls: ['./quick-start.page.scss'],
 })
-export class TutorialPage implements OnInit {
+export class QuickStartPage implements OnInit {
   public localCountry: string;
   public tutorialForm: FormGroup;
   public countryOptions = Countries;
@@ -45,12 +45,6 @@ export class TutorialPage implements OnInit {
 
   get f() { return this.tutorialForm.controls; }
 
-  ionViewWillEnter() {
-    this.storage.get('ion_did_tutorial').then(async (res) => {
-      await this.presentToast('You may be about to overwrite some existing filter settings.', 'danger');
-    });
-  }
-
   getLang() {
     return (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
   }
@@ -67,9 +61,6 @@ export class TutorialPage implements OnInit {
     this.localCountry = event.target.value;
   }
 
-  async excludedTopicsChanged(event) {
-    console.log(this.f.topicsToExclude.value);
-  }
 
   async presentToast(message, color) {
     const toast = await this.toastController.create({
@@ -126,6 +117,7 @@ export class TutorialPage implements OnInit {
       }
     }
 
+    this.storage.set('ion_did_quick_start', true);
     this.router.navigateByUrl('/app', { replaceUrl: true });
     this.loading = false;
   }

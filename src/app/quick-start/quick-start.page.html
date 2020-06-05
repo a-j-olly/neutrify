@@ -35,7 +35,7 @@
 
           <ion-item lines="full">
             <ion-label class="ion-text-wrap">Are there any topics you <b>don't</b> want to read about?</ion-label>
-            <ion-select class="form-control" formControlName="topicsToExclude" multiple="true" (ionChange)="excludedTopicsChanged($event)">
+            <ion-select class="form-control" formControlName="topicsToExclude" multiple="true">
               <ion-select-option *ngFor="let topic of topicList">{{ topic.label }}</ion-select-option>
             </ion-select>
           </ion-item>

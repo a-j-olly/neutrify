@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
-        this.storage.get('ion_did_tutorial').then(async (result) => {
+        this.storage.get('ion_did_quick_start').then(async (result) => {
           if (result) {
             await this.router.navigateByUrl('/app', { replaceUrl: true });
           } else {
@@ -77,19 +77,19 @@ export class SignInComponent implements OnInit {
 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      message: 'You have not completed the tutorial. Would you like to do so?',
+      message: 'Would you like to set some starting filters? If not you will go straight to the app.',
       buttons: [
         {
-          text: 'Go To App',
+          text: 'No thanks',
           role: 'cancel',
           cssClass: 'secondary',
           handler: async () => {
             await this.router.navigateByUrl('/app', { replaceUrl: true });
           }
         }, {
-          text: 'Go To Tutorial',
+          text: 'Quick start',
           handler: async () => {
-            await this.router.navigateByUrl('/tutorial', { replaceUrl: true });
+            await this.router.navigateByUrl('/quick-start', { replaceUrl: true });
           }
         }
       ]

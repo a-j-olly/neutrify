@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent } from '@ionic/angular';
+import { IonContent, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,12 +12,24 @@ export class HelpPage implements OnInit {
 
   constructor(
     private router: Router,
+    private menuCtrl: MenuController
   ) { }
 
   ngOnInit() {
   }
 
+  async ionViewWillEnter() {
+    setTimeout(() => {
+      this.menuCtrl.enable(false, 'filterMenu');
+      this.menuCtrl.enable(false, 'mainMenu');
+    }, 200);
+  }
+
   onSlideChange(event) {
     this.page.scrollToTop();
+  }
+
+  backToApp() {
+    this.router.navigateByUrl('/app', { replaceUrl: true });
   }
 }

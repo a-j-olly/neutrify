@@ -1,5 +1,12 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons class="toolbar-buttons" slot="start">
+      <ion-chip color="primary" (click)="backToApp()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Back</ion-label>
+      </ion-chip>
+    </ion-buttons>
+
     <ion-title>
       <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
     </ion-title>
@@ -7,29 +14,17 @@
 </ion-header>
 
 <ion-content #page>
-  <ion-slides (ionSlideWillChange)="onSlideChange($event)" pager="false">
-    <ion-slide>
-      <ion-grid class="ion-no-padding ion-no-margin">
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-1-720px-min.png"></ion-img>
-        </ion-row>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="feed">
+        <ion-icon name="newspaper"></ion-icon>
+        <ion-label>News feed</ion-label>
+      </ion-tab-button>
 
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-2-720px-min.png"></ion-img>
-        </ion-row>
-
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/feed-annotation-3-720px-min.png"></ion-img>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-
-    <ion-slide>
-      <ion-grid>
-        <ion-row class="ion-justify-content-center ion-no-padding">
-          <ion-img class="annotation" src="../../assets/img/filter-annotation-1-720px-min.png"></ion-img>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-  </ion-slides>
+      <ion-tab-button tab="filters">
+        <ion-icon name="options"></ion-icon>
+        <ion-label>Filter menu</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
 </ion-content>

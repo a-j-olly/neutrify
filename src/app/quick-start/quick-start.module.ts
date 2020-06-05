@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TutorialPageRoutingModule } from './tutorial-routing.module';
+import { QuickStartPageRoutingModule } from './quick-start-routing.module';
 
-import { TutorialPage } from './tutorial.page';
+import { QuickStartPage } from './quick-start.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { TutorialPage } from './tutorial.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    TutorialPageRoutingModule,
+    QuickStartPageRoutingModule,
   ],
-  declarations: [TutorialPage]
+  declarations: [QuickStartPage]
 })
-export class TutorialPageModule {}
+export class QuickStartPageModule {}

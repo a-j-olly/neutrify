@@ -14,13 +14,12 @@ const routes: Routes = [
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
     { path: 'terms-conditions', component: TermsConditionsComponent}
   ], canActivate: [AuthGuardService]},
-  { path: 'app', loadChildren: () => import('./news-feed/news-feed.module')
-  .then(m => m.NewsFeedPageModule), canActivate: [AuthGuardService] },
+  { path: 'app', canActivate: [AuthGuardService], children: [
+    { path: '', loadChildren: () => import('./news-feed/news-feed.module').then(m => m.NewsFeedPageModule) },
+    { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) }
+  ],  },
   { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule) },
-  {
-    path: 'tutorial',
-    loadChildren: () => import('./tutorial/tutorial.module').then( m => m.TutorialPageModule)
-  }
+  { path: 'quick-start', loadChildren: () => import('./quick-start/quick-start.module').then( m => m.QuickStartPageModule) },
 ];
 
 

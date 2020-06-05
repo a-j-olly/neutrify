@@ -53,22 +53,16 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    console.log('(updatedFilterOptions) params: ', inputFilterOptions);
     const newFilterOptions = Object.assign(inputFilterOptions);
-    console.log('(updatedFilterOptions) newFilterOptions: ', newFilterOptions);
-
-    console.log((typeof newFilterOptions.topicsToExclude), newFilterOptions.topicsToExclude);
 
     if ((typeof newFilterOptions.topicsToInclude) === 'string' || (typeof newFilterOptions.topicsToExclude) === 'string') {
       const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
       const parsedExclude = JSON.parse(newFilterOptions.topicsToExclude);
-      console.log('parse topics to exclude', parsedExclude);
       this.topicsUserOption.include = parsedInclude;
       this.topicsUserOption.exclude = parsedExclude;
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     }
-    console.log('(updatedFilterOptions) after parsing', newFilterOptions);
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
   }
@@ -144,7 +138,6 @@ export class FilterService {
 
   getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
-    console.log('(getQueryFilters) options: ', ops);
 
     const filterInput: ModelArticleFilterInput = {
       tone: {

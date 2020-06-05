@@ -1732,7 +1732,7 @@ export const Computers = [
     },
     {
         id: 19,
-        label: 'FAQs, Help, and Tutorials',
+        label: 'FAQs, Help, and QuickStarts',
         value: 'faqs, help, and tutorials'
     },
     {

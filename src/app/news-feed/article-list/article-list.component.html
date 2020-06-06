@@ -12,16 +12,6 @@
   </div>
 
   <ion-list id="feed">
-    <div *ngIf="displayAd">
-      <ng-adsense
-        [adClient]="'ca-pub-1312649730148564'"
-        [adSlot]="7499925030"
-        [adFormat]="'fluid'"
-        [display]="'display:block'"
-        [layoutKey]="'-gw-3+1f-3d+2z'"
-        [className]= "'ad-control'">
-      </ng-adsense>
-    </div>
     <app-article  [hidden]="displayArticles.length === 0" 
       *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}"
       (articleExpanded)="handleArticleToggle($event, i)" [article]="article">

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons class="toolbar-buttons" slot="start">
+      <ion-chip color="primary" (click)="backToApp()">
+        <ion-icon name="arrow-back"></ion-icon>
+        <ion-label>Back</ion-label>
+      </ion-chip>
+    </ion-buttons>
+
+    <ion-title>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #page>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="feed">
+        <ion-icon name="newspaper"></ion-icon>
+        <ion-label>News feed</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="filters">
+        <ion-icon name="options"></ion-icon>
+        <ion-label>Filter menu</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

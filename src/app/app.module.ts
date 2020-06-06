@@ -1,3 +1,4 @@
+import { IonicStorageModule } from '@ionic/storage';
 import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
 import { FooterComponent } from './home/footer/footer.component';
 import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
@@ -48,6 +49,7 @@ import { AdMob } from '@admob-plus/ionic';
     BrowserModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,

@@ -34,4 +34,10 @@ export class MainMenuComponent implements OnInit {
       alert('Could not sign you out. Please try again.');
     }
   }
+
+  async goToHelp() {
+    this.menuService.closeMenu();
+    await this.router.navigateByUrl('/app/help');
+    // this.ga.eventEmitter('help', 'engagement', 'Help');
+  }
 }

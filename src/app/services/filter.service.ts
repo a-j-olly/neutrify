@@ -52,18 +52,18 @@ export class FilterService {
     ];
   }
 
-  updateFilterOptions(newFilterOptions) {
-    this.filterOptions = newFilterOptions;
+  async updateFilterOptions(inputFilterOptions) {
+    const newFilterOptions = Object.assign(inputFilterOptions);
 
-    if (typeof newFilterOptions.topicsToInclude === 'string' || typeof newFilterOptions.topicsToExclude === 'string') {
+    if ((typeof newFilterOptions.topicsToInclude) === 'string' || (typeof newFilterOptions.topicsToExclude) === 'string') {
       const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
       const parsedExclude = JSON.parse(newFilterOptions.topicsToExclude);
       this.topicsUserOption.include = parsedInclude;
       this.topicsUserOption.exclude = parsedExclude;
-      this.filterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
-      this.filterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
+      newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
+      newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     }
-
+    this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
   }
 
@@ -170,6 +170,10 @@ export class FilterService {
         filterInput.and.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
       }
 
+      if (typeof ops.topicsToInclude === 'string') {
+        ops.topicsToInclude = this.mergeTopics(JSON.parse(ops.topicsToInclude));
+      }
+
       if (ops.topicsToInclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
       }
@@ -184,6 +188,10 @@ export class FilterService {
 
       if (ops.locationsToExclude.length > 0) {
         filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne'));
+      }
+
+      if (typeof ops.topicsToExclude === 'string') {
+        ops.topicsToExclude = this.mergeTopics(JSON.parse(ops.topicsToExclude));
       }
 
       if (ops.topicsToExclude.length > 0) {

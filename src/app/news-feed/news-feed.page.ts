@@ -62,6 +62,17 @@ export class NewsFeedPage {
   ionViewWillLeave() {
     this.menuSubscription$.unsubscribe();
     this.platformResize$.unsubscribe();
+    if (environment.production) {
+      this.admob.banner.hide({
+        ios: 'ca-app-pub-1312649730148564/2740135529',
+        android: 'ca-app-pub-1312649730148564/2037976682'
+      });
+    } else {
+      this.admob.banner.hide({
+        ios: 'test',
+        android: 'test'
+      });
+    }
   }
 
   toggleMenu() {

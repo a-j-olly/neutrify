@@ -1,21 +1,21 @@
 <ion-list> 
-  <ion-item>
+  <ion-item lines="full">
     <app-topics-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption"></app-topics-filter>
   </ion-item>
 
-  <ion-item>
+  <ion-item lines="full">
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
   </ion-item>
 
-  <ion-item>
+  <ion-item lines="full">
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="News Sources"></app-word-filter>
   </ion-item>
 
-  <ion-item>
+  <ion-item lines="full">
     <app-country-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption"></app-country-filter>
   </ion-item>
 
-  <ion-item>
+  <ion-item lines="full">
     <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Attitude"></app-range-filter>
   </ion-item>
   

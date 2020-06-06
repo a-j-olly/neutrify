@@ -3,7 +3,6 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   Arts,
   Games,
-  News,
   Society,
   Business,
   Health,
@@ -56,7 +55,6 @@ export class TopicsFilterComponent implements OnInit {
     this.selectOptions = [
       { name: 'arts', label: 'Arts', values: Arts, disabledField: 'artsDisabled' },
       { name: 'games', label: 'Games', values: Games, disabledField: 'gamesDisabled' },
-      { name: 'news', label: 'News', values: News, disabledField: 'newsDisabled' },
       { name: 'society', label: 'Society', values: Society, disabledField: 'societyDisabled' },
       { name: 'business', label: 'Business', values: Business, disabledField: 'businessDisabled' },
       { name: 'health', label: 'Health', values: Health, disabledField: 'healthDisabled' },

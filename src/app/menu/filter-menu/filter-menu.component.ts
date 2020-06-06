@@ -64,7 +64,7 @@ export class FilterMenuComponent {
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
 
-    await this.buildOptions();
+    // await this.buildOptions();
   }
 
   async onFilterChange(event) {

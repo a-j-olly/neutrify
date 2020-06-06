@@ -23,6 +23,12 @@
       <h2>Loading articles...</h2>
     </div>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [@panelIn]>
+    <ion-fab-button (click)="doRefresh()">
+      <ion-icon size="large" name="refresh"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
       
   <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles" [hidden]="nextToken === null">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">

@@ -12,17 +12,9 @@ export class HelpPage implements OnInit {
 
   constructor(
     private router: Router,
-    private menuCtrl: MenuController
   ) { }
 
   ngOnInit() {
-  }
-
-  async ionViewWillEnter() {
-    setTimeout(() => {
-      this.menuCtrl.enable(false, 'filterMenu');
-      this.menuCtrl.enable(false, 'mainMenu');
-    }, 200);
   }
 
   onSlideChange(event) {

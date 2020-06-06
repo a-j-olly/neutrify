@@ -84,12 +84,13 @@ export class SignInComponent implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: async () => {
+            this.storage.set('ion_did_quick_start', true);
             await this.router.navigateByUrl('/app', { replaceUrl: true });
           }
         }, {
           text: 'Quick start',
           handler: async () => {
-            await this.router.navigateByUrl('/quick-start', { replaceUrl: true });
+            await this.router.navigateByUrl('/app/quick-start', { replaceUrl: true });
           }
         }
       ]

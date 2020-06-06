@@ -11,12 +11,12 @@ import { enGB } from 'date-fns/locale';
   selector: 'app-article',
   templateUrl: './article.component.html',
   animations: [
-    trigger('panelInOut', [
+    trigger('panelIn', [
       transition('void => *', [
-          style({transform: 'translateY(-100%)', opacity: 0}),
+          style({ transform: 'translateY(-100%)', opacity: 0 }),
           animate(200)
       ]),
-  ])
+    ])
   ],
   styleUrls: ['./article.component.scss'],
 })

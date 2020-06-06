@@ -5,10 +5,20 @@ import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './
 import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { add, sub } from 'date-fns';
 import { ToastController, IonContent } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
+  animations: [
+    trigger('panelIn', [
+      transition('void => *', [
+          style({ transform: 'translateY(100%)', opacity: 0.7 }),
+          animate(500)
+      ]),
+    ])
+  ],
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
@@ -16,8 +26,11 @@ export class ArticleListComponent implements OnInit {
   @Input() displayAd: boolean;
   @ViewChild(IonContent) content: IonContent;
   @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
-  openArticleId: string;
 
+  openArticleId: string;
+  private timeLeft = environment.refreshTimeLimit;
+  private timerObj: NodeJS.Timeout;
+  public showRefreshFab = false;
   filters: any;
   filterSubcription$: Subscription;
 
@@ -33,13 +46,14 @@ export class ArticleListComponent implements OnInit {
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
     private toastController: ToastController,
-    private changeDetector: ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
       await this.handleInitDataLoad();
     });
+
   }
 
   async ngOnInit() {
@@ -48,14 +62,42 @@ export class ArticleListComponent implements OnInit {
     await this.handleInitDataLoad();
   }
 
-  async resetArticles() {
-    this.nextToken = null;
-    this.rawArticles = new Array();
-    this.displayArticles = new Array();
+  ionViewDidEnter() {
+    this.startTimer();
   }
 
   ionViewWillLeave() {
     this.filterSubcription$.unsubscribe();
+    this.stopTimer();
+  }
+
+  startTimer() {
+    this.timerObj = setTimeout(() => {
+      this.timeLeft -= 1;
+
+      if (this.timeLeft > 0) {
+        this.startTimer();
+      } else {
+        this.showRefreshFab = true;
+      }
+    }, 1000);
+  }
+
+  resetTimer() {
+    this.stopTimer();
+    this.timeLeft = environment.refreshTimeLimit;
+    this.startTimer();
+  }
+
+  stopTimer() {
+    clearTimeout(this.timerObj);
+    clearInterval(this.timerObj);
+  }
+
+  async resetArticles() {
+    this.nextToken = null;
+    this.rawArticles = new Array();
+    this.displayArticles = new Array();
   }
 
   async handleInitDataLoad() {
@@ -143,11 +185,13 @@ export class ArticleListComponent implements OnInit {
     };
   }
 
-  async doRefresh(event) {
+  async doRefresh(event?) {
     this.updatingArticles = true;
     this.rawArticles = [];
     await this.handleInitDataLoad();
-    event.target.complete();
+    if (event) {
+      event.target.complete();
+    }
     this.updatingArticles = false;
   }
 
@@ -185,6 +229,8 @@ export class ArticleListComponent implements OnInit {
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
+    this.showRefreshFab = false;
+    this.resetTimer();
     return results.items;
   }
 

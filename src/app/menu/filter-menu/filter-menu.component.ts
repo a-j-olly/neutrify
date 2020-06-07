@@ -12,7 +12,6 @@ import { ToastController } from '@ionic/angular';
 })
 export class FilterMenuComponent {
   public toneUserOption;
-  public qualityUserOption;
   public sourcesUserOption;
   public topicsUserOption;
   public keywordsUserOption;
@@ -38,13 +37,6 @@ export class FilterMenuComponent {
       }
     };
 
-    this.qualityUserOption = {
-      value: {
-        lower: filterOptions.qualityLowerRange,
-        upper: filterOptions.qualityUpperRange
-      }
-    };
-
     this.sourcesUserOption = {
       include: filterOptions.sourcesToInclude,
       exclude: filterOptions.sourcesToExclude
@@ -64,7 +56,7 @@ export class FilterMenuComponent {
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
 
-    await this.buildOptions();
+    // await this.buildOptions();
   }
 
   async onFilterChange(event) {
@@ -95,7 +87,6 @@ export class FilterMenuComponent {
   async buildOptions() {
     const filterOptions: any = this.filterService.buildFilterOptions({
       toneUserOption: this.toneUserOption,
-      qualityUserOption: this.qualityUserOption,
       sourcesUserOption: this.sourcesUserOption,
       topicsUserOption: this.topicsUserOption,
       keywordsUserOption: this.keywordsUserOption,

@@ -72,8 +72,6 @@ type Config @model(subscriptions: null)
     keywordsToInclude: [String]!
     keywordsToExclude: [String]!
     ownerId: String
-    qualityUpperRange: Float!
-    qualityLowerRange: Float!
     toneUpperRange: Float!
     toneLowerRange: Float!
     topicsToInclude: AWSJSON!

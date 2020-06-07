@@ -40,9 +40,23 @@ export class AuthService {
           }
 
           if (this.signedIn) {
-            const config = await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1);
-            if (config.items.length !== 0) {
-              await this.filterService.updateFilterOptions(config.items[0]);
+            const config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+            if (config) {
+              const filters = {
+                id: config.id,
+                keywordsToInclude: config.keywordsToInclude,
+                keywordsToExclude: config.keywordsToExclude,
+                toneUpperRange: config.toneUpperRange,
+                toneLowerRange: config.toneLowerRange,
+                topicsToInclude: config.topicsToInclude,
+                topicsToExclude: config.topicsToExclude,
+                sourcesToInclude: config.sourcesToInclude,
+                sourcesToExclude: config.sourcesToExclude,
+                locationsToInclude: config.locationsToInclude,
+                locationsToExclude: config.locationsToExclude
+              };
+
+              await this.filterService.updateFilterOptions(filters);
               this.loaded = true;
             } else {
               this.loaded = false;
@@ -88,8 +102,6 @@ export class AuthService {
           id: configId,
           keywordsToInclude: [],
           keywordsToExclude: [],
-          qualityUpperRange: 5,
-          qualityLowerRange: 0,
           savedArticleIds: [],
           sourcesToInclude: [],
           sourcesToExclude: [],

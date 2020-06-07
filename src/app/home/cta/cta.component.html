@@ -139,4 +139,21 @@
   
   <app-footer></app-footer>
 
+  <div class="privacy-footer" *ngIf="showPrivacyNotice">
+    <ion-grid>
+      <ion-row class="ion-no-padding ion-align-items-center ion-wrap">
+        <ion-col size="8">
+          <p class="ion-no-padding ion-no-margin">We use cookies to understand how you use our site and to improve your experience. This includes personalising content and advertising.</p>
+        </ion-col>
+        
+        <ion-col class="ion-no-padding">
+          <ion-button (click)="acceptedPrivacyNotice()">Okay</ion-button>
+        </ion-col>
+
+        <ion-col class="ion-no-padding">
+          <ion-button class="ion-no-padding ion-no-margin" (click)="navToPrivacy()" color="primary" fill="clear">Privacy Policy</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

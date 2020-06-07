@@ -1,7 +1,9 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,7 +19,9 @@ export class SignInComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -40,7 +44,13 @@ export class SignInComponent implements OnInit {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
-        this.router.navigateByUrl('/app');
+        this.storage.get('ion_did_quick_start').then(async (result) => {
+          if (result) {
+            await this.router.navigateByUrl('/app', { replaceUrl: true });
+          } else {
+            await this.presentAlertConfirm();
+          }
+        });
         this.invalidDetails = false;
         this.loading = false;
         this.signInForm.reset();
@@ -63,5 +73,29 @@ export class SignInComponent implements OnInit {
   navToResetPassword() {
     this.signInForm.reset();
     this.router.navigateByUrl('/auth/reset-password');
+  }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      message: 'Would you like to set some starting filters? If not you will go straight to the app.',
+      buttons: [
+        {
+          text: 'No thanks',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: async () => {
+            this.storage.set('ion_did_quick_start', true);
+            await this.router.navigateByUrl('/app', { replaceUrl: true });
+          }
+        }, {
+          text: 'Quick start',
+          handler: async () => {
+            await this.router.navigateByUrl('/app/quick-start', { replaceUrl: true });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

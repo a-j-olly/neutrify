@@ -13,18 +13,10 @@ export class HomePage implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private menuCtrl: MenuController,
     private alertController: AlertController
   ) {}
 
   ngOnInit() {
-  }
-
-  async ionViewWillEnter() {
-    setTimeout(() => {
-      this.menuCtrl.enable(false, 'filterMenu');
-      this.menuCtrl.enable(false, 'mainMenu');
-    }, 200);
   }
 
   async ionViewDidEnter() {
@@ -51,7 +43,7 @@ export class HomePage implements OnInit {
         }, {
           text: 'Go To App',
           handler: () => {
-            this.router.navigateByUrl('/app');
+            this.router.navigateByUrl('/app', { replaceUrl: true });
           }
         }
       ]

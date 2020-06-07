@@ -30,8 +30,6 @@ export class NewsFeedPage {
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
-      this.playAds();
-
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
       this.displayAd = readySource === 'dom' && environment.production;
@@ -87,6 +85,7 @@ export class NewsFeedPage {
   ionViewDidEnter() {
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
+    this.playAds();
   }
 
   ionViewWillLeave() {

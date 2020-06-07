@@ -39,26 +39,6 @@ export class RangeFilterComponent implements OnInit {
           }
         }
       };
-    } else if (this.rangeFilterType === 'Quality') {
-      this.rangeSettings = {
-        max: '5',
-        min: '0',
-        step: '1',
-        ticks: true,
-        snaps: true,
-        dualKnobs: true,
-        pin: true,
-        rangeIcons: {
-          start: {
-            name: 'star-outline',
-            color: 'primary'
-          },
-          end: {
-            name: 'star',
-            color: 'primary'
-          }
-        }
-      };
     }
   }
 

@@ -10,8 +10,6 @@ mutation CreateUser($input: CreateUserInput!) {
       keywordsToInclude
       keywordsToExclude
       ownerId
-      qualityUpperRange
-      qualityLowerRange
       toneUpperRange
       toneLowerRange
       topicsToInclude
@@ -41,7 +39,11 @@ mutation CreateUser($input: CreateUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
+        createdAt
+        updatedAt
       }
+      createdAt
+      updatedAt
     }
     email
     freeTrial
@@ -58,6 +60,8 @@ mutation CreateUser($input: CreateUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateUser($input: UpdateUserInput!) {
@@ -71,8 +75,6 @@ mutation UpdateUser($input: UpdateUserInput!) {
       keywordsToInclude
       keywordsToExclude
       ownerId
-      qualityUpperRange
-      qualityLowerRange
       toneUpperRange
       toneLowerRange
       topicsToInclude
@@ -102,7 +104,11 @@ mutation UpdateUser($input: UpdateUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
+        createdAt
+        updatedAt
       }
+      createdAt
+      updatedAt
     }
     email
     freeTrial
@@ -119,6 +125,8 @@ mutation UpdateUser($input: UpdateUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteUser($input: DeleteUserInput!) {
@@ -132,8 +140,6 @@ mutation DeleteUser($input: DeleteUserInput!) {
       keywordsToInclude
       keywordsToExclude
       ownerId
-      qualityUpperRange
-      qualityLowerRange
       toneUpperRange
       toneLowerRange
       topicsToInclude
@@ -163,7 +169,11 @@ mutation DeleteUser($input: DeleteUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
+        createdAt
+        updatedAt
       }
+      createdAt
+      updatedAt
     }
     email
     freeTrial
@@ -180,6 +190,8 @@ mutation DeleteUser($input: DeleteUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
+    createdAt
+    updatedAt
   }
 }
 mutation CreateConfig($input: CreateConfigInput!) {
@@ -188,8 +200,6 @@ mutation CreateConfig($input: CreateConfigInput!) {
     keywordsToInclude
     keywordsToExclude
     ownerId
-    qualityUpperRange
-    qualityLowerRange
     toneUpperRange
     toneLowerRange
     topicsToInclude
@@ -209,8 +219,6 @@ mutation CreateConfig($input: CreateConfigInput!) {
         keywordsToInclude
         keywordsToExclude
         ownerId
-        qualityUpperRange
-        qualityLowerRange
         toneUpperRange
         toneLowerRange
         topicsToInclude
@@ -220,6 +228,8 @@ mutation CreateConfig($input: CreateConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -236,7 +246,11 @@ mutation CreateConfig($input: CreateConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
+      createdAt
+      updatedAt
     }
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateConfig($input: UpdateConfigInput!) {
@@ -245,8 +259,6 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
     keywordsToInclude
     keywordsToExclude
     ownerId
-    qualityUpperRange
-    qualityLowerRange
     toneUpperRange
     toneLowerRange
     topicsToInclude
@@ -266,8 +278,6 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
         keywordsToInclude
         keywordsToExclude
         ownerId
-        qualityUpperRange
-        qualityLowerRange
         toneUpperRange
         toneLowerRange
         topicsToInclude
@@ -277,6 +287,8 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -293,7 +305,11 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
+      createdAt
+      updatedAt
     }
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteConfig($input: DeleteConfigInput!) {
@@ -302,8 +318,6 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
     keywordsToInclude
     keywordsToExclude
     ownerId
-    qualityUpperRange
-    qualityLowerRange
     toneUpperRange
     toneLowerRange
     topicsToInclude
@@ -323,8 +337,6 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
         keywordsToInclude
         keywordsToExclude
         ownerId
-        qualityUpperRange
-        qualityLowerRange
         toneUpperRange
         toneLowerRange
         topicsToInclude
@@ -334,6 +346,8 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -350,6 +364,10 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
+      createdAt
+      updatedAt
     }
+    createdAt
+    updatedAt
   }
 }

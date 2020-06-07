@@ -31,8 +31,8 @@ query GetArticle($id: ID!, $uri: String!) {
     uri
     url
     wordCount
-    createdAt
-    updatedAt
+    
+    
   }
 }
 query ListArticles(
@@ -82,8 +82,8 @@ query ListArticles(
       uri
       url
       wordCount
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }
@@ -128,11 +128,11 @@ query GetUser($id: ID!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
-        updatedAt
+        
+        
       }
-      createdAt
-      updatedAt
+      
+      
     }
     email
     freeTrial
@@ -149,8 +149,8 @@ query GetUser($id: ID!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    createdAt
-    updatedAt
+    
+    
   }
 }
 query ListUsers(
@@ -178,8 +178,8 @@ query ListUsers(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
-        updatedAt
+        
+        
       }
       email
       freeTrial
@@ -196,8 +196,8 @@ query ListUsers(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }
@@ -236,8 +236,8 @@ query GetConfig($id: ID!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
-        updatedAt
+        
+        
       }
       email
       freeTrial
@@ -254,11 +254,11 @@ query GetConfig($id: ID!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
-      updatedAt
+      
+      
     }
-    createdAt
-    updatedAt
+    
+    
   }
 }
 query ListConfigs(
@@ -301,11 +301,11 @@ query ListConfigs(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
-        updatedAt
+        
+        
       }
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }
@@ -357,8 +357,8 @@ query ArticlesByDate(
       uri
       url
       wordCount
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }
@@ -396,8 +396,8 @@ query UserByOwner(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
-        updatedAt
+        
+        
       }
       email
       freeTrial
@@ -414,8 +414,8 @@ query UserByOwner(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }
@@ -468,11 +468,11 @@ query ConfigByOwner(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
-        updatedAt
+        
+        
       }
-      createdAt
-      updatedAt
+      
+      
     }
     nextToken
   }

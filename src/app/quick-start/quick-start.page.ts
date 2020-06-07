@@ -107,7 +107,6 @@ export class QuickStartPage implements OnInit {
     }
 
     if (updatedFilters) {
-
       this.filterService.updateFilterOptions(updatedFilterOptions);
       try {
         const reqBody: UpdateConfigInput = this.filterService.marshalRequest();

@@ -1,14 +1,14 @@
 <div class="footer">
   <ion-grid>
-    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-end ion-text-center">
-      <ion-col class="ion-no-margin ion-no-padding">
-        <a routerLink="/home/welcome" routerLinkActive="active" ><p>Home</p></a>        
+    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-evenly ion-text-center">
+      <ion-col class="ion-no-margin">
+        <ion-button class="ion-no-padding ion-no-margin" (click)="navToHome()" color="primary" fill="clear">Home</ion-button>       
       </ion-col>
-      <ion-col class="ion-no-margin ion-no-padding">
-        <a routerLink="/home/terms-conditions" routerLinkActive="active" ><p>Terms & Conditions</p></a>
+      <ion-col class="ion-no-margin">
+        <ion-button class="ion-no-padding ion-no-margin" (click)="navToTC()" color="primary" fill="clear">Terms & Conditions</ion-button>
       </ion-col>
-      <ion-col class="ion-no-margin ion-no-padding">
-        <a routerLink="/home/privacy-policy" routerLinkActive="active" ><p>Privacy Policy</p></a>
+      <ion-col class="ion-no-margin">
+        <ion-button class="ion-no-padding ion-no-margin" (click)="navToPrivacy()" color="primary" fill="clear">Privacy Policy</ion-button>
       </ion-col>
     </ion-row>
   

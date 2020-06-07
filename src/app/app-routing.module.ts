@@ -12,14 +12,14 @@ const routes: Routes = [
     { path: '', redirectTo: '/home/welcome', pathMatch: 'full' },
     { path: 'welcome', component: CtaComponent },
     { path: 'privacy-policy', component: PrivacyPolicyComponent },
-    { path: 'terms-conditions', component: TermsConditionsComponent}
-  ], canActivate: [AuthGuardService]},
-  { path: 'app', canActivate: [AuthGuardService], children: [
+    { path: 'terms-conditions', component: TermsConditionsComponent} 
+  ], canActivate: [AuthGuardService] },
+  { path: 'app', children: [
     { path: '', loadChildren: () => import('./news-feed/news-feed.module').then(m => m.NewsFeedPageModule) },
-    { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) }
-  ],  },
-  { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule) },
-  { path: 'quick-start', loadChildren: () => import('./quick-start/quick-start.module').then( m => m.QuickStartPageModule) },
+    { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },
+    { path: 'quick-start', loadChildren: () => import('./quick-start/quick-start.module').then( m => m.QuickStartPageModule) },
+  ], canActivate: [AuthGuardService]},
+  { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] },
 ];
 
 

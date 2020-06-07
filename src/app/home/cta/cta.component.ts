@@ -2,22 +2,36 @@ import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-cta',
   templateUrl: './cta.component.html',
   styleUrls: ['./cta.component.scss'],
 })
-export class CtaComponent implements OnInit {
+export class CtaComponent {
+  public showPrivacyNotice = true;
 
   constructor(
     public authService: AuthService,
     private router: Router,
-    private menuCtrl: MenuController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private storage: Storage
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.storage.get('ion_accepted_privacy').then(async (result) => {
+      if (result) {
+        this.showPrivacyNotice = false;
+      } else {
+        this.showPrivacyNotice = true;
+      }
+    });
+  }
+
+  acceptedPrivacyNotice() {
+    this.storage.set('ion_accepted_privacy', true);
+    this.showPrivacyNotice = false;
   }
 
   navToSignUp() {
@@ -26,6 +40,10 @@ export class CtaComponent implements OnInit {
 
   navToSignIn() {
     this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  navToPrivacy() {
+    this.router.navigateByUrl('/home/privacy-policy');
   }
 
   async presentAlertConfirm() {

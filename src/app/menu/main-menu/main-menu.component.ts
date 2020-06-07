@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-main-menu',
@@ -16,6 +17,7 @@ export class MainMenuComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private menuService: MenuService,
+    private menu: MenuController,
     private ga: GoogleAnalyticsService
   ) {}
 
@@ -28,7 +30,9 @@ export class MainMenuComponent implements OnInit {
 
     if (res) {
       this.menuService.closeMenu();
-      this.router.navigateByUrl('/home/welcome');
+      await this.menu.enable(false, 'filterMenu');
+      await this.menu.enable(false, 'mainMenu');
+      this.router.navigateByUrl('/home/welcome', { replaceUrl: true });
       this.ga.eventEmitter('logout', 'engagement', 'Logout');
     } else {
       alert('Could not sign you out. Please try again.');
@@ -37,6 +41,9 @@ export class MainMenuComponent implements OnInit {
 
   async goToHelp() {
     this.menuService.closeMenu();
+    await this.menu.enable(false, 'filterMenu');
+    await this.menu.enable(false, 'mainMenu');
+
     await this.router.navigateByUrl('/app/help');
     // this.ga.eventEmitter('help', 'engagement', 'Help');
   }

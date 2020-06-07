@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 //  This file was automatically generated and should not be edited.
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation } from "@aws-amplify/api";
@@ -60,8 +61,6 @@ export type CreateConfigInput = {
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
   ownerId?: string | null;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
@@ -79,8 +78,6 @@ export type UpdateConfigInput = {
   keywordsToInclude?: Array<string | null> | null;
   keywordsToExclude?: Array<string | null> | null;
   ownerId?: string | null;
-  qualityUpperRange?: number | null;
-  qualityLowerRange?: number | null;
   toneUpperRange?: number | null;
   toneLowerRange?: number | null;
   topicsToInclude?: string | null;
@@ -229,8 +226,6 @@ export type ModelConfigFilterInput = {
   keywordsToInclude?: ModelStringFilterInput | null;
   keywordsToExclude?: ModelStringFilterInput | null;
   ownerId?: ModelStringFilterInput | null;
-  qualityUpperRange?: ModelFloatFilterInput | null;
-  qualityLowerRange?: ModelFloatFilterInput | null;
   toneUpperRange?: ModelFloatFilterInput | null;
   toneLowerRange?: ModelFloatFilterInput | null;
   topicsToInclude?: ModelStringFilterInput | null;
@@ -257,8 +252,6 @@ export type CreateUserMutation = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -289,7 +282,11 @@ export type CreateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -306,6 +303,8 @@ export type CreateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateUserMutation = {
@@ -320,8 +319,6 @@ export type UpdateUserMutation = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -352,7 +349,11 @@ export type UpdateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -369,6 +370,8 @@ export type UpdateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteUserMutation = {
@@ -383,8 +386,6 @@ export type DeleteUserMutation = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -415,7 +416,11 @@ export type DeleteUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -432,6 +437,8 @@ export type DeleteUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateConfigMutation = {
@@ -440,8 +447,6 @@ export type CreateConfigMutation = {
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
   ownerId: string | null;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
@@ -463,8 +468,6 @@ export type CreateConfigMutation = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -474,6 +477,8 @@ export type CreateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -490,7 +495,11 @@ export type CreateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateConfigMutation = {
@@ -499,8 +508,6 @@ export type UpdateConfigMutation = {
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
   ownerId: string | null;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
@@ -522,8 +529,6 @@ export type UpdateConfigMutation = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -533,6 +538,8 @@ export type UpdateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -549,7 +556,11 @@ export type UpdateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteConfigMutation = {
@@ -558,8 +569,6 @@ export type DeleteConfigMutation = {
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
   ownerId: string | null;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
@@ -581,8 +590,6 @@ export type DeleteConfigMutation = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -592,6 +599,8 @@ export type DeleteConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -608,7 +617,11 @@ export type DeleteConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GetArticleQuery = {
@@ -643,6 +656,8 @@ export type GetArticleQuery = {
   uri: string;
   url: string;
   wordCount: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListArticlesQuery = {
@@ -679,6 +694,8 @@ export type ListArticlesQuery = {
     uri: string;
     url: string;
     wordCount: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -695,8 +712,6 @@ export type GetUserQuery = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -727,7 +742,11 @@ export type GetUserQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -744,6 +763,8 @@ export type GetUserQuery = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListUsersQuery = {
@@ -760,8 +781,6 @@ export type ListUsersQuery = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -771,6 +790,8 @@ export type ListUsersQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -787,6 +808,8 @@ export type ListUsersQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -797,8 +820,6 @@ export type GetConfigQuery = {
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
   ownerId: string | null;
-  qualityUpperRange: number;
-  qualityLowerRange: number;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
@@ -820,8 +841,6 @@ export type GetConfigQuery = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -831,6 +850,8 @@ export type GetConfigQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -847,7 +868,11 @@ export type GetConfigQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListConfigsQuery = {
@@ -858,8 +883,6 @@ export type ListConfigsQuery = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -890,7 +913,11 @@ export type ListConfigsQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -929,6 +956,8 @@ export type ArticlesByDateQuery = {
     uri: string;
     url: string;
     wordCount: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -947,8 +976,6 @@ export type UserByOwnerQuery = {
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
       ownerId: string | null;
-      qualityUpperRange: number;
-      qualityLowerRange: number;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
@@ -958,6 +985,8 @@ export type UserByOwnerQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -974,6 +1003,8 @@ export type UserByOwnerQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -986,8 +1017,6 @@ export type ConfigByOwnerQuery = {
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
     ownerId: string | null;
-    qualityUpperRange: number;
-    qualityLowerRange: number;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
@@ -1018,7 +1047,11 @@ export type ConfigByOwnerQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1041,8 +1074,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -1073,7 +1104,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1090,6 +1125,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1114,8 +1151,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -1146,7 +1181,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1163,6 +1202,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1187,8 +1228,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -1219,7 +1258,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1236,6 +1279,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1254,8 +1299,6 @@ export class APIService {
           keywordsToInclude
           keywordsToExclude
           ownerId
-          qualityUpperRange
-          qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
@@ -1277,8 +1320,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1288,6 +1329,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1304,7 +1347,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1323,8 +1370,6 @@ export class APIService {
           keywordsToInclude
           keywordsToExclude
           ownerId
-          qualityUpperRange
-          qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
@@ -1346,8 +1391,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1357,6 +1400,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1373,7 +1418,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1392,8 +1441,6 @@ export class APIService {
           keywordsToInclude
           keywordsToExclude
           ownerId
-          qualityUpperRange
-          qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
@@ -1415,8 +1462,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1426,6 +1471,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1442,7 +1489,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1487,6 +1538,8 @@ export class APIService {
           uri
           url
           wordCount
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1541,6 +1594,8 @@ export class APIService {
             uri
             url
             wordCount
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1583,8 +1638,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -1615,7 +1668,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1632,6 +1689,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1662,8 +1721,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1673,6 +1730,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1689,6 +1748,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1716,8 +1777,6 @@ export class APIService {
           keywordsToInclude
           keywordsToExclude
           ownerId
-          qualityUpperRange
-          qualityLowerRange
           toneUpperRange
           toneLowerRange
           topicsToInclude
@@ -1739,8 +1798,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1750,6 +1807,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1766,7 +1825,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1791,8 +1854,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -1823,7 +1884,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1886,6 +1951,8 @@ export class APIService {
             uri
             url
             wordCount
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1936,8 +2003,6 @@ export class APIService {
               keywordsToInclude
               keywordsToExclude
               ownerId
-              qualityUpperRange
-              qualityLowerRange
               toneUpperRange
               toneLowerRange
               topicsToInclude
@@ -1947,6 +2012,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1963,6 +2030,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -2004,8 +2073,6 @@ export class APIService {
             keywordsToInclude
             keywordsToExclude
             ownerId
-            qualityUpperRange
-            qualityLowerRange
             toneUpperRange
             toneLowerRange
             topicsToInclude
@@ -2036,7 +2103,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           nextToken
         }

@@ -21,8 +21,6 @@ export class FilterService {
       id: this.filterOptions.id,
       toneUpperRange: userOptions.toneUserOption.value.upper,
       toneLowerRange: userOptions.toneUserOption.value.lower,
-      qualityUpperRange: userOptions.qualityUserOption.value.upper,
-      qualityLowerRange: userOptions.qualityUserOption.value.lower,
       sourcesToInclude: userOptions.sourcesUserOption.include,
       sourcesToExclude: userOptions.sourcesUserOption.exclude,
       topicsToInclude: this.mergeTopics(userOptions.topicsUserOption.include),

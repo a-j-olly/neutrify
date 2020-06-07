@@ -102,8 +102,6 @@ export class AuthService {
           id: configId,
           keywordsToInclude: [],
           keywordsToExclude: [],
-          qualityUpperRange: 5,
-          qualityLowerRange: 0,
           savedArticleIds: [],
           sourcesToInclude: [],
           sourcesToExclude: [],

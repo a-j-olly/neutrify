@@ -1,4 +1,4 @@
-import { MenuController, AlertController } from '@ionic/angular';
+import { MenuController, AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -11,20 +11,26 @@ import { Storage } from '@ionic/storage';
 })
 export class CtaComponent {
   public showPrivacyNotice = true;
+  private platformSource: string;
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private storage: Storage
-  ) {}
+    private storage: Storage,
+    private platform: Platform
+  ) {
+    this.platform.ready().then((readySource) => {
+      this.platformSource = readySource;
+    });
+  }
 
   ionViewWillEnter() {
     this.storage.get('ion_accepted_privacy').then(async (result) => {
       if (result) {
         this.showPrivacyNotice = false;
       } else {
-        this.showPrivacyNotice = true;
+        this.showPrivacyNotice = this.platformSource === 'dom';
       }
     });
   }

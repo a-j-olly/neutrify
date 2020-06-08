@@ -187,6 +187,7 @@ export class ArticleListComponent implements OnInit {
 
   async doRefresh(event?) {
     this.updatingArticles = true;
+    this.resetTimer();
     this.rawArticles = [];
     await this.handleInitDataLoad();
     if (event) {
@@ -230,7 +231,6 @@ export class ArticleListComponent implements OnInit {
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
     this.showRefreshFab = false;
-    this.resetTimer();
     return results.items;
   }
 

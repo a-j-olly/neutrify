@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -21,7 +22,8 @@ export class SignInComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private storage: Storage
+    private storage: Storage,
+    private ga: GoogleAnalyticsService
   ) { }
 
   ngOnInit() {
@@ -90,6 +92,7 @@ export class SignInComponent implements OnInit {
         }, {
           text: 'Quick start',
           handler: async () => {
+            this.ga.eventEmitter('quick_start', 'engagement', 'Quick start');
             await this.router.navigateByUrl('/app/quick-start', { replaceUrl: true });
           }
         }

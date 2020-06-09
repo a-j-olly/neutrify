@@ -1,4 +1,4 @@
-import { ModelArticleFilterInput, UpdateConfigInput } from './neutrify-api.service';
+import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as TopicGroups from '../model/topic-options';
@@ -7,13 +7,15 @@ import * as TopicGroups from '../model/topic-options';
   providedIn: 'root'
 })
 export class FilterService {
+  filterSaved: boolean = true;
+  filterSaved$ = new Subject<boolean>();
 
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
   topicsUserOption: any = {};
 
-  constructor() { }
+  constructor(private neutrifyAPI: APIService) { }
 
   buildFilterOptions(userOptions) {
 
@@ -69,6 +71,14 @@ export class FilterService {
     return this.filterOptions$.asObservable();
   }
 
+  async updateFilterSaved(isSaved: boolean) {
+    this.filterSaved$.next(isSaved);
+  }
+
+  getFilterSavedStatus() {
+    return this.filterSaved$.asObservable();
+  }
+
   addToFilterOptions(optionType, operation, value) {
     if (optionType === 'topics') {
 
@@ -99,7 +109,8 @@ export class FilterService {
         this.filterOptions.sourcesToExclude.push(value.toLowerCase());
       }
     }
-
+    
+    this.updateFilterSaved(false);
     this.filterOptions$.next(this.filterOptions);
   }
 
@@ -132,6 +143,21 @@ export class FilterService {
     req.topicsToExclude = JSON.stringify(this.topicsUserOption.exclude);
 
     return req;
+  }
+
+  async saveFilters() {
+    let result: boolean;
+    try {
+      const reqBody: UpdateConfigInput = this.marshalRequest();
+      await this.neutrifyAPI.UpdateConfig(reqBody);
+      this.updateFilterSaved(true);
+      result = true;
+    } catch (e) {
+      console.log('Could not save filters. Service returned this error: ', e);
+      this.updateFilterSaved(false);
+      result = false;
+    }
+    return result;
   }
 
   getQueryFilters(): ModelArticleFilterInput {

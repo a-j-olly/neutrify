@@ -12,13 +12,13 @@ import LocaleCode from 'locale-code';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tutorial',
+  selector: 'app-quick-start',
   templateUrl: './quick-start.page.html',
   styleUrls: ['./quick-start.page.scss'],
 })
 export class QuickStartPage implements OnInit {
   public localCountry: string;
-  public tutorialForm: FormGroup;
+  public quickStartForm: FormGroup;
   public countryOptions = Countries;
   public topicList = TopicList;
   public loading = false;
@@ -28,14 +28,13 @@ export class QuickStartPage implements OnInit {
     private router: Router,
     private storage: Storage,
     private toastController: ToastController,
-    private neutrifyAPI: APIService,
     private filterService: FilterService,
     public authService: AuthService
   ) { }
 
   ngOnInit() {
     this.localCountry = LocaleCode.getCountryName(this.getLang());
-    this.tutorialForm = this.formBuilder.group({
+    this.quickStartForm = this.formBuilder.group({
       nationalNews: [false],
       selectCountry: [{ value: this.localCountry, disabled: true }],
       positiveNews: [false],
@@ -43,7 +42,7 @@ export class QuickStartPage implements OnInit {
     });
   }
 
-  get f() { return this.tutorialForm.controls; }
+  get f() { return this.quickStartForm.controls; }
 
   getLang() {
     return (navigator.languages && navigator.languages.length) ? navigator.languages[0] : navigator.language;
@@ -59,18 +58,6 @@ export class QuickStartPage implements OnInit {
 
   async localCountryChanged(event) {
     this.localCountry = event.target.value;
-  }
-
-
-  async presentToast(message, color) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000,
-      color,
-      cssClass: 'ion-text-center',
-      position: 'middle'
-    });
-    toast.present();
   }
 
   async submit() {
@@ -108,16 +95,26 @@ export class QuickStartPage implements OnInit {
 
     if (updatedFilters) {
       this.filterService.updateFilterOptions(updatedFilterOptions);
-      try {
-        const reqBody: UpdateConfigInput = this.filterService.marshalRequest();
-        await this.neutrifyAPI.UpdateConfig(reqBody);
-      } catch (e) {
-        console.log('Could not save filters. Service returned this error: ', e);
+      const res = await this.filterService.saveFilters();
+      if (res) {
+        this.presentToast('Success. Taking you to the app.', 'success');
+        this.storage.set('ion_did_quick_start', true);
+        this.router.navigateByUrl('/app', { replaceUrl: true });
+      } else {
+        this.presentToast('Failed to save your filters. Try again', 'danger');
       }
     }
-
-    this.storage.set('ion_did_quick_start', true);
-    this.router.navigateByUrl('/app', { replaceUrl: true });
     this.loading = false;
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center',
+      position: 'middle'
+    });
+    toast.present();
   }
 }

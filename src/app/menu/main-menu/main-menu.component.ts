@@ -45,6 +45,5 @@ export class MainMenuComponent implements OnInit {
     await this.menu.enable(false, 'mainMenu');
 
     await this.router.navigateByUrl('/app/help');
-    // this.ga.eventEmitter('help', 'engagement', 'Help');
   }
 }

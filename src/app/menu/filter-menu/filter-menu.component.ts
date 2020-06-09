@@ -1,5 +1,5 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
-import { APIService, UpdateConfigInput } from './../../services/neutrify-api.service';
+import { APIService } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component } from '@angular/core';
@@ -55,8 +55,6 @@ export class FilterMenuComponent {
     this.topicsUserOption = {};
     this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
     this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
-
-    // await this.buildOptions();
   }
 
   async onFilterChange(event) {
@@ -93,27 +91,29 @@ export class FilterMenuComponent {
       locationsUserOption: this.locationsUserOption
     });
 
+    this.filterService.updateFilterSaved(false);
     await this.filterService.updateFilterOptions(filterOptions);
   }
 
   async loadFilters() {
-    const loadedConfig = await this.neutrifyAPI.ConfigByOwner(this.authService.user.username, null, null , 1);
-    await this.filterService.updateFilterOptions(loadedConfig.items[0]);
-    this.initOptions();
-    await this.presentToast('Your filters have been loaded.', 'primary');
-    this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-
+    try {
+      const loadedConfig = await this.neutrifyAPI.ConfigByOwner(this.authService.user.username, null, null , 1);
+      await this.filterService.updateFilterOptions(loadedConfig.items[0]);
+      this.initOptions();
+      await this.presentToast('Your filters have been loaded.', 'success');
+      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+    } catch (error) {
+      this.presentToast('Could not load your filters. Please try again.', 'danger');
+    }
   }
 
   async saveFilters() {
-    try {
-      const reqBody: UpdateConfigInput = this.filterService.marshalRequest();
-      await this.neutrifyAPI.UpdateConfig(reqBody);
-      await this.buildOptions();
-      await this.presentToast('Your filters have been saved.', 'primary');
+    let res = await this.filterService.saveFilters();
+    if (res) {
+      await this.presentToast('Your filters have been saved.', 'success');
       this.ga.eventEmitter('save_filters', 'engagement', 'Saved filters');
-    } catch (e) {
-      console.log('Could not save filters. Service returned this error: ', e);
+    } else {
+      this.presentToast('Could not save your filters. Please try again.', 'danger');
     }
   }
 

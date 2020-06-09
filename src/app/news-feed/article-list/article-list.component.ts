@@ -7,15 +7,22 @@ import { add, sub } from 'date-fns';
 import { ToastController, IonContent } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   animations: [
-    trigger('panelIn', [
+    trigger('panelInBottom', [
       transition('void => *', [
           style({ transform: 'translateY(100%)', opacity: 0.7 }),
           animate(500)
+      ]),
+    ]),
+    trigger('panelInLeft', [
+      transition('void => *', [
+          style({ transform: 'translateX(-100%)', opacity: 0.7 }),
+          animate(200)
       ]),
     ])
   ],
@@ -31,8 +38,12 @@ export class ArticleListComponent implements OnInit {
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
   public showRefreshFab = false;
+
   filters: any;
   filterSubcription$: Subscription;
+
+  public filtersSaved: boolean = true;
+  filtersSavedSubcription$: Subscription;
 
   rawArticles: Array<any> = new Array<any>();
   displayArticles: Array<any> = new Array<any>();
@@ -46,7 +57,8 @@ export class ArticleListComponent implements OnInit {
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
     private toastController: ToastController,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private ga: GoogleAnalyticsService
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
@@ -54,20 +66,21 @@ export class ArticleListComponent implements OnInit {
       await this.handleInitDataLoad();
     });
 
+    this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
+      this.filtersSaved = status;
+    });
   }
 
   async ngOnInit() {
+    this.startTimer();
     this.displayThreshold = this.setDisplayThreshold();
     this.filters = this.filterService.getQueryFilters();
     await this.handleInitDataLoad();
   }
 
-  ionViewDidEnter() {
-    this.startTimer();
-  }
-
   ionViewWillLeave() {
     this.filterSubcription$.unsubscribe();
+    this.filtersSavedSubcription$.unsubscribe();
     this.stopTimer();
   }
 
@@ -191,7 +204,10 @@ export class ArticleListComponent implements OnInit {
     this.rawArticles = [];
     await this.handleInitDataLoad();
     if (event) {
+      this.ga.eventEmitter('refresh_pull', 'engagement', 'Refreshed feed');
       event.target.complete();
+    } else {
+      this.ga.eventEmitter('refresh_fab', 'engagement', 'Refreshed feed');
     }
     this.updatingArticles = false;
   }
@@ -232,6 +248,16 @@ export class ArticleListComponent implements OnInit {
     this.nextToken = results.nextToken;
     this.showRefreshFab = false;
     return results.items;
+  }
+
+  async saveFilters() {
+    const res = await this.filterService.saveFilters();
+    if (res) {
+      await this.presentToast('Your filters have been saved.', 'success');
+      this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
+    } else {
+      this.presentToast('Could not save your filters. Please try again.', 'danger');
+    }
   }
 
   async presentToast(message, color) {

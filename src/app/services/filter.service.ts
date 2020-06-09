@@ -7,8 +7,6 @@ import * as TopicGroups from '../model/topic-options';
   providedIn: 'root'
 })
 export class FilterService {
-  public unsaved = false;
-
   filterSaved: boolean = true;
   filterSaved$ = new Subject<boolean>();
 
@@ -111,8 +109,8 @@ export class FilterService {
         this.filterOptions.sourcesToExclude.push(value.toLowerCase());
       }
     }
-
-    this.unsaved = true;
+    
+    this.updateFilterSaved(false);
     this.filterOptions$.next(this.filterOptions);
   }
 

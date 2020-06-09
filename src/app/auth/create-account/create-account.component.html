@@ -3,7 +3,7 @@
     <form  [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="form-group">
         <p>To begin using Neutrify, you must first create an account. Please fill in the form below.</p>
-        <div class="form-item">
+        <div class="form-item ion-tappable">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
           </ion-item>
@@ -19,8 +19,8 @@
         
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" [type]="passwordType" placeholder="Password" formControlName="password" required oninput="this.value = this.value.trim()"></ion-input>
-            <ion-icon name="eye" position="fixed" slot="end" tappable (click)="togglePasswordType()"></ion-icon>
+            <ion-input class="form-control ion-tappable" [type]="passwordType" placeholder="Password" formControlName="password" required oninput="this.value = this.value.trim()"></ion-input>
+            <ion-icon name="eye" position="fixed" slot="end" (click)="togglePasswordType()"></ion-icon>
           </ion-item>
           <span *ngIf="sf.password.invalid && sf.password.touched">
             <span *ngIf="sf.password.errors.required">
@@ -37,9 +37,9 @@
     
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" [type]="confirmPasswordType" placeholder="Re-enter password" 
+            <ion-input class="form-control ion-tappable" [type]="confirmPasswordType" placeholder="Re-enter password" 
             formControlName="confirmPassword" required oninput="this.value = this.value.trim()"></ion-input>
-            <ion-icon name="eye" position="fixed" slot="end" tappable (click)="toggleConfirmPasswordType()"></ion-icon>
+            <ion-icon name="eye" position="fixed" slot="end" (click)="toggleConfirmPasswordType()"></ion-icon>
           </ion-item>
           <span *ngIf="sf.confirmPassword.invalid && sf.confirmPassword.touched">
             <span *ngIf="sf.confirmPassword.errors.required">
@@ -47,6 +47,24 @@
             </span>
             <span *ngIf="sf.confirmPassword.errors.mustMatch">
               <ion-text color="danger">The passwords you've entered don't match.</ion-text>
+            </span>
+          </span>
+        </div>
+
+        <div class="consent-item">
+          <ion-item>
+            <ion-checkbox class="form-control ion-tappable" slot="start" formControlName="privacyConsent" required></ion-checkbox>
+            <ion-label class="ion-text-wrap">
+              <p>
+                By ticking this box you accept the <a style="text-decoration: none;" href="https://neutrify.news/home/terms-conditions" target="_blank">terms & conditions</a>, 
+                our <a style="text-decoration: none;" href="https://neutrify.news/home/privacy-policy" target="_blank">privacy policy</a> 
+                and allow us to use your email address for account management purposes.
+              </p>
+            </ion-label>
+          </ion-item>
+          <span *ngIf="sf.privacyConsent.invalid && sf.privacyConsent.touched">
+            <span *ngIf="sf.privacyConsent.errors.required">
+              <ion-text color="danger">You must accept the terms and conditons.</ion-text>
             </span>
           </span>
         </div>

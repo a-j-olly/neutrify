@@ -81,7 +81,6 @@ export class ArticleListComponent implements OnInit {
   ionViewWillLeave() {
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
-    this.stopTimer();
   }
 
   startTimer() {
@@ -97,6 +96,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   resetTimer() {
+    this.showRefreshFab = false;
     this.stopTimer();
     this.timeLeft = environment.refreshTimeLimit;
     this.startTimer();
@@ -246,7 +246,6 @@ export class ArticleListComponent implements OnInit {
     const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
      ModelSortDirection.DESC, this.filters, limit, nextToken);
     this.nextToken = results.nextToken;
-    this.showRefreshFab = false;
     return results.items;
   }
 

@@ -20,7 +20,6 @@ type Article @model(mutations: null, subscriptions: null)
     image: String
     keywords: [String!]
     language: String
-    quality: Int!
     share: Int
     similarity: Float
     time: String

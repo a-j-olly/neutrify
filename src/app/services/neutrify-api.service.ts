@@ -107,6 +107,7 @@ export type ModelStringKeyConditionInput = {
 export type ModelArticleFilterInput = {
   authors?: ModelStringFilterInput | null;
   body?: ModelStringFilterInput | null;
+  createdAt?: ModelStringFilterInput | null;
   dataType?: ModelStringFilterInput | null;
   date?: ModelStringFilterInput | null;
   datePublished?: ModelStringFilterInput | null;
@@ -132,6 +133,7 @@ export type ModelArticleFilterInput = {
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
   timeToLive?: ModelFloatFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
   uri?: ModelStringFilterInput | null;
   url?: ModelStringFilterInput | null;
   wordCount?: ModelIntFilterInput | null;
@@ -628,6 +630,7 @@ export type GetArticleQuery = {
   __typename: "Article";
   authors: Array<string> | null;
   body: string;
+  createdAt: string | null;
   dataType: string;
   date: string | null;
   datePublished: string;
@@ -653,11 +656,10 @@ export type GetArticleQuery = {
   tone: number;
   topics: Array<string> | null;
   timeToLive: number | null;
+  updatedAt: string | null;
   uri: string;
   url: string;
   wordCount: number;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type ListArticlesQuery = {
@@ -666,6 +668,7 @@ export type ListArticlesQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
+    createdAt: string | null;
     dataType: string;
     date: string | null;
     datePublished: string;
@@ -691,11 +694,10 @@ export type ListArticlesQuery = {
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
+    updatedAt: string | null;
     uri: string;
     url: string;
     wordCount: number;
-    createdAt: string;
-    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -928,6 +930,7 @@ export type ArticlesByDateQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
+    createdAt: string | null;
     dataType: string;
     date: string | null;
     datePublished: string;
@@ -953,11 +956,10 @@ export type ArticlesByDateQuery = {
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
+    updatedAt: string | null;
     uri: string;
     url: string;
     wordCount: number;
-    createdAt: string;
-    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1510,6 +1512,7 @@ export class APIService {
           __typename
           authors
           body
+          createdAt
           dataType
           date
           datePublished
@@ -1535,11 +1538,10 @@ export class APIService {
           tone
           topics
           timeToLive
+          updatedAt
           uri
           url
           wordCount
-          createdAt
-          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1566,6 +1568,7 @@ export class APIService {
             __typename
             authors
             body
+            createdAt
             dataType
             date
             datePublished
@@ -1591,11 +1594,10 @@ export class APIService {
             tone
             topics
             timeToLive
+            updatedAt
             uri
             url
             wordCount
-            createdAt
-            updatedAt
           }
           nextToken
         }
@@ -1923,6 +1925,7 @@ export class APIService {
             __typename
             authors
             body
+            createdAt
             dataType
             date
             datePublished
@@ -1948,11 +1951,10 @@ export class APIService {
             tone
             topics
             timeToLive
+            updatedAt
             uri
             url
             wordCount
-            createdAt
-            updatedAt
           }
           nextToken
         }

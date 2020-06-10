@@ -3,6 +3,7 @@ query GetArticle($id: ID!, $uri: String!) {
   getArticle(id: $id, uri: $uri) {
     authors
     body
+    createdAt
     dataType
     date
     datePublished
@@ -28,11 +29,10 @@ query GetArticle($id: ID!, $uri: String!) {
     tone
     topics
     timeToLive
+    updatedAt
     uri
     url
     wordCount
-    createdAt
-    updatedAt
   }
 }
 query ListArticles(
@@ -54,6 +54,7 @@ query ListArticles(
     items {
       authors
       body
+      createdAt
       dataType
       date
       datePublished
@@ -79,11 +80,10 @@ query ListArticles(
       tone
       topics
       timeToLive
+      updatedAt
       uri
       url
       wordCount
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -329,6 +329,7 @@ query ArticlesByDate(
     items {
       authors
       body
+      createdAt
       dataType
       date
       datePublished
@@ -354,11 +355,10 @@ query ArticlesByDate(
       tone
       topics
       timeToLive
+      updatedAt
       uri
       url
       wordCount
-      createdAt
-      updatedAt
     }
     nextToken
   }

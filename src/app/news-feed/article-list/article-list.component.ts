@@ -81,7 +81,6 @@ export class ArticleListComponent implements OnInit {
   ionViewWillLeave() {
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
-    this.stopTimer();
   }
 
   startTimer() {

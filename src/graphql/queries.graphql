@@ -17,6 +17,7 @@ query GetArticle($id: ID!, $uri: String!) {
     image
     keywords
     language
+    quality
     share
     similarity
     time
@@ -67,6 +68,7 @@ query ListArticles(
       image
       keywords
       language
+      quality
       share
       similarity
       time
@@ -341,6 +343,7 @@ query ArticlesByDate(
       image
       keywords
       language
+      quality
       share
       similarity
       time

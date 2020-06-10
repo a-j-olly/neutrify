@@ -121,6 +121,7 @@ export type ModelArticleFilterInput = {
   image?: ModelStringFilterInput | null;
   keywords?: ModelStringFilterInput | null;
   language?: ModelStringFilterInput | null;
+  quality?: ModelIntFilterInput | null;
   share?: ModelIntFilterInput | null;
   similarity?: ModelFloatFilterInput | null;
   time?: ModelStringFilterInput | null;
@@ -641,6 +642,7 @@ export type GetArticleQuery = {
   image: string | null;
   keywords: Array<string> | null;
   language: string | null;
+  quality: number | null;
   share: number | null;
   similarity: number | null;
   time: string | null;
@@ -678,6 +680,7 @@ export type ListArticlesQuery = {
     image: string | null;
     keywords: Array<string> | null;
     language: string | null;
+    quality: number | null;
     share: number | null;
     similarity: number | null;
     time: string | null;
@@ -939,6 +942,7 @@ export type ArticlesByDateQuery = {
     image: string | null;
     keywords: Array<string> | null;
     language: string | null;
+    quality: number | null;
     share: number | null;
     similarity: number | null;
     time: string | null;
@@ -1520,6 +1524,7 @@ export class APIService {
           image
           keywords
           language
+          quality
           share
           similarity
           time
@@ -1575,6 +1580,7 @@ export class APIService {
             image
             keywords
             language
+            quality
             share
             similarity
             time
@@ -1931,6 +1937,7 @@ export class APIService {
             image
             keywords
             language
+            quality
             share
             similarity
             time

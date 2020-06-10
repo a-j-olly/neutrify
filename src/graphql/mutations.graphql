@@ -6,6 +6,7 @@ mutation CreateUser($input: CreateUserInput!) {
     billingAddressPostalCode
     billingAddressStreet
     config {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -19,11 +20,13 @@ mutation CreateUser($input: CreateUserInput!) {
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -39,12 +42,10 @@ mutation CreateUser($input: CreateUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
+    createdAt
     email
     freeTrial
     freeTrialStartDate
@@ -60,7 +61,6 @@ mutation CreateUser($input: CreateUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    createdAt
     updatedAt
   }
 }
@@ -71,6 +71,7 @@ mutation UpdateUser($input: UpdateUserInput!) {
     billingAddressPostalCode
     billingAddressStreet
     config {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -84,11 +85,13 @@ mutation UpdateUser($input: UpdateUserInput!) {
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -104,12 +107,10 @@ mutation UpdateUser($input: UpdateUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
+    createdAt
     email
     freeTrial
     freeTrialStartDate
@@ -125,7 +126,6 @@ mutation UpdateUser($input: UpdateUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    createdAt
     updatedAt
   }
 }
@@ -136,6 +136,7 @@ mutation DeleteUser($input: DeleteUserInput!) {
     billingAddressPostalCode
     billingAddressStreet
     config {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -149,11 +150,13 @@ mutation DeleteUser($input: DeleteUserInput!) {
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -169,12 +172,10 @@ mutation DeleteUser($input: DeleteUserInput!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
+    createdAt
     email
     freeTrial
     freeTrialStartDate
@@ -190,12 +191,12 @@ mutation DeleteUser($input: DeleteUserInput!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    createdAt
     updatedAt
   }
 }
 mutation CreateConfig($input: CreateConfigInput!) {
   createConfig(input: $input) {
+    createdAt
     id
     keywordsToInclude
     keywordsToExclude
@@ -209,12 +210,14 @@ mutation CreateConfig($input: CreateConfigInput!) {
     sourcesToExclude
     locationsToInclude
     locationsToExclude
+    updatedAt
     user {
       billingAddressCity
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -228,9 +231,9 @@ mutation CreateConfig($input: CreateConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -246,15 +249,13 @@ mutation CreateConfig($input: CreateConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 mutation UpdateConfig($input: UpdateConfigInput!) {
   updateConfig(input: $input) {
+    createdAt
     id
     keywordsToInclude
     keywordsToExclude
@@ -268,12 +269,14 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
     sourcesToExclude
     locationsToInclude
     locationsToExclude
+    updatedAt
     user {
       billingAddressCity
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -287,9 +290,9 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -305,15 +308,13 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 mutation DeleteConfig($input: DeleteConfigInput!) {
   deleteConfig(input: $input) {
+    createdAt
     id
     keywordsToInclude
     keywordsToExclude
@@ -327,12 +328,14 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
     sourcesToExclude
     locationsToInclude
     locationsToExclude
+    updatedAt
     user {
       billingAddressCity
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -346,9 +349,9 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -364,10 +367,7 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }

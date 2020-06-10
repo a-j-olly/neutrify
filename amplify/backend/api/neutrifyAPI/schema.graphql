@@ -48,6 +48,7 @@ type User @model(subscriptions: null)
     billingAddressPostalCode: String
     billingAddressStreet: String
     config: Config @connection(name: "UserConfig")
+    createdAt: AWSDateTime
     email: String!
     freeTrial: Boolean!
     freeTrialStartDate: String!
@@ -63,6 +64,7 @@ type User @model(subscriptions: null)
     feedbackDiscovery: String
     feedbackLeaveReason: String
     feedbackPromoterScore: Int
+    updatedAt: AWSDateTime
 }
 
 # Used to store all filter options
@@ -70,6 +72,7 @@ type Config @model(subscriptions: null)
     @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
     @key(name: "ByOwner" fields: ["ownerId"], queryField: "configByOwner")
 {
+    createdAt: AWSDateTime
     id: ID!
     keywordsToInclude: [String]!
     keywordsToExclude: [String]!
@@ -83,5 +86,6 @@ type Config @model(subscriptions: null)
     sourcesToExclude: [String]!
     locationsToInclude: [String]!
     locationsToExclude: [String]!
+    updatedAt: AWSDateTime
     user: User @connection(name: "UserConfig")
 }

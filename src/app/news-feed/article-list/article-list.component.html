@@ -24,9 +24,15 @@
     </div>
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [@panelIn]>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [@panelInBottom]>
     <ion-fab-button (click)="doRefresh()">
       <ion-icon size="large" name="refresh"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [@panelInLeft]>
+    <ion-fab-button (click)="saveFilters()">
+      <ion-icon size="large" name="save"></ion-icon>
     </ion-fab-button>
   </ion-fab>
       

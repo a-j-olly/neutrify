@@ -107,6 +107,7 @@ export type ModelStringKeyConditionInput = {
 export type ModelArticleFilterInput = {
   authors?: ModelStringFilterInput | null;
   body?: ModelStringFilterInput | null;
+  createdAt?: ModelStringFilterInput | null;
   dataType?: ModelStringFilterInput | null;
   date?: ModelStringFilterInput | null;
   datePublished?: ModelStringFilterInput | null;
@@ -132,6 +133,7 @@ export type ModelArticleFilterInput = {
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
   timeToLive?: ModelFloatFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
   uri?: ModelStringFilterInput | null;
   url?: ModelStringFilterInput | null;
   wordCount?: ModelIntFilterInput | null;
@@ -282,7 +284,11 @@ export type CreateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -299,6 +305,8 @@ export type CreateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateUserMutation = {
@@ -343,7 +351,11 @@ export type UpdateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -360,6 +372,8 @@ export type UpdateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteUserMutation = {
@@ -404,7 +418,11 @@ export type DeleteUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -421,6 +439,8 @@ export type DeleteUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateConfigMutation = {
@@ -459,6 +479,8 @@ export type CreateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -475,7 +497,11 @@ export type CreateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateConfigMutation = {
@@ -514,6 +540,8 @@ export type UpdateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -530,7 +558,11 @@ export type UpdateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteConfigMutation = {
@@ -569,6 +601,8 @@ export type DeleteConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -585,13 +619,18 @@ export type DeleteConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GetArticleQuery = {
   __typename: "Article";
   authors: Array<string> | null;
   body: string;
+  createdAt: string | null;
   dataType: string;
   date: string | null;
   datePublished: string;
@@ -606,7 +645,7 @@ export type GetArticleQuery = {
   image: string | null;
   keywords: Array<string> | null;
   language: string | null;
-  quality: number;
+  quality: number | null;
   share: number | null;
   similarity: number | null;
   time: string | null;
@@ -617,6 +656,7 @@ export type GetArticleQuery = {
   tone: number;
   topics: Array<string> | null;
   timeToLive: number | null;
+  updatedAt: string | null;
   uri: string;
   url: string;
   wordCount: number;
@@ -628,6 +668,7 @@ export type ListArticlesQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
+    createdAt: string | null;
     dataType: string;
     date: string | null;
     datePublished: string;
@@ -642,7 +683,7 @@ export type ListArticlesQuery = {
     image: string | null;
     keywords: Array<string> | null;
     language: string | null;
-    quality: number;
+    quality: number | null;
     share: number | null;
     similarity: number | null;
     time: string | null;
@@ -653,6 +694,7 @@ export type ListArticlesQuery = {
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
+    updatedAt: string | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -702,7 +744,11 @@ export type GetUserQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   email: string;
   freeTrial: boolean;
@@ -719,6 +765,8 @@ export type GetUserQuery = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListUsersQuery = {
@@ -744,6 +792,8 @@ export type ListUsersQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -760,6 +810,8 @@ export type ListUsersQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -800,6 +852,8 @@ export type GetConfigQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -816,7 +870,11 @@ export type GetConfigQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListConfigsQuery = {
@@ -857,7 +915,11 @@ export type ListConfigsQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -868,6 +930,7 @@ export type ArticlesByDateQuery = {
     __typename: "Article";
     authors: Array<string> | null;
     body: string;
+    createdAt: string | null;
     dataType: string;
     date: string | null;
     datePublished: string;
@@ -882,7 +945,7 @@ export type ArticlesByDateQuery = {
     image: string | null;
     keywords: Array<string> | null;
     language: string | null;
-    quality: number;
+    quality: number | null;
     share: number | null;
     similarity: number | null;
     time: string | null;
@@ -893,6 +956,7 @@ export type ArticlesByDateQuery = {
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
+    updatedAt: string | null;
     uri: string;
     url: string;
     wordCount: number;
@@ -923,6 +987,8 @@ export type UserByOwnerQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     email: string;
     freeTrial: boolean;
@@ -939,6 +1005,8 @@ export type UserByOwnerQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -981,7 +1049,11 @@ export type ConfigByOwnerQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
+      createdAt: string;
+      updatedAt: string;
     } | null;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1034,7 +1106,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1051,6 +1127,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1105,7 +1183,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1122,6 +1204,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1176,7 +1260,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1193,6 +1281,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1241,6 +1331,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1257,7 +1349,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1306,6 +1402,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1322,7 +1420,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1371,6 +1473,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1387,7 +1491,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1404,6 +1512,7 @@ export class APIService {
           __typename
           authors
           body
+          createdAt
           dataType
           date
           datePublished
@@ -1429,6 +1538,7 @@ export class APIService {
           tone
           topics
           timeToLive
+          updatedAt
           uri
           url
           wordCount
@@ -1458,6 +1568,7 @@ export class APIService {
             __typename
             authors
             body
+            createdAt
             dataType
             date
             datePublished
@@ -1483,6 +1594,7 @@ export class APIService {
             tone
             topics
             timeToLive
+            updatedAt
             uri
             url
             wordCount
@@ -1558,7 +1670,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           email
           freeTrial
@@ -1575,6 +1691,8 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1614,6 +1732,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1630,6 +1750,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1687,6 +1809,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1703,7 +1827,11 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1758,7 +1886,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1793,6 +1925,7 @@ export class APIService {
             __typename
             authors
             body
+            createdAt
             dataType
             date
             datePublished
@@ -1818,6 +1951,7 @@ export class APIService {
             tone
             topics
             timeToLive
+            updatedAt
             uri
             url
             wordCount
@@ -1880,6 +2014,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              createdAt
+              updatedAt
             }
             email
             freeTrial
@@ -1896,6 +2032,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
+            createdAt
+            updatedAt
           }
           nextToken
         }
@@ -1967,7 +2105,11 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
+              createdAt
+              updatedAt
             }
+            createdAt
+            updatedAt
           }
           nextToken
         }

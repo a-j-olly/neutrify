@@ -3,6 +3,7 @@ query GetArticle($id: ID!, $uri: String!) {
   getArticle(id: $id, uri: $uri) {
     authors
     body
+    createdAt
     dataType
     date
     datePublished
@@ -28,11 +29,10 @@ query GetArticle($id: ID!, $uri: String!) {
     tone
     topics
     timeToLive
+    updatedAt
     uri
     url
     wordCount
-    
-    
   }
 }
 query ListArticles(
@@ -54,6 +54,7 @@ query ListArticles(
     items {
       authors
       body
+      createdAt
       dataType
       date
       datePublished
@@ -79,11 +80,10 @@ query ListArticles(
       tone
       topics
       timeToLive
+      updatedAt
       uri
       url
       wordCount
-      
-      
     }
     nextToken
   }
@@ -128,11 +128,11 @@ query GetUser($id: ID!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        
-        
+        createdAt
+        updatedAt
       }
-      
-      
+      createdAt
+      updatedAt
     }
     email
     freeTrial
@@ -149,8 +149,8 @@ query GetUser($id: ID!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    
-    
+    createdAt
+    updatedAt
   }
 }
 query ListUsers(
@@ -178,8 +178,8 @@ query ListUsers(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        
-        
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -196,8 +196,8 @@ query ListUsers(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      
-      
+      createdAt
+      updatedAt
     }
     nextToken
   }
@@ -236,8 +236,8 @@ query GetConfig($id: ID!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        
-        
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -254,11 +254,11 @@ query GetConfig($id: ID!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      
-      
+      createdAt
+      updatedAt
     }
-    
-    
+    createdAt
+    updatedAt
   }
 }
 query ListConfigs(
@@ -301,11 +301,11 @@ query ListConfigs(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        
-        
+        createdAt
+        updatedAt
       }
-      
-      
+      createdAt
+      updatedAt
     }
     nextToken
   }
@@ -329,6 +329,7 @@ query ArticlesByDate(
     items {
       authors
       body
+      createdAt
       dataType
       date
       datePublished
@@ -354,11 +355,10 @@ query ArticlesByDate(
       tone
       topics
       timeToLive
+      updatedAt
       uri
       url
       wordCount
-      
-      
     }
     nextToken
   }
@@ -396,8 +396,8 @@ query UserByOwner(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        
-        
+        createdAt
+        updatedAt
       }
       email
       freeTrial
@@ -414,8 +414,8 @@ query UserByOwner(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      
-      
+      createdAt
+      updatedAt
     }
     nextToken
   }
@@ -468,11 +468,11 @@ query ConfigByOwner(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        
-        
+        createdAt
+        updatedAt
       }
-      
-      
+      createdAt
+      updatedAt
     }
     nextToken
   }

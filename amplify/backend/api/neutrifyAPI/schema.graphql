@@ -6,6 +6,7 @@ type Article @model(mutations: null, subscriptions: null)
 {
     authors: [String!]
     body: String!
+    createdAt: AWSDateTime
     dataType: String!
     date: String
     datePublished: AWSDateTime!
@@ -20,7 +21,7 @@ type Article @model(mutations: null, subscriptions: null)
     image: String
     keywords: [String!]
     language: String
-    quality: Int!
+    quality: Int
     share: Int
     similarity: Float
     time: String
@@ -31,6 +32,7 @@ type Article @model(mutations: null, subscriptions: null)
     tone: Float!
     topics: [String!]
     timeToLive: Float
+    updatedAt: AWSDateTime
     uri: String!
     url: String!
     wordCount: Int!

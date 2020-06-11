@@ -89,11 +89,7 @@ export class NewsFeedPage {
   }
 
   ionViewWillLeave() {
-    this.menuSubscription$.unsubscribe();
-    this.platformResize$.unsubscribe();
     this.pauseAds();
-    this.platform.pause.unsubscribe();
-    this.platform.resume.unsubscribe();
   }
 
   toggleMenu() {

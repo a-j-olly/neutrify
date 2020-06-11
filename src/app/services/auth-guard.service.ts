@@ -18,7 +18,9 @@ export class AuthGuardService implements CanActivate {
         const url: string = state.url;
 
         const isAuthenticated = await this.authService.isAuthenticated();
-        if (url === '' || url.startsWith('/home') || url.startsWith('/auth')) {
+        if (url === '' || url.startsWith('/home')) {
+            return true;
+        } else if (url.startsWith('/auth')) {
             if (isAuthenticated) {
                 this.router.navigateByUrl('/app');
                 return false;

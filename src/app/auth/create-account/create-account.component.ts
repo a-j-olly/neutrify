@@ -58,18 +58,22 @@ export class CreateAccountComponent implements OnInit {
   async signUp() {
     this.loading = true;
     if (this.signUpForm.valid) {
+      this.signUpForm.disable();
       const res = await this.authService.signUp(this.signUpForm.value.email, this.signUpForm.value.password);
 
       if (res) {
         this.invalidDetails = false;
-        this.signUpForm.reset();
         this.initConfirmSignUp();
+        this.signUpForm.reset();
+        this.signUpForm.enable();
         this.loading = false;
         await this.presentToast('Please verify your email account.', 'secondary');
+        this.signUpForm.enable();
         this.ga.eventEmitter('begin_sign_up', 'engagement', 'Begin signing up');
       } else {
         this.signUpForm.reset();
         this.invalidDetails = true;
+        this.signUpForm.enable();
         this.loading = false;
         await this.presentToast('Unable to create a new account. Are you sure you don\'t already have an account?', 'danger');
       }
@@ -89,19 +93,22 @@ export class CreateAccountComponent implements OnInit {
   async confirmSignUp() {
     this.loading = true;
     if (this.confirmSignUpForm.valid) {
+      this.confirmSignUpForm.disable();
       const res = await this.authService.confirmSignUp(this.confirmSignUpForm.value.vefCode);
-
+      
       if (res) {
-        this.invalidDetails = false;
-        this.confirmSignUpForm.reset();
-        this.showConfirmSignUp = false;
-        this.navToSignIn();
-        this.loading = false;
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
+        this.navToSignIn();
+        this.invalidDetails = false;
+        this.showConfirmSignUp = false;
+        this.confirmSignUpForm.reset();
+        this.confirmSignUpForm.enable();
+        this.loading = false;
         this.ga.eventEmitter('sign_up', 'engagement', 'Sign up');
       } else {
         this.invalidDetails = true;
         this.confirmSignUpForm.reset();
+        this.confirmSignUpForm.enable();
         this.loading = false;
       }
     }

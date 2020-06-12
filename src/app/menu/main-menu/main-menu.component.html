@@ -1,6 +1,7 @@
+<p class="ion-text-center">Account: <ion-text color="primary">{{userEmail}}</ion-text></p>
+
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <p class="ion-text-center">Account: <ion-text color="primary">{{userEmail}}</ion-text></p>
     <ion-item tappable (click)="goToHelp()">
       <ion-icon slot="start" name="information-circle" color="primary"></ion-icon>
       <ion-label>Help</ion-label>
@@ -12,3 +13,8 @@
     </ion-item>
   </ion-menu-toggle>
 </ion-list>
+
+<div class="menu-footer ion-margin">
+  <p>Need support? Email us at: <a href="mailto:inquiries@neutrify.news" title="send an email to customerservices@neutrify.news">customersupport@neutrify.news</a></p>
+  <p>Read our privacy policy <a href="https://neutrify.news/home/privacy-policy" target="_blank">here</a>
+</div>

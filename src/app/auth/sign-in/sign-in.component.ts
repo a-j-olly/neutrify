@@ -43,6 +43,7 @@ export class SignInComponent implements OnInit {
   async signIn() {
     this.loading = true;
     if (this.signInForm.valid) {
+      this.signInForm.disable();
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
@@ -54,15 +55,18 @@ export class SignInComponent implements OnInit {
           }
         });
         this.invalidDetails = false;
-        this.loading = false;
         this.signInForm.reset();
+        this.signInForm.enable();
+        this.loading = false;
       } else if (res === 'false') {
         this.invalidDetails = true;
         this.signInForm.reset();
+        this.signInForm.enable();
         this.loading = false;
       } else {
-        this.loading = false;
         this.signInForm.reset();
+        this.signInForm.enable();
+        this.loading = false;
       }
     }
   }

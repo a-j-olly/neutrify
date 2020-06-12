@@ -11,6 +11,7 @@ export type CreateUserInput = {
   billingAddressHouseNo?: string | null;
   billingAddressPostalCode?: string | null;
   billingAddressStreet?: string | null;
+  createdAt?: string | null;
   email: string;
   freeTrial: boolean;
   freeTrialStartDate: string;
@@ -26,6 +27,7 @@ export type CreateUserInput = {
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
   userConfigId?: string | null;
 };
 
@@ -34,6 +36,7 @@ export type UpdateUserInput = {
   billingAddressHouseNo?: string | null;
   billingAddressPostalCode?: string | null;
   billingAddressStreet?: string | null;
+  createdAt?: string | null;
   email?: string | null;
   freeTrial?: boolean | null;
   freeTrialStartDate?: string | null;
@@ -49,6 +52,7 @@ export type UpdateUserInput = {
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
   userConfigId?: string | null;
 };
 
@@ -57,6 +61,7 @@ export type DeleteUserInput = {
 };
 
 export type CreateConfigInput = {
+  createdAt?: string | null;
   id?: string | null;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
@@ -70,10 +75,12 @@ export type CreateConfigInput = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  updatedAt?: string | null;
   configUserId?: string | null;
 };
 
 export type UpdateConfigInput = {
+  createdAt?: string | null;
   id: string;
   keywordsToInclude?: Array<string | null> | null;
   keywordsToExclude?: Array<string | null> | null;
@@ -87,6 +94,7 @@ export type UpdateConfigInput = {
   sourcesToExclude?: Array<string | null> | null;
   locationsToInclude?: Array<string | null> | null;
   locationsToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
   configUserId?: string | null;
 };
 
@@ -198,6 +206,7 @@ export type ModelUserFilterInput = {
   billingAddressHouseNo?: ModelStringFilterInput | null;
   billingAddressPostalCode?: ModelStringFilterInput | null;
   billingAddressStreet?: ModelStringFilterInput | null;
+  createdAt?: ModelStringFilterInput | null;
   email?: ModelStringFilterInput | null;
   freeTrial?: ModelBooleanFilterInput | null;
   freeTrialStartDate?: ModelStringFilterInput | null;
@@ -213,6 +222,7 @@ export type ModelUserFilterInput = {
   feedbackDiscovery?: ModelStringFilterInput | null;
   feedbackLeaveReason?: ModelStringFilterInput | null;
   feedbackPromoterScore?: ModelIntFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
   and?: Array<ModelUserFilterInput | null> | null;
   or?: Array<ModelUserFilterInput | null> | null;
   not?: ModelUserFilterInput | null;
@@ -224,6 +234,7 @@ export type ModelBooleanFilterInput = {
 };
 
 export type ModelConfigFilterInput = {
+  createdAt?: ModelStringFilterInput | null;
   id?: ModelIDFilterInput | null;
   keywordsToInclude?: ModelStringFilterInput | null;
   keywordsToExclude?: ModelStringFilterInput | null;
@@ -237,6 +248,7 @@ export type ModelConfigFilterInput = {
   sourcesToExclude?: ModelStringFilterInput | null;
   locationsToInclude?: ModelStringFilterInput | null;
   locationsToExclude?: ModelStringFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
   and?: Array<ModelConfigFilterInput | null> | null;
   or?: Array<ModelConfigFilterInput | null> | null;
   not?: ModelConfigFilterInput | null;
@@ -250,6 +262,7 @@ export type CreateUserMutation = {
   billingAddressStreet: string | null;
   config: {
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -263,12 +276,14 @@ export type CreateUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -284,12 +299,10 @@ export type CreateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null;
+  createdAt: string | null;
   email: string;
   freeTrial: boolean;
   freeTrialStartDate: string;
@@ -305,8 +318,7 @@ export type CreateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
-  createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
 };
 
 export type UpdateUserMutation = {
@@ -317,6 +329,7 @@ export type UpdateUserMutation = {
   billingAddressStreet: string | null;
   config: {
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -330,12 +343,14 @@ export type UpdateUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -351,12 +366,10 @@ export type UpdateUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null;
+  createdAt: string | null;
   email: string;
   freeTrial: boolean;
   freeTrialStartDate: string;
@@ -372,8 +385,7 @@ export type UpdateUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
-  createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
 };
 
 export type DeleteUserMutation = {
@@ -384,6 +396,7 @@ export type DeleteUserMutation = {
   billingAddressStreet: string | null;
   config: {
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -397,12 +410,14 @@ export type DeleteUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -418,12 +433,10 @@ export type DeleteUserMutation = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null;
+  createdAt: string | null;
   email: string;
   freeTrial: boolean;
   freeTrialStartDate: string;
@@ -439,12 +452,12 @@ export type DeleteUserMutation = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
-  createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
 };
 
 export type CreateConfigMutation = {
   __typename: "Config";
+  createdAt: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
@@ -458,6 +471,7 @@ export type CreateConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  updatedAt: string | null;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -466,6 +480,7 @@ export type CreateConfigMutation = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -479,9 +494,9 @@ export type CreateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -497,15 +512,13 @@ export type CreateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type UpdateConfigMutation = {
   __typename: "Config";
+  createdAt: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
@@ -519,6 +532,7 @@ export type UpdateConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  updatedAt: string | null;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -527,6 +541,7 @@ export type UpdateConfigMutation = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -540,9 +555,9 @@ export type UpdateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -558,15 +573,13 @@ export type UpdateConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type DeleteConfigMutation = {
   __typename: "Config";
+  createdAt: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
@@ -580,6 +593,7 @@ export type DeleteConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  updatedAt: string | null;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -588,6 +602,7 @@ export type DeleteConfigMutation = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -601,9 +616,9 @@ export type DeleteConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -619,11 +634,8 @@ export type DeleteConfigMutation = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type GetArticleQuery = {
@@ -710,6 +722,7 @@ export type GetUserQuery = {
   billingAddressStreet: string | null;
   config: {
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -723,12 +736,14 @@ export type GetUserQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -744,12 +759,10 @@ export type GetUserQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null;
+  createdAt: string | null;
   email: string;
   freeTrial: boolean;
   freeTrialStartDate: string;
@@ -765,8 +778,7 @@ export type GetUserQuery = {
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
-  createdAt: string;
-  updatedAt: string;
+  updatedAt: string | null;
 };
 
 export type ListUsersQuery = {
@@ -779,6 +791,7 @@ export type ListUsersQuery = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -792,9 +805,9 @@ export type ListUsersQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -810,14 +823,14 @@ export type ListUsersQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null> | null;
   nextToken: string | null;
 };
 
 export type GetConfigQuery = {
   __typename: "Config";
+  createdAt: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
@@ -831,6 +844,7 @@ export type GetConfigQuery = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  updatedAt: string | null;
   user: {
     __typename: "User";
     billingAddressCity: string | null;
@@ -839,6 +853,7 @@ export type GetConfigQuery = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -852,9 +867,9 @@ export type GetConfigQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -870,17 +885,15 @@ export type GetConfigQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export type ListConfigsQuery = {
   __typename: "ModelConfigConnection";
   items: Array<{
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -894,12 +907,14 @@ export type ListConfigsQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -915,11 +930,8 @@ export type ListConfigsQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -974,6 +986,7 @@ export type UserByOwnerQuery = {
     billingAddressStreet: string | null;
     config: {
       __typename: "Config";
+      createdAt: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
@@ -987,9 +1000,9 @@ export type UserByOwnerQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
+    createdAt: string | null;
     email: string;
     freeTrial: boolean;
     freeTrialStartDate: string;
@@ -1005,8 +1018,7 @@ export type UserByOwnerQuery = {
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
-    createdAt: string;
-    updatedAt: string;
+    updatedAt: string | null;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1015,6 +1027,7 @@ export type ConfigByOwnerQuery = {
   __typename: "ModelConfigConnection";
   items: Array<{
     __typename: "Config";
+    createdAt: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
@@ -1028,12 +1041,14 @@ export type ConfigByOwnerQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
     user: {
       __typename: "User";
       billingAddressCity: string | null;
       billingAddressHouseNo: string | null;
       billingAddressPostalCode: string | null;
       billingAddressStreet: string | null;
+      createdAt: string | null;
       email: string;
       freeTrial: boolean;
       freeTrialStartDate: string;
@@ -1049,11 +1064,8 @@ export type ConfigByOwnerQuery = {
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
-      createdAt: string;
-      updatedAt: string;
+      updatedAt: string | null;
     } | null;
-    createdAt: string;
-    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1072,6 +1084,7 @@ export class APIService {
           billingAddressStreet
           config {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -1085,12 +1098,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -1106,12 +1121,10 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
+          createdAt
           email
           freeTrial
           freeTrialStartDate
@@ -1127,7 +1140,6 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
-          createdAt
           updatedAt
         }
       }`;
@@ -1149,6 +1161,7 @@ export class APIService {
           billingAddressStreet
           config {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -1162,12 +1175,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -1183,12 +1198,10 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
+          createdAt
           email
           freeTrial
           freeTrialStartDate
@@ -1204,7 +1217,6 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
-          createdAt
           updatedAt
         }
       }`;
@@ -1226,6 +1238,7 @@ export class APIService {
           billingAddressStreet
           config {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -1239,12 +1252,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -1260,12 +1275,10 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
+          createdAt
           email
           freeTrial
           freeTrialStartDate
@@ -1281,7 +1294,6 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
-          createdAt
           updatedAt
         }
       }`;
@@ -1297,6 +1309,7 @@ export class APIService {
     const statement = `mutation CreateConfig($input: CreateConfigInput!) {
         createConfig(input: $input) {
           __typename
+          createdAt
           id
           keywordsToInclude
           keywordsToExclude
@@ -1310,6 +1323,7 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          updatedAt
           user {
             __typename
             billingAddressCity
@@ -1318,6 +1332,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -1331,9 +1346,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -1349,11 +1364,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1368,6 +1380,7 @@ export class APIService {
     const statement = `mutation UpdateConfig($input: UpdateConfigInput!) {
         updateConfig(input: $input) {
           __typename
+          createdAt
           id
           keywordsToInclude
           keywordsToExclude
@@ -1381,6 +1394,7 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          updatedAt
           user {
             __typename
             billingAddressCity
@@ -1389,6 +1403,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -1402,9 +1417,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -1420,11 +1435,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1439,6 +1451,7 @@ export class APIService {
     const statement = `mutation DeleteConfig($input: DeleteConfigInput!) {
         deleteConfig(input: $input) {
           __typename
+          createdAt
           id
           keywordsToInclude
           keywordsToExclude
@@ -1452,6 +1465,7 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          updatedAt
           user {
             __typename
             billingAddressCity
@@ -1460,6 +1474,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -1473,9 +1488,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -1491,11 +1506,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1636,6 +1648,7 @@ export class APIService {
           billingAddressStreet
           config {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -1649,12 +1662,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -1670,12 +1685,10 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
+          createdAt
           email
           freeTrial
           freeTrialStartDate
@@ -1691,7 +1704,6 @@ export class APIService {
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
-          createdAt
           updatedAt
         }
       }`;
@@ -1719,6 +1731,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -1732,9 +1745,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -1750,7 +1763,6 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
           nextToken
@@ -1775,6 +1787,7 @@ export class APIService {
     const statement = `query GetConfig($id: ID!) {
         getConfig(id: $id) {
           __typename
+          createdAt
           id
           keywordsToInclude
           keywordsToExclude
@@ -1788,6 +1801,7 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          updatedAt
           user {
             __typename
             billingAddressCity
@@ -1796,6 +1810,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -1809,9 +1824,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -1827,11 +1842,8 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
-          createdAt
-          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -1852,6 +1864,7 @@ export class APIService {
           __typename
           items {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -1865,12 +1878,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -1886,11 +1901,8 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
           nextToken
         }
@@ -2001,6 +2013,7 @@ export class APIService {
             billingAddressStreet
             config {
               __typename
+              createdAt
               id
               keywordsToInclude
               keywordsToExclude
@@ -2014,9 +2027,9 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
-              createdAt
               updatedAt
             }
+            createdAt
             email
             freeTrial
             freeTrialStartDate
@@ -2032,7 +2045,6 @@ export class APIService {
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
-            createdAt
             updatedAt
           }
           nextToken
@@ -2071,6 +2083,7 @@ export class APIService {
           __typename
           items {
             __typename
+            createdAt
             id
             keywordsToInclude
             keywordsToExclude
@@ -2084,12 +2097,14 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            updatedAt
             user {
               __typename
               billingAddressCity
               billingAddressHouseNo
               billingAddressPostalCode
               billingAddressStreet
+              createdAt
               email
               freeTrial
               freeTrialStartDate
@@ -2105,11 +2120,8 @@ export class APIService {
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
-              createdAt
               updatedAt
             }
-            createdAt
-            updatedAt
           }
           nextToken
         }

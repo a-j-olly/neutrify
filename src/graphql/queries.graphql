@@ -95,6 +95,7 @@ query GetUser($id: ID!) {
     billingAddressPostalCode
     billingAddressStreet
     config {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -108,11 +109,13 @@ query GetUser($id: ID!) {
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -128,12 +131,10 @@ query GetUser($id: ID!) {
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
+    createdAt
     email
     freeTrial
     freeTrialStartDate
@@ -149,7 +150,6 @@ query GetUser($id: ID!) {
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
-    createdAt
     updatedAt
   }
 }
@@ -165,6 +165,7 @@ query ListUsers(
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -178,9 +179,9 @@ query ListUsers(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -196,7 +197,6 @@ query ListUsers(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
     nextToken
@@ -204,6 +204,7 @@ query ListUsers(
 }
 query GetConfig($id: ID!) {
   getConfig(id: $id) {
+    createdAt
     id
     keywordsToInclude
     keywordsToExclude
@@ -217,12 +218,14 @@ query GetConfig($id: ID!) {
     sourcesToExclude
     locationsToInclude
     locationsToExclude
+    updatedAt
     user {
       billingAddressCity
       billingAddressHouseNo
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -236,9 +239,9 @@ query GetConfig($id: ID!) {
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -254,11 +257,8 @@ query GetConfig($id: ID!) {
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
-    createdAt
-    updatedAt
   }
 }
 query ListConfigs(
@@ -268,6 +268,7 @@ query ListConfigs(
 ) {
   listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -281,11 +282,13 @@ query ListConfigs(
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -301,11 +304,8 @@ query ListConfigs(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
     nextToken
   }
@@ -383,6 +383,7 @@ query UserByOwner(
       billingAddressPostalCode
       billingAddressStreet
       config {
+        createdAt
         id
         keywordsToInclude
         keywordsToExclude
@@ -396,9 +397,9 @@ query UserByOwner(
         sourcesToExclude
         locationsToInclude
         locationsToExclude
-        createdAt
         updatedAt
       }
+      createdAt
       email
       freeTrial
       freeTrialStartDate
@@ -414,7 +415,6 @@ query UserByOwner(
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
-      createdAt
       updatedAt
     }
     nextToken
@@ -435,6 +435,7 @@ query ConfigByOwner(
     nextToken: $nextToken
   ) {
     items {
+      createdAt
       id
       keywordsToInclude
       keywordsToExclude
@@ -448,11 +449,13 @@ query ConfigByOwner(
       sourcesToExclude
       locationsToInclude
       locationsToExclude
+      updatedAt
       user {
         billingAddressCity
         billingAddressHouseNo
         billingAddressPostalCode
         billingAddressStreet
+        createdAt
         email
         freeTrial
         freeTrialStartDate
@@ -468,11 +471,8 @@ query ConfigByOwner(
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
-        createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
     }
     nextToken
   }

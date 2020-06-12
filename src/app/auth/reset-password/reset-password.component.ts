@@ -46,13 +46,18 @@ export class ResetPasswordComponent implements OnInit {
   async resetPassword() {
     this.loading = true;
     if (this.f.email.valid) {
+      this.f.email.disable();
       const res = await this.authService.resetPassword(this.f.email.value);
       if (res) {
         this.showSubmit = true;
+        this.f.email.reset();
+        this.f.email.enable();
         this.loading = false;
         this.ga.eventEmitter('begin_reset_password', 'engagement', 'Begin resetting password');
       } else {
         this.invalidEmailDetails = true;
+        this.f.email.reset();
+        this.f.email.enable();
         this.loading = false;
       }
     }
@@ -60,18 +65,21 @@ export class ResetPasswordComponent implements OnInit {
 
   async resetPasswordSubmit() {
     this.loading = true;
-    if (this.showSubmit && !this.invalidEmailDetails && this.resetPasswordForm.valid) {
+    if (this.showSubmit && !this.invalidEmailDetails && this.f.vefCode.valid && this.f.password.valid && this.f.confirmPassword.valid) {
+      this.resetPasswordForm.disable();
       const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, this.f.password.value);
       if (res) {
+        this.navToSignIn();
         this.resetPasswordForm.reset();
         this.showSubmit = false;
-        this.navToSignIn();
+        this.resetPasswordForm.enable();
         this.loading = false;
         await this.presentToast('Successfully reset your password. Please sign in.', 'primary');
         this.ga.eventEmitter('reset_password', 'engagement', 'Reset password');
       } else {
         this.invalidCode = true;
         this.resetPasswordForm.reset();
+        this.resetPasswordForm.enable();
         this.loading = false;
       }
     }

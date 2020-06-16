@@ -41,4 +41,4 @@ build/
 dist/
 node_modules/
 awsconfiguration.json
-src/aws-exports.js
+# src/aws-exports.js

@@ -35,6 +35,8 @@
     "aws-amplify-angular": "^5.0.10",
     "cordova-admob-plus": "^0.36.0",
     "cordova-android": "^8.1.0",
+    "cordova-ios": "^5.1.1",
+    "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.6.11",
     "date-fns": "^2.13.0",
@@ -95,7 +97,8 @@
       "cordova-sqlite-storage": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

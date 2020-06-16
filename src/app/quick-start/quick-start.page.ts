@@ -99,11 +99,11 @@ export class QuickStartPage implements OnInit {
       if (res) {
         this.presentToast('Success. Taking you to the app.', 'success');
         this.storage.set('ion_did_quick_start', true);
-        this.router.navigateByUrl('/app', { replaceUrl: true });
       } else {
         this.presentToast('Failed to save your filters. Try again', 'danger');
       }
     }
+    this.router.navigateByUrl('/app', { replaceUrl: true });
     this.loading = false;
   }
 

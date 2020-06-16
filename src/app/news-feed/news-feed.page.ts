@@ -54,9 +54,9 @@ export class NewsFeedPage {
 
   playAds() {
     if (environment.production) {
-      if (this.platformSource === 'iOS') {
+      if (this.platform.is('ios')) {
         this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2740135529' });
-      } else if (this.platformSource === 'android') {
+      } else if (this.platform.is('android')) {
         this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2037976682' });
       }
     } else {

@@ -74,8 +74,11 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then((readySource) => {
-      if (readySource === 'iOS') {
-        this.statusBar.overlaysWebView(false);
+      if (this.platform.is('android')) {
+        this.statusBar.backgroundColorByHexString('#333');
+        this.statusBar.styleLightContent();
+      } else if (this.platform.is('ios')) {
+        this.statusBar.styleDefault();
       }
 
       if (readySource !== 'dom') {
@@ -85,8 +88,6 @@ export class AppComponent {
         this.admob.setAppVolume(0);
       }
 
-      this.statusBar.backgroundColorByHexString('#333');
-      this.statusBar.styleLightContent();
       this.splashScreen.hide();
     });
   }

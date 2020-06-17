@@ -45,7 +45,7 @@ export class ArticleListComponent implements OnInit {
   public filtersSaved: boolean = true;
   filtersSavedSubcription$: Subscription;
 
-  rawArticles: Array<any> = new Array<any>();
+  readyArticles: Array<any> = new Array<any>();
   displayArticles: Array<any> = new Array<any>();
   displayThreshold = 15;
 
@@ -109,7 +109,7 @@ export class ArticleListComponent implements OnInit {
 
   async resetArticles() {
     this.nextToken = null;
-    this.rawArticles = new Array();
+    this.readyArticles = new Array();
     this.displayArticles = new Array();
   }
 
@@ -121,22 +121,28 @@ export class ArticleListComponent implements OnInit {
     let newLimit = 100;
     do {
       if (i === 1) {
-        this.rawArticles = await this.listArticles(newLimit);
+        this.readyArticles = await this.listArticles(newLimit);
       } else if (i === 2) {
         newLimit = 400;
-        this.rawArticles = await this.listArticles(newLimit, null);
-      } else if (i > 2) {
+        this.readyArticles = await this.listArticles(newLimit, null);
+      } else if (i > 2 && i <= 10) {
         newLimit = 1000;
-        this.rawArticles.push(...await this.listArticles(newLimit, this.nextToken));
+        this.readyArticles.push(...await this.listArticles(newLimit, this.nextToken));
+      } else {
+        await this.presentToast('Could only find a few articles that fit your criteria. Please remove some filters.', 'primary');
+        break;
       }
-      this.displayArticles = this.rawArticles;
+
       i++;
-    } while (this.nextToken && this.rawArticles.length < this.displayThreshold);
+    } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
+
+    this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
+    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     this.limit = newLimit;
     this.updatingArticles = false;
 
-    if (!this.nextToken && this.rawArticles.length < this.displayThreshold) {
+    if (!this.nextToken && this.readyArticles.length < this.displayThreshold) {
       await this.presentToast('Could only find a few articles that fit your criteria. Try to remove some filters.', 'primary');
     }
   }
@@ -173,9 +179,9 @@ export class ArticleListComponent implements OnInit {
     } else if (this.platformHeight <= 480) {
       result = 7;
     } else if (this.platformHeight <= 640) {
-      result = 9;
+      result = 10;
     } else if (this.platformHeight <= 812) {
-      result = 11;
+      result = 12;
     } else if (this.platformHeight <= 1024) {
       result = 16;
     } else if (this.platformHeight <= 1366) {
@@ -201,7 +207,6 @@ export class ArticleListComponent implements OnInit {
   async doRefresh(event?) {
     this.updatingArticles = true;
     this.resetTimer();
-    this.rawArticles = [];
     await this.handleInitDataLoad();
     if (event) {
       this.ga.eventEmitter('refresh_pull', 'engagement', 'Refreshed feed');
@@ -213,6 +218,8 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
+    await this.loadReadyArticles();
+    
     if (this.nextToken) {
       this.updatingArticles = true;
       let noNewArticles = 0;
@@ -221,14 +228,14 @@ export class ArticleListComponent implements OnInit {
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));
         noNewArticles += newArticles.length;
         if (newArticles.length > 0) {
-          this.rawArticles.push(...newArticles);
+          this.readyArticles.push(...newArticles);
         }
 
-        this.displayArticles = this.rawArticles;
-      } while (this.nextToken && noNewArticles < 5);
+      } while (this.nextToken && noNewArticles < this.displayThreshold);
+      await this.loadReadyArticles();
 
       this.updatingArticles = false;
-    } else {
+    } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
     event.target.complete();
@@ -256,6 +263,16 @@ export class ArticleListComponent implements OnInit {
       this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
+    }
+  }
+
+  async loadReadyArticles() {
+    if (this.readyArticles.length >= this.displayThreshold) {
+      this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
+      this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
+    } else if (this.readyArticles.length) {
+      this.displayArticles.push(...this.readyArticles);
+      this.readyArticles = [];
     }
   }
 

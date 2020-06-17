@@ -36,7 +36,7 @@
     </ion-fab-button>
   </ion-fab>
       
-  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="10%" [disabled]="updatingArticles" [hidden]="nextToken === null">
+  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles" [hidden]="nextToken === null">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>

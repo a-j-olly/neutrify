@@ -117,10 +117,21 @@ export class FilterMenuComponent {
     }
   }
 
+  async clearFilters() {
+    try {
+      const blankFilterObj = this.filterService.blankFilterObj();
+      await this.filterService.updateFilterOptions(blankFilterObj);
+      this.initOptions();
+      await this.presentToast('Your filters have been reset. Don\'t forget to save them.', 'success');
+    } catch (e) {
+      this.presentToast('Could not reset your filters. Please try again.', 'danger');
+    }
+  }
+
   async presentToast(message, color) {
     const toast = await this.toastController.create({
       message,
-      duration: 2000,
+      duration: 3000,
       color,
       cssClass: 'ion-text-center'
     });

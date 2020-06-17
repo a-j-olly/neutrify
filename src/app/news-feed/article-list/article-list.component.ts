@@ -43,10 +43,10 @@ export class ArticleListComponent implements OnInit {
   filterSubcription$: Subscription;
 
   public filtersSaved: boolean = true;
-  filtersSavedSubcription$: Subscription;
+  private filtersSavedSubcription$: Subscription;
 
-  readyArticles: Array<any> = new Array<any>();
-  displayArticles: Array<any> = new Array<any>();
+  private readyArticles: Array<any> = new Array<any>();
+  public displayArticles: Array<any> = new Array<any>();
   displayThreshold = 15;
 
   nextToken: string;
@@ -175,19 +175,19 @@ export class ArticleListComponent implements OnInit {
     let result;
 
     if (this.platformHeight <= 360) {
-      result = 5;
-    } else if (this.platformHeight <= 480) {
       result = 7;
+    } else if (this.platformHeight <= 480) {
+      result = 9;
     } else if (this.platformHeight <= 640) {
-      result = 10;
-    } else if (this.platformHeight <= 812) {
       result = 12;
+    } else if (this.platformHeight <= 812) {
+      result = 14;
     } else if (this.platformHeight <= 1024) {
-      result = 16;
+      result = 18;
     } else if (this.platformHeight <= 1366) {
-      result = 23;
-    } else {
       result = 25;
+    } else {
+      result = 27;
     }
 
     return result;
@@ -273,6 +273,10 @@ export class ArticleListComponent implements OnInit {
     } else if (this.readyArticles.length) {
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
+    }
+
+    if (this.displayArticles.length >= 3 * this.displayThreshold) {
+      this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
     }
   }
 

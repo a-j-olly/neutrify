@@ -220,7 +220,7 @@ export class ArticleListComponent implements OnInit {
   async getNextPage(event) {
     await this.loadReadyArticles();
     
-    if (this.nextToken) {
+    if (this.nextToken && !this.readyArticles.length) {
       this.updatingArticles = true;
       let noNewArticles = 0;
       do {

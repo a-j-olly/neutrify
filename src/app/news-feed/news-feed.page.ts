@@ -54,14 +54,16 @@ export class NewsFeedPage {
 
   playAds() {
     if (environment.production) {
-      if (this.platform.is('ios')) {
-        this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2740135529' });
-      } else if (this.platform.is('android')) {
-        this.admob.banner.show({ id: 'ca-app-pub-1312649730148564/2037976682' });
-      }
+      this.admob.banner.show({ id: {
+        ios: 'ca-app-pub-1312649730148564/2740135529',
+        android: 'ca-app-pub-1312649730148564/2037976682'
+      }});
     } else {
       if (this.platformSource !== 'dom') {
-        this.admob.banner.show({ id: 'test' });
+        this.admob.banner.show({ id: {
+          ios: 'test',
+          android: 'test'
+        }});
       }
     }
   }

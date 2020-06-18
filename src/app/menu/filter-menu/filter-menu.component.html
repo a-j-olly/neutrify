@@ -20,9 +20,8 @@
   </ion-item>
   
   <ion-row class="ion-justify-content-evenly">
-    <ion-buttons>
-      <ion-button color="secondary" (click)="loadFilters()">Load Filters</ion-button>
-      <ion-button color="primary" (click)="saveFilters()">Save Filters</ion-button>   
-    </ion-buttons>
+    <ion-button fill="clear" color="danger" (click)="clearFilters()">Clear Filters</ion-button>
+    <ion-button fill="clear" color="secondary" (click)="loadFilters()">Load Filters</ion-button>
+    <ion-button fill="clear" color="primary" (click)="saveFilters()">Save Filters</ion-button>   
   </ion-row>
 </ion-list>

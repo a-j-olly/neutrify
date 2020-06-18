@@ -119,7 +119,7 @@
   <div class="container" *ngIf="showConfirmSignUp">
     <form  [formGroup]="confirmSignUpForm" (ngSubmit)="confirmSignUp()" >
       <div class="form-group">
-        <p>A verification email has been sent to {{this.authService.signUpEmail}}. Please copy the code from the email and paste it into the field below.</p>
+        <p>A verification code has been sent to {{this.authService.signUpEmail}}. Check your spam folder.</p>
         <div class="form-item">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required oninput="this.value = this.value.trim()"></ion-input>

@@ -95,7 +95,7 @@ export class NewsFeedPage {
   }
 
   toggleMenu() {
-    if (this.platformWidth < 1080) {
+    if (this.platformWidth < 720) {
       this.menuService.closeMenu();
       this.menu.toggle('filterMenu');
     } else {

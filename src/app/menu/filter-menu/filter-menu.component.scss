@@ -1,6 +1,6 @@
 .filter {
     margin: 0px;
-    padding: 0px;
+    padding: 10px 2px;
     width: 1000px;
     min-width: 232px;
 };
@@ -10,7 +10,6 @@
 };
 
 .tooltip {
-    // top: 5px;
     position: relative;
     display: inline-block;
     z-index: 1;

@@ -18,7 +18,7 @@ const routes: Routes = [
     { path: '', loadChildren: () => import('./news-feed/news-feed.module').then(m => m.NewsFeedPageModule) },
     { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },
     { path: 'quick-start', loadChildren: () => import('./quick-start/quick-start.module').then( m => m.QuickStartPageModule) },
-  ], canActivate: [AuthGuardService]},
+  ], canActivate: [AuthGuardService] },
   { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] },
 ];
 

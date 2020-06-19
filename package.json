@@ -33,6 +33,7 @@
     "@ionic-native/status-bar": "^5.25.0",
     "@ionic/angular": "^5.1.0",
     "@ionic/storage": "^2.2.0",
+    "amazon-cognito-identity-js": "^4.3.2",
     "aws-amplify": "^3.0.10",
     "aws-amplify-angular": "^5.0.10",
     "cordova-admob-plus": "^0.36.0",

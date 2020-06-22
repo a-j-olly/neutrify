@@ -63,6 +63,7 @@ export class FilterService {
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     }
+    
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
   }
@@ -158,6 +159,51 @@ export class FilterService {
       result = false;
     }
     return result;
+  }
+
+  blankFilterObj() {
+    return {
+      id: this.filterOptions.id,
+      keywordsToInclude: [],
+      keywordsToExclude: [],
+      savedArticleIds: [],
+      sourcesToInclude: [],
+      sourcesToExclude: [],
+      toneUpperRange: 1,
+      toneLowerRange: -1,
+      topicsToInclude: JSON.stringify({
+        arts: [],
+        games: [],
+        news: [],
+        regional: [],
+        society: [],
+        business: [],
+        health: [],
+        recreation: [],
+        science: [],
+        sports: [],
+        computers: [],
+        home: [],
+        shopping: [],
+      }),
+      topicsToExclude: JSON.stringify({
+        arts: [],
+        games: [],
+        news: [],
+        regional: [],
+        society: [],
+        business: [],
+        health: [],
+        recreation: [],
+        science: [],
+        sports: [],
+        computers: [],
+        home: [],
+        shopping: [],
+      }),
+      locationsToInclude: [],
+      locationsToExclude: []
+    };
   }
 
   getQueryFilters(): ModelArticleFilterInput {

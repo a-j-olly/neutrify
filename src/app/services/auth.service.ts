@@ -4,7 +4,9 @@ import { FilterService } from './filter.service';
 import { APIService } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
+import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from 'aws-amplify';
+
 import { add } from 'date-fns';
 const uuid = require('uuid/v4');
 
@@ -18,6 +20,8 @@ export class AuthService {
   userEmail: string;
   signUpEmail: string;
   resetPasswordEmail: string;
+  userId: string;
+  configId: string;
 
   constructor(
       private amplifyService: AmplifyService,
@@ -41,7 +45,11 @@ export class AuthService {
 
           if (this.signedIn) {
             const config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+
             if (config) {
+              this.userId = this.userId ? this.userId : config.user.id;
+              this.configId = this.configId ? this.configId : config.id;
+  
               const filters = {
                 id: config.id,
                 keywordsToInclude: config.keywordsToInclude,
@@ -84,22 +92,22 @@ export class AuthService {
       const config = await this.neutrifyAPI.ConfigByOwner(user.username, null, null, 1);
       if (config.items.length === 0) {
         const now = new Date();
-        const userId = uuid();
-        const configId = uuid();
+        this.userId = uuid();
+        this.configId = uuid();
 
         const createUserPromise = this.neutrifyAPI.CreateUser({
           email: user.attributes.email,
           freeTrial: true,
           freeTrialStartDate: now.toISOString(),
           freeTrialEndDate: add(now, {months: 1}).toISOString(),
-          id: userId,
+          id: this.userId,
           isPremium: false,
-          userConfigId: configId
+          userConfigId: this.configId
         });
 
         const createConfigPromise = this.neutrifyAPI.CreateConfig({
-          configUserId: userId,
-          id: configId,
+          configUserId: this.userId,
+          id: this.configId,
           keywordsToInclude: [],
           keywordsToExclude: [],
           savedArticleIds: [],
@@ -270,11 +278,44 @@ export class AuthService {
     let creds;
 
     try {
-      creds = (await Auth.currentAuthenticatedUser());
+      creds = await Auth.currentAuthenticatedUser().then(user => user);
     } catch (e) {
       return false;
     }
 
     return creds ? true : false;
+  }
+
+  async deleteAccount(): Promise<boolean> {
+    let res = false;
+    await Auth.currentAuthenticatedUser().then(async (user: CognitoUser) => {
+      try {
+        await this.neutrifyAPI.DeleteConfig({ id: this.configId });
+        await this.neutrifyAPI.DeleteUser({ id: this.userId });
+        res = true;
+      } catch (e) {
+        console.log('Could not remove your data from our database. Service returned this error: ', e);
+        res = false;
+        return res;
+      }
+
+      const signedOut = await this.signOut();
+
+      if (signedOut) {
+        await user.deleteUser(async (err) => {
+          if (err) {
+            console.log('Could not delete user account. Service returned this error: ', err);
+            res = false;
+          } else {
+            res = true
+          }
+        });
+      } else {
+        console.log('Could not delete user account. Could not sign out from account.');
+        res = false;
+      }
+    });
+
+    return res;
   }
 }

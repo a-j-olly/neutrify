@@ -29,30 +29,31 @@ export class MainMenuComponent implements OnInit {
   }
 
   async signOut() {
-    this.menuService.closeMenu();
-    await this.menu.enable(false, 'filterMenu');
-    await this.menu.enable(false, 'mainMenu');
-    await this.presentAlertConfirm();
+    await this.disableMenus();
+    await this.presentAlertConfirmSignout();
+  }
+
+  async deleteAccount() {
+    await this.disableMenus();
+    await this.presentAlertConfirmDelete();
   }
 
   async goToHelp() {
-    this.menuService.closeMenu();
-    await this.menu.enable(false, 'filterMenu');
-    await this.menu.enable(false, 'mainMenu');
+    await this.disableMenus();
     await this.router.navigateByUrl('/app/help');
   }
 
-  async presentAlertConfirm() {
+  async presentAlertConfirmSignout() {
     const alert = await this.alertController.create({
       message: 'You are about to sign out. Would you like to continue?',
+      header: 'Signout?',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
           handler: async () => {
-            await this.menu.enable(true, 'filterMenu');
-            await this.menu.enable(true, 'mainMenu');
+            await this.enableMenus();
           }
         }, {
           text: 'Sign Out',
@@ -60,11 +61,10 @@ export class MainMenuComponent implements OnInit {
             const res = await this.authService.signOut();
 
             if (res) {
-              this.ga.eventEmitter('logout', 'engagement', 'Logout');
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
+              this.ga.eventEmitter('logout', 'engagement', 'Logout');
             } else {
-              await this.menu.enable(true, 'filterMenu');
-              await this.menu.enable(true, 'mainMenu');
+              await this.enableMenus();
               this.presentToast('Could not sign you out. Please try again.', 'danger');
             }
           }
@@ -73,6 +73,65 @@ export class MainMenuComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async presentAlertConfirmDelete() {
+    const alert = await this.alertController.create({
+      header: 'Delete Account?',
+      message: 'You are about to delete your account. This cannot be reversed. Enter DELETE below to confirm your decision.',
+      inputs: [
+        {
+          name: 'delete',
+          type: 'text',
+          id: 'delete-id',
+          placeholder: 'Enter "DELETE" here'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: async () => {
+            await this.enableMenus();
+          }
+        }, {
+          text: 'Delete',
+          handler: async (alertData) => {
+            if (alertData.delete && alertData.delete === 'DELETE') {
+              const res = await this.authService.deleteAccount();
+
+              if (res) {
+                this.ga.eventEmitter('delete', 'engagement', 'Delete');
+                await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
+
+              } else {
+                await this.enableMenus();
+                await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');
+              }
+              
+              this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
+            } else {
+              await this.enableMenus();
+              await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'warning');
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async disableMenus() {
+    this.menuService.closeMenu();
+    await this.menu.enable(false, 'filterMenu');
+    await this.menu.enable(false, 'mainMenu');
+  }
+
+  async enableMenus() {
+    await this.menu.enable(true, 'filterMenu');
+    await this.menu.enable(true, 'mainMenu');
   }
 
   async presentToast(message, color) {

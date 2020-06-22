@@ -22,7 +22,7 @@ export class FilterService {
 
   buildFilterOptions(userOptions) {
 
-    return {
+    return Object.assign({}, {
       id: this.filterOptions.id,
       toneUpperRange: userOptions.toneUserOption.value.upper,
       toneLowerRange: userOptions.toneUserOption.value.lower,
@@ -34,14 +34,13 @@ export class FilterService {
       keywordsToExclude: userOptions.keywordsUserOption.exclude,
       locationsToInclude: userOptions.locationsUserOption.include,
       locationsToExclude: userOptions.locationsUserOption.exclude
-    };
+    });
   }
 
   mergeTopics(optionObj): Array<string> {
     return [
       ...optionObj.arts,
       ...optionObj.games,
-      ...optionObj.news,
       ...optionObj.regional,
       ...optionObj.society,
       ...optionObj.business,
@@ -56,9 +55,14 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    const newFilterOptions = Object.assign({}, inputFilterOptions);
-    console.log('new options: ', newFilterOptions);
+    debugger;
+    let newFilterOptions = Object.assign({}, inputFilterOptions);
+    console.log('input options: ', newFilterOptions);
+    console.log('current options: ', this.filterOptions);
+    debugger;
+
     if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
+      this.filterOptions$.next(this.filterOptions);
       return;
     }
 
@@ -91,7 +95,11 @@ export class FilterService {
     
 
     this.filterOptions = newFilterOptions;
+    console.log('updated options: ', this.filterOptions);
+
     this.filterOptions$.next(this.filterOptions);
+    debugger;
+
   }
 
   getFilterOptions() {
@@ -124,7 +132,7 @@ export class FilterService {
       }
 
       const topicGroup = this.findTopicsGroup(value);
-      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].include(value)) {
+      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
         this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
       }
     }

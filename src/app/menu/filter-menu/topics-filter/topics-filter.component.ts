@@ -30,7 +30,6 @@ export class TopicsFilterComponent implements OnInit {
 
   public artsDisabled = false;
   public gamesDisabled = false;
-  public newsDisabled = false;
   public societyDisabled = false;
   public businessDisabled = false;
   public healthDisabled = false;
@@ -43,17 +42,14 @@ export class TopicsFilterComponent implements OnInit {
 
   @Input()
   set userOption(val: any) {
-    console.log('current option: ', this.option, JSON.stringify(this.option));
-    console.log('input option: ', val, JSON.stringify(val));
-    console.log('(before) copy of options: ', this.copy);
+    // console.log('current option: ', this.option, JSON.stringify(this.option));
+    // console.log('input option: ', val, JSON.stringify(val));
+    // console.log('(before) copy of options: ', this.copy);
 
     if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copy)) {
-      console.log('input is different');
+      // console.log('input is different');
       this.option = Object.assign({}, val);
       this.initTopicView();
-      
-      this.copy = Object.assign({}, this.option);
-      console.log('(after) copy of options: ', this.copy);
     }
   }
 
@@ -79,12 +75,11 @@ export class TopicsFilterComponent implements OnInit {
   }
 
   initTopicView() {
-    this.includedTopics = this.option.include;
-    this.excludedTopics = this.option.exclude;
+    this.initTopicObj(this.includedTopics, this.option.include);
+    this.initTopicObj(this.excludedTopics, this.option.exclude);
 
     this.initTopic('artsDisabled', 'arts');
     this.initTopic('gamesDisabled', 'games');
-    this.initTopic('newsDisabled', 'news');
     this.initTopic('societyDisabled', 'society');
     this.initTopic('businessDisabled', 'business');
     this.initTopic('healthDisabled', 'health');
@@ -94,6 +89,16 @@ export class TopicsFilterComponent implements OnInit {
     this.initTopic('computersDisabled', 'computers');
     this.initTopic('homeDisabled', 'home');
     this.initTopic('shoppingDisabled', 'shopping');
+  }
+
+  initTopicObj(ogObj, newObj) {
+    Object.keys(newObj).forEach((key) => {
+      if (!ogObj || !this.isArrEq(ogObj[key], newObj[key])) ogObj[key] = newObj[key];
+    });
+  }
+
+  isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1) === JSON.stringify(arr2);
   }
 
   onSegmentChange() {
@@ -122,22 +127,23 @@ export class TopicsFilterComponent implements OnInit {
   }
 
   configureCheckbox(disableBool, valStr): boolean {
-    let res = true;
+    console.log('configureCheckbox params: ', disableBool, valStr);
+    let res = false;
     if (disableBool) {
-      if (this[`${this.segmentValue}dTopics`][valStr].length !== 1 ||
-       this[`${this.segmentValue}dTopics`][valStr][0].toLowerCase() !== valStr.toLowerCase()) {
+      if (this[`${this.segmentValue}dTopics`][valStr].length !== 1 || this[`${this.segmentValue}dTopics`][valStr][0].toLowerCase() !== valStr.toLowerCase()) {
         this[`${this.segmentValue}dTopics`][valStr] = new Array();
         this[`${this.segmentValue}dTopics`][valStr].push(valStr.toLowerCase());
-      } else {
-        res = res && false;
       }
     } else {
+      console.log(this[`${this.segmentValue}dTopics`][valStr]);
       const topicIndex = this[`${this.segmentValue}dTopics`][valStr].findIndex(topic => topic.toLowerCase() === valStr.toLowerCase());
 
       if (topicIndex !== -1) {
         this[`${this.segmentValue}dTopics`][valStr].splice(topicIndex, 1);
+        res = true;
       }
     }
+    debugger;
     return res;
   }
 
@@ -149,8 +155,6 @@ export class TopicsFilterComponent implements OnInit {
         hasChanged = this.configureCheckbox(this.artsDisabled, 'arts');
       } else if (event.target.name === 'games') {
         hasChanged = this.configureCheckbox(this.gamesDisabled, 'games');
-      } else if (event.target.name === 'news') {
-        hasChanged = this.configureCheckbox(this.newsDisabled, 'news');
       } else if (event.target.name === 'society') {
         hasChanged = this.configureCheckbox(this.societyDisabled, 'society');
       } else if (event.target.name === 'business') {
@@ -171,27 +175,54 @@ export class TopicsFilterComponent implements OnInit {
         hasChanged = this.configureCheckbox(this.sportsDisabled, 'sports');
       }
     }
-
+    console.log('checkbox has changed: ', hasChanged);
     if (hasChanged) {
       this.selectChanged(null);
     }
   }
 
   selectChanged(event) {
-    if (event && event.target) {
-      this[`${this.segmentValue}dTopics`][event.target.name] = event.target.value;
+    let topics;
+
+    if (this.segmentValue === 'include') {
+      topics = this.includedTopics;
+    } else {
+      topics = this.excludedTopics;
     }
 
-    console.log('changed option: ', this.option[this.segmentValue]);
-    console.log('copied option: ', this.copy[this.segmentValue]);
+    if (event && event.target) {
+      topics[event.target.name] = event.target.value;
+    }
+    console.log('current topics: ', topics);
+    // console.log('changed option: ', this.option[this.segmentValue]);
+    console.log('copied topics: ', this.copy[this.segmentValue]);
 
-    // if (JSON.stringify(this.option[this.segmentValue]) !== JSON.stringify(this.copy[this.segmentValue])) {
-      console.log('emiting change event');
-      this.option[this.segmentValue] = this[`${this.segmentValue}dTopics`];
+    if (JSON.stringify(topics) !== JSON.stringify(this.copy[this.segmentValue])) {
+      // console.log('emiting change event');
+      this.option[this.segmentValue] = topics;
       this.option.name = 'Topics';
       this.userOptionChanged.emit(this.option);
-      this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
-    // }
+      
+      this.copy[this.segmentValue] = this.buildTopicObj(topics);
+      console.log('(after) copy of options: ', this.copy);
+      // this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
+    }
+  }
 
+  buildTopicObj(objRef) {
+    return Object.assign({}, {
+      arts: [...objRef.arts],
+      business: [...objRef.business],
+      computers: [...objRef.computers],
+      games: [...objRef.games],
+      health: [...objRef.health],
+      home: [...objRef.home],
+      recreation: [...objRef.recreation],
+      regional: [...objRef.regional],
+      science: [...objRef.science],
+      shopping: [...objRef.shopping],
+      society: [...objRef.society],
+      sports: [...objRef.sports]
+    });
   }
 }

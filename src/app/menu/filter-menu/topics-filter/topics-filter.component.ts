@@ -20,7 +20,8 @@ import {
   styleUrls: ['./topics-filter.component.scss'],
 })
 export class TopicsFilterComponent implements OnInit {
-  private option: any;
+  private option: any = {};
+  private copy = {};
   public includedTopics: any = {};
   public excludedTopics: any = {};
   public segmentValue = 'include';
@@ -42,8 +43,18 @@ export class TopicsFilterComponent implements OnInit {
 
   @Input()
   set userOption(val: any) {
-    this.option = val;
-    this.initTopicView();
+    console.log('current option: ', this.option, JSON.stringify(this.option));
+    console.log('input option: ', val, JSON.stringify(val));
+    console.log('(before) copy of options: ', this.copy);
+
+    if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copy)) {
+      console.log('input is different');
+      this.option = Object.assign({}, val);
+      this.initTopicView();
+      
+      this.copy = Object.assign({}, this.option);
+      console.log('(after) copy of options: ', this.copy);
+    }
   }
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
@@ -170,9 +181,17 @@ export class TopicsFilterComponent implements OnInit {
     if (event && event.target) {
       this[`${this.segmentValue}dTopics`][event.target.name] = event.target.value;
     }
-    this.option[this.segmentValue] = this[`${this.segmentValue}dTopics`];
-    this.option.name = 'Topics';
-    this.userOptionChanged.emit(this.option);
-    this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
+
+    console.log('changed option: ', this.option[this.segmentValue]);
+    console.log('copied option: ', this.copy[this.segmentValue]);
+
+    // if (JSON.stringify(this.option[this.segmentValue]) !== JSON.stringify(this.copy[this.segmentValue])) {
+      console.log('emiting change event');
+      this.option[this.segmentValue] = this[`${this.segmentValue}dTopics`];
+      this.option.name = 'Topics';
+      this.userOptionChanged.emit(this.option);
+      this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
+    // }
+
   }
 }

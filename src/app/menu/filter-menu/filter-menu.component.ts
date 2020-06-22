@@ -2,20 +2,27 @@ import { GoogleAnalyticsService } from './../../services/google-analytics.servic
 import { APIService } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filter-menu',
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss'],
 })
-export class FilterMenuComponent {
+export class FilterMenuComponent implements OnDestroy {
   public toneUserOption;
   public sourcesUserOption;
   public topicsUserOption;
   public keywordsUserOption;
   public locationsUserOption;
+
+  private filtersSaved: boolean = true;
+  private filtersSavedSubcription$: Subscription;
+
+  private filtersLoaded: boolean = true;
+  private filtersLoadedSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
@@ -25,9 +32,27 @@ export class FilterMenuComponent {
     private ga: GoogleAnalyticsService
     ) {
       this.initOptions();
+      this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
+        console.log('filterSaved changed');
+        this.filtersSaved = status;
+      });
+
+      this.filtersLoadedSubcription$ = this.filterService.getFilterLoadedStatus().subscribe(async (status) => {
+        console.log('filterSaved loaded');
+        this.filtersLoaded = status;
+        if (this.filtersSaved && this.filtersLoaded) {
+          await this.initOptions();
+        }
+      });
     }
 
+  ngOnDestroy() {
+    this.filtersSavedSubcription$.unsubscribe();
+    this.filtersLoadedSubcription$.unsubscribe();
+  }
+
   async initOptions() {
+    console.log('initOptions called');
     const filterOptions = this.filterService.filterOptions;
 
     this.toneUserOption = {
@@ -52,12 +77,17 @@ export class FilterMenuComponent {
       exclude: filterOptions.locationsToExclude
     };
 
-    this.topicsUserOption = {};
-    this.topicsUserOption['include'] = this.filterService.topicsUserOption.include;
-    this.topicsUserOption['exclude'] = this.filterService.topicsUserOption.exclude;
+    this.topicsUserOption = {
+      include: this.filterService.topicsUserOption.include,
+      exclude: this.filterService.topicsUserOption.exclude,
+      name: 'Topics'
+    };
+
+    console.log('(filter-menu) topicsUserOption: ', this.topicsUserOption);
   }
 
   async onFilterChange(event) {
+    console.log('filters changed');
     switch (event.name) {
       case 'Attitude':
         this.toneUserOption = event;
@@ -83,6 +113,7 @@ export class FilterMenuComponent {
   }
 
   async buildOptions() {
+    console.log('buildOptions');
     const filterOptions: any = this.filterService.buildFilterOptions({
       toneUserOption: this.toneUserOption,
       sourcesUserOption: this.sourcesUserOption,
@@ -96,19 +127,20 @@ export class FilterMenuComponent {
   }
 
   async loadFilters() {
-    try {
-      const loadedConfig = await this.neutrifyAPI.ConfigByOwner(this.authService.user.username, null, null , 1);
-      await this.filterService.updateFilterOptions(loadedConfig.items[0]);
-      this.initOptions();
-      await this.presentToast('Your filters have been loaded.', 'success');
-      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-    } catch (error) {
-      this.presentToast('Could not load your filters. Please try again.', 'danger');
-    }
+      const res = await this.filterService.loadFilters(this.authService.user.username);
+      if (res) {
+        await this.presentToast('Your filters have been loaded.', 'success');
+        this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+        setTimeout(() => {
+          this.filterService.updateFilterSaved(true);
+        }, 200);
+      } else {
+        this.presentToast('Could not load your filters. Please try again.', 'danger');
+      }
   }
 
   async saveFilters() {
-    let res = await this.filterService.saveFilters();
+    const res = await this.filterService.saveFilters();
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
       this.ga.eventEmitter('save_filters', 'engagement', 'Saved filters');

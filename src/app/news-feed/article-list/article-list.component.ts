@@ -8,6 +8,7 @@ import { ToastController, IonContent } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-article-list',
@@ -58,7 +59,8 @@ export class ArticleListComponent implements OnInit {
     private filterService: FilterService,
     private toastController: ToastController,
     private changeDetector: ChangeDetectorRef,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private authService: AuthService
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
@@ -114,6 +116,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async handleInitDataLoad() {
+    console.log('(article-list) init data load');
     this.updatingArticles = true;
     await this.resetArticles();
 
@@ -263,6 +266,19 @@ export class ArticleListComponent implements OnInit {
       this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
+    }
+  }
+
+  async loadFilters() {
+    const res = await this.filterService.loadFilters(this.authService.user.username);
+    if (res) {
+      await this.presentToast('Your changes to the filters have been reset.', 'success');
+      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+      setTimeout(() => {
+        this.filterService.updateFilterSaved(true);
+      }, 200);
+    } else {
+      this.presentToast('Could not reset your filters. Please try again.', 'danger');
     }
   }
 

@@ -14,7 +14,7 @@ import { enGB } from 'date-fns/locale';
     trigger('panelIn', [
       transition('void => *', [
           style({ transform: 'translateY(-100%)', opacity: 0 }),
-          animate(200)
+          animate(100)
       ]),
     ])
   ],

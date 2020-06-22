@@ -10,6 +10,9 @@ export class FilterService {
   filterSaved: boolean = true;
   filterSaved$ = new Subject<boolean>();
 
+  filterLoaded: boolean = true;
+  filterLoaded$ = new Subject<boolean>();
+
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
@@ -53,7 +56,11 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    const newFilterOptions = Object.assign(inputFilterOptions);
+    const newFilterOptions = Object.assign({}, inputFilterOptions);
+    console.log('new options: ', newFilterOptions);
+    if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
+      return;
+    }
 
     if ((typeof newFilterOptions.topicsToInclude) === 'string' || (typeof newFilterOptions.topicsToExclude) === 'string') {
       const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
@@ -62,8 +69,27 @@ export class FilterService {
       this.topicsUserOption.exclude = parsedExclude;
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
+    } else {
+      console.log('(before) this.topicsUserOption: ', this.topicsUserOption);
+ 
+      newFilterOptions.topicsToInclude.forEach(value => {
+        const topicGroup = this.findTopicsGroup(value);
+        if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value)) {
+          this.topicsUserOption.include[topicGroup.toLowerCase()].push(value);
+        }
+      });
+
+      newFilterOptions.topicsToExclude.forEach(value => {
+        const topicGroup = this.findTopicsGroup(value);
+        if (!this.topicsUserOption.exclude[topicGroup.toLowerCase()].includes(value)) {
+          this.topicsUserOption.exclude[topicGroup.toLowerCase()].push(value);
+        }
+      });
+
+      console.log('(after) this.topicsUserOption: ', this.topicsUserOption);
     }
     
+
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
   }
@@ -80,6 +106,14 @@ export class FilterService {
     return this.filterSaved$.asObservable();
   }
 
+  async updateFilterLoaded(isSaved: boolean) {
+    this.filterSaved$.next(isSaved);
+  }
+
+  getFilterLoadedStatus() {
+    return this.filterSaved$.asObservable();
+  }
+
   addToFilterOptions(optionType, operation, value) {
     if (optionType === 'topics') {
 
@@ -90,7 +124,9 @@ export class FilterService {
       }
 
       const topicGroup = this.findTopicsGroup(value);
-      this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].include(value)) {
+        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      }
     }
 
     if (operation === 'include') {
@@ -146,8 +182,9 @@ export class FilterService {
     return req;
   }
 
-  async saveFilters() {
+  async saveFilters(): Promise<boolean> {
     let result: boolean;
+
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
       await this.neutrifyAPI.UpdateConfig(reqBody);
@@ -158,6 +195,23 @@ export class FilterService {
       this.updateFilterSaved(false);
       result = false;
     }
+    return result;
+  }
+
+  async loadFilters(username) {
+    let result: boolean;
+
+    try {
+      const loadedConfig = await this.neutrifyAPI.ConfigByOwner(username, null, null , 1);
+      await this.updateFilterOptions(loadedConfig.items[0]);
+      this.updateFilterLoaded(true);
+      result = true;
+    } catch (error) {
+      this.updateFilterLoaded(false);
+      result = false;
+      console.log('Could not load filters. Service returned this error: ', error);
+    }
+
     return result;
   }
 

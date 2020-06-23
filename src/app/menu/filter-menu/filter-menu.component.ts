@@ -1,5 +1,4 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
-import { APIService } from './../../services/neutrify-api.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component, OnDestroy } from '@angular/core';
@@ -21,12 +20,10 @@ export class FilterMenuComponent implements OnDestroy {
   private filtersSaved: boolean = true;
   private filtersSavedSubcription$: Subscription;
 
-  private filtersLoaded: boolean = true;
   private filtersLoadedSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
-    private neutrifyAPI: APIService,
     public authService: AuthService,
     private toastController: ToastController,
     private ga: GoogleAnalyticsService
@@ -37,8 +34,7 @@ export class FilterMenuComponent implements OnDestroy {
       });
 
       this.filtersLoadedSubcription$ = this.filterService.getFilterLoadedStatus().subscribe(async (status) => {
-        this.filtersLoaded = status;
-        if (this.filtersSaved && this.filtersLoaded) {
+        if (this.filtersSaved) {
           await this.initOptions();
         }
       });
@@ -60,19 +56,19 @@ export class FilterMenuComponent implements OnDestroy {
     };
 
     this.sourcesUserOption = {
-      include: filterOptions.sourcesToInclude,
-      exclude: filterOptions.sourcesToExclude
+      include: [...filterOptions.sourcesToInclude],
+      exclude: [...filterOptions.sourcesToExclude]
     };
 
     this.keywordsUserOption = {
-      include: filterOptions.keywordsToInclude,
-      exclude: filterOptions.keywordsToExclude
+      include: [...filterOptions.keywordsToInclude],
+      exclude: [...filterOptions.keywordsToExclude]
     };
 
 
     this.locationsUserOption = {
-      include: filterOptions.locationsToInclude,
-      exclude: filterOptions.locationsToExclude
+      include: [...filterOptions.locationsToInclude],
+      exclude: [...filterOptions.locationsToExclude]
     };
 
     this.topicsUserOption = {
@@ -80,7 +76,6 @@ export class FilterMenuComponent implements OnDestroy {
       exclude: this.filterService.topicsUserOption.exclude,
       name: 'Topics'
     };
-
   }
 
   async onFilterChange(event) {
@@ -92,7 +87,6 @@ export class FilterMenuComponent implements OnDestroy {
         this.sourcesUserOption = event;
         break;
       case 'Topics':
-        // this.filterService.topicsUserOption = event;
         this.topicsUserOption = event;
         break;
       case 'Locations':
@@ -118,7 +112,6 @@ export class FilterMenuComponent implements OnDestroy {
     });
 
     await this.filterService.updateFilterOptions(filterOptions);
-    this.filterService.updateFilterSaved(false);
   }
 
   async loadFilters() {
@@ -126,9 +119,6 @@ export class FilterMenuComponent implements OnDestroy {
       if (res) {
         await this.presentToast('Your filters have been loaded.', 'success');
         this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-        setTimeout(() => {
-          this.filterService.updateFilterSaved(true);
-        }, 200);
       } else {
         this.presentToast('Could not load your filters. Please try again.', 'danger');
       }

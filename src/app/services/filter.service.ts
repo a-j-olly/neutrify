@@ -86,9 +86,9 @@ export class FilterService {
       });
     }
     
-
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
+    this.updateFilterSaved(false);
   }
 
   getFilterOptions() {
@@ -96,6 +96,7 @@ export class FilterService {
   }
 
   async updateFilterSaved(isSaved: boolean) {
+    this.filterSaved = isSaved;
     this.filterSaved$.next(isSaved);
   }
 
@@ -103,12 +104,13 @@ export class FilterService {
     return this.filterSaved$.asObservable();
   }
 
-  async updateFilterLoaded(isSaved: boolean) {
-    this.filterSaved$.next(isSaved);
+  async updateFilterLoaded(isLoaded: boolean) {
+    this.filterLoaded = isLoaded;
+    this.filterLoaded$.next(isLoaded);
   }
 
   getFilterLoadedStatus() {
-    return this.filterSaved$.asObservable();
+    return this.filterLoaded$.asObservable();
   }
 
   addToFilterOptions(optionType, operation, value) {
@@ -201,9 +203,11 @@ export class FilterService {
     try {
       const loadedConfig = await this.neutrifyAPI.ConfigByOwner(username, null, null , 1);
       await this.updateFilterOptions(loadedConfig.items[0]);
+      this.updateFilterSaved(true);
       this.updateFilterLoaded(true);
       result = true;
     } catch (error) {
+      this.updateFilterSaved(false);
       this.updateFilterLoaded(false);
       result = false;
       console.log('Could not load filters. Service returned this error: ', error);

@@ -16,14 +16,22 @@ import { AuthService } from 'src/app/services/auth.service';
   animations: [
     trigger('panelInBottom', [
       transition('void => *', [
-          style({ transform: 'translateY(100%)', opacity: 0.7 }),
-          animate(500)
+        style({ transform: 'translateY(100%)', opacity: 0.7 }),
+        animate(500)
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(-100%)', opacity: 0.7 }),
+        animate(500)
       ]),
     ]),
     trigger('panelInLeft', [
       transition('void => *', [
-          style({ transform: 'translateX(-100%)', opacity: 0.7 }),
-          animate(200)
+        style({ transform: 'translateX(-100%)', opacity: 0.7 }),
+        animate(200)
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(100%)', opacity: 0.7 }),
+        animate(200)
       ]),
     ])
   ],
@@ -229,9 +237,6 @@ export class ArticleListComponent implements OnInit {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));
         noNewArticles += newArticles.length;
-        if (newArticles.length > 0) {
-          this.readyArticles.push(...newArticles);
-        }
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);
       await this.loadReadyArticles();

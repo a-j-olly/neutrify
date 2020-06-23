@@ -21,7 +21,7 @@ import {
 })
 export class TopicsFilterComponent implements OnInit {
   private option: any = {};
-  private copy = {};
+  private copiedOptions = {};
   public includedTopics: any = {};
   public excludedTopics: any = {};
   public segmentValue = 'include';
@@ -43,7 +43,7 @@ export class TopicsFilterComponent implements OnInit {
   @Input()
   set userOption(val: any) {
 
-    if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copy)) {
+    if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copiedOptions)) {
       this.option = Object.assign({}, val);
       this.initTopicView();
     }
@@ -188,12 +188,12 @@ export class TopicsFilterComponent implements OnInit {
       topics[event.target.name] = event.target.value;
     }
 
-    if (JSON.stringify(topics) !== JSON.stringify(this.copy[this.segmentValue])) {
+    if (JSON.stringify(topics) !== JSON.stringify(this.copiedOptions[this.segmentValue])) {
       this.option[this.segmentValue] = topics;
       this.option.name = 'Topics';
       this.userOptionChanged.emit(this.option);
       
-      this.copy[this.segmentValue] = this.buildTopicObj(topics);
+      this.copiedOptions[this.segmentValue] = this.buildTopicObj(topics);
       // this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
     }
   }

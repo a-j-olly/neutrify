@@ -8,6 +8,7 @@ import { ToastController, IonContent } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-article-list',
@@ -15,14 +16,22 @@ import { GoogleAnalyticsService } from 'src/app/services/google-analytics.servic
   animations: [
     trigger('panelInBottom', [
       transition('void => *', [
-          style({ transform: 'translateY(100%)', opacity: 0.7 }),
-          animate(500)
+        style({ transform: 'translateY(100%)', opacity: 0.7 }),
+        animate(500)
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateY(-100%)', opacity: 0.7 }),
+        animate(500)
       ]),
     ]),
     trigger('panelInLeft', [
       transition('void => *', [
-          style({ transform: 'translateX(-100%)', opacity: 0.7 }),
-          animate(200)
+        style({ transform: 'translateX(-100%)', opacity: 0.7 }),
+        animate(200)
+      ]),
+      transition('* => void', [
+        style({ transform: 'translateX(100%)', opacity: 0.7 }),
+        animate(200)
       ]),
     ])
   ],
@@ -58,7 +67,8 @@ export class ArticleListComponent implements OnInit {
     private filterService: FilterService,
     private toastController: ToastController,
     private changeDetector: ChangeDetectorRef,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private authService: AuthService
     ) {
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
@@ -227,9 +237,6 @@ export class ArticleListComponent implements OnInit {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));
         noNewArticles += newArticles.length;
-        if (newArticles.length > 0) {
-          this.readyArticles.push(...newArticles);
-        }
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);
       await this.loadReadyArticles();
@@ -263,6 +270,19 @@ export class ArticleListComponent implements OnInit {
       this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
+    }
+  }
+
+  async loadFilters() {
+    const res = await this.filterService.loadFilters(this.authService.user.username);
+    if (res) {
+      await this.presentToast('Your changes to the filters have been reset.', 'success');
+      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+      setTimeout(() => {
+        this.filterService.updateFilterSaved(true);
+      }, 200);
+    } else {
+      this.presentToast('Could not reset your filters. Please try again.', 'danger');
     }
   }
 

@@ -30,12 +30,12 @@
       </ion-segment>
     </ion-row>
     <ion-row class="word-list ion-justify-content-start ion-align-items-center">
-      <ion-col class="ion-justify-content-center" *ngFor="let word of wordFilterList; let i = index">
+      <ion-col class="ion-justify-content-center" *ngFor="let word of wordDisplayList; let i = index">
         <ion-badge (click)="removeWord(i)">
           {{ word }}<ion-icon name="close"></ion-icon>
         </ion-badge>
       </ion-col>
-      <ion-col [hidden]="wordFilterList && wordFilterList.length !== 0">
+      <ion-col [hidden]="wordDisplayList && wordDisplayList.length !== 0">
         <p>Add {{ wordFilterType.toLowerCase() }} to {{ segmentValue }} below:</p>
       </ion-col>
     </ion-row>

@@ -1,8 +1,8 @@
 export const Countries = [
     {
         id: 1,
-        label: 'Austrialia',
-        value: 'austrialia'
+        label: 'Australia',
+        value: 'australia'
     },
     {
         id: 2,

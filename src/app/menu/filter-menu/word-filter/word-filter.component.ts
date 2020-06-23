@@ -45,15 +45,11 @@ export class WordFilterComponent implements OnInit {
   }
 
   addWord() {
-    console.log('segment: ', this.segmentValue);
-    console.log('added value: ', this.wordOptionForm.value.wordInput);
-
     this.option[this.segmentValue].push(this.wordOptionForm.value.wordInput);
     this.option.name = this.wordFilterType;
     this.wordOptionForm.reset();
 
     this.wordFilterList = this.option[this.segmentValue];
-    console.log('event emitted: ', this.option);
     this.userOptionChanged.emit(this.option);
     this.ga.eventEmitter('use_filter', 'engagement', `${this.wordFilterType} filter used`);
   }

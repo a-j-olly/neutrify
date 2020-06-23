@@ -33,12 +33,10 @@ export class FilterMenuComponent implements OnDestroy {
     ) {
       this.initOptions();
       this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
-        console.log('filterSaved changed: ', status);
         this.filtersSaved = status;
       });
 
       this.filtersLoadedSubcription$ = this.filterService.getFilterLoadedStatus().subscribe(async (status) => {
-        console.log('filterLoaded changed: ', status);
         this.filtersLoaded = status;
         if (this.filtersSaved && this.filtersLoaded) {
           await this.initOptions();
@@ -52,7 +50,6 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async initOptions() {
-    console.log('initOptions called');
     const filterOptions = this.filterService.filterOptions;
 
     this.toneUserOption = {
@@ -72,15 +69,11 @@ export class FilterMenuComponent implements OnDestroy {
       exclude: filterOptions.keywordsToExclude
     };
 
-    console.log('(filter-menu) init keywordsUserOption: ', this.keywordsUserOption);
 
     this.locationsUserOption = {
       include: filterOptions.locationsToInclude,
       exclude: filterOptions.locationsToExclude
     };
-
-    console.log('(filter-menu) init locationUserOptions: ', this.locationsUserOption);
-
 
     this.topicsUserOption = {
       include: this.filterService.topicsUserOption.include,
@@ -88,11 +81,9 @@ export class FilterMenuComponent implements OnDestroy {
       name: 'Topics'
     };
 
-    // console.log('(filter-menu) topicsUserOption: ', this.topicsUserOption);
   }
 
   async onFilterChange(event) {
-    console.log('filters changed');
     switch (event.name) {
       case 'Attitude':
         this.toneUserOption = event;
@@ -118,7 +109,6 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async buildOptions() {
-    console.log('(buildOptions) previous fitlerOptions', this.filterService.filterOptions);
     const filterOptions: any = this.filterService.buildFilterOptions({
       toneUserOption: this.toneUserOption,
       sourcesUserOption: this.sourcesUserOption,
@@ -127,7 +117,6 @@ export class FilterMenuComponent implements OnDestroy {
       locationsUserOption: this.locationsUserOption
     });
 
-    console.log('(buildOptions) newly built filterOptions', filterOptions);
     await this.filterService.updateFilterOptions(filterOptions);
     this.filterService.updateFilterSaved(false);
   }

@@ -116,7 +116,6 @@ export class ArticleListComponent implements OnInit {
   }
 
   async handleInitDataLoad() {
-    console.log('(article-list) init data load');
     this.updatingArticles = true;
     await this.resetArticles();
 

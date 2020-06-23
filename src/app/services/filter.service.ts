@@ -55,11 +55,7 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    debugger;
     let newFilterOptions = Object.assign({}, inputFilterOptions);
-    console.log('input options: ', newFilterOptions);
-    console.log('current options: ', this.filterOptions);
-    debugger;
 
     if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
       this.filterOptions$.next(this.filterOptions);
@@ -74,7 +70,6 @@ export class FilterService {
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     } else {
-      console.log('(before) this.topicsUserOption: ', this.topicsUserOption);
  
       newFilterOptions.topicsToInclude.forEach(value => {
         const topicGroup = this.findTopicsGroup(value);
@@ -89,17 +84,11 @@ export class FilterService {
           this.topicsUserOption.exclude[topicGroup.toLowerCase()].push(value);
         }
       });
-
-      console.log('(after) this.topicsUserOption: ', this.topicsUserOption);
     }
     
 
     this.filterOptions = newFilterOptions;
-    console.log('updated options: ', this.filterOptions);
-
     this.filterOptions$.next(this.filterOptions);
-    debugger;
-
   }
 
   getFilterOptions() {

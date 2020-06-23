@@ -42,12 +42,8 @@ export class TopicsFilterComponent implements OnInit {
 
   @Input()
   set userOption(val: any) {
-    // console.log('current option: ', this.option, JSON.stringify(this.option));
-    // console.log('input option: ', val, JSON.stringify(val));
-    // console.log('(before) copy of options: ', this.copy);
 
     if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copy)) {
-      // console.log('input is different');
       this.option = Object.assign({}, val);
       this.initTopicView();
     }
@@ -127,7 +123,6 @@ export class TopicsFilterComponent implements OnInit {
   }
 
   configureCheckbox(disableBool, valStr): boolean {
-    console.log('configureCheckbox params: ', disableBool, valStr);
     let res = false;
     if (disableBool) {
       if (this[`${this.segmentValue}dTopics`][valStr].length !== 1 || this[`${this.segmentValue}dTopics`][valStr][0].toLowerCase() !== valStr.toLowerCase()) {
@@ -135,7 +130,6 @@ export class TopicsFilterComponent implements OnInit {
         this[`${this.segmentValue}dTopics`][valStr].push(valStr.toLowerCase());
       }
     } else {
-      console.log(this[`${this.segmentValue}dTopics`][valStr]);
       const topicIndex = this[`${this.segmentValue}dTopics`][valStr].findIndex(topic => topic.toLowerCase() === valStr.toLowerCase());
 
       if (topicIndex !== -1) {
@@ -143,7 +137,7 @@ export class TopicsFilterComponent implements OnInit {
         res = true;
       }
     }
-    debugger;
+
     return res;
   }
 
@@ -175,7 +169,7 @@ export class TopicsFilterComponent implements OnInit {
         hasChanged = this.configureCheckbox(this.sportsDisabled, 'sports');
       }
     }
-    console.log('checkbox has changed: ', hasChanged);
+
     if (hasChanged) {
       this.selectChanged(null);
     }
@@ -193,18 +187,13 @@ export class TopicsFilterComponent implements OnInit {
     if (event && event.target) {
       topics[event.target.name] = event.target.value;
     }
-    console.log('current topics: ', topics);
-    // console.log('changed option: ', this.option[this.segmentValue]);
-    console.log('copied topics: ', this.copy[this.segmentValue]);
 
     if (JSON.stringify(topics) !== JSON.stringify(this.copy[this.segmentValue])) {
-      // console.log('emiting change event');
       this.option[this.segmentValue] = topics;
       this.option.name = 'Topics';
       this.userOptionChanged.emit(this.option);
       
       this.copy[this.segmentValue] = this.buildTopicObj(topics);
-      console.log('(after) copy of options: ', this.copy);
       // this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
     }
   }

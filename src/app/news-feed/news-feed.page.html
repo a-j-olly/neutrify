@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start" *ngIf="authService.loaded">
-        <ion-button (click)="toggleMenu()" *ngIf="!menuStatus || platformWidth < 1080">
+        <ion-button (click)="toggleMenu()" *ngIf="!menuStatus || platformWidth < 720">
           <ion-icon name="options" slot="icon-only"></ion-icon>
         </ion-button>
-      <ion-label class="hide-label" *ngIf="!menuStatus || platformWidth < 1080" color="primary">Filter Menu</ion-label>
+      <ion-label class="hide-label" *ngIf="!menuStatus || platformWidth < 720" color="primary">Filter Menu</ion-label>
     </ion-buttons>
     
     <ion-title>
@@ -19,9 +19,6 @@
 </ion-header>
 
 <ion-content>
-
-  <!-- skeleton  -->
-
   <div id="skeleton-feed" [hidden]="authService.loaded">
     <ion-row class="ion-justify-content-center">
       <ion-skeleton-text animated style="width: 240px; line-height: 16px; margin-top: 5px;"></ion-skeleton-text>

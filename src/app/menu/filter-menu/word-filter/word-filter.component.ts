@@ -8,7 +8,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./word-filter.component.scss'],
 })
 export class WordFilterComponent implements OnInit {
-  private option;
+  public includeList = [];
+  public excludeList = [];
 
   get userOption(): any {
     return this.userOption;
@@ -16,13 +17,19 @@ export class WordFilterComponent implements OnInit {
 
   @Input()
   set userOption(val: any) {
-    this.option = val;
-    this.wordFilterList = this.option[this.segmentValue];
+    const { include, exclude } = val;
+    if (JSON.stringify(include) !== JSON.stringify(this.includeList)) {
+      this.includeList = [...include];
+    } else if (JSON.stringify(exclude) !== JSON.stringify(this.excludeList)) {
+      this.excludeList = [...exclude];
+    }
+
+    this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
   @Input() wordFilterType: string;
 
-  wordFilterList: Array<string>;
+  wordDisplayList: Array<string>;
   wordOptionForm: FormGroup;
   wordListToggle = true;
   segmentValue = 'include';
@@ -33,31 +40,43 @@ export class WordFilterComponent implements OnInit {
   constructor(private ga: GoogleAnalyticsService) { }
 
   ngOnInit() {
-    this.wordFilterList = this.option[this.segmentValue];
-
     this.wordOptionForm = new FormGroup({
       wordInput: new FormControl(null, Validators.required)
     });
+
+    this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
   onSegmentChange() {
-    this.wordFilterList = this.option[this.segmentValue];
+    this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
   addWord() {
-    this.option[this.segmentValue].push(this.wordOptionForm.value.wordInput);
-    this.option.name = this.wordFilterType;
+    const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
+    wordList.push(this.wordOptionForm.value.wordInput);
     this.wordOptionForm.reset();
 
-    this.wordFilterList = this.option[this.segmentValue];
-    this.userOptionChanged.emit(this.option);
+    this.wordDisplayList = wordList;
+
+    this.userOptionChanged.emit({
+      include: this.includeList,
+      exclude: this.excludeList,
+      name: this.wordFilterType
+    });
+
     this.ga.eventEmitter('use_filter', 'engagement', `${this.wordFilterType} filter used`);
   }
 
   removeWord(index) {
-    this.option[this.segmentValue].splice(index, 1);
-    this.option.name = this.wordFilterType;
-    this.wordFilterList = this.option[this.segmentValue];
-    this.userOptionChanged.emit(this.option);
+    const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
+    wordList.splice(index, 1);
+
+    this.wordDisplayList = wordList;
+
+    this.userOptionChanged.emit({
+      include: this.includeList,
+      exclude: this.excludeList,
+      name: this.wordFilterType
+    });
   }
 }

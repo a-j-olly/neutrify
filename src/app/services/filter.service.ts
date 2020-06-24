@@ -10,6 +10,9 @@ export class FilterService {
   filterSaved: boolean = true;
   filterSaved$ = new Subject<boolean>();
 
+  filterLoaded: boolean = true;
+  filterLoaded$ = new Subject<boolean>();
+
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
@@ -19,7 +22,7 @@ export class FilterService {
 
   buildFilterOptions(userOptions) {
 
-    return {
+    return Object.assign({}, {
       id: this.filterOptions.id,
       toneUpperRange: userOptions.toneUserOption.value.upper,
       toneLowerRange: userOptions.toneUserOption.value.lower,
@@ -31,14 +34,13 @@ export class FilterService {
       keywordsToExclude: userOptions.keywordsUserOption.exclude,
       locationsToInclude: userOptions.locationsUserOption.include,
       locationsToExclude: userOptions.locationsUserOption.exclude
-    };
+    });
   }
 
   mergeTopics(optionObj): Array<string> {
     return [
       ...optionObj.arts,
       ...optionObj.games,
-      ...optionObj.news,
       ...optionObj.regional,
       ...optionObj.society,
       ...optionObj.business,
@@ -53,7 +55,12 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    const newFilterOptions = Object.assign(inputFilterOptions);
+    let newFilterOptions = Object.assign({}, inputFilterOptions);
+
+    if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
+      this.filterOptions$.next(this.filterOptions);
+      return;
+    }
 
     if ((typeof newFilterOptions.topicsToInclude) === 'string' || (typeof newFilterOptions.topicsToExclude) === 'string') {
       const parsedInclude = JSON.parse(newFilterOptions.topicsToInclude);
@@ -62,10 +69,26 @@ export class FilterService {
       this.topicsUserOption.exclude = parsedExclude;
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
+    } else {
+ 
+      newFilterOptions.topicsToInclude.forEach(value => {
+        const topicGroup = this.findTopicsGroup(value);
+        if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value)) {
+          this.topicsUserOption.include[topicGroup.toLowerCase()].push(value);
+        }
+      });
+
+      newFilterOptions.topicsToExclude.forEach(value => {
+        const topicGroup = this.findTopicsGroup(value);
+        if (!this.topicsUserOption.exclude[topicGroup.toLowerCase()].includes(value)) {
+          this.topicsUserOption.exclude[topicGroup.toLowerCase()].push(value);
+        }
+      });
     }
     
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
+    this.updateFilterSaved(false);
   }
 
   getFilterOptions() {
@@ -73,11 +96,21 @@ export class FilterService {
   }
 
   async updateFilterSaved(isSaved: boolean) {
+    this.filterSaved = isSaved;
     this.filterSaved$.next(isSaved);
   }
 
   getFilterSavedStatus() {
     return this.filterSaved$.asObservable();
+  }
+
+  async updateFilterLoaded(isLoaded: boolean) {
+    this.filterLoaded = isLoaded;
+    this.filterLoaded$.next(isLoaded);
+  }
+
+  getFilterLoadedStatus() {
+    return this.filterLoaded$.asObservable();
   }
 
   addToFilterOptions(optionType, operation, value) {
@@ -90,7 +123,9 @@ export class FilterService {
       }
 
       const topicGroup = this.findTopicsGroup(value);
-      this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
+        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      }
     }
 
     if (operation === 'include') {
@@ -146,8 +181,9 @@ export class FilterService {
     return req;
   }
 
-  async saveFilters() {
+  async saveFilters(): Promise<boolean> {
     let result: boolean;
+
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
       await this.neutrifyAPI.UpdateConfig(reqBody);
@@ -158,6 +194,25 @@ export class FilterService {
       this.updateFilterSaved(false);
       result = false;
     }
+    return result;
+  }
+
+  async loadFilters(username) {
+    let result: boolean;
+
+    try {
+      const loadedConfig = await this.neutrifyAPI.ConfigByOwner(username, null, null , 1);
+      await this.updateFilterOptions(loadedConfig.items[0]);
+      this.updateFilterSaved(true);
+      this.updateFilterLoaded(true);
+      result = true;
+    } catch (error) {
+      this.updateFilterSaved(false);
+      this.updateFilterLoaded(false);
+      result = false;
+      console.log('Could not load filters. Service returned this error: ', error);
+    }
+
     return result;
   }
 

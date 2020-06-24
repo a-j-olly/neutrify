@@ -142,7 +142,7 @@ export class ArticleListComponent implements OnInit {
         await this.presentToast('Could only find a few articles that fit your criteria. Please remove some filters.', 'primary');
         break;
       }
-
+      
       i++;
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
@@ -229,13 +229,14 @@ export class ArticleListComponent implements OnInit {
 
   async getNextPage(event) {
     await this.loadReadyArticles();
-    
+
     if (this.nextToken && !this.readyArticles.length) {
       this.updatingArticles = true;
       let noNewArticles = 0;
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+        this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);

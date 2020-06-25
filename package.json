@@ -19,7 +19,6 @@
   },
   "private": true,
   "dependencies": {
-    "@admob-plus/ionic": "^0.19.8",
     "@angular/animations": "^9.1.6",
     "@angular/common": "^9.1.6",
     "@angular/compiler": "^9.1.6",
@@ -36,7 +35,6 @@
     "amazon-cognito-identity-js": "^4.3.2",
     "aws-amplify": "^3.0.10",
     "aws-amplify-angular": "^5.0.10",
-    "cordova-admob-plus": "^0.36.0",
     "cordova-android": "^8.1.0",
     "cordova-ios": "^6.0.0",
     "cordova-plugin-add-swift-support": "^2.0.2",

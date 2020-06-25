@@ -27,7 +27,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
-import { AdMob } from '@admob-plus/ionic';
 
 @NgModule({
   declarations: [
@@ -62,7 +61,6 @@ import { AdMob } from '@admob-plus/ionic';
     SplashScreen,
     GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AdMob,
   ],
   bootstrap: [AppComponent]
 })

@@ -236,6 +236,7 @@ export class ArticleListComponent implements OnInit {
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+        this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);

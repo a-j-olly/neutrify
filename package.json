@@ -91,13 +91,13 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-sqlite-storage": {},
       "cordova-admob-plus": {
         "APP_ID_ANDROID": "ca-app-pub-1312649730148564~8339305937",
         "APP_ID_IOS": "ca-app-pub-1312649730148564~8028669961",
         "PLAY_SERVICES_VERSION": "19.0.1"
-      },
-      "cordova-plugin-statusbar": {},
-      "cordova-sqlite-storage": {}
+      }
     },
     "platforms": [
       "android",

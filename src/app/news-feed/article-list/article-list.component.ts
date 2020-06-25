@@ -4,7 +4,7 @@ import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
 import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { add, sub } from 'date-fns';
-import { ToastController, IonContent } from '@ionic/angular';
+import { ToastController, IonContent, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
@@ -38,8 +38,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
-  @Input() platformHeight: number;
-  @Input() displayAd: boolean;
+  private platformHeight: number;
   @ViewChild(IonContent) content: IonContent;
   @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
 
@@ -68,8 +67,13 @@ export class ArticleListComponent implements OnInit {
     private toastController: ToastController,
     private changeDetector: ChangeDetectorRef,
     private ga: GoogleAnalyticsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private platform: Platform
     ) {
+
+    this.platform.ready().then((readySource) => {
+      this.platformHeight = this.platform.height();
+    });
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
@@ -185,17 +189,11 @@ export class ArticleListComponent implements OnInit {
     let result;
 
     if (this.platformHeight <= 360) {
-      result = 7;
-    } else if (this.platformHeight <= 480) {
-      result = 9;
-    } else if (this.platformHeight <= 640) {
       result = 12;
-    } else if (this.platformHeight <= 812) {
-      result = 14;
-    } else if (this.platformHeight <= 1024) {
-      result = 18;
-    } else if (this.platformHeight <= 1366) {
-      result = 25;
+    } else if (this.platformHeight <= 480) {
+      result = 15;
+    } else if (this.platformHeight <= 640) {
+      result = 21;
     } else {
       result = 27;
     }
@@ -228,9 +226,12 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
+    console.log('(getNextPage) params: $event: ', event);
     await this.loadReadyArticles();
 
     if (this.nextToken && !this.readyArticles.length) {
+      console.log('(getNextPage) nextToken === true & this.readyArticles.length is falsey');
+
       this.updatingArticles = true;
       let noNewArticles = 0;
       do {
@@ -239,14 +240,26 @@ export class ArticleListComponent implements OnInit {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-      } while (this.nextToken && noNewArticles < this.displayThreshold);
+      } while (this.nextToken && noNewArticles < this.displayThreshold * 2);
       await this.loadReadyArticles();
 
       this.updatingArticles = false;
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
+
     event.target.complete();
+
+    // if (this.displayArticles.length >= 5 * this.displayThreshold) {
+    //   console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
+    //   console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
+    //   this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
+    // }
+
+    // console.log('(getNextPage) (EXIT) displayArticles.length: ', this.displayArticles.length);
+    // console.log('(getNextPage) (EXIT) readyArticles.length: ', this.readyArticles.length);
+    console.log('(getNextPage) completed');
+
   }
 
   async listArticles(limit?, nextToken?) {
@@ -288,17 +301,31 @@ export class ArticleListComponent implements OnInit {
   }
 
   async loadReadyArticles() {
+    console.log('(loadReadyArticles) (BEGIN) displayThreshold: ', this.displayThreshold);
+    console.log('(loadReadyArticles) (BEGIN) displayArticles.length: ', this.displayArticles.length);
+    console.log('(loadReadyArticles) (BEGIN) readyArticles.length: ', this.readyArticles.length);
+
     if (this.readyArticles.length >= this.displayThreshold) {
+      console.log('(loadReadyArticles) readyArticles >= this.displayThreshold');
       this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
       this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     } else if (this.readyArticles.length) {
+      console.log('(loadReadyArticles) readyArticles is truthy');
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
     }
 
+    console.log('(loadReadyArticles) (AFTER LOAD) displayArticles.length: ', this.displayArticles.length);
+    console.log('(loadReadyArticles) (AFTER LOAD) readyArticles.length: ', this.readyArticles.length);
+
     if (this.displayArticles.length >= 3 * this.displayThreshold) {
+      console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
+      console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
       this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
     }
+    
+    console.log('(loadReadyArticles) (EXIT) displayArticles.length: ', this.displayArticles.length);
+    console.log('(loadReadyArticles) (EXIT) readyArticles.length: ', this.readyArticles.length);
   }
 
   async presentToast(message, color) {

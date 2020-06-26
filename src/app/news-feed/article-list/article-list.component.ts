@@ -316,7 +316,11 @@ export class ArticleListComponent implements OnInit {
     if (this.displayArticles.length >= 3 * this.displayThreshold) {
       console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
       console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
-      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
+
+      for (let i = 0; i < noNewArticles; i++) {
+        this.displayArticles.shift();
+      }
+      // this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
     }
     
     console.log('(loadReadyArticles) (EXIT) displayArticles.length: ', this.displayArticles.length);

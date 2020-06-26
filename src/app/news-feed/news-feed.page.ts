@@ -53,7 +53,7 @@ export class NewsFeedPage {
   }
 
   playAds() {
-    if (environment.production) {
+    if (environment.production && !this.platform.is('ios')) {
       this.admob.banner.show({ id: {
         ios: 'ca-app-pub-1312649730148564/2740135529',
         android: 'ca-app-pub-1312649730148564/2037976682'
@@ -70,7 +70,7 @@ export class NewsFeedPage {
 
   pauseAds() {
     if (this.platformSource !== 'dom') {
-      if (environment.production) {
+      if (environment.production && !this.platform.is('ios')) {
         this.admob.banner.hide({
           ios: 'ca-app-pub-1312649730148564/2740135529',
           android: 'ca-app-pub-1312649730148564/2037976682'

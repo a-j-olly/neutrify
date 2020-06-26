@@ -4,6 +4,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-main-menu',
@@ -21,7 +22,8 @@ export class MainMenuComponent implements OnInit {
     private menu: MenuController,
     private ga: GoogleAnalyticsService,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private inAppBrowser: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -132,6 +134,10 @@ export class MainMenuComponent implements OnInit {
   async enableMenus() {
     await this.menu.enable(true, 'filterMenu');
     await this.menu.enable(true, 'mainMenu');
+  }
+
+  async openPage(url: string) {
+    this.inAppBrowser.create(url);
   }
 
   async presentToast(message, color) {

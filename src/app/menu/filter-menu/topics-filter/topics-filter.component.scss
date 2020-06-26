@@ -20,6 +20,24 @@ p {
     cursor: pointer;
 };
 
+ion-segment-button {
+    &.primary {
+        color: var(--ion-color-primary);
+        &:hover {
+            background: rgba(56, 128, 255, 0.2);
+            color: var(--ion-color-primary);
+        }
+    }
+
+    &.secondary {
+        color: var(--ion-color-danger);
+        &:hover {
+            background: rgba(245, 61, 61, 0.2);
+            color: var(--ion-color-danger);
+        }
+    }
+};
+
 .tooltip {
     top: 3px;
     margin-left: 0px;

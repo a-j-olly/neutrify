@@ -114,12 +114,13 @@ export class FilterService {
   }
 
   addToFilterOptions(optionType, operation, value) {
-    if (optionType === 'topics') {
+    let newFilterOptions = Object.assign({}, this.filterOptions);
 
+    if (optionType === 'topics') {
       if (operation === 'include') {
-        this.filterOptions.topicsToInclude.push(value.toLowerCase());
+        newFilterOptions.topicsToInclude.push(value.toLowerCase());
       } else {
-        this.filterOptions.topicsToExclude.push(value.toLowerCase());
+        newFilterOptions.topicsToExclude.push(value.toLowerCase());
       }
 
       const topicGroup = this.findTopicsGroup(value);
@@ -130,24 +131,25 @@ export class FilterService {
 
     if (operation === 'include') {
       if (optionType === 'keywords') {
-        this.filterOptions.keywordsToInclude.push(value.toLowerCase());
+        newFilterOptions.keywordsToInclude.push(value.toLowerCase());
       } else if (optionType === 'locations') {
-        this.filterOptions.locationsToInclude.push(value.toLowerCase());
+        newFilterOptions.locationsToInclude.push(value.toLowerCase());
       } else if (optionType === 'sources') {
-        this.filterOptions.sourcesToInclude.push(value.toLowerCase());
+        newFilterOptions.sourcesToInclude.push(value.toLowerCase());
       }
     } else {
       if (optionType === 'keywords') {
-        this.filterOptions.keywordsToExclude.push(value.toLowerCase());
+        newFilterOptions.keywordsToExclude.push(value.toLowerCase());
       } else if (optionType === 'locations') {
-        this.filterOptions.locationsToExclude.push(value.toLowerCase());
+        newFilterOptions.locationsToExclude.push(value.toLowerCase());
       }  else if (optionType === 'sources') {
-        this.filterOptions.sourcesToExclude.push(value.toLowerCase());
+        newFilterOptions.sourcesToExclude.push(value.toLowerCase());
       }
     }
     
-    this.updateFilterSaved(false);
+    this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
+    this.updateFilterSaved(false);
   }
 
   findTopicsGroup(value: string) {
@@ -174,11 +176,19 @@ export class FilterService {
   }
 
   marshalRequest(): UpdateConfigInput {
-    const req = this.filterOptions;
-    req.topicsToInclude = JSON.stringify(this.topicsUserOption.include);
-    req.topicsToExclude = JSON.stringify(this.topicsUserOption.exclude);
-
-    return req;
+    return {
+      id: this.filterOptions.id,
+      keywordsToInclude: this.filterOptions.keywordsToInclude,
+      keywordsToExclude: this.filterOptions.keywordsToExclude,
+      toneUpperRange: this.filterOptions.toneUpperRange,
+      toneLowerRange: this.filterOptions.toneLowerRange,
+      sourcesToInclude: this.filterOptions.sourcesToInclude,
+      sourcesToExclude: this.filterOptions.sourcesToExclude,
+      locationsToInclude: this.filterOptions.locationsToInclude,
+      locationsToExclude: this.filterOptions.locationsToExclude,
+      topicsToInclude: JSON.stringify(this.topicsUserOption.include),
+      topicsToExclude: JSON.stringify(this.topicsUserOption.exclude)
+    };
   }
 
   async saveFilters(): Promise<boolean> {
@@ -186,11 +196,11 @@ export class FilterService {
 
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
+      console.log(reqBody);
       await this.neutrifyAPI.UpdateConfig(reqBody);
       this.updateFilterSaved(true);
       result = true;
     } catch (e) {
-      console.log('Could not save filters. Service returned this error: ', e);
       this.updateFilterSaved(false);
       result = false;
     }

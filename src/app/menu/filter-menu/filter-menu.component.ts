@@ -22,12 +22,16 @@ export class FilterMenuComponent implements OnDestroy {
 
   private filtersLoadedSubcription$: Subscription;
 
+  private filterOptions
+  private filterSubcription$: Subscription;
+
   constructor(
     private filterService: FilterService,
     public authService: AuthService,
     private toastController: ToastController,
     private ga: GoogleAnalyticsService
     ) {
+      this.filterOptions = this.filterService.filterOptions;
       this.initOptions();
       this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
         this.filtersSaved = status;
@@ -38,6 +42,11 @@ export class FilterMenuComponent implements OnDestroy {
           await this.initOptions();
         }
       });
+
+      this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (filters) => {
+        this.filterOptions = filters;
+        this.initOptions();
+      });
     }
 
   ngOnDestroy() {
@@ -46,29 +55,28 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async initOptions() {
-    const filterOptions = this.filterService.filterOptions;
 
     this.toneUserOption = {
       value: {
-        lower: filterOptions.toneLowerRange,
-        upper: filterOptions.toneUpperRange
+        lower: this.filterOptions.toneLowerRange,
+        upper: this.filterOptions.toneUpperRange
       }
     };
 
     this.sourcesUserOption = {
-      include: [...filterOptions.sourcesToInclude],
-      exclude: [...filterOptions.sourcesToExclude]
+      include: [...this.filterOptions.sourcesToInclude],
+      exclude: [...this.filterOptions.sourcesToExclude]
     };
 
     this.keywordsUserOption = {
-      include: [...filterOptions.keywordsToInclude],
-      exclude: [...filterOptions.keywordsToExclude]
+      include: [...this.filterOptions.keywordsToInclude],
+      exclude: [...this.filterOptions.keywordsToExclude]
     };
 
 
     this.locationsUserOption = {
-      include: [...filterOptions.locationsToInclude],
-      exclude: [...filterOptions.locationsToExclude]
+      include: [...this.filterOptions.locationsToInclude],
+      exclude: [...this.filterOptions.locationsToExclude]
     };
 
     this.topicsUserOption = {

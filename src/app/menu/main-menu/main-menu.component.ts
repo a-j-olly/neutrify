@@ -48,7 +48,7 @@ export class MainMenuComponent implements OnInit {
   async presentAlertConfirmSignout() {
     const alert = await this.alertController.create({
       message: 'You are about to sign out. Would you like to continue?',
-      header: 'Signout?',
+      header: 'Sign Out?',
       buttons: [
         {
           text: 'Cancel',
@@ -80,7 +80,7 @@ export class MainMenuComponent implements OnInit {
   async presentAlertConfirmDelete() {
     const alert = await this.alertController.create({
       header: 'Delete Account?',
-      message: 'You are about to delete your account. This cannot be reversed. Enter DELETE below to confirm your decision.',
+      message: 'You are about to delete your account. This cannot be reversed! Enter DELETE below to confirm your decision.',
       inputs: [
         {
           name: 'delete',

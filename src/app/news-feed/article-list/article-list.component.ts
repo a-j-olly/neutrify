@@ -227,9 +227,9 @@ export class ArticleListComponent implements OnInit {
 
   async getNextPage(event) {
     console.log('(getNextPage) params: $event: ', event);
-    await this.loadReadyArticles();
+    // await this.loadReadyArticles();
 
-    if (this.nextToken && !this.readyArticles.length) {
+    if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
       console.log('(getNextPage) nextToken === true & this.readyArticles.length is falsey');
 
       this.updatingArticles = true;
@@ -240,26 +240,17 @@ export class ArticleListComponent implements OnInit {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-      } while (this.nextToken && noNewArticles < this.displayThreshold * 2);
-      await this.loadReadyArticles();
+      } while (this.nextToken && noNewArticles < this.displayThreshold);
+      // await this.loadReadyArticles();
 
       this.updatingArticles = false;
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
 
+    await this.loadReadyArticles();
     event.target.complete();
-
-    // if (this.displayArticles.length >= 5 * this.displayThreshold) {
-    //   console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
-    //   console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
-    //   this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
-    // }
-
-    // console.log('(getNextPage) (EXIT) displayArticles.length: ', this.displayArticles.length);
-    // console.log('(getNextPage) (EXIT) readyArticles.length: ', this.readyArticles.length);
     console.log('(getNextPage) completed');
-
   }
 
   async listArticles(limit?, nextToken?) {
@@ -301,27 +292,31 @@ export class ArticleListComponent implements OnInit {
   }
 
   async loadReadyArticles() {
+    let noNewArticles: number;
     console.log('(loadReadyArticles) (BEGIN) displayThreshold: ', this.displayThreshold);
     console.log('(loadReadyArticles) (BEGIN) displayArticles.length: ', this.displayArticles.length);
     console.log('(loadReadyArticles) (BEGIN) readyArticles.length: ', this.readyArticles.length);
 
     if (this.readyArticles.length >= this.displayThreshold) {
       console.log('(loadReadyArticles) readyArticles >= this.displayThreshold');
+      noNewArticles = this.displayThreshold;
       this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
       this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     } else if (this.readyArticles.length) {
       console.log('(loadReadyArticles) readyArticles is truthy');
+      noNewArticles = this.readyArticles.length;
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
     }
 
+    console.log('(loadReadyArticles) (AFTER LOAD) noNewArticles: ', noNewArticles);
     console.log('(loadReadyArticles) (AFTER LOAD) displayArticles.length: ', this.displayArticles.length);
     console.log('(loadReadyArticles) (AFTER LOAD) readyArticles.length: ', this.readyArticles.length);
 
     if (this.displayArticles.length >= 3 * this.displayThreshold) {
       console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
       console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
-      this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
+      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
     }
     
     console.log('(loadReadyArticles) (EXIT) displayArticles.length: ', this.displayArticles.length);

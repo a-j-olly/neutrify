@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { MustMatch } from 'src/app/helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
 import { ToastController } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-create-account',
@@ -30,7 +31,8 @@ export class CreateAccountComponent implements OnInit {
     public authService: AuthService,
     private toastController: ToastController,
     private router: Router,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private inAppBrowser: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -148,6 +150,10 @@ export class CreateAccountComponent implements OnInit {
   navToSignIn() {
     this.signUpForm.reset();
     this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  openPage(url: string) {
+    this.inAppBrowser.create(url);
   }
 }
 

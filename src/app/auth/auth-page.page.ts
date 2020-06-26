@@ -1,21 +1,18 @@
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-auth-page',
   templateUrl: './auth-page.page.html',
   styleUrls: ['./auth-page.page.scss'],
 })
-export class AuthPage implements OnInit {
+export class AuthPage {
 
   constructor(
     private router: Router,
     private menuCtrl: MenuController
     ) { }
-
-  ngOnInit() {
-  }
 
   ionViewWillEnter() {
     setTimeout(() => {

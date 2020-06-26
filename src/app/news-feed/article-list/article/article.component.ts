@@ -6,6 +6,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { ModalController, PopoverController, IonSlides } from '@ionic/angular';
 import { format, formatDistanceToNow } from 'date-fns';
 import { enGB } from 'date-fns/locale';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-article',
@@ -44,7 +45,8 @@ export class ArticleComponent implements OnInit {
   constructor(
     private modalController: ModalController,
     private popoverController: PopoverController,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private inAppBrowser: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -95,7 +97,7 @@ export class ArticleComponent implements OnInit {
   }
 
   goToArticle() {
-    window.open(this.article.url, '_blank');
+    this.inAppBrowser.create(this.article.url);
     this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
   }
 

@@ -22,7 +22,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <platform name="android">
-        <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application/activity[@android:label='@string/activity_name']">
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application/activity[@android:name='MainActivity']">
             <activity android:theme="@android:style/Theme.Translucent" />
         </edit-config>
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">

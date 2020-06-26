@@ -22,11 +22,13 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
+import { AdMob } from '@admob-plus/ionic';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
     SplashScreen,
     GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    AdMob,
+    InAppBrowser
   ],
   bootstrap: [AppComponent]
 })

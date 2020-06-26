@@ -99,8 +99,7 @@ export class ArticleListComponent implements OnInit {
 
   startTimer() {
     this.timerObj = setTimeout(() => {
-      this.timeLeft -= 1;
-
+      this.timeLeft -= 1;      
       if (this.timeLeft > 0) {
         this.startTimer();
       } else {
@@ -226,11 +225,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
-    console.log('(getNextPage) params: $event: ', event);
-    // await this.loadReadyArticles();
-
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-      console.log('(getNextPage) nextToken === true & this.readyArticles.length is falsey');
 
       this.updatingArticles = true;
       let noNewArticles = 0;
@@ -241,7 +236,6 @@ export class ArticleListComponent implements OnInit {
         noNewArticles += newArticles.length;
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);
-      // await this.loadReadyArticles();
 
       this.updatingArticles = false;
     } else if (!this.nextToken) {
@@ -250,7 +244,6 @@ export class ArticleListComponent implements OnInit {
 
     await this.loadReadyArticles();
     event.target.complete();
-    console.log('(getNextPage) completed');
   }
 
   async listArticles(limit?, nextToken?) {
@@ -293,38 +286,21 @@ export class ArticleListComponent implements OnInit {
 
   async loadReadyArticles() {
     let noNewArticles: number;
-    console.log('(loadReadyArticles) (BEGIN) displayThreshold: ', this.displayThreshold);
-    console.log('(loadReadyArticles) (BEGIN) displayArticles.length: ', this.displayArticles.length);
-    console.log('(loadReadyArticles) (BEGIN) readyArticles.length: ', this.readyArticles.length);
 
     if (this.readyArticles.length >= this.displayThreshold) {
-      console.log('(loadReadyArticles) readyArticles >= this.displayThreshold');
       noNewArticles = this.displayThreshold;
       this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
       this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     } else if (this.readyArticles.length) {
-      console.log('(loadReadyArticles) readyArticles is truthy');
       noNewArticles = this.readyArticles.length;
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
     }
 
-    console.log('(loadReadyArticles) (AFTER LOAD) noNewArticles: ', noNewArticles);
-    console.log('(loadReadyArticles) (AFTER LOAD) displayArticles.length: ', this.displayArticles.length);
-    console.log('(loadReadyArticles) (AFTER LOAD) readyArticles.length: ', this.readyArticles.length);
-
-    if (this.displayArticles.length >= 3 * this.displayThreshold) {
-      console.log('(loadReadyArticles) this.displayArticles.length >= 3 * this.displayThreshold');
-      console.log('(loadReadyArticles)', this.displayArticles.length, ' >= ', 3 * this.displayThreshold);
-
-      for (let i = 0; i < noNewArticles; i++) {
-        this.displayArticles.shift();
-      }
-      // this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
+    if (this.displayArticles.length >= 3 * this.displayThreshold && !this.platform.is('ios')) {
+      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
     }
     
-    console.log('(loadReadyArticles) (EXIT) displayArticles.length: ', this.displayArticles.length);
-    console.log('(loadReadyArticles) (EXIT) readyArticles.length: ', this.readyArticles.length);
   }
 
   async presentToast(message, color) {

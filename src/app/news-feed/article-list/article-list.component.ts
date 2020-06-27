@@ -192,7 +192,7 @@ export class ArticleListComponent implements OnInit {
     let yOffset = document.getElementById(id).offsetTop;
 
     if (!this.platform.is('ios')) {
-      yOffset =+ 20;
+      yOffset = yOffset + 20;
     }
 
     await this.content.scrollToPoint(0, yOffset, 500);

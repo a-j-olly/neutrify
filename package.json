@@ -10,7 +10,7 @@
     "build-prod": "ng build --prod",
     "build-android": "ionic cordova build android -c=dev",
     "build-ios": "ionic cordova build ios -c=dev",
-    "build-android-prod": "ionic cordova build android -c=mob",
+    "build-android-prod": "ionic cordova build android -c=mob --release",
     "build-ios-prod": "ionic cordova build ios -c=mob",
     "analyse-bundle": "ng build --prod --named-chunks --stats-json && webpack-bundle-analyzer www/stats-es2015.json",
     "test": "ng test",

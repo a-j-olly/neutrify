@@ -1,20 +1,20 @@
 import { Subscription } from 'rxjs';
-import { ArticleComponent } from './article/article.component';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
-import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { add, sub } from 'date-fns';
 import { ToastController, IonContent, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { formatDistanceToNow } from 'date-fns';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   animations: [
-    trigger('panelInBottom', [
+    trigger('btnInBottom', [
       transition('void => *', [
         style({ transform: 'translateY(100%)', opacity: 0.7 }),
         animate(500)
@@ -24,7 +24,7 @@ import { AuthService } from 'src/app/services/auth.service';
         animate(500)
       ]),
     ]),
-    trigger('panelInLeft', [
+    trigger('btnInLeft', [
       transition('void => *', [
         style({ transform: 'translateX(-100%)', opacity: 0.7 }),
         animate(200)
@@ -40,9 +40,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ArticleListComponent implements OnInit {
   private platformHeight: number;
   @ViewChild(IonContent) content: IonContent;
-  @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
 
-  openArticleId: string;
+  public openArticleIndex: number;
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
   public showRefreshFab = false;
@@ -120,6 +119,19 @@ export class ArticleListComponent implements OnInit {
     clearInterval(this.timerObj);
   }
 
+  getArticleAge(date: string) {
+    const diff = new Date().valueOf() - new Date(date).valueOf();
+    const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
+    let age: string;
+    if (ageInMinutes <= 15) {
+      age = 'Just Now';
+    } else {
+      age = `${formatDistanceToNow(new Date(date))} ago`;
+    }
+
+    return age;
+  }
+
   async resetArticles() {
     this.nextToken = null;
     this.readyArticles = new Array();
@@ -160,28 +172,30 @@ export class ArticleListComponent implements OnInit {
     }
   }
 
-  async handleArticleToggle(status, id) {
-    if (status) {
-      if (this.openArticleId) {
-        const article = this.articles.find((a: ArticleComponent) => {
-          return a.id === this.openArticleId;
-        });
-        article.isCardExpanded = false;
-        this.openArticleId = id.toString();
-      } else {
-        this.openArticleId = id.toString();
+  async onArticleSelected(index: number) {
+
+    if (this.openArticleIndex !== undefined) {
+      if (this.openArticleIndex == index) {
+        this.openArticleIndex = undefined;
+        return;
       }
-    } else {
-      this.openArticleId = null;
+
+      this.openArticleIndex = undefined;
     }
 
+    this.openArticleIndex = index;
     this.changeDetector.detectChanges();
-    await this.scrollTo(id.toString());
+    await this.scrollTo(index.toString());
   }
 
   async scrollTo(id: string) {
-    const yOffset = document.getElementById(id).offsetTop;
-    await this.content.scrollToPoint(0, yOffset, 200);
+    let yOffset = document.getElementById(id).offsetTop;
+
+    if (!this.platform.is('ios')) {
+      yOffset =+ 20;
+    }
+
+    await this.content.scrollToPoint(0, yOffset, 500);
   }
 
   setDisplayThreshold(): number {

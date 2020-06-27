@@ -34,16 +34,13 @@
         </div>
     
         <div class="form-item">
-          <ion-row class="ion-justify-content-center">
-            <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <span *ngIf="invalidDetails">
-              <ion-text color="danger">Sign in details are incorrect. Please try again.</ion-text>
-            </span>
-          </ion-row>
+          <ion-item lines="none">
+            <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
+          </ion-item>
+
+          <span *ngIf="invalidDetails">
+            <ion-text color="danger">Sign in details are incorrect. Please try again.</ion-text>
+          </span>
         </div>
       </div>
     </form>
@@ -67,4 +64,3 @@
     <ion-spinner class="spinner" name="crescent" ></ion-spinner>
   </div>
 </ion-content>
-

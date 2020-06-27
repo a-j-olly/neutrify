@@ -71,7 +71,7 @@ export class ArticleComponent implements OnInit {
   }
 
   goToArticle() {
-    this.inAppBrowser.create(this.article.url);
+    this.inAppBrowser.create(encodeURI(this.article.url), '_system');
     this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
   }
 

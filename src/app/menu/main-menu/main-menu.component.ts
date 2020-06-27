@@ -137,7 +137,7 @@ export class MainMenuComponent implements OnInit {
   }
 
   async openPage(url: string) {
-    this.inAppBrowser.create(url);
+    this.inAppBrowser.create(encodeURI(url), '_system');
   }
 
   async presentToast(message, color) {

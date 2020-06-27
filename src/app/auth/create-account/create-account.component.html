@@ -56,8 +56,8 @@
             <ion-checkbox class="form-control ion-tappable" slot="start" formControlName="privacyConsent" required></ion-checkbox>
             <ion-label class="ion-text-wrap">
               <p>
-                By ticking this box you accept the <a style="text-decoration: none;" href="#" (click)="openPage('https://neutrify.news/home/terms-conditions/')">terms & conditions</a>, 
-                our <a style="text-decoration: none;" href="#" (click)="openPage('https://neutrify.news/home/privacy-policy')">privacy policy</a> 
+                By ticking this box you accept the <a style="text-decoration: none; cursor: pointer;" (click)="openPage('https://neutrify.news/home/terms-conditions/')">terms & conditions</a>, 
+                our <a style="text-decoration: none; cursor: pointer;" (click)="openPage('https://neutrify.news/home/privacy-policy')">privacy policy</a> 
                 and allow us to use your email address for account management purposes.
               </p>
             </ion-label>
@@ -70,16 +70,13 @@
         </div>
     
         <div class="form-item">
-          <ion-row class="ion-justify-content-center">
-            <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.signUpForm.invalid || loading" (keydown.enter)="signUp()">Create account</button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <span *ngIf="invalidDetails">
-              <ion-text color="danger">Could not sign you up. Try a different email.</ion-text>
-            </span>
-          </ion-row>
+          <ion-item lines="none">
+            <button class="form-control submit-button" type="submit" [disabled]="this.signUpForm.invalid || loading" (keydown.enter)="signUp()">Create account</button>
+          </ion-item>
+
+          <span *ngIf="invalidDetails">
+            <ion-text color="danger">Could not sign you up. Try a different email.</ion-text>
+          </span>
         </div>
       </div>
     </form>
@@ -132,16 +129,13 @@
         </div>
     
         <div class="form-item">
-          <ion-row class="ion-justify-content-center">
-            <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Verify email</button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <span *ngIf="invalidDetails">
-              <ion-text color="danger">Could not verify your email. Make sure you copied the correct code.</ion-text>
-            </span>
-          </ion-row>
+          <ion-item lines="none">
+            <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Verify email</button>
+          </ion-item>
+
+          <span *ngIf="invalidDetails">
+            <ion-text color="danger">Could not verify your email. Make sure you copied the correct code.</ion-text>
+          </span>
         </div>
       </div>
     </form>

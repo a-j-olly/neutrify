@@ -33,3 +33,67 @@ h2 {
         max-height: 720px;
     }
 }
+
+ion-card {
+    padding: 5px 5px 0px 5px;
+    margin: 5px 2px;
+    min-width: 270px;
+    max-width: 1080px;
+
+    @media screen and (min-width: 720px) {
+        max-height: 720px;
+    }
+    max-height: 480px;
+
+    ion-icon {
+        font-size: 24px;
+        &:hover {
+            cursor: pointer;
+        };
+    };
+
+    .title {
+        margin: 0px;
+        padding: 0px;
+
+        &:hover {
+            cursor: pointer;
+        };
+
+        h1 {
+            font-size: 18px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            
+            &.two-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2; /* number of lines to show */
+                line-height: 20px;        /* fallback */
+                max-height: 40px;       /* fallback */
+            };
+
+            &.four-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4; /* number of lines to show */
+                line-height: 20px;        /* fallback */
+                max-height: 80px;       /* fallback */
+            };
+        };
+    };
+
+    .footer {
+        ion-label {
+            font-size: 14px;
+            color: #999;
+            &:hover {
+                cursor: pointer;
+            };
+        };
+    };
+};

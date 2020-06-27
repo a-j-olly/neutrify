@@ -47,6 +47,8 @@ export class SignInComponent implements OnInit {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
+        this.invalidDetails = false;
+        this.signInForm.reset();
         this.storage.get('ion_did_quick_start').then(async (result) => {
           if (result) {
             await this.router.navigateByUrl('/app', { replaceUrl: true });
@@ -54,17 +56,11 @@ export class SignInComponent implements OnInit {
             await this.presentAlertConfirm();
           }
         });
-        this.invalidDetails = false;
-        this.signInForm.reset();
-        this.signInForm.enable();
-        this.loading = false;
-      } else if (res === 'false') {
-        this.invalidDetails = true;
-        this.signInForm.reset();
         this.signInForm.enable();
         this.loading = false;
       } else {
-        this.signInForm.reset();
+        this.invalidDetails = true;
+        this.signInForm.controls.password.reset();
         this.signInForm.enable();
         this.loading = false;
       }

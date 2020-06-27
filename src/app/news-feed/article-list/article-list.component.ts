@@ -1,20 +1,20 @@
 import { Subscription } from 'rxjs';
-import { ArticleComponent } from './article/article.component';
 import { FilterService } from './../../services/filter.service';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './../../services/neutrify-api.service';
-import { Component, OnInit, ViewChildren, QueryList, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { add, sub } from 'date-fns';
-import { ToastController, IonContent } from '@ionic/angular';
+import { ToastController, IonContent, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { formatDistanceToNow } from 'date-fns';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   animations: [
-    trigger('panelInBottom', [
+    trigger('btnInBottom', [
       transition('void => *', [
         style({ transform: 'translateY(100%)', opacity: 0.7 }),
         animate(500)
@@ -24,7 +24,7 @@ import { AuthService } from 'src/app/services/auth.service';
         animate(500)
       ]),
     ]),
-    trigger('panelInLeft', [
+    trigger('btnInLeft', [
       transition('void => *', [
         style({ transform: 'translateX(-100%)', opacity: 0.7 }),
         animate(200)
@@ -38,12 +38,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
-  @Input() platformHeight: number;
-  @Input() displayAd: boolean;
+  private platformHeight: number;
   @ViewChild(IonContent) content: IonContent;
-  @ViewChildren(ArticleComponent) articles !: QueryList<ArticleComponent>;
 
-  openArticleId: string;
+  public openArticleIndex: number;
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
   public showRefreshFab = false;
@@ -68,8 +66,13 @@ export class ArticleListComponent implements OnInit {
     private toastController: ToastController,
     private changeDetector: ChangeDetectorRef,
     private ga: GoogleAnalyticsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private platform: Platform
     ) {
+
+    this.platform.ready().then((readySource) => {
+      this.platformHeight = this.platform.height();
+    });
 
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
@@ -95,8 +98,7 @@ export class ArticleListComponent implements OnInit {
 
   startTimer() {
     this.timerObj = setTimeout(() => {
-      this.timeLeft -= 1;
-
+      this.timeLeft -= 1;      
       if (this.timeLeft > 0) {
         this.startTimer();
       } else {
@@ -115,6 +117,19 @@ export class ArticleListComponent implements OnInit {
   stopTimer() {
     clearTimeout(this.timerObj);
     clearInterval(this.timerObj);
+  }
+
+  getArticleAge(date: string) {
+    const diff = new Date().valueOf() - new Date(date).valueOf();
+    const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
+    let age: string;
+    if (ageInMinutes <= 15) {
+      age = 'Just Now';
+    } else {
+      age = `${formatDistanceToNow(new Date(date))} ago`;
+    }
+
+    return age;
   }
 
   async resetArticles() {
@@ -157,45 +172,41 @@ export class ArticleListComponent implements OnInit {
     }
   }
 
-  async handleArticleToggle(status, id) {
-    if (status) {
-      if (this.openArticleId) {
-        const article = this.articles.find((a: ArticleComponent) => {
-          return a.id === this.openArticleId;
-        });
-        article.isCardExpanded = false;
-        this.openArticleId = id.toString();
-      } else {
-        this.openArticleId = id.toString();
+  async onArticleSelected(index: number) {
+
+    if (this.openArticleIndex !== undefined) {
+      if (this.openArticleIndex == index) {
+        this.openArticleIndex = undefined;
+        return;
       }
-    } else {
-      this.openArticleId = null;
+
+      this.openArticleIndex = undefined;
     }
 
+    this.openArticleIndex = index;
     this.changeDetector.detectChanges();
-    await this.scrollTo(id.toString());
+    await this.scrollTo(index.toString());
   }
 
   async scrollTo(id: string) {
-    const yOffset = document.getElementById(id).offsetTop;
-    await this.content.scrollToPoint(0, yOffset, 200);
+    let yOffset = document.getElementById(id).offsetTop;
+
+    if (!this.platform.is('ios')) {
+      yOffset =+ 20;
+    }
+
+    await this.content.scrollToPoint(0, yOffset, 500);
   }
 
   setDisplayThreshold(): number {
     let result;
 
     if (this.platformHeight <= 360) {
-      result = 7;
-    } else if (this.platformHeight <= 480) {
-      result = 9;
-    } else if (this.platformHeight <= 640) {
       result = 12;
-    } else if (this.platformHeight <= 812) {
-      result = 14;
-    } else if (this.platformHeight <= 1024) {
-      result = 18;
-    } else if (this.platformHeight <= 1366) {
-      result = 25;
+    } else if (this.platformHeight <= 480) {
+      result = 15;
+    } else if (this.platformHeight <= 640) {
+      result = 21;
     } else {
       result = 27;
     }
@@ -228,9 +239,8 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
-    await this.loadReadyArticles();
+    if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
 
-    if (this.nextToken && !this.readyArticles.length) {
       this.updatingArticles = true;
       let noNewArticles = 0;
       do {
@@ -240,12 +250,13 @@ export class ArticleListComponent implements OnInit {
         noNewArticles += newArticles.length;
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);
-      await this.loadReadyArticles();
 
       this.updatingArticles = false;
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
+
+    await this.loadReadyArticles();
     event.target.complete();
   }
 
@@ -288,17 +299,22 @@ export class ArticleListComponent implements OnInit {
   }
 
   async loadReadyArticles() {
+    let noNewArticles: number;
+
     if (this.readyArticles.length >= this.displayThreshold) {
+      noNewArticles = this.displayThreshold;
       this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
       this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     } else if (this.readyArticles.length) {
+      noNewArticles = this.readyArticles.length;
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
     }
 
-    if (this.displayArticles.length >= 3 * this.displayThreshold) {
-      this.displayArticles = this.displayArticles.slice((this.displayThreshold - 1));
+    if (this.displayArticles.length >= 3 * this.displayThreshold && !this.platform.is('ios')) {
+      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
     }
+    
   }
 
   async presentToast(message, color) {

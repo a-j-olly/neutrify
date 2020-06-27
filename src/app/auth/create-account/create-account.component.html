@@ -56,8 +56,8 @@
             <ion-checkbox class="form-control ion-tappable" slot="start" formControlName="privacyConsent" required></ion-checkbox>
             <ion-label class="ion-text-wrap">
               <p>
-                By ticking this box you accept the <a style="text-decoration: none;" href="https://neutrify.news/home/terms-conditions/" target="_blank">terms & conditions</a>, 
-                our <a style="text-decoration: none;" href="https://neutrify.news/home/privacy-policy/" target="_blank">privacy policy</a> 
+                By ticking this box you accept the <a style="text-decoration: none;" href="#" (click)="openPage('https://neutrify.news/home/terms-conditions/')">terms & conditions</a>, 
+                our <a style="text-decoration: none;" href="#" (click)="openPage('https://neutrify.news/home/privacy-policy')">privacy policy</a> 
                 and allow us to use your email address for account management purposes.
               </p>
             </ion-label>
@@ -134,7 +134,7 @@
         <div class="form-item">
           <ion-row class="ion-justify-content-center">
             <ion-col size="12">
-              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Confirm email</button>
+              <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Verify email</button>
             </ion-col>
           </ion-row>
           <ion-row>

@@ -20,10 +20,10 @@
   <div [hidden]="!showFilter">
     <ion-row class="ion-justify-content-center">
       <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
-        <ion-segment-button value="include">
+        <ion-segment-button class="primary" value="include">
           <ion-label>Include</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="exclude">
+        <ion-segment-button class="secondary" value="exclude">
           <ion-label>Exclude</ion-label>
         </ion-segment-button>
       </ion-segment>

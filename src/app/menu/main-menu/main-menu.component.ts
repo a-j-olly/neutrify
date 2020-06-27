@@ -4,6 +4,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-main-menu',
@@ -21,7 +22,8 @@ export class MainMenuComponent implements OnInit {
     private menu: MenuController,
     private ga: GoogleAnalyticsService,
     private alertController: AlertController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private inAppBrowser: InAppBrowser
   ) {}
 
   ngOnInit() {
@@ -46,7 +48,7 @@ export class MainMenuComponent implements OnInit {
   async presentAlertConfirmSignout() {
     const alert = await this.alertController.create({
       message: 'You are about to sign out. Would you like to continue?',
-      header: 'Signout?',
+      header: 'Sign Out?',
       buttons: [
         {
           text: 'Cancel',
@@ -78,7 +80,7 @@ export class MainMenuComponent implements OnInit {
   async presentAlertConfirmDelete() {
     const alert = await this.alertController.create({
       header: 'Delete Account?',
-      message: 'You are about to delete your account. This cannot be reversed. Enter DELETE below to confirm your decision.',
+      message: 'You are about to delete your account. This cannot be reversed! Enter DELETE below to confirm your decision.',
       inputs: [
         {
           name: 'delete',
@@ -132,6 +134,10 @@ export class MainMenuComponent implements OnInit {
   async enableMenus() {
     await this.menu.enable(true, 'filterMenu');
     await this.menu.enable(true, 'mainMenu');
+  }
+
+  async openPage(url: string) {
+    this.inAppBrowser.create(url);
   }
 
   async presentToast(message, color) {

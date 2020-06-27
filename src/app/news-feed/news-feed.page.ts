@@ -1,3 +1,4 @@
+import { AdMob } from '@admob-plus/ionic';
 import { environment } from './../../environments/environment';
 import { AuthService } from './../services/auth.service';
 import { Subscription } from 'rxjs';
@@ -14,6 +15,7 @@ export class NewsFeedPage {
   menuSubscription$: Subscription;
   menuStatus = false;
   public displayAd = false;
+  private platformSource;
 
   platformResize$: Subscription;
   platformWidth: number;
@@ -24,14 +26,22 @@ export class NewsFeedPage {
     private menu: MenuController,
     private platform: Platform,
     public authService: AuthService,
+    private admob: AdMob
   ) {
     this.platform.ready().then((readySource) => {
+      this.platformSource = readySource;
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
       this.displayAd = readySource === 'dom' && environment.production;
     });
 
-  
+    this.platform.pause.subscribe(() => {
+      this.pauseAds();
+    });
+
+    this.platform.resume.subscribe(() => {
+      this.playAds();
+    });
 
     this.platformResize$ = this.platform.resize.subscribe(() => {
       this.platformWidth = this.platform.width();
@@ -42,13 +52,46 @@ export class NewsFeedPage {
     });
   }
 
+  playAds() {
+    if (environment.production) {
+      this.admob.banner.show({ id: {
+        ios: 'ca-app-pub-1312649730148564/2740135529',
+        android: 'ca-app-pub-1312649730148564/2037976682'
+      }});
+    } else {
+      if (this.platformSource !== 'dom') {
+        this.admob.banner.show({ id: {
+          ios: 'test',
+          android: 'test'
+        }});
+      }
+    }
+  }
+
+  pauseAds() {
+    if (this.platformSource !== 'dom') {
+      if (environment.production && !this.platform.is('ios')) {
+        this.admob.banner.hide({
+          ios: 'ca-app-pub-1312649730148564/2740135529',
+          android: 'ca-app-pub-1312649730148564/2037976682'
+        });
+      } else {
+        this.admob.banner.hide({
+          ios: 'test',
+          android: 'test'
+        });
+      }
+    }
+  }
 
   ionViewDidEnter() {
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
+    this.playAds();
   }
 
   ionViewWillLeave() {
+    this.pauseAds();
   }
 
   toggleMenu() {

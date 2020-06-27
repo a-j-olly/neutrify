@@ -189,8 +189,13 @@ export class ArticleListComponent implements OnInit {
   }
 
   async scrollTo(id: string) {
-    const yOffset = document.getElementById(id).offsetTop;
-    await this.content.scrollToPoint(0, yOffset + 20, 500);
+    let yOffset = document.getElementById(id).offsetTop;
+
+    if (!this.platform.is('ios')) {
+      yOffset =+ 20;
+    }
+
+    await this.content.scrollToPoint(0, yOffset, 500);
   }
 
   setDisplayThreshold(): number {

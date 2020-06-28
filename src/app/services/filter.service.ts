@@ -196,7 +196,6 @@ export class FilterService {
 
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
-      console.log(reqBody);
       await this.neutrifyAPI.UpdateConfig(reqBody);
       this.updateFilterSaved(true);
       result = true;

@@ -60,6 +60,9 @@ export class ArticleListComponent implements OnInit {
   limit = 25;
   updatingArticles = false;
 
+  private retryCounter = 0;
+  public showErrorSpinner = false;
+
   constructor(
     private neutrfiyAPI: APIService,
     private filterService: FilterService,
@@ -228,7 +231,12 @@ export class ArticleListComponent implements OnInit {
   async doRefresh(event?) {
     this.updatingArticles = true;
     this.resetTimer();
-    await this.handleInitDataLoad();
+    try {
+      await this.handleInitDataLoad();
+    } catch (error) {
+      console.log('Could not get articles. Service returned this error: ', error);
+    }
+
     if (event) {
       this.ga.eventEmitter('refresh_pull', 'engagement', 'Refreshed feed');
       event.target.complete();
@@ -269,8 +277,40 @@ export class ArticleListComponent implements OnInit {
       limit = 25;
     }
 
-    const results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(),
-     ModelSortDirection.DESC, this.filters, limit, nextToken);
+    let results;
+    try {
+      results = await this.neutrfiyAPI.ArticlesByDate(
+        'news',
+        this.setDateRange(),
+        ModelSortDirection.DESC, 
+        this.filters, 
+        limit, 
+        nextToken
+      );
+    } catch (error) {
+      console.log('Could not get articles. Service returned this error: ', error);
+
+      if (error.errors && error.errors.length === 1) {
+        const errMes = error.errors[0];
+        if (errMes.message === 'Network Error') {
+          if (this.retryCounter < 3) {
+            this.showErrorSpinner = true;
+            this.retryCounter ++;
+            await setTimeout(() => {
+              console.log('Retry attempt no: ', this.retryCounter);
+            }, 2000);
+            return await this.listArticles(this.limit, this.nextToken);
+          } else {
+            this.updatingArticles = false;
+            this.showErrorSpinner = false;
+            this.retryCounter = 0;
+            alert('Couldn\'t recover from network difficulties. Please check your connection.');
+            throw new Error(`Could not get articles. Service returned this error: ${JSON.stringify(error)}`);
+          }
+        }
+      }
+    }
+
     this.nextToken = results.nextToken;
     return results.items;
   }

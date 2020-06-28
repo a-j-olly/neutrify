@@ -2,7 +2,7 @@ h4 {
     padding: 0px;
     margin: 0px 0px 4px 0px;
     font-size: 20px;
-};
+}
 
 ion-icon {
     font-size: 20px;
@@ -10,15 +10,15 @@ ion-icon {
     &:hover {
         cursor: pointer;
     }
-};
+}
 
 p {
     font-size: 12px;
-};
+}
 
 .ion-activatable:hover {
     cursor: pointer;
-};
+}
 
 ion-segment-button {
     &.primary {
@@ -36,7 +36,7 @@ ion-segment-button {
             color: var(--ion-color-danger);
         }
     }
-};
+}
 
 .tooltip {
     top: 3px;
@@ -87,6 +87,7 @@ ion-segment-button {
     border-style: solid;
     border-color: transparent black transparent transparent;
 }
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
@@ -94,4 +95,4 @@ ion-segment-button {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-};
+}

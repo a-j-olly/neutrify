@@ -3,11 +3,11 @@
     padding: 10px 2px;
     width: 1000px;
     min-width: 220px;
-};
+}
 
 .item-interactive {
     --highlight-background: unset;
-};
+}
 
 .tooltip {
     position: relative;
@@ -53,4 +53,4 @@
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-};
+}

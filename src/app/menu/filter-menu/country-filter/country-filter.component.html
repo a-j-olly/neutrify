@@ -30,7 +30,7 @@
     </ion-row>
     
     <ion-row class="country-list ion-justify-content-start">
-      <ion-col *ngFor="let country of countryFilterList; let i = index">
+      <ion-col class="ion-text-center" *ngFor="let country of countryFilterList; let i = index">
         <ion-badge (click)="removeWord(i)">
           {{ country }}<ion-icon name="close"></ion-icon>
         </ion-badge>

@@ -1,0 +1,21 @@
+<ion-col size="2">
+  <ion-checkbox 
+    name="{{topicOption.name}}" 
+    [(ngModel)]="this[topicOption.disabledField]" 
+    (ionChange)="checkboxClicked($event)">
+  </ion-checkbox>
+</ion-col>
+<ion-col size="10">
+  <ion-item>
+    <ion-label>{{topicOption.label}}</ion-label>
+    <ion-select 
+      name="{{topicOption.name}}"
+      multiple="true" 
+      [value]="includedTopics[topicOption.name]" 
+      [compareWith]="compareWithFn" 
+      [disabled]="this[topicOption.disabledField]" 
+      (ionChange)="selectChanged($event)">
+      <ion-select-option *ngFor="let value of topicOption.values">{{value.label}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-col>

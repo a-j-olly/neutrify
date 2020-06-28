@@ -29,21 +29,9 @@
       </ion-segment>
     </ion-row>
 
-    <div *ngIf="segmentValue === 'include'">  
-      <ion-row class="ion-justify-content-between" *ngFor="let option of selectOptions">
-        <ion-col size="2">
-          <ion-checkbox name="{{option.name}}" [(ngModel)]="this[option.disabledField]" (ionChange)="checkboxClicked($event)"></ion-checkbox>
-        </ion-col>
-        <ion-col size="10">
-          <ion-item>
-            <ion-label>{{option.label}}</ion-label>
-            <ion-select name="{{option.name}}" multiple="true" [value]="includedTopics[option.name]" [compareWith]="compareWithFn" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
-              <ion-select-option *ngFor="let value of option.values">{{value.label}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </div>
+    <ion-row *ngIf="segmentValue === 'include'" class="ion-justify-content-between" *ngFor="let option of selectOptions">
+      <app-topic-option [topicOption]="option"></app-topic-option>
+    </ion-row>
 
     <div *ngIf="segmentValue === 'exclude'">  
       <ion-row class="ion-justify-content-between" *ngFor="let option of selectOptions">

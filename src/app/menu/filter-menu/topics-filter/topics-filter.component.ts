@@ -1,4 +1,3 @@
-import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   Arts,
@@ -41,7 +40,7 @@ export class TopicsFilterComponent implements OnInit {
   public shoppingDisabled = false;
 
   @Input()
-  set userOption(val: any) {
+  set userOptions(val: any) {
 
     if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copiedOptions)) {
       this.option = Object.assign({}, val);
@@ -51,7 +50,7 @@ export class TopicsFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor(private ga: GoogleAnalyticsService) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -194,7 +193,6 @@ export class TopicsFilterComponent implements OnInit {
       this.userOptionChanged.emit(this.option);
       
       this.copiedOptions[this.segmentValue] = this.buildTopicObj(topics);
-      // this.ga.eventEmitter('use_filter', 'engagement', 'Topics filter used');
     }
   }
 

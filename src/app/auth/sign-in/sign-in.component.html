@@ -9,10 +9,10 @@
           </ion-item>
           <span *ngIf="f.email.invalid && f.email.touched">
             <span *ngIf="f.email.errors.email">
-              <ion-text color="danger">This email address is invalid.</ion-text>
+              <p class="error">This email address is invalid.</p>
             </span>
             <span *ngIf="f.email.errors.required">
-              <ion-text color="danger">Please enter an email address.</ion-text>
+              <p class="error">Please enter an email address.</p>
             </span>
           </span>
         </div>
@@ -25,10 +25,10 @@
           </ion-item>
           <span *ngIf="f.password.invalid && f.password.touched">
             <span *ngIf="f.password.errors.required">
-              <ion-text color="danger">Please enter a password.</ion-text>
+              <p class="error">Please enter a password.</p>
             </span>
             <span *ngIf="f.password.errors.minlength">
-              <ion-text color="danger">Password must be greater than 7 characters.</ion-text>
+              <p class="error">Password must be greater than 7 characters.</p>
             </span>
           </span>
         </div>
@@ -39,7 +39,7 @@
           </ion-item>
 
           <span *ngIf="invalidDetails">
-            <ion-text color="danger">Sign in details are incorrect. Please try again.</ion-text>
+            <p class="error">Sign in details are incorrect. Please try again.</p>
           </span>
         </div>
       </div>

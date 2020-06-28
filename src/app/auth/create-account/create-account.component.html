@@ -2,20 +2,21 @@
   <div class="container" *ngIf="!showConfirmSignUp">
     <form  [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="form-group">
-        <p>To begin using Neutrify, you must first create an account. Please fill in the form below.</p>
+        <p>To begin using Neutrify, you must first create an account. All passwords must include an uppercase character and a number.</p>
         <div class="form-item ion-tappable">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
           </ion-item>
           <span *ngIf="sf.email.invalid && sf.email.touched">
             <span *ngIf="sf.email.errors.email">
-              <ion-text color="danger">This email address is invalid.</ion-text>
+              <p class="error">This email address is invalid.</p>
             </span>
             <span *ngIf="sf.email.errors.required">
-              <ion-text color="danger">You must enter an email address.</ion-text>
+              <p class="error">You must enter an email address.</p>
             </span>
           </span>
         </div>
+        
         
         <div class="form-item">
           <ion-item>
@@ -24,13 +25,13 @@
           </ion-item>
           <span *ngIf="sf.password.invalid && sf.password.touched">
             <span *ngIf="sf.password.errors.required">
-              <ion-text color="danger">You must enter a password.</ion-text>
+              <p class="error">You must enter a password.</p>
             </span>
             <span *ngIf="sf.password.errors.minlength">
-              <ion-text color="danger">Your password must be greater than 7 characters.</ion-text>
+              <p class="error">Your password must include at least 8 characters.</p>
             </span>
             <span *ngIf="sf.password.errors.strong">
-              <ion-text color="danger">Your password must contain an uppercase character and a number.</ion-text>
+              <p class="error">Your password must contain an uppercase character and a number.</p>
             </span>
           </span>
         </div>
@@ -43,10 +44,10 @@
           </ion-item>
           <span *ngIf="sf.confirmPassword.invalid && sf.confirmPassword.touched">
             <span *ngIf="sf.confirmPassword.errors.required">
-              <ion-text color="danger">You must re-enter your password.</ion-text>
+              <p class="error">You must re-enter your password.</p>
             </span>
             <span *ngIf="sf.confirmPassword.errors.mustMatch">
-              <ion-text color="danger">The passwords you've entered don't match.</ion-text>
+              <p class="error">The passwords you've entered don't match.</p>
             </span>
           </span>
         </div>
@@ -64,7 +65,7 @@
           </ion-item>
           <span *ngIf="sf.privacyConsent.invalid && sf.privacyConsent.touched">
             <span *ngIf="sf.privacyConsent.errors.required">
-              <ion-text color="danger">Please accept the terms & conditons.</ion-text>
+              <p class="error">Please accept the terms & conditons.</p>
             </span>
           </span>
         </div>
@@ -75,7 +76,7 @@
           </ion-item>
 
           <span *ngIf="invalidDetails">
-            <ion-text color="danger">Could not sign you up. Try a different email.</ion-text>
+            <p class="error">Could not sign you up. Try a different email.</p>
           </span>
         </div>
       </div>
@@ -104,17 +105,17 @@
       </ion-item>
       <span *ngIf="resetEmailCtrl.invalid && resetEmailCtrl.touched">
         <span *ngIf="resetEmailCtrl.errors.email">
-          <ion-text color="danger">This email address is invalid.</ion-text>
+          <p class="error">This email address is invalid.</p>
         </span>
         <span *ngIf="resetEmailCtrl.errors.required">
-          <ion-text color="danger">You must enter an email address.</ion-text>
+          <p class="error">You must enter an email address.</p>
         </span>
       </span>
     </div>
   </div>
 
   <div class="container" *ngIf="showConfirmSignUp">
-    <form  [formGroup]="confirmSignUpForm" (ngSubmit)="confirmSignUp()" >
+    <form [formGroup]="confirmSignUpForm" (ngSubmit)="confirmSignUp()" >
       <div class="form-group">
         <p>A verification code has been sent to {{this.authService.signUpEmail}}. Check your junk/spam folder.</p>
         <div class="form-item">
@@ -123,7 +124,7 @@
           </ion-item>
           <span *ngIf="cSF.vefCode.invalid && cSF.vefCode.touched">
             <span *ngIf="cSF.vefCode.errors.required">
-              <ion-text color="danger">Please enter the code.</ion-text>
+              <p class="error">Please enter the code.</p>
             </span>
           </span>
         </div>
@@ -134,7 +135,7 @@
           </ion-item>
 
           <span *ngIf="invalidDetails">
-            <ion-text color="danger">Could not verify your email. Make sure you copied the correct code.</ion-text>
+            <p class="error">Could not verify your email. Make sure you copied the correct code.</p>
           </span>
         </div>
       </div>
@@ -146,7 +147,7 @@
         <ion-button size="small" (click)="resendEmail()">Resend</ion-button>
       </ion-row>
       <span *ngIf="resentEmail">
-        <ion-text color="primary">The verification email has been resent to {{this.authService.signUpEmail}}.</ion-text>
+        <p class="error">The verification email has been resent to {{this.authService.signUpEmail}}.</p>
       </span>
     </div>
   </div>

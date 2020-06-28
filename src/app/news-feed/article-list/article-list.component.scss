@@ -2,7 +2,7 @@
     padding-top: 0px;
     margin: 0 auto;
     max-width: 1080px;
-};
+}
 
 ion-refresher {
     z-index: 1000;
@@ -49,8 +49,8 @@ ion-card {
         font-size: 24px;
         &:hover {
             cursor: pointer;
-        };
-    };
+        }
+    }
 
     .title {
         margin: 0px;
@@ -58,7 +58,7 @@ ion-card {
 
         &:hover {
             cursor: pointer;
-        };
+        }
 
         h1 {
             font-size: 18px;
@@ -73,7 +73,7 @@ ion-card {
                 -webkit-line-clamp: 2; /* number of lines to show */
                 line-height: 20px;        /* fallback */
                 max-height: 40px;       /* fallback */
-            };
+            }
 
             &.four-line-wrap {
                 overflow: hidden;
@@ -83,9 +83,9 @@ ion-card {
                 -webkit-line-clamp: 4; /* number of lines to show */
                 line-height: 20px;        /* fallback */
                 max-height: 80px;       /* fallback */
-            };
-        };
-    };
+            }
+        }
+    }
 
     .footer {
         ion-label {
@@ -93,7 +93,7 @@ ion-card {
             color: #999;
             &:hover {
                 cursor: pointer;
-            };
-        };
-    };
-};
+            }
+        }
+    }
+}

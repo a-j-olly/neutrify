@@ -3,26 +3,26 @@ ion-range {
     padding: 0;
     margin: 0;
     --knob-size: 20px;
-};
+}
 
 p {
     font-size: 12px;
-};
+}
 
 h4 {
     padding: 0px;
     margin: 0px 0px 4px 0px;
     font-size: 20px;
-};
+}
 
 .ion-activatable:hover {
     cursor: pointer;
-};
+}
 
 .ion-activatable {
     ion-icon {
         font-size: 20px;
-    };
+    }
 }
 
 .tooltip {
@@ -71,6 +71,7 @@ h4 {
     border-style: solid;
     border-color: transparent black transparent transparent;
 }
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
@@ -78,4 +79,4 @@ h4 {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-};
+}

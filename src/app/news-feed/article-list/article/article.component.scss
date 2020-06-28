@@ -3,21 +3,21 @@ ion-icon {
     font-size: 24px;
     &:hover {
         cursor: pointer;
-    };
-};
+    }
+}
 
 ion-slides {
     cursor: grab;
     
     &:active {
         cursor: grabbing;
-    };
+    }
 
     ion-slide {
         margin-bottom: 10px;
-    };
+    }
 
-};
+}
 
 .body {
     text-align: left;
@@ -27,7 +27,7 @@ ion-slides {
         font-size: 16px;
         color: #999;
         margin-bottom: 8px;
-    };
+    }
 
     p {
         font-size: 16px;
@@ -43,14 +43,14 @@ ion-slides {
             -webkit-line-clamp: 14; /* number of lines to show */
             line-height: 20px;        /* fallback */
             max-height: 280px;       /* fallback */
-        };
-    };
+        }
+    }
 
     ion-button {
         padding: 0px;
         margin: 0px;
-    };
-};
+    }
+}
 
 .img-container {
     height: 300px;
@@ -71,9 +71,9 @@ ion-slides {
         &:hover {
             cursor: pointer;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        };
+        }
     }
-};
+}
 
 .metrics-line-wrap {
     @media screen and (min-width: 720px) {
@@ -98,10 +98,10 @@ ion-slides {
 
         &:hover {
             cursor: pointer;
-        };
+        }
         
-    };
-};
+    }
+}
 
 .metric-item {
     min-width: 100px;
@@ -110,14 +110,14 @@ ion-slides {
 
     h4 {
         color: #999;
-    };
+    }
 
     .clickable {
         &:hover {
             cursor: pointer;
         }
     }
-};
+}
 
 .text-list-item {
     min-width: 100px;
@@ -126,19 +126,19 @@ ion-slides {
 
     h4 {
         color: #999;
-    };
+    }
 
-};
+}
 
 ion-card-header {
     padding: 0;
     margin: 0;
-};
+}
 
 ion-card-title {
     padding: 0;
     margin: 0;
-};
+}
 
 .arrow-container {
     z-index: 10;
@@ -155,25 +155,25 @@ ion-card-title {
             pointer-events: none;
         }
     }
-};
+}
 
 .negative-range {
     transform: rotate(180deg);
-};
+}
 
 ion-range {
     padding: 0;
     margin: 0;
     --knob-size: 0;
     pointer-events: none;
-};
+}
 
 ion-row {
     margin: 0;
     padding: 0;
-};
+}
 
 ion-col {
     margin: 0;
     padding: 0;
-};
+}

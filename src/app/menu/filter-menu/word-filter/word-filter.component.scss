@@ -1,31 +1,31 @@
 ion-badge:hover {
     cursor: pointer;
-};
+}
 
 ion-badge {
     ion-icon {
         font-size: 20px;
         margin: -6px -6px -6px -2px;
-    };
-};
+    }
+}
 
 p {
     font-size: 12px;
-};
+}
 
 h4 {
     padding: 0px;
     margin: 0px 0px 4px 0px;
     font-size: 20px;
-};
+}
 
 ion-button {
     margin: 10px 2px 10px 6px;  
-};
+}
 
 ion-input {
     border: solid 1px transparentize($color: grey, $amount: 0.7);
-};
+}
 
 .word-list {
     margin: 12px;
@@ -33,57 +33,57 @@ ion-input {
     ion-col {
         margin-left: 2px;
         margin-right: 2px;
-    };
-};
+    }
+}
 
 .ion-activatable:hover {
     cursor: pointer;
-};
+}
 
 ion-icon {
     font-size: 20px;
-};
+}
 
 ion-badge:hover {
     cursor: pointer;
-};
+}
 
 ion-badge {
     ion-icon {
         font-size: 20px;
         margin: -6px -6px -6px -2px;
-    };
-};
+    }
+}
 
 p {
     font-size: 12px;
-};
+}
 
 h4 {
     padding: 0px;
     margin: 0px 0px 4px 0px;
     font-size: 20px;
-};
+}
 
 ion-button {
     margin: 10px 2px 10px 6px;  
-};
+}
 
 ion-input {
     border: solid 1px transparentize($color: grey, $amount: 0.7);
-};
+}
 
 .country-list {
     margin: 12px;
-};
+}
 
 .ion-activatable:hover {
     cursor: pointer;
-};
+}
 
 ion-icon {
     font-size: 20px;
-};
+}
 
 ion-segment-button {
     &.primary {
@@ -101,7 +101,7 @@ ion-segment-button {
             color: var(--ion-color-danger);
         }
     }
-};
+}
 
 .tooltip {
     top: 3px;
@@ -149,6 +149,7 @@ ion-segment-button {
     border-style: solid;
     border-color: transparent black transparent transparent;
 }
+
 .tooltip:hover .tooltiptext {
     visibility: visible;
 }
@@ -156,5 +157,5 @@ ion-segment-button {
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
-};
+}
 

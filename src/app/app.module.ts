@@ -12,6 +12,7 @@ import { RangeFilterComponent } from './menu/filter-menu/range-filter/range-filt
 import { WordFilterComponent } from './menu/filter-menu/word-filter/word-filter.component';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
+import { TopicOptionComponent } from './menu/filter-menu/topics-filter/topic-option/topic-option.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,6 +39,7 @@ import { AdMob } from '@admob-plus/ionic';
     WordFilterComponent,
     RangeFilterComponent,
     TopicsFilterComponent,
+    TopicOptionComponent,
     CountryFilterComponent,
     HomePage,
     CtaComponent,
@@ -54,7 +56,7 @@ import { AdMob } from '@admob-plus/ionic';
     ReactiveFormsModule,
     AppRoutingModule,
     AmplifyAngularModule,
-    AmplifyIonicModule,
+    AmplifyIonicModule
   ],
   providers: [
     APIService,

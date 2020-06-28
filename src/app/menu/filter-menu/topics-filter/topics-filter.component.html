@@ -19,7 +19,7 @@
 
   <div [hidden]="!showFilter">
     <ion-row class="ion-justify-content-center">
-      <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
+      <ion-segment (ionChange)="onSegmentChange($event)" value="include">
         <ion-segment-button class="primary" value="include">
           <ion-label>Include</ion-label>
         </ion-segment-button>
@@ -29,24 +29,13 @@
       </ion-segment>
     </ion-row>
 
-    <ion-row *ngIf="segmentValue === 'include'" class="ion-justify-content-between" *ngFor="let option of selectOptions">
-      <app-topic-option [topicOption]="option"></app-topic-option>
-    </ion-row>
+    <app-topic-option 
+      *ngFor="let option of selectOptions" 
+      [topicOption]="option" 
+      [topicValues]="filterValues[option.name]"
+      [segmentValue]="segmentValue"
+      (onTopicChange)="handleTopicChange($event)">
+    </app-topic-option>
 
-    <div *ngIf="segmentValue === 'exclude'">  
-      <ion-row class="ion-justify-content-between" *ngFor="let option of selectOptions">
-        <ion-col size="2">
-          <ion-checkbox name="{{option.name}}" [(ngModel)]="this[option.disabledField]" (ionChange)="checkboxClicked($event)"></ion-checkbox>
-        </ion-col>
-        <ion-col size="10">
-          <ion-item>
-            <ion-label>{{option.label}}</ion-label>
-            <ion-select name="{{option.name}}" multiple="true" [value]="excludedTopics[option.name]" (ngModelChange)="modelChanged()" [disabled]="this[option.disabledField]" (ionChange)="selectChanged($event)">
-              <ion-select-option *ngFor="let value of option.values">{{value.label}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </div>
   </div>
 </ion-grid>

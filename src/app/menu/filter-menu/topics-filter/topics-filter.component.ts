@@ -26,6 +26,7 @@ export class TopicsFilterComponent implements OnInit {
   public segmentValue = 'include';
   public showFilter = false;
   public selectOptions: any = {};
+  public filterValues: any = {};
 
   public artsDisabled = false;
   public gamesDisabled = false;
@@ -40,176 +41,169 @@ export class TopicsFilterComponent implements OnInit {
   public shoppingDisabled = false;
 
   @Input()
-  set userOptions(val: any) {
+  set userOption(val: any) {
 
-    if (val && JSON.stringify(val) !== JSON.stringify(this.option) || JSON.stringify(this.option) !== JSON.stringify(this.copiedOptions)) {
-      this.option = Object.assign({}, val);
-      this.initTopicView();
+    if (val && JSON.stringify(val) !== JSON.stringify(this.option)) {
+      this.option['include'] = this.buildTopicObj(val['include']);
+      this.option['exclude'] = this.buildTopicObj(val['exclude']); 
+      // console.log('(onInput) this.option: ', this.option);
+
+      this.filterValues = this.convertTopicObj(this.option);
+      // console.log('filter value', this.filterValues);
+
+      // if (JSON.stringify(this.option[this.segmentValue]) !== JSON.stringify(this.filterValues)) {
+      //   this.copyTopicObj(this.filterValues, this.option[this.segmentValue]);
+      //   console.log('(onInput) this.filterValues: ', this.filterValues);
+      // }
     }
   }
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
     this.selectOptions = [
-      { name: 'arts', label: 'Arts', values: Arts, disabledField: 'artsDisabled' },
-      { name: 'games', label: 'Games', values: Games, disabledField: 'gamesDisabled' },
-      { name: 'society', label: 'Society', values: Society, disabledField: 'societyDisabled' },
-      { name: 'business', label: 'Business', values: Business, disabledField: 'businessDisabled' },
-      { name: 'health', label: 'Health', values: Health, disabledField: 'healthDisabled' },
-      { name: 'recreation', label: 'Recreation', values: Recreation, disabledField: 'recreationDisabled' },
-      { name: 'science', label: 'Science', values: Science, disabledField: 'scienceDisabled' },
-      { name: 'sports', label: 'Sports', values: Sports, disabledField: 'sportsDisabled' },
-      { name: 'computers', label: 'Computers', values: Computers, disabledField: 'computersDisabled' },
-      { name: 'home', label: 'Home', values: Home, disabledField: 'homeDisabled' },
-      { name: 'shopping', label: 'Shopping', values: Shopping, disabledField: 'shoppingDisabled' },
+      { name: 'arts', label: 'Arts', values: Arts },
+      { name: 'games', label: 'Games', values: Games },
+      { name: 'society', label: 'Society', values: Society },
+      { name: 'business', label: 'Business', values: Business },
+      { name: 'health', label: 'Health', values: Health },
+      { name: 'recreation', label: 'Recreation', values: Recreation },
+      { name: 'science', label: 'Science', values: Science },
+      { name: 'sports', label: 'Sports', values: Sports },
+      { name: 'computers', label: 'Computers', values: Computers },
+      { name: 'home', label: 'Home', values: Home },
+      { name: 'shopping', label: 'Shopping', values: Shopping },
     ];
   }
 
-  initTopicView() {
-    this.initTopicObj(this.includedTopics, this.option.include);
-    this.initTopicObj(this.excludedTopics, this.option.exclude);
-
-    this.initTopic('artsDisabled', 'arts');
-    this.initTopic('gamesDisabled', 'games');
-    this.initTopic('societyDisabled', 'society');
-    this.initTopic('businessDisabled', 'business');
-    this.initTopic('healthDisabled', 'health');
-    this.initTopic('recreationDisabled', 'recreation');
-    this.initTopic('scienceDisabled', 'science');
-    this.initTopic('sportsDisabled', 'sports');
-    this.initTopic('computersDisabled', 'computers');
-    this.initTopic('homeDisabled', 'home');
-    this.initTopic('shoppingDisabled', 'shopping');
+  buildTopicObj(objRef?) {
+    return Object.assign({}, {
+      arts: objRef.arts ? [...objRef.arts] : [],
+      business: objRef.business ? [...objRef.business] : [],
+      computers: objRef.computers ? [...objRef.computers] : [],
+      games: objRef.games ? [...objRef.games] : [],
+      health: objRef.health ? [...objRef.health] : [],
+      home: objRef.home ? [...objRef.home] : [],
+      recreation: objRef.recreation ? [...objRef.recreation] : [],
+      regional: objRef.regional ? [...objRef.regional] : [],
+      science: objRef.science ? [...objRef.science] : [],
+      shopping: objRef.shopping ? [...objRef.shopping] : [],
+      society: objRef.society ? [...objRef.society] : [],
+      sports: objRef.sports ? [...objRef.sports] : []
+    });
   }
 
-  initTopicObj(ogObj, newObj) {
+  copyTopicObj(ogObj, newObj) {
     Object.keys(newObj).forEach((key) => {
       if (!ogObj || !this.isArrEq(ogObj[key], newObj[key])) ogObj[key] = newObj[key];
     });
+  }
+
+  convertTopicObj(ogObj) {
+    // console.log('ogObj', ogObj);
+    const keys = [
+      'arts', 'games', 'society',
+      'business', 'health', 'recreation',
+      'science', 'sports', 'computers', 'home',
+      'shopping'
+    ];
+
+    return {
+      arts: {
+        include: ogObj.include['arts'],
+        exclude: ogObj.exclude['arts']
+      },
+      games: {
+        include: ogObj.include['games'],
+        exclude: ogObj.exclude['games']
+      },
+      society: {
+        include: ogObj.include['society'],
+        exclude: ogObj.exclude['society']
+      },
+      business: {
+        include: ogObj.include['business'],
+        exclude: ogObj.exclude['business']
+      },
+      health: {
+        include: ogObj.include['health'],
+        exclude: ogObj.exclude['health']
+      },
+      recreation: {
+        include: ogObj.include['recreation'],
+        exclude: ogObj.exclude['recreation']
+      },
+      science: {
+        include: ogObj.include['science'],
+        exclude: ogObj.exclude['science']
+      },
+      sports: {
+        include: ogObj.include['sports'],
+        exclude: ogObj.exclude['sports']
+      },
+      computers: {
+        include: ogObj.include['computers'],
+        exclude: ogObj.exclude['computers']
+      },
+      home: {
+        include: ogObj.include['home'],
+        exclude: ogObj.exclude['home']
+      },
+      shopping: {
+        include: ogObj.include['shopping'],
+        exclude: ogObj.exclude['shopping']
+      },
+    };
   }
 
   isArrEq(arr1, arr2) {
     return arr1 && arr2 && JSON.stringify(arr1) === JSON.stringify(arr2);
   }
 
-  onSegmentChange() {
-    this.initTopicView();
+  onSegmentChange(event) {
+    this.segmentValue = event.detail.value;
   }
 
-  initTopic(disableBoolRef, valStr) {
-    if (this.option[this.segmentValue][valStr].length === 1) {
-
-      if (this.option[this.segmentValue][valStr][0].toLowerCase() === valStr.toLowerCase()) {
-        this[disableBoolRef] = true;
-      } else {
-        this[disableBoolRef] = false;
-      }
-    } else if (this.option[this.segmentValue][valStr].length < 1) {
-      this[disableBoolRef] = false;
-    } else if (this.option[this.segmentValue][valStr].length > 1) {
-      if (this.option[this.segmentValue][valStr].findIndex(op => op.toLowerCase() === valStr.toLowerCase()) !== -1) {
-        this[disableBoolRef] = true;
-      } else {
-        this[disableBoolRef] = false;
-      }
-    } else {
-      this[disableBoolRef] = false;
-    }
-  }
-
-  configureCheckbox(disableBool, valStr): boolean {
-    let res = false;
-    if (disableBool) {
-      if (this[`${this.segmentValue}dTopics`][valStr].length !== 1 || this[`${this.segmentValue}dTopics`][valStr][0].toLowerCase() !== valStr.toLowerCase()) {
-        this[`${this.segmentValue}dTopics`][valStr] = new Array();
-        this[`${this.segmentValue}dTopics`][valStr].push(valStr.toLowerCase());
-      }
-    } else {
-      const topicIndex = this[`${this.segmentValue}dTopics`][valStr].findIndex(topic => topic.toLowerCase() === valStr.toLowerCase());
-
-      if (topicIndex !== -1) {
-        this[`${this.segmentValue}dTopics`][valStr].splice(topicIndex, 1);
-        res = true;
-      }
-    }
-
-    return res;
-  }
-
-  checkboxClicked(event) {
+  handleTopicChange(event) {
     let hasChanged = false;
+    console.log('topic change event received: ', event);
 
-    if (event && event.target) {
-      if (event.target.name === 'arts') {
-        hasChanged = this.configureCheckbox(this.artsDisabled, 'arts');
-      } else if (event.target.name === 'games') {
-        hasChanged = this.configureCheckbox(this.gamesDisabled, 'games');
-      } else if (event.target.name === 'society') {
-        hasChanged = this.configureCheckbox(this.societyDisabled, 'society');
-      } else if (event.target.name === 'business') {
-        hasChanged = this.configureCheckbox(this.businessDisabled, 'business');
-      } else if (event.target.name === 'health') {
-        hasChanged = this.configureCheckbox(this.healthDisabled, 'health');
-      } else if (event.target.name === 'recreation') {
-        hasChanged = this.configureCheckbox(this.recreationDisabled, 'recreation');
-      } else if (event.target.name === 'science') {
-        hasChanged = this.configureCheckbox(this.scienceDisabled, 'science');
-      } else if (event.target.name === 'computers') {
-        hasChanged = this.configureCheckbox(this.computersDisabled, 'computers');
-      } else if (event.target.name === 'home') {
-        hasChanged = this.configureCheckbox(this.homeDisabled, 'home');
-      } else if (event.target.name === 'shopping') {
-        hasChanged = this.configureCheckbox(this.shoppingDisabled, 'shopping');
-      } else if (event.target.name === 'sports') {
-        hasChanged = this.configureCheckbox(this.sportsDisabled, 'sports');
-      }
+    if (!this.isArrEq(this.option.include[event.name], event.value.include)) {
+      this.option.include[event.name] = event.value.include;
+      hasChanged = true;
+    }
+    
+    if (!this.isArrEq(this.option.exclude[event.name], event.value.exclude)) {
+      this.option.exclude[event.name] = event.value.exclude;
+      hasChanged = true;
     }
 
     if (hasChanged) {
-      this.selectChanged(null);
-    }
-  }
-
-  selectChanged(event) {
-    let topics;
-
-    if (this.segmentValue === 'include') {
-      topics = this.includedTopics;
-    } else {
-      topics = this.excludedTopics;
-    }
-
-    if (event && event.target) {
-      topics[event.target.name] = event.target.value;
-    }
-
-    if (JSON.stringify(topics) !== JSON.stringify(this.copiedOptions[this.segmentValue])) {
-      this.option[this.segmentValue] = topics;
       this.option.name = 'Topics';
       this.userOptionChanged.emit(this.option);
-      
-      this.copiedOptions[this.segmentValue] = this.buildTopicObj(topics);
     }
-  }
+  //   let topics;
 
-  buildTopicObj(objRef) {
-    return Object.assign({}, {
-      arts: [...objRef.arts],
-      business: [...objRef.business],
-      computers: [...objRef.computers],
-      games: [...objRef.games],
-      health: [...objRef.health],
-      home: [...objRef.home],
-      recreation: [...objRef.recreation],
-      regional: [...objRef.regional],
-      science: [...objRef.science],
-      shopping: [...objRef.shopping],
-      society: [...objRef.society],
-      sports: [...objRef.sports]
-    });
+  //   if (this.segmentValue === 'include') {
+  //     topics = this.includedTopics;
+  //   } else {
+  //     topics = this.excludedTopics;
+  //   }
+
+
+
+  //   if (event && event.target) {
+  //     topics[event.target.name] = event.target.value;
+  //   }
+
+  //   if (JSON.stringify(topics) !== JSON.stringify(this.copiedOptions[this.segmentValue])) {
+  //     this.option[this.segmentValue] = topics;
+  //     this.option.name = 'Topics';
+  //     this.userOptionChanged.emit(this.option);
+      
+  //     this.copiedOptions[this.segmentValue] = this.buildTopicObj(topics);
+  //   }
   }
 }

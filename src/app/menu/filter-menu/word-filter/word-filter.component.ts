@@ -1,6 +1,8 @@
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { FilterService } from 'src/app/services/filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-word-filter',
@@ -37,7 +39,17 @@ export class WordFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor(private ga: GoogleAnalyticsService) { }
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
+
+  constructor(
+    private filterService: FilterService,
+    private ga: GoogleAnalyticsService
+    ) {
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
+      });
+    }
 
   ngOnInit() {
     this.wordOptionForm = new FormGroup({
@@ -68,6 +80,8 @@ export class WordFilterComponent implements OnInit {
   }
 
   removeWord(index) {
+    if (this.filtersLoading) return;
+  
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     wordList.splice(index, 1);
 

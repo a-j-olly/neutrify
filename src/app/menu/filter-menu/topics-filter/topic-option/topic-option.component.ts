@@ -8,9 +8,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TopicOptionComponent implements OnInit {
   public optionDisabled = false;
+  public oppositeDisabled = false;
   public isVisible = false;
-  public displayValue;
+  public displayValue: Array<string> = new Array<string>();
 
+  @Input() filtersLoading;
   @Input() topicOption;
 
   private _topicValues: any;
@@ -26,7 +28,7 @@ export class TopicOptionComponent implements OnInit {
 
     if (val && JSON.stringify(val) !== JSON.stringify(this._topicValues)) {
       // this.isVisible = false;
-      this._topicValues = val;
+      this._topicValues = this.unmarshalTopicValues(val);
       // setTimeout(() => this.isVisible = true);
       this.displayValue = this.topicValues[this.segmentValue];
       this.initTopic();
@@ -42,10 +44,17 @@ export class TopicOptionComponent implements OnInit {
   @Input()  
   set segmentValue(val: any) {
     // console.log('(setSegmentValue) val: ', val);
+    // console.log('(setSegmentValue) displayValue: ', this.displayValue);
+    // console.log('(setSegmentValue) filterValues: ', this.topicValues);
+    // console.log(this.topicOption.name.toUpperCase());
+    // console.log('(setSegmentValues) optionDisabled: ', this.optionDisabled);
+    // console.log('(setSegmentValues) oppositeDisabled: ', this.oppositeDisabled);
     this._segmentValue = val;
 
     if (JSON.stringify(this.displayValue) !== JSON.stringify(this.topicValues[this.segmentValue])) {
       this.displayValue = this.topicValues[this.segmentValue];
+      // console.log('(setSegmentValue) this.topicValues', this.topicValues);
+
       this.initTopic();
     }
   }
@@ -56,9 +65,29 @@ export class TopicOptionComponent implements OnInit {
 
   ngOnInit() {}
 
+  unmarshalTopicValues(input) {
+    let res: any = {};
+    res['include'] = new Array();
+    res.include.push(...input.include);
+
+    res['exclude'] = new Array();
+    res.exclude.push(...input.exclude);
+    return res;
+  }
+
   initTopic() {
     // console.log('init topics');
     const target = this.topicValues[this.segmentValue];
+    const oppositeTarget = this.topicValues[this.segmentValue === 'include' ? 'exclude' : 'include'];
+
+    if (oppositeTarget.length) {
+      this.oppositeDisabled = true;
+    } else {
+      this.oppositeDisabled = false;
+    }
+
+    // console.log('target.length', this.topicOption.name.toUpperCase());
+    // console.log('target.length', target.length);
     if (target.length === 1) {
 
       if (target[0].toLowerCase() === this.topicOption.name.toLowerCase()) {
@@ -66,8 +95,6 @@ export class TopicOptionComponent implements OnInit {
       } else {
         this.optionDisabled = false;
       }
-    } else if (target.length < 1) {
-      this.optionDisabled = false;
     } else if (target.length > 1) {
       if (target.findIndex(op => op.toLowerCase() === this.topicOption.name.toLowerCase()) !== -1) {
         this.optionDisabled = true;
@@ -85,16 +112,33 @@ export class TopicOptionComponent implements OnInit {
     // console.log('(onCheckboxChange) event: ', event);
     if (event.detail.checked) {
       if (this.topicValues[this.segmentValue].length !== 1 || this.topicValues[this.segmentValue][0].toLowerCase() !== this.topicOption.name.toLowerCase()) {
-        this.topicValues[this.segmentValue] = new Array();
+        this.topicValues[this.segmentValue].length = 0;
         await this.topicValues[this.segmentValue].push(this.topicOption.name.toLowerCase());
         filtersChanged = true;
       }
+
+      const oppositeSegmentValue = this.segmentValue === 'include' ? 'exclude' : 'include';
+      if (this.topicValues[oppositeSegmentValue].length) {
+        this.topicValues[oppositeSegmentValue].length = 0;
+        filtersChanged = true;
+        // console.log('(onCheckboxChange) opposite filterValues: ', this.topicValues[oppositeSegmentValue]);
+      }
+
+      this.oppositeDisabled = true;
+
     } else {
       const topicIndex = this.topicValues[this.segmentValue].findIndex(topic => topic.toLowerCase() === this.topicOption.name.toLowerCase());
 
       if (topicIndex !== -1) {
         await this.topicValues[this.segmentValue].splice(topicIndex, 1);
         filtersChanged = true;
+      }
+
+      const oppositeSegmentValue = this.segmentValue === 'include' ? 'exclude' : 'include';
+      if (this.topicValues[oppositeSegmentValue].length) {
+        this.oppositeDisabled = true;
+      } else {
+        this.oppositeDisabled = false;
       }
     }
 
@@ -105,6 +149,7 @@ export class TopicOptionComponent implements OnInit {
       await this.emitTopicChange();
       // console.log('(onCheckboxChange) displayValue: ', this.displayValue);
       // console.log('(onCheckboxChange) filterValues: ', this.topicValues[this.segmentValue]);
+      // console.log('(onCheckboxChange) filterValues full: ', this.topicValues);
     }
   }
 

@@ -31,7 +31,7 @@
     </ion-row>
     <ion-row class="word-list ion-justify-content-start">
       <ion-col class="ion-text-center" *ngFor="let word of wordDisplayList; let i = index">
-        <ion-badge (click)="removeWord(i)">
+        <ion-badge (click)="removeWord(i)" [disabled]="filtersLoading">
           {{ word }}<ion-icon name="close"></ion-icon>
         </ion-badge>
       </ion-col>
@@ -42,7 +42,7 @@
     <form [formGroup]="wordOptionForm" (ngSubmit)="addWord()">
       <ion-row class="ion-no-margin ion-no-padding">
         <ion-input formControlName="wordInput" placeholder=" Type here..."></ion-input>
-        <ion-button type="submit" [disabled]="wordOptionForm.invalid">Add</ion-button>
+        <ion-button type="submit" [disabled]="wordOptionForm.invalid || filtersLoading">Add</ion-button>
       </ion-row>
     </form>
   </div>

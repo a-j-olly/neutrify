@@ -97,3 +97,16 @@ ion-card {
         }
     }
 }
+
+.spinner-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -40px;
+    margin-top: -40px;
+    ion-spinner {
+        width: 160px !important;
+        height: 160px !important;
+        z-index: 1;
+    }
+}

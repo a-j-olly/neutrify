@@ -3,7 +3,8 @@
     <ion-checkbox 
       name="{{topicOption.name}}Checkbox"
       [(ngModel)]="optionDisabled"
-      (ionChange)="onCheckboxChange($event)">
+      (ionChange)="onCheckboxChange($event)"
+      [disabled]="filtersLoading">
     </ion-checkbox>
   </ion-col>
   <ion-col size="10">
@@ -14,7 +15,7 @@
           name="{{topicOption.name}}Select"
           multiple="true"
           [(ngModel)]="displayValue"
-          [disabled]="optionDisabled"
+          [disabled]="optionDisabled || oppositeDisabled || filtersLoading"
           (ionChange)="onSelectChange($event)">
         <ion-select-option *ngFor="let value of topicOption.values">{{value.label}}</ion-select-option>
       </ion-select>

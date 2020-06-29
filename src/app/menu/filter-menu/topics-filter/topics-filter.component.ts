@@ -12,6 +12,8 @@ import {
   Home,
   Shopping
 } from '../../../model/topic-options';
+import { FilterService } from 'src/app/services/filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-topics-filter',
@@ -42,14 +44,15 @@ export class TopicsFilterComponent implements OnInit {
 
   @Input()
   set userOption(val: any) {
+      console.log('(onInput) val: ', val);
 
-    if (val && JSON.stringify(val) !== JSON.stringify(this.option)) {
+    if (val && JSON.stringify(val) != JSON.stringify(this.option)) {
       this.option['include'] = this.buildTopicObj(val['include']);
       this.option['exclude'] = this.buildTopicObj(val['exclude']); 
       // console.log('(onInput) this.option: ', this.option);
 
       this.filterValues = this.convertTopicObj(this.option);
-      // console.log('filter value', this.filterValues);
+      console.log('filter value', this.filterValues);
 
       // if (JSON.stringify(this.option[this.segmentValue]) !== JSON.stringify(this.filterValues)) {
       //   this.copyTopicObj(this.filterValues, this.option[this.segmentValue]);
@@ -60,7 +63,16 @@ export class TopicsFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
+
+  constructor(
+    private filterService: FilterService,
+    ) {
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
+      });
+    }
 
   ngOnInit() {
     this.selectOptions = [
@@ -103,63 +115,25 @@ export class TopicsFilterComponent implements OnInit {
 
   convertTopicObj(ogObj) {
     // console.log('ogObj', ogObj);
-    const keys = [
-      'arts', 'games', 'society',
-      'business', 'health', 'recreation',
-      'science', 'sports', 'computers', 'home',
-      'shopping'
-    ];
-
-    return {
-      arts: {
-        include: ogObj.include['arts'],
-        exclude: ogObj.exclude['arts']
-      },
-      games: {
-        include: ogObj.include['games'],
-        exclude: ogObj.exclude['games']
-      },
-      society: {
-        include: ogObj.include['society'],
-        exclude: ogObj.exclude['society']
-      },
-      business: {
-        include: ogObj.include['business'],
-        exclude: ogObj.exclude['business']
-      },
-      health: {
-        include: ogObj.include['health'],
-        exclude: ogObj.exclude['health']
-      },
-      recreation: {
-        include: ogObj.include['recreation'],
-        exclude: ogObj.exclude['recreation']
-      },
-      science: {
-        include: ogObj.include['science'],
-        exclude: ogObj.exclude['science']
-      },
-      sports: {
-        include: ogObj.include['sports'],
-        exclude: ogObj.exclude['sports']
-      },
-      computers: {
-        include: ogObj.include['computers'],
-        exclude: ogObj.exclude['computers']
-      },
-      home: {
-        include: ogObj.include['home'],
-        exclude: ogObj.exclude['home']
-      },
-      shopping: {
-        include: ogObj.include['shopping'],
-        exclude: ogObj.exclude['shopping']
-      },
+    let keys = {
+      'arts': [], 'games': [], 'society': [],
+      'business': [], 'health': [], 'recreation': [],
+      'science': [], 'sports': [], 'computers': [], 'home': [],
+      'shopping': []
     };
+
+    Object.keys(keys).forEach(k => {
+      keys[k] = {
+        include: ogObj.include[k],
+        exclude: ogObj.exclude[k]
+      }
+    });
+
+    return keys;
   }
 
   isArrEq(arr1, arr2) {
-    return arr1 && arr2 && JSON.stringify(arr1) === JSON.stringify(arr2);
+    return arr1 && arr2 && JSON.stringify(arr1) == JSON.stringify(arr2);
   }
 
   onSegmentChange(event) {
@@ -167,23 +141,26 @@ export class TopicsFilterComponent implements OnInit {
   }
 
   handleTopicChange(event) {
-    let hasChanged = false;
+    const { name: eventName, value: eventValue } = event;
+    // let hasChanged = false;
+
+    // let res: any = {}; 
+    // res['include'] = this.buildTopicObj(this.option.include);
+    // res['exclude'] = this.buildTopicObj(this.option.exclude);
+
     console.log('topic change event received: ', event);
 
-    if (!this.isArrEq(this.option.include[event.name], event.value.include)) {
-      this.option.include[event.name] = event.value.include;
-      hasChanged = true;
-    }
-    
-    if (!this.isArrEq(this.option.exclude[event.name], event.value.exclude)) {
-      this.option.exclude[event.name] = event.value.exclude;
-      hasChanged = true;
+    if (!this.isArrEq(this.option.include[eventName], eventValue.include) || !this.isArrEq(this.option.exclude[eventName], eventValue.exclude)) {
+      this.filterService.updateFilterLoading(true);
+      this.filterService.addToTopicOptionsWrapper([...eventValue.include], [...eventValue.exclude], eventName);
     }
 
-    if (hasChanged) {
-      this.option.name = 'Topics';
-      this.userOptionChanged.emit(this.option);
-    }
+    // if (hasChanged) {
+    //   // res.name = 'Topics';
+    //   console.log('(handleTopicChange) topics to emit: ', res);
+    //   this.filterService.addTopicsOptions(res);
+    //   // this.userOptionChanged.emit(res);
+    // }
   //   let topics;
 
   //   if (this.segmentValue === 'include') {

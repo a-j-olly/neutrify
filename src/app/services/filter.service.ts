@@ -2,6 +2,7 @@ import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './neutri
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as TopicGroups from '../model/topic-options';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,15 @@ export class FilterService {
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
+  filtersLoading: boolean = false;
+  filterLoading$ = new Subject<boolean>();
+
   topicsUserOption: any = {};
 
-  constructor(private neutrifyAPI: APIService) { }
+  constructor(
+    private neutrifyAPI: APIService,
+    private toastController: ToastController
+    ) { }
 
   buildFilterOptions(userOptions) {
 
@@ -55,6 +62,7 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
+    console.log('(updateFilterOptions) params inputFilterOptions: ', inputFilterOptions);
     let newFilterOptions = Object.assign({}, inputFilterOptions);
 
     if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
@@ -113,18 +121,29 @@ export class FilterService {
     return this.filterLoaded$.asObservable();
   }
 
+  async updateFilterLoading(isLoading: boolean) {
+    this.filtersLoading = isLoading;
+    this.filterLoading$.next(isLoading);
+  }
+
+  getFilterLoading() {
+    return this.filterLoading$.asObservable();
+  }
+
   addToFilterOptions(optionType, operation, value) {
     let newFilterOptions = Object.assign({}, this.filterOptions);
 
     if (optionType === 'topics') {
-      if (operation === 'include') {
-        newFilterOptions.topicsToInclude.push(value.toLowerCase());
+      const topicGroup = this.findTopicsGroup(value);
+
+      let target = operation === 'include' ? newFilterOptions.topicsToInclude : newFilterOptions.topicsToExclude;
+      if (!newFilterOptions.topicsToInclude.includes(value) && newFilterOptions.topicsToExclude.includes(value)) {
+        target.push(value.toLowerCase());
       } else {
-        newFilterOptions.topicsToExclude.push(value.toLowerCase());
+        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning')
       }
 
-      const topicGroup = this.findTopicsGroup(value);
-      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
+      if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value) && !this.topicsUserOption.exclude[topicGroup.toLowerCase()].includes(value)) {
         this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
       }
     }
@@ -150,6 +169,44 @@ export class FilterService {
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
     this.updateFilterSaved(false);
+  }
+
+  addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group?: string) {
+
+    if (!this.isArrEq(this.filterOptions.topicsToInclude, included)) {
+      this.filterOptions.topicsToInclude = this.addToTopicOptions('include', included, group);
+    }
+
+    if (!this.isArrEq(this.filterOptions.topicsToExclude, excluded)) {
+      this.filterOptions.topicsToExclude = this.addToTopicOptions('exclude', excluded, group);
+    }
+
+    this.filterOptions$.next(this.filterOptions);
+    this.updateFilterSaved(false);
+  }
+
+  addToTopicOptions(operation, values, group) {
+    let newTopics = operation === 'include' ? [...this.filterOptions.topicsToInclude] : [...this.filterOptions.topicsToExclude];
+    
+    if (values.length) {
+      values.forEach(val => {
+        if (!newTopics.includes(val)) {
+          newTopics.push(val.toLowerCase());
+        }
+      });
+
+      newTopics = newTopics.filter(topic => group != this.findTopicsGroup(topic).toLowerCase() || !values.includes(topic) || topic == group);
+      this.topicsUserOption[operation][group] = values;
+    } else {
+      newTopics = newTopics.filter((topic) => group != this.findTopicsGroup(topic).toLowerCase());
+      this.topicsUserOption[operation][group] = new Array();
+    }
+
+    return newTopics;
+  }
+
+  isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1) == JSON.stringify(arr2);
   }
 
   findTopicsGroup(value: string) {
@@ -344,5 +401,15 @@ export class FilterService {
       res[key][operation] = word.trim().toLowerCase();
       return res;
     });
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

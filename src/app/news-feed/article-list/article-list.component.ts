@@ -59,9 +59,10 @@ export class ArticleListComponent implements OnInit {
   nextToken: string;
   limit = 25;
   updatingArticles = false;
-
-  private retryCounter = 0;
   public showErrorSpinner = false;
+
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
   constructor(
     private neutrfiyAPI: APIService,
@@ -84,6 +85,10 @@ export class ArticleListComponent implements OnInit {
 
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
       this.filtersSaved = status;
+    });
+
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
     });
   }
 
@@ -168,6 +173,7 @@ export class ArticleListComponent implements OnInit {
     this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     this.limit = newLimit;
+    this.filterService.updateFilterLoading(false);
     this.updatingArticles = false;
 
     if (!this.nextToken && this.readyArticles.length < this.displayThreshold) {
@@ -176,7 +182,6 @@ export class ArticleListComponent implements OnInit {
   }
 
   async onArticleSelected(index: number) {
-
     if (this.openArticleIndex !== undefined) {
       if (this.openArticleIndex == index) {
         this.openArticleIndex = undefined;
@@ -229,6 +234,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async doRefresh(event?) {
+    this.filterService.updateFilterLoading(true);
     this.updatingArticles = true;
     this.resetTimer();
     try {
@@ -247,6 +253,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
+    this.filterService.updateFilterLoading(true);
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
 
       this.updatingArticles = true;
@@ -265,6 +272,7 @@ export class ArticleListComponent implements OnInit {
     }
 
     await this.loadReadyArticles();
+    this.filterService.updateFilterLoading(false);
     event.target.complete();
   }
 
@@ -279,33 +287,27 @@ export class ArticleListComponent implements OnInit {
 
     let results;
     try {
-      results = await this.neutrfiyAPI.ArticlesByDate(
-        'news',
-        this.setDateRange(),
-        ModelSortDirection.DESC, 
-        this.filters, 
-        limit, 
-        nextToken
-      );
+      results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, this.filters, limit, nextToken);
     } catch (error) {
       console.log('Could not get articles. Service returned this error: ', error);
 
       if (error.errors && error.errors.length === 1) {
         const errMes = error.errors[0];
         if (errMes.message === 'Network Error') {
-          if (this.retryCounter < 3) {
-            this.showErrorSpinner = true;
-            this.retryCounter ++;
+          for (let i = 0; i < 3; i++) {
             await setTimeout(() => {
-              console.log('Retry attempt no: ', this.retryCounter);
-            }, 2000);
-            return await this.listArticles(this.limit, this.nextToken);
-          } else {
-            this.updatingArticles = false;
-            this.showErrorSpinner = false;
-            this.retryCounter = 0;
-            alert('Couldn\'t recover from network difficulties. Please check your connection.');
-            throw new Error(`Could not get articles. Service returned this error: ${JSON.stringify(error)}`);
+              console.log('Retry attempt no: ', i + 1);
+            }, 3000 * i + 1);
+
+            try {
+              results = await this.neutrfiyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, this.filters, limit, nextToken);
+              console.log('Successfully retried to get articles.');
+              break;
+            } catch (e) {}
+
+            if (i === 2) {
+              alert('Couldn\'t recover from network difficulties. Please check your connection.');
+            }
           }
         }
       }
@@ -316,6 +318,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   async saveFilters() {
+    this.filterService.updateFilterLoading(true);
     const res = await this.filterService.saveFilters();
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
@@ -323,16 +326,15 @@ export class ArticleListComponent implements OnInit {
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
     }
+    this.filterService.updateFilterLoading(false);
   }
 
   async loadFilters() {
+    this.filterService.updateFilterLoading(true);
     const res = await this.filterService.loadFilters(this.authService.user.username);
     if (res) {
       await this.presentToast('Your changes to the filters have been reset.', 'success');
       this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-      setTimeout(() => {
-        this.filterService.updateFilterSaved(true);
-      }, 200);
     } else {
       this.presentToast('Could not reset your filters. Please try again.', 'danger');
     }

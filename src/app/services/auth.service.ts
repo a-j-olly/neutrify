@@ -59,7 +59,7 @@ export class AuthService {
               if (error.errors && error.errors.length === 1) {
                 const errMes = error.errors[0];
                 if (errMes.message === 'Network Error') {
-                  for(let i = 0; i < 3; i++) {
+                  for (let i = 0; i < 3; i++) {
                     await setTimeout(() => {
                       console.log('Retry attempt no: ', i + 1);
                     }, 3000 * i + 1);

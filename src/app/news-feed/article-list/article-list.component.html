@@ -1,5 +1,5 @@
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="updatingArticles">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="updatingArticles || filtersLoading">
     <ion-refresher-content  
       pullingIcon="chevron-down-outline"
       refreshingSpinner="circles"
@@ -67,27 +67,31 @@
     </div>
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [@btnInBottom]>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [disabled]="updatingArticles || filtersLoading" [@btnInBottom]>
     <ion-fab-button (click)="doRefresh()">
       <ion-icon size="large" name="refresh"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [@btnInLeft]>
+  <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [disabled]="updatingArticles || filtersLoading" [@btnInLeft]>
     <ion-fab-button (click)="saveFilters()" color="primary">
       <ion-icon size="large" name="save"></ion-icon>
     </ion-fab-button>
 
-    <ion-fab-button (click)="loadFilters()" color="danger" style="margin-top: 10px;">
+    <ion-fab-button (click)="loadFilters()" color="danger" style="margin-top: 10px;" [disabled]="updatingArticles || filtersLoading">
       <ion-icon size="large" name="close-circle"></ion-icon>
     </ion-fab-button>
   </ion-fab>
       
-  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles" [hidden]="nextToken === null">
+  <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles || filtersLoading" [hidden]="nextToken === null">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
   <div [hidden]="nextToken !== null || updatingArticles || displayArticles.length === 0" class="ion-text-center">
     <h2>You're all caught up!</h2>
+  </div>
+
+  <div class="spinner-container" *ngIf="showErrorSpinner">
+    <ion-spinner class="spinner" name="crescent" color="danger"></ion-spinner>
   </div>
 </ion-content>

@@ -25,6 +25,9 @@ export class FilterMenuComponent implements OnDestroy {
   private filterOptions
   private filterSubcription$: Subscription;
 
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
+
   constructor(
     private filterService: FilterService,
     public authService: AuthService,
@@ -46,6 +49,10 @@ export class FilterMenuComponent implements OnDestroy {
       this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (filters) => {
         this.filterOptions = filters;
         this.initOptions();
+      });
+
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
       });
     }
 
@@ -123,6 +130,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async loadFilters() {
+    this.filterService.updateFilterLoading(true);
       const res = await this.filterService.loadFilters(this.authService.user.username);
       if (res) {
         await this.presentToast('Your filters have been loaded.', 'success');
@@ -133,6 +141,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async saveFilters() {
+    this.filterService.updateFilterLoading(true);
     const res = await this.filterService.saveFilters();
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
@@ -143,6 +152,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async clearFilters() {
+    this.filterService.updateFilterLoading(true);
     try {
       const blankFilterObj = this.filterService.blankFilterObj();
       await this.filterService.updateFilterOptions(blankFilterObj);

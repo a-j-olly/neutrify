@@ -72,8 +72,8 @@ export const Arts = [
     },
     {
         id: 15,
-        label: 'Entertainm­ent',
-        value: 'entertainm­ent'
+        label: 'Entertainment',
+        value: 'entertainment'
     },
     {
         id: 16,
@@ -315,14 +315,14 @@ export const Games = [
     },
     {
         id: 21,
-        label: 'Tile Games',
-        value: 'tile games'
+        label: 'Title Games',
+        value: 'title games'
 
     },
     {
         id: 22,
         label: 'Trading Card Games',
-        value: 'trading card games'
+        value: 'trading card Games'
     },
     {
         id: 23,
@@ -652,8 +652,8 @@ export const Business = [
     },
     {
         id: 20,
-        label: 'Electronic­s and Electrical',
-        value: 'electronic­s and electrical'
+        label: 'Electronics and Electrical',
+        value: 'electronics and electrical'
     },
     {
         id: 21,
@@ -1973,121 +1973,116 @@ export const Shopping = [
     },
     {
         id: 7,
-        label: 'Entertainm­ent',
-        value: 'entertainm­ent'
-    },
-    {
-        id: 8,
         label: 'Ethnic and Regional',
         value: 'ethnic and regional'
     },
     {
-        id: 9,
+        id: 8,
         label: 'Flowers',
         value: 'flowers'
     },
     {
-        id: 10,
+        id: 9,
         label: 'Food',
         value: 'food'
     },
     {
-        id: 11,
+        id: 10,
         label: 'General Merchandis­e',
         value: 'general merchandis­e'
     },
     {
-        id: 12,
+        id: 11,
         label: 'Gifts',
         value: 'gifts'
     },
     {
-        id: 13,
+        id: 12,
         label: 'Health',
         value: 'health'
     },
     {
-        id: 14,
+        id: 13,
         label: 'Holidays',
         value: 'holidays'
     },
     {
-        id: 15,
+        id: 14,
         label: 'Home and Garden',
         value: 'home and garden'
     },
     {
-        id: 16,
+        id: 15,
         label: 'Jewelry',
         value: 'jewelry'
     },
     {
-        id: 17,
+        id: 16,
         label: 'Music',
         value: 'music'
     },
     {
-        id: 18,
+        id: 17,
         label: 'Niche',
         value: 'niche'
     },
     {
-        id: 19,
+        id: 18,
         label: 'Office Products',
         value: 'office products'
     },
     {
-        id: 20,
+        id: 19,
         label: 'Pets',
         value: 'pets'
     },
     {
-        id: 21,
+        id: 20,
         label: 'Photograph­y',
         value: 'photograph­y'
     },
     {
-        id: 22,
+        id: 21,
         label: 'Publicatio­ns',
         value: 'publicatio­ns'
     },
     {
-        id: 23,
+        id: 22,
         label: 'Recreation',
         value: 'recreation'
     },
     {
-        id: 24,
+        id: 23,
         label: 'Tobacco',
         value: 'tobacco'
     },
     {
-        id: 25,
+        id: 24,
         label: 'Tools',
         value: 'tools'
     },
     {
-        id: 26,
+        id: 25,
         label: 'Toys and Games',
         value: 'toys and games'
     },
     {
-        id: 27,
+        id: 26,
         label: 'Travel',
         value: 'travel'
     },
     {
-        id: 28,
+        id: 27,
         label: 'Vehicles',
         value: 'vehicles'
     },
     {
-        id: 29,
+        id: 28,
         label: 'Visual Arts',
         value: 'visual arts'
     },
     {
-        id: 30,
+        id: 29,
         label: 'Weddings',
         value: 'weddings'
     },

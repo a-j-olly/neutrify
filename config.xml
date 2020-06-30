@@ -2,7 +2,7 @@
 <widget id="app.neutrify.news" version="0.3.1" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Neutrify</name>
     <description>A news aggregator that gives you control of what you see.</description>
-    <author email="inquiries@neutrify.news" href="https://neutrify.news">Aaron J. Oliver</author>
+    <author email="inquiries@neutrify.news" href="https://neutrify.news">Neutrify LTD</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

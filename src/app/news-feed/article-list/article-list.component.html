@@ -73,8 +73,8 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [disabled]="updatingArticles || filtersLoading" [@btnInLeft]>
-    <ion-fab-button (click)="saveFilters()" color="primary">
+  <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [@btnInLeft]>
+    <ion-fab-button (click)="saveFilters()" color="primary" [disabled]="updatingArticles || filtersLoading">
       <ion-icon size="large" name="save"></ion-icon>
     </ion-fab-button>
 

@@ -2,7 +2,7 @@
   <div class="container" *ngIf="!showConfirmSignUp">
     <form  [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="form-group">
-        <p>To begin using Neutrify, you must first create an account. All passwords must include an uppercase character and a number.</p>
+        <p>To begin using Neutrify, you must first create an account. New passwords must include an uppercase character, a number and be at least 8 characters in length.</p>
         <div class="form-item ion-tappable">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
@@ -58,7 +58,7 @@
             <ion-label class="ion-text-wrap">
               <p>
                 By ticking this box you accept the <a style="text-decoration: none; cursor: pointer;" (click)="openPage('https://neutrify.news/home/terms-conditions/')">terms & conditions</a>, 
-                our <a style="text-decoration: none; cursor: pointer;" (click)="openPage('https://neutrify.news/home/privacy-policy')">privacy policy</a> 
+                our <a style="text-decoration: none; cursor: pointer;" (click)="openPage('https://neutrify.news/home/privacy-policy')">privacy policy</a>, 
                 and allow us to use your email address for account management purposes.
               </p>
             </ion-label>

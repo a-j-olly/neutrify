@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss'],
 })
-export class FilterMenuComponent implements OnDestroy {
+export class FilterMenuComponent {
   public toneUserOption;
   public sourcesUserOption;
   public topicsUserOption;
@@ -55,11 +55,6 @@ export class FilterMenuComponent implements OnDestroy {
         this.filtersLoading = status;
       });
     }
-
-  ngOnDestroy() {
-    this.filtersSavedSubcription$.unsubscribe();
-    this.filtersLoadedSubcription$.unsubscribe();
-  }
 
   async initOptions() {
 

@@ -9,7 +9,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TopicOptionComponent implements OnInit {
   public optionDisabled = false;
   public oppositeDisabled = false;
-  public isVisible = false;
   public displayValue: Array<string> = new Array<string>();
 
   @Input() filtersLoading;
@@ -22,17 +21,11 @@ export class TopicOptionComponent implements OnInit {
 
   @Input()
   set topicValues(val: any) {
-    // console.log('(setFilterValues)', this.topicOption.name.toUpperCase());
-    // console.log('(setFilterValues) val: ', val);
-    // console.log('(setFilterValues) this.topicValues', this.topicValues);
 
-    if (val && JSON.stringify(val) !== JSON.stringify(this._topicValues)) {
-      // this.isVisible = false;
+    if (val && JSON.stringify(val) != JSON.stringify(this._topicValues)) {
       this._topicValues = this.unmarshalTopicValues(val);
-      // setTimeout(() => this.isVisible = true);
       this.displayValue = this.topicValues[this.segmentValue];
       this.initTopic();
-      // console.log('(setFilterValues) this.topicValues', this.topicValues);
     }
   }
 
@@ -43,18 +36,10 @@ export class TopicOptionComponent implements OnInit {
 
   @Input()  
   set segmentValue(val: any) {
-    // console.log('(setSegmentValue) val: ', val);
-    // console.log('(setSegmentValue) displayValue: ', this.displayValue);
-    // console.log('(setSegmentValue) filterValues: ', this.topicValues);
-    // console.log(this.topicOption.name.toUpperCase());
-    // console.log('(setSegmentValues) optionDisabled: ', this.optionDisabled);
-    // console.log('(setSegmentValues) oppositeDisabled: ', this.oppositeDisabled);
     this._segmentValue = val;
 
-    if (JSON.stringify(this.displayValue) !== JSON.stringify(this.topicValues[this.segmentValue])) {
+    if (JSON.stringify(this.displayValue) != JSON.stringify(this.topicValues[this.segmentValue])) {
       this.displayValue = this.topicValues[this.segmentValue];
-      // console.log('(setSegmentValue) this.topicValues', this.topicValues);
-
       this.initTopic();
     }
   }
@@ -76,7 +61,6 @@ export class TopicOptionComponent implements OnInit {
   }
 
   initTopic() {
-    // console.log('init topics');
     const target = this.topicValues[this.segmentValue];
     const oppositeTarget = this.topicValues[this.segmentValue === 'include' ? 'exclude' : 'include'];
 
@@ -86,8 +70,6 @@ export class TopicOptionComponent implements OnInit {
       this.oppositeDisabled = false;
     }
 
-    // console.log('target.length', this.topicOption.name.toUpperCase());
-    // console.log('target.length', target.length);
     if (target.length === 1) {
 
       if (target[0].toLowerCase() === this.topicOption.name.toLowerCase()) {
@@ -109,7 +91,6 @@ export class TopicOptionComponent implements OnInit {
   async onCheckboxChange(event) {
     let filtersChanged = false;
 
-    // console.log('(onCheckboxChange) event: ', event);
     if (event.detail.checked) {
       if (this.topicValues[this.segmentValue].length !== 1 || this.topicValues[this.segmentValue][0].toLowerCase() !== this.topicOption.name.toLowerCase()) {
         this.topicValues[this.segmentValue].length = 0;
@@ -121,7 +102,6 @@ export class TopicOptionComponent implements OnInit {
       if (this.topicValues[oppositeSegmentValue].length) {
         this.topicValues[oppositeSegmentValue].length = 0;
         filtersChanged = true;
-        // console.log('(onCheckboxChange) opposite filterValues: ', this.topicValues[oppositeSegmentValue]);
       }
 
       this.oppositeDisabled = true;
@@ -142,29 +122,17 @@ export class TopicOptionComponent implements OnInit {
       }
     }
 
-    // console.log('(onCheckboxChange) filters changed? ', filtersChanged);
-
     if (filtersChanged) {
       this.displayValue = this.topicValues[this.segmentValue];
       await this.emitTopicChange();
-      // console.log('(onCheckboxChange) displayValue: ', this.displayValue);
-      // console.log('(onCheckboxChange) filterValues: ', this.topicValues[this.segmentValue]);
-      // console.log('(onCheckboxChange) filterValues full: ', this.topicValues);
     }
   }
 
   async onSelectChange(event) {
-    // console.log('(onSelectChange) event: ', event.detail.value);
-    // console.log('(onSelectChange) displayValue: ', this.displayValue);
-    // console.log('(onSelectChange) filterValues: ', this.topicValues[this.segmentValue]);
-
-    if (JSON.stringify(this.topicValues[this.segmentValue]) !== JSON.stringify(event.detail.value)) {
+    if (JSON.stringify(this.topicValues[this.segmentValue]) != JSON.stringify(event.detail.value)) {
       this.topicValues[this.segmentValue] = event.detail.value;
       await this.emitTopicChange();
-      // console.log('(onSelectChange) updated filterValues: ', this.topicValues[this.segmentValue]);
     }
-    // console.log('(onSelectChange) [before assignment] filterValues', this.topicValues);
-    // console.log('(onSelectChange) [after assignment] filterValues', this.topicValues);
   }
 
   emitTopicChange() {

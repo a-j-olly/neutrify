@@ -22,42 +22,19 @@ import { Subscription } from 'rxjs';
 })
 export class TopicsFilterComponent implements OnInit {
   private option: any = {};
-  private copiedOptions = {};
-  public includedTopics: any = {};
-  public excludedTopics: any = {};
   public segmentValue = 'include';
   public showFilter = false;
   public selectOptions: any = {};
   public filterValues: any = {};
 
-  public artsDisabled = false;
-  public gamesDisabled = false;
-  public societyDisabled = false;
-  public businessDisabled = false;
-  public healthDisabled = false;
-  public recreationDisabled = false;
-  public scienceDisabled = false;
-  public sportsDisabled = false;
-  public computersDisabled = false;
-  public homeDisabled = false;
-  public shoppingDisabled = false;
-
   @Input()
   set userOption(val: any) {
-      console.log('(onInput) val: ', val);
 
     if (val && JSON.stringify(val) != JSON.stringify(this.option)) {
       this.option['include'] = this.buildTopicObj(val['include']);
       this.option['exclude'] = this.buildTopicObj(val['exclude']); 
-      // console.log('(onInput) this.option: ', this.option);
 
       this.filterValues = this.convertTopicObj(this.option);
-      console.log('filter value', this.filterValues);
-
-      // if (JSON.stringify(this.option[this.segmentValue]) !== JSON.stringify(this.filterValues)) {
-      //   this.copyTopicObj(this.filterValues, this.option[this.segmentValue]);
-      //   console.log('(onInput) this.filterValues: ', this.filterValues);
-      // }
     }
   }
 
@@ -114,7 +91,6 @@ export class TopicsFilterComponent implements OnInit {
   }
 
   convertTopicObj(ogObj) {
-    // console.log('ogObj', ogObj);
     let keys = {
       'arts': [], 'games': [], 'society': [],
       'business': [], 'health': [], 'recreation': [],
@@ -142,45 +118,10 @@ export class TopicsFilterComponent implements OnInit {
 
   handleTopicChange(event) {
     const { name: eventName, value: eventValue } = event;
-    // let hasChanged = false;
-
-    // let res: any = {}; 
-    // res['include'] = this.buildTopicObj(this.option.include);
-    // res['exclude'] = this.buildTopicObj(this.option.exclude);
-
-    console.log('topic change event received: ', event);
 
     if (!this.isArrEq(this.option.include[eventName], eventValue.include) || !this.isArrEq(this.option.exclude[eventName], eventValue.exclude)) {
       this.filterService.updateFilterLoading(true);
       this.filterService.addToTopicOptionsWrapper([...eventValue.include], [...eventValue.exclude], eventName);
     }
-
-    // if (hasChanged) {
-    //   // res.name = 'Topics';
-    //   console.log('(handleTopicChange) topics to emit: ', res);
-    //   this.filterService.addTopicsOptions(res);
-    //   // this.userOptionChanged.emit(res);
-    // }
-  //   let topics;
-
-  //   if (this.segmentValue === 'include') {
-  //     topics = this.includedTopics;
-  //   } else {
-  //     topics = this.excludedTopics;
-  //   }
-
-
-
-  //   if (event && event.target) {
-  //     topics[event.target.name] = event.target.value;
-  //   }
-
-  //   if (JSON.stringify(topics) !== JSON.stringify(this.copiedOptions[this.segmentValue])) {
-  //     this.option[this.segmentValue] = topics;
-  //     this.option.name = 'Topics';
-  //     this.userOptionChanged.emit(this.option);
-      
-  //     this.copiedOptions[this.segmentValue] = this.buildTopicObj(topics);
-  //   }
   }
 }

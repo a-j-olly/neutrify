@@ -20,9 +20,9 @@ export class WordFilterComponent implements OnInit {
   @Input()
   set userOption(val: any) {
     const { include, exclude } = val;
-    if (JSON.stringify(include) !== JSON.stringify(this.includeList)) {
+    if (JSON.stringify(include) != JSON.stringify(this.includeList)) {
       this.includeList = [...include];
-    } else if (JSON.stringify(exclude) !== JSON.stringify(this.excludeList)) {
+    } else if (JSON.stringify(exclude) != JSON.stringify(this.excludeList)) {
       this.excludeList = [...exclude];
     }
 

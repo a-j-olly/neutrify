@@ -89,6 +89,9 @@ export class ArticleListComponent implements OnInit {
 
     this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
       this.filtersLoading = status;
+      if (this.filtersLoading) {
+        this.openArticleIndex = undefined;
+      }
     });
   }
 

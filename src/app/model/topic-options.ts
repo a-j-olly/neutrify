@@ -1822,26 +1822,21 @@ export const Computers = [
     },
     {
         id: 37,
-        label: 'Shopping',
-        value: 'shopping'
-    },
-    {
-        id: 38,
         label: 'Speech Technology',
         value: 'speech technology'
     },
     {
-        id: 39,
+        id: 38,
         label: 'Supercompu­ting',
         value: 'supercompu­ting'
     },
     {
-        id: 40,
+        id: 39,
         label: 'Usenet',
         value: 'usenet'
     },
     {
-        id: 41,
+        id: 40,
         label: 'Virtual Reality',
         value: 'virtual reality'
     },

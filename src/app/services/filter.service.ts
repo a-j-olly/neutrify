@@ -62,10 +62,9 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    console.log('(updateFilterOptions) params inputFilterOptions: ', inputFilterOptions);
     let newFilterOptions = Object.assign({}, inputFilterOptions);
 
-    if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
+    if (JSON.stringify(this.filterOptions) == JSON.stringify(newFilterOptions)) {
       this.filterOptions$.next(this.filterOptions);
       return;
     }
@@ -130,45 +129,32 @@ export class FilterService {
     return this.filterLoading$.asObservable();
   }
 
-  addToFilterOptions(optionType, operation, value) {
+  addToFilterOptions(optionType: string, operation: string, value: string) {
     let newFilterOptions = Object.assign({}, this.filterOptions);
+    let target = newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`];
+    let rejected = false;
 
-    if (optionType === 'topics') {
-      const topicGroup = this.findTopicsGroup(value);
-
-      let target = operation === 'include' ? newFilterOptions.topicsToInclude : newFilterOptions.topicsToExclude;
-      if (!newFilterOptions.topicsToInclude.includes(value) && newFilterOptions.topicsToExclude.includes(value)) {
+      if (!newFilterOptions[`${optionType}ToInclude`].includes(value.toLowerCase()) && !newFilterOptions[`${optionType}ToExclude`].includes(value.toLowerCase())) {
         target.push(value.toLowerCase());
       } else {
-        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning')
+        rejected = true;
+        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
       }
 
-      if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value) && !this.topicsUserOption.exclude[topicGroup.toLowerCase()].includes(value)) {
-        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
-      }
-    }
+      if (optionType === 'topics') {
+        const topicGroup = this.findTopicsGroup(value);
 
-    if (operation === 'include') {
-      if (optionType === 'keywords') {
-        newFilterOptions.keywordsToInclude.push(value.toLowerCase());
-      } else if (optionType === 'locations') {
-        newFilterOptions.locationsToInclude.push(value.toLowerCase());
-      } else if (optionType === 'sources') {
-        newFilterOptions.sourcesToInclude.push(value.toLowerCase());
+        if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value.toLowerCase())) {
+          this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value.toLowerCase());
+        }
       }
-    } else {
-      if (optionType === 'keywords') {
-        newFilterOptions.keywordsToExclude.push(value.toLowerCase());
-      } else if (optionType === 'locations') {
-        newFilterOptions.locationsToExclude.push(value.toLowerCase());
-      }  else if (optionType === 'sources') {
-        newFilterOptions.sourcesToExclude.push(value.toLowerCase());
-      }
-    }
+
     
-    this.filterOptions = newFilterOptions;
-    this.filterOptions$.next(this.filterOptions);
-    this.updateFilterSaved(false);
+    if (!rejected) {
+      this.filterOptions = newFilterOptions;
+      this.filterOptions$.next(this.filterOptions);
+      this.updateFilterSaved(false);
+    }
   }
 
   addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group?: string) {
@@ -343,22 +329,22 @@ export class FilterService {
         ops.locationsToInclude.length > 0 || ops.locationsToExclude.length > 0) {
       filterInput.and = [];
 
-      if (ops.sourcesToInclude.length > 0 || ops.locationsToInclude.length > 0) {
-        if (ops.sourcesToInclude.length > 0) {
-          const sourceFilter: Array<ModelArticleFilterInput> = [];
-          sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
-          filterInput.and.push({or: sourceFilter});
-        }
+      if (ops.sourcesToInclude.length > 0) {
+        const sourceFilter: Array<ModelArticleFilterInput> = [];
+        sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+        filterInput.and.push({or: sourceFilter});
+      }
 
-        if (ops.locationsToInclude.length > 0) {
-          const locationFilter: Array<ModelArticleFilterInput> = [];
-          locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
-          filterInput.and.push({or: locationFilter});
-        }
+      if (ops.locationsToInclude.length > 0) {
+        const locationFilter: Array<ModelArticleFilterInput> = [];
+        locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
+        filterInput.and.push({or: locationFilter});
       }
 
       if (ops.keywordsToInclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
+        const keywordFilter: Array<ModelArticleFilterInput> = [];
+        keywordFilter.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
+        filterInput.and.push({or: keywordFilter});
       }
 
       if (typeof ops.topicsToInclude === 'string') {
@@ -366,7 +352,9 @@ export class FilterService {
       }
 
       if (ops.topicsToInclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
+        const topicsFilter: Array<ModelArticleFilterInput> = [];
+        topicsFilter.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
+        filterInput.and.push({or: topicsFilter});
       }
 
       if (ops.sourcesToExclude.length > 0) {
@@ -406,7 +394,7 @@ export class FilterService {
   async presentToast(message, color) {
     const toast = await this.toastController.create({
       message,
-      duration: 2000,
+      duration: 3000,
       color,
       cssClass: 'ion-text-center'
     });

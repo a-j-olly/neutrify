@@ -2,6 +2,8 @@ import { GoogleAnalyticsService } from './../../../services/google-analytics.ser
 import { Countries } from './../../../model/country-options';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-country-filter',
@@ -31,7 +33,17 @@ export class CountryFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor(private ga: GoogleAnalyticsService) { }
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
+
+  constructor(
+    private filterService: FilterService,
+    private ga: GoogleAnalyticsService
+    ) {
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
+      });
+    }
 
   ngOnInit() {
     this.countryFilterList = this.option[this.segmentValue];
@@ -67,6 +79,7 @@ export class CountryFilterComponent implements OnInit {
   }
 
   removeWord(index) {
+    if (this.filtersLoading) return;
     this.option[this.segmentValue].splice(index, 1);
     this.option.name = 'Locations';
     this.countryFilterList = this.option[this.segmentValue];

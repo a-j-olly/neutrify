@@ -2,6 +2,7 @@ import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './neutri
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as TopicGroups from '../model/topic-options';
+import { ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,15 @@ export class FilterService {
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
+  filtersLoading: boolean = false;
+  filterLoading$ = new Subject<boolean>();
+
   topicsUserOption: any = {};
 
-  constructor(private neutrifyAPI: APIService) { }
+  constructor(
+    private neutrifyAPI: APIService,
+    private toastController: ToastController
+    ) { }
 
   buildFilterOptions(userOptions) {
 
@@ -57,7 +64,7 @@ export class FilterService {
   async updateFilterOptions(inputFilterOptions) {
     let newFilterOptions = Object.assign({}, inputFilterOptions);
 
-    if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
+    if (JSON.stringify(this.filterOptions) == JSON.stringify(newFilterOptions)) {
       this.filterOptions$.next(this.filterOptions);
       return;
     }
@@ -113,46 +120,100 @@ export class FilterService {
     return this.filterLoaded$.asObservable();
   }
 
-  addToFilterOptions(optionType, operation, value) {
+  async updateFilterLoading(isLoading: boolean) {
+    this.filtersLoading = isLoading;
+    this.filterLoading$.next(isLoading);
+  }
+
+  getFilterLoading() {
+    return this.filterLoading$.asObservable();
+  }
+
+  addToFilterOptions(optionType: string, operation: string, value: string) {
     let newFilterOptions = Object.assign({}, this.filterOptions);
+    let target = newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`];
+    let rejected = false, topicGroup: string;
 
-    if (optionType === 'topics') {
-      if (operation === 'include') {
-        newFilterOptions.topicsToInclude.push(value.toLowerCase());
+    if (!newFilterOptions[`${optionType}ToInclude`].includes(value) && !newFilterOptions[`${optionType}ToExclude`].includes(value)) {
+      if (optionType === 'topics') {
+        topicGroup = this.findTopicsGroup(value);
+
+        if (value.toLowerCase() === topicGroup.toLowerCase() 
+          && !newFilterOptions.topicsToInclude.some(topic => topicGroup.toLowerCase() == this.findTopicsGroup(topic).toLowerCase())
+          && !newFilterOptions.topicsToExclude.some(topic => topicGroup.toLowerCase() == this.findTopicsGroup(topic).toLowerCase())) {
+          target.push(value);
+        } else if (value.toLowerCase() != topicGroup.toLowerCase() 
+          && !newFilterOptions.topicsToInclude.includes(topicGroup) && !newFilterOptions.topicsToExclude.includes(topicGroup)) {
+          target.push(value);
+        } else {
+          rejected = true;
+          this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
+        }
       } else {
-        newFilterOptions.topicsToExclude.push(value.toLowerCase());
-      }
-
-      const topicGroup = this.findTopicsGroup(value);
-      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
-        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
-      }
-    }
-
-    if (operation === 'include') {
-      if (optionType === 'keywords') {
-        newFilterOptions.keywordsToInclude.push(value.toLowerCase());
-      } else if (optionType === 'locations') {
-        newFilterOptions.locationsToInclude.push(value.toLowerCase());
-      } else if (optionType === 'sources') {
-        newFilterOptions.sourcesToInclude.push(value.toLowerCase());
+        target.push(value);
       }
     } else {
-      if (optionType === 'keywords') {
-        newFilterOptions.keywordsToExclude.push(value.toLowerCase());
-      } else if (optionType === 'locations') {
-        newFilterOptions.locationsToExclude.push(value.toLowerCase());
-      }  else if (optionType === 'sources') {
-        newFilterOptions.sourcesToExclude.push(value.toLowerCase());
+      rejected = true;
+      this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
+    }
+
+    if (!rejected && optionType === 'topics') {
+      topicGroup = topicGroup ? topicGroup : this.findTopicsGroup(value);
+      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
+        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      } else {
+        rejected = true;
+        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
       }
     }
     
-    this.filterOptions = newFilterOptions;
+    if (!rejected) {
+      this.updateFilterLoading(true);
+      this.filterOptions = newFilterOptions;
+      this.filterOptions$.next(this.filterOptions);
+      this.updateFilterSaved(false);
+    }
+  }
+
+  addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group?: string) {
+
+    if (!this.isArrEq(this.filterOptions.topicsToInclude, included)) {
+      this.filterOptions.topicsToInclude = this.addToTopicOptions('include', included, group);
+    }
+
+    if (!this.isArrEq(this.filterOptions.topicsToExclude, excluded)) {
+      this.filterOptions.topicsToExclude = this.addToTopicOptions('exclude', excluded, group);
+    }
+
     this.filterOptions$.next(this.filterOptions);
     this.updateFilterSaved(false);
   }
 
-  findTopicsGroup(value: string) {
+  addToTopicOptions(operation, values, group) {
+    let newTopics = operation === 'include' ? [...this.filterOptions.topicsToInclude] : [...this.filterOptions.topicsToExclude];
+    
+    if (values.length) {
+      values.forEach(val => {
+        if (!newTopics.includes(val)) {
+          newTopics.push(val);
+        }
+      });
+
+      newTopics = newTopics.filter(topic => group.toLowerCase() != this.findTopicsGroup(topic).toLowerCase() || !values.includes(topic) || topic.toLowerCase() == group.toLowerCase());
+      this.topicsUserOption[operation][group] = values;
+    } else {
+      newTopics = newTopics.filter((topic) => group != this.findTopicsGroup(topic).toLowerCase());
+      this.topicsUserOption[operation][group] = new Array();
+    }
+
+    return newTopics;
+  }
+
+  isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1) == JSON.stringify(arr2);
+  }
+
+  findTopicsGroup(value: string): string {
     let group;
     Object.keys(TopicGroups).forEach((groupKey) => {
       if (group) {
@@ -286,22 +347,22 @@ export class FilterService {
         ops.locationsToInclude.length > 0 || ops.locationsToExclude.length > 0) {
       filterInput.and = [];
 
-      if (ops.sourcesToInclude.length > 0 || ops.locationsToInclude.length > 0) {
-        if (ops.sourcesToInclude.length > 0) {
-          const sourceFilter: Array<ModelArticleFilterInput> = [];
-          sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
-          filterInput.and.push({or: sourceFilter});
-        }
+      if (ops.sourcesToInclude.length > 0) {
+        const sourceFilter: Array<ModelArticleFilterInput> = [];
+        sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+        filterInput.and.push({or: sourceFilter});
+      }
 
-        if (ops.locationsToInclude.length > 0) {
-          const locationFilter: Array<ModelArticleFilterInput> = [];
-          locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
-          filterInput.and.push({or: locationFilter});
-        }
+      if (ops.locationsToInclude.length > 0) {
+        const locationFilter: Array<ModelArticleFilterInput> = [];
+        locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
+        filterInput.and.push({or: locationFilter});
       }
 
       if (ops.keywordsToInclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
+        const keywordFilter: Array<ModelArticleFilterInput> = [];
+        keywordFilter.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
+        filterInput.and.push({or: keywordFilter});
       }
 
       if (typeof ops.topicsToInclude === 'string') {
@@ -309,7 +370,9 @@ export class FilterService {
       }
 
       if (ops.topicsToInclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
+        const topicsFilter: Array<ModelArticleFilterInput> = [];
+        topicsFilter.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
+        filterInput.and.push({or: topicsFilter});
       }
 
       if (ops.sourcesToExclude.length > 0) {
@@ -344,5 +407,15 @@ export class FilterService {
       res[key][operation] = word.trim().toLowerCase();
       return res;
     });
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 5000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

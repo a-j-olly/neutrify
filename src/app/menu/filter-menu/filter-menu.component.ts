@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { AuthService } from './../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss'],
 })
-export class FilterMenuComponent implements OnDestroy {
+export class FilterMenuComponent {
   public toneUserOption;
   public sourcesUserOption;
   public topicsUserOption;
@@ -24,6 +24,9 @@ export class FilterMenuComponent implements OnDestroy {
 
   private filterOptions
   private filterSubcription$: Subscription;
+
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
@@ -47,12 +50,11 @@ export class FilterMenuComponent implements OnDestroy {
         this.filterOptions = filters;
         this.initOptions();
       });
-    }
 
-  ngOnDestroy() {
-    this.filtersSavedSubcription$.unsubscribe();
-    this.filtersLoadedSubcription$.unsubscribe();
-  }
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
+      });
+    }
 
   async initOptions() {
 
@@ -123,6 +125,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async loadFilters() {
+    this.filterService.updateFilterLoading(true);
       const res = await this.filterService.loadFilters(this.authService.user.username);
       if (res) {
         await this.presentToast('Your filters have been loaded.', 'success');
@@ -133,6 +136,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async saveFilters() {
+    this.filterService.updateFilterLoading(true);
     const res = await this.filterService.saveFilters();
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
@@ -143,6 +147,7 @@ export class FilterMenuComponent implements OnDestroy {
   }
 
   async clearFilters() {
+    this.filterService.updateFilterLoading(true);
     try {
       const blankFilterObj = this.filterService.blankFilterObj();
       await this.filterService.updateFilterOptions(blankFilterObj);

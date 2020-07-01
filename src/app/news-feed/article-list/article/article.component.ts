@@ -16,6 +16,7 @@ export class ArticleComponent implements OnInit {
   @Input() article: any;
   public datePublished: string;
   public timePublished: string;
+  public showImage: boolean = false;
 
   public imageFailed = false;
   public slideOpts = {
@@ -51,10 +52,6 @@ export class ArticleComponent implements OnInit {
     return await modal.present();
   }
 
-  imageError() {
-    this.imageFailed = true;
-  }
-
   async openFilterPopover(event, optionType, value) {
     const popover = await this.popoverController.create({
       component: AddFilterPopoverComponent,
@@ -86,5 +83,12 @@ export class ArticleComponent implements OnInit {
   async checkSlidesPos() {
     this.leftArrowDisabled = await this.slides.isBeginning();
     this.rightArrowDisabled = await this.slides.isEnd();
+  }
+
+  async onSlideWillChange() {
+    const currentSlideIndex = await this.slides.getActiveIndex();
+    if (currentSlideIndex === 1) {
+      this.showImage = true;
+    } 
   }
 }

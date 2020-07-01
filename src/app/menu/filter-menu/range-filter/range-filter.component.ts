@@ -1,5 +1,7 @@
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-range-filter',
@@ -16,7 +18,17 @@ export class RangeFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor(private ga: GoogleAnalyticsService) { }
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
+
+  constructor(
+    private filterService: FilterService,
+    private ga: GoogleAnalyticsService
+    ) {
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
+      });
+    }
 
   ngOnInit() {
     if (this.rangeFilterType === 'Attitude') {
@@ -50,7 +62,6 @@ export class RangeFilterComponent implements OnInit {
       this.ga.eventEmitter('use_filter', 'engagement', 'Tone filter used');
     }
   }
-
 
   hasChanged(event): boolean {
     let changed = false;

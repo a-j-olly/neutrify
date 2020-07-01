@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { FilterService } from 'src/app/services/filter.service';
 import { Subscription } from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-word-filter',
@@ -44,7 +45,8 @@ export class WordFilterComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private toastController: ToastController
     ) {
       this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
         this.filtersLoading = status;
@@ -65,18 +67,23 @@ export class WordFilterComponent implements OnInit {
 
   addWord() {
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
-    wordList.push(this.wordOptionForm.value.wordInput);
+    const val = this.wordOptionForm.value.wordInput.toLowerCase();
+    if (!this.includeList.includes(val) && !this.excludeList.includes(val)) {
+      wordList.push(val);
+      this.wordDisplayList = wordList;
+
+      this.userOptionChanged.emit({
+        include: this.includeList,
+        exclude: this.excludeList,
+        name: this.wordFilterType
+      });
+
+      this.ga.eventEmitter('use_filter', 'engagement', `${this.wordFilterType} filter used`);
+    } else {
+      this.presentToast(`You are already filtering ${val}`, 'danger');
+    }
+
     this.wordOptionForm.reset();
-
-    this.wordDisplayList = wordList;
-
-    this.userOptionChanged.emit({
-      include: this.includeList,
-      exclude: this.excludeList,
-      name: this.wordFilterType
-    });
-
-    this.ga.eventEmitter('use_filter', 'engagement', `${this.wordFilterType} filter used`);
   }
 
   removeWord(index) {
@@ -86,11 +93,20 @@ export class WordFilterComponent implements OnInit {
     wordList.splice(index, 1);
 
     this.wordDisplayList = wordList;
-
     this.userOptionChanged.emit({
       include: this.includeList,
       exclude: this.excludeList,
       name: this.wordFilterType
     });
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 4000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
   }
 }

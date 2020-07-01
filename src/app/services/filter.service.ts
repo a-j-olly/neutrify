@@ -81,14 +81,14 @@ export class FilterService {
       newFilterOptions.topicsToInclude.forEach(value => {
         const topicGroup = this.findTopicsGroup(value);
         if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value)) {
-          this.topicsUserOption.include[topicGroup.toLowerCase()].push(value);
+          this.topicsUserOption.include[topicGroup.toLowerCase()].push(value.toLowerCase());
         }
       });
 
       newFilterOptions.topicsToExclude.forEach(value => {
         const topicGroup = this.findTopicsGroup(value);
         if (!this.topicsUserOption.exclude[topicGroup.toLowerCase()].includes(value)) {
-          this.topicsUserOption.exclude[topicGroup.toLowerCase()].push(value);
+          this.topicsUserOption.exclude[topicGroup.toLowerCase()].push(value.toLowerCase());
         }
       });
     }
@@ -134,36 +134,35 @@ export class FilterService {
     let target = newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`];
     let rejected = false, topicGroup: string;
 
-    if (!newFilterOptions[`${optionType}ToInclude`].includes(value) && !newFilterOptions[`${optionType}ToExclude`].includes(value)) {
+    if (!newFilterOptions[`${optionType}ToInclude`].includes(value.toLowerCase()) && !newFilterOptions[`${optionType}ToExclude`].includes(value.toLowerCase())) {
       if (optionType === 'topics') {
-        topicGroup = this.findTopicsGroup(value);
+        topicGroup = this.findTopicsGroup(value).toLowerCase();
 
-        if (value.toLowerCase() === topicGroup.toLowerCase() 
-          && !newFilterOptions.topicsToInclude.some(topic => topicGroup.toLowerCase() == this.findTopicsGroup(topic).toLowerCase())
-          && !newFilterOptions.topicsToExclude.some(topic => topicGroup.toLowerCase() == this.findTopicsGroup(topic).toLowerCase())) {
-          target.push(value);
-        } else if (value.toLowerCase() != topicGroup.toLowerCase() 
-          && !newFilterOptions.topicsToInclude.includes(topicGroup) && !newFilterOptions.topicsToExclude.includes(topicGroup)) {
-          target.push(value);
+        if (value.toLowerCase() === topicGroup 
+          && !newFilterOptions.topicsToInclude.some(topic => topicGroup == this.findTopicsGroup(topic).toLowerCase())
+          && !newFilterOptions.topicsToExclude.some(topic => topicGroup == this.findTopicsGroup(topic).toLowerCase())) {
+            target.push(value.toLowerCase());
+        } else if (value.toLowerCase() != topicGroup && !newFilterOptions.topicsToInclude.includes(topicGroup) && !newFilterOptions.topicsToExclude.includes(topicGroup)) {
+            target.push(value.toLowerCase());
         } else {
           rejected = true;
-          this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
+          this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'danger');
         }
       } else {
-        target.push(value);
+        target.push(value.toLowerCase());
       }
     } else {
       rejected = true;
-      this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
+      this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'danger');
     }
 
     if (!rejected && optionType === 'topics') {
       topicGroup = topicGroup ? topicGroup : this.findTopicsGroup(value);
-      if (!this.topicsUserOption[operation][topicGroup.toLowerCase()].includes(value)) {
-        this.topicsUserOption[operation][topicGroup.toLowerCase()].push(value);
+      if (!this.topicsUserOption[operation][topicGroup].includes(value)) {
+        this.topicsUserOption[operation][topicGroup].push(value.toLowerCase());
       } else {
         rejected = true;
-        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'warning');
+        this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'danger');
       }
     }
     
@@ -175,8 +174,7 @@ export class FilterService {
     }
   }
 
-  addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group?: string) {
-
+  addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group: string) {
     if (!this.isArrEq(this.filterOptions.topicsToInclude, included)) {
       this.filterOptions.topicsToInclude = this.addToTopicOptions('include', included, group);
     }
@@ -193,14 +191,14 @@ export class FilterService {
     let newTopics = operation === 'include' ? [...this.filterOptions.topicsToInclude] : [...this.filterOptions.topicsToExclude];
     
     if (values.length) {
+      newTopics = newTopics.filter(topic => group.toLowerCase() != this.findTopicsGroup(topic).toLowerCase() || !values.includes(topic) || topic.toLowerCase() == group.toLowerCase());
       values.forEach(val => {
         if (!newTopics.includes(val)) {
-          newTopics.push(val);
+          newTopics.push(val.toLowerCase());
         }
       });
 
-      newTopics = newTopics.filter(topic => group.toLowerCase() != this.findTopicsGroup(topic).toLowerCase() || !values.includes(topic) || topic.toLowerCase() == group.toLowerCase());
-      this.topicsUserOption[operation][group] = values;
+      this.topicsUserOption[operation][group] = values.map(val => val.toLowerCase());
     } else {
       newTopics = newTopics.filter((topic) => group != this.findTopicsGroup(topic).toLowerCase());
       this.topicsUserOption[operation][group] = new Array();
@@ -210,7 +208,7 @@ export class FilterService {
   }
 
   isArrEq(arr1, arr2) {
-    return arr1 && arr2 && JSON.stringify(arr1) == JSON.stringify(arr2);
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() == JSON.stringify(arr2).toLowerCase();
   }
 
   findTopicsGroup(value: string): string {
@@ -333,7 +331,6 @@ export class FilterService {
 
   getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
-
     const filterInput: ModelArticleFilterInput = {
       tone: {
         between: [

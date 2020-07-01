@@ -14,7 +14,7 @@ export class TopicOptionComponent implements OnInit {
   @Input() filtersLoading;
   @Input() topicOption;
 
-  private _topicValues: any;
+  private _topicValues: any = {};
   get topicValues() {
     return this._topicValues;
   }
@@ -22,9 +22,9 @@ export class TopicOptionComponent implements OnInit {
   @Input()
   set topicValues(val: any) {
 
-    if (val && JSON.stringify(val) != JSON.stringify(this._topicValues)) {
+    if (val && JSON.stringify(val).toLowerCase() != JSON.stringify(this._topicValues).toLowerCase()) {
       this._topicValues = this.unmarshalTopicValues(val);
-      this.displayValue = this.topicValues[this.segmentValue];
+      this.displayValue = this.topicValues[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));
       this.initTopic();
     }
   }
@@ -38,8 +38,8 @@ export class TopicOptionComponent implements OnInit {
   set segmentValue(val: any) {
     this._segmentValue = val;
 
-    if (JSON.stringify(this.displayValue) != JSON.stringify(this.topicValues[this.segmentValue])) {
-      this.displayValue = this.topicValues[this.segmentValue];
+    if (JSON.stringify(this.displayValue).toLowerCase() != JSON.stringify(this.topicValues[this.segmentValue]).toLowerCase()) {
+      this.displayValue = this.topicValues[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));
       this.initTopic();
     }
   }
@@ -123,14 +123,14 @@ export class TopicOptionComponent implements OnInit {
     }
 
     if (filtersChanged) {
-      this.displayValue = this.topicValues[this.segmentValue];
+      this.displayValue = this.topicValues[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));
       await this.emitTopicChange();
     }
   }
 
   async onSelectChange(event) {
-    if (JSON.stringify(this.topicValues[this.segmentValue]) != JSON.stringify(event.detail.value)) {
-      this.topicValues[this.segmentValue] = event.detail.value;
+    if (JSON.stringify(this.topicValues[this.segmentValue]).toLowerCase() != JSON.stringify(event.detail.value).toLowerCase()) {
+      this.topicValues[this.segmentValue] = event.detail.value.map(val => val.toLowerCase());
       await this.emitTopicChange();
     }
   }

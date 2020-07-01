@@ -22,8 +22,9 @@
       <p>Filter articles based on {{ rangeFilterType.toLowerCase() }}:</p>
     </ion-row>
     <ion-row>
-      <ion-range min="{{ rangeSettings.min }}" max="{{ rangeSettings.max }}" step="{{ rangeSettings.step }}" dualKnobs="{{ rangeSettings.dualKnobs }}"
-      ticks="{{ rangeSettings.ticks }}" snaps="{{ rangeSettings.snaps }}" pin="{{ rangeSettings.pin }}" debounce="250" [ngModel]="userOption.value" (ionChange)="onChange($event)">
+      <ion-range min="{{ rangeSettings.min }}" max="{{ rangeSettings.max }}" step="{{ rangeSettings.step }}" [disabled]="filtersLoading"
+        dualKnobs="{{ rangeSettings.dualKnobs }}" ticks="{{ rangeSettings.ticks }}" snaps="{{ rangeSettings.snaps }}" 
+        pin="{{ rangeSettings.pin }}" debounce="250" [ngModel]="userOption.value" (ionChange)="onChange($event)">
         <ion-icon slot="start" name="{{ rangeSettings.rangeIcons.start.name }}" color="{{ rangeSettings.rangeIcons.start.color }}"></ion-icon>
         <ion-icon slot="end" name="{{ rangeSettings.rangeIcons.end.name }}" color="{{ rangeSettings.rangeIcons.end.color }}"></ion-icon>
       </ion-range>

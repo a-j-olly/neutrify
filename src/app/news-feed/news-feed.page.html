@@ -11,7 +11,7 @@
       <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
     </ion-title>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="authService.loaded">
       <ion-label class="hide-label" color="primary">Main Menu</ion-label>
       <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
     </ion-buttons>
@@ -28,7 +28,7 @@
       <div class="skeleton-title">
         <ion-row class="ion-justify-content-between">
           <ion-skeleton-text animated></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 10%;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
         </ion-row>
         <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
       </div>
@@ -43,7 +43,7 @@
       <div class="skeleton-title">
         <ion-row class="ion-justify-content-between">
           <ion-skeleton-text animated></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 10%;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
         </ion-row>
         <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
       </div>
@@ -58,7 +58,37 @@
       <div class="skeleton-title">
         <ion-row class="ion-justify-content-between">
           <ion-skeleton-text animated></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 10%;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
+        </ion-row>
+        <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
+      </div>
+    
+      <ion-row class="ion-justify-content-between skeleton-footer">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="text-align: end"></ion-skeleton-text>
+      </ion-row>
+    </ion-card>
+
+    <ion-card class="ion-padding skeleton-card">
+      <div class="skeleton-title">
+        <ion-row class="ion-justify-content-between">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
+        </ion-row>
+        <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
+      </div>
+    
+      <ion-row class="ion-justify-content-between skeleton-footer">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="text-align: end"></ion-skeleton-text>
+      </ion-row>
+    </ion-card>
+
+    <ion-card class="ion-padding skeleton-card">
+      <div class="skeleton-title">
+        <ion-row class="ion-justify-content-between">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
         </ion-row>
         <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
       </div>

@@ -7,7 +7,7 @@
     </ion-col>
 
     <ion-col size="10">
-      <ion-slides [options]="slideOpts" #slides (ionSlidesDidLoad)="checkSlidesPos()" (ionSlideDidChange)="checkSlidesPos()">
+      <ion-slides [options]="slideOpts" #slides (ionSlideWillChange)="onSlideWillChange()" (ionSlidesDidLoad)="checkSlidesPos()" (ionSlideDidChange)="checkSlidesPos()">
         <ion-slide>
           <ion-grid class="ion-no-padding ion-no-margin">
             <ion-row> 
@@ -19,8 +19,8 @@
           </ion-grid>
         </ion-slide>
 
-        <ion-slide class="img-container" *ngIf="article.image && !imageFailed">
-            <ion-img [src]="article.image" alt="Loading image..." (click)="viewImage()" (ionError)="imageError()"></ion-img>
+        <ion-slide class="img-container" *ngIf="article.image">
+          <img [hidden]="!showImage" src="{{ article.image }}" alt="Loading image..." (click)="viewImage()" loading="eager"/>
         </ion-slide>
 
         <ion-slide *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 
@@ -116,7 +116,7 @@
 <div class="ion-no-margin ion-no-padding">
   <ion-buttons class="ion-justify-content-evenly">
     <ion-chip class="ion-no-margin" color="primary" (click)="goToArticle()">
-      <ion-label>Go to Website</ion-label>
+      <ion-label>Read On At Website</ion-label>
       <ion-icon name="open"></ion-icon>
     </ion-chip>
   </ion-buttons>

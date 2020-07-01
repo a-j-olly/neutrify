@@ -6,8 +6,9 @@ import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from 'aws-amplify';
-
+import { retryWhen, delayWhen, tap } from 'rxjs/operators';
 import { add } from 'date-fns';
+import { timer } from 'rxjs';
 const uuid = require('uuid/v4');
 
 @Injectable({
@@ -30,8 +31,12 @@ export class AuthService {
       private menu: MenuController,
       private ga: GoogleAnalyticsService
     ) {
-      this.amplifyService.authStateChange$
-        .subscribe(async authState => {
+      this.amplifyService.authStateChange$.pipe(
+        retryWhen(errors => errors.pipe(
+          delayWhen(() => timer(5000)),
+          tap(() => console.log('An error has occured with amplify\'s auth service, the error is as follows: ', errors))
+        ))
+      ).subscribe(async authState => {
           this.signedIn = authState.state === 'signedIn';
 
           if (!authState.user) {
@@ -44,7 +49,34 @@ export class AuthService {
           }
 
           if (this.signedIn) {
-            const config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+            let config;
+
+            try {
+              config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+            } catch (error) {
+              console.log('An error occured when trying to load filter options: ', error);
+
+              if (error.errors && error.errors.length === 1) {
+                const errMes = error.errors[0];
+                if (errMes.message === 'Network Error') {
+                  for (let i = 0; i < 3; i++) {
+                    await setTimeout(() => {
+                      console.log('Retry attempt no: ', i + 1);
+                    }, 3000 * i + 1);
+
+                    try {
+                      config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
+                      console.log('Successfully retried to get filters.');
+                      break;
+                    } catch (e) {}
+
+                    if (i === 2) {
+                      alert('Couldn\'t recover from network difficulties. Please check your connection.');
+                    }
+                  }
+                }
+              }
+            }
 
             if (config) {
               this.userId = this.userId ? this.userId : config.user.id;
@@ -78,7 +110,6 @@ export class AuthService {
           } else {
             this.loaded = false;
           }
-
       });
   }
 

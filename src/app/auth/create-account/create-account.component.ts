@@ -153,7 +153,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   openPage(url: string) {
-    this.inAppBrowser.create(url);
+    this.inAppBrowser.create(encodeURI(url), '_system');
   }
 }
 

@@ -1,14 +1,6 @@
 ion-icon:active {
     color: royalblue;
-};
-
-.form-item {
-    height: 82px;
-};
-
-.consent-item {
-    height: 138px;
-};
+}
 
 .container {
     width: 33%;
@@ -20,18 +12,48 @@ ion-icon:active {
 
     h3 {
         color: #0d0d0d;
-    };
+    }
 
     p {
         font-size: 14px;
-        color: #606060
-    };
-};
+        color: #606060;
+
+        &.error {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding-left: 5px;
+            padding-right: 5px;
+
+            color: var(--ion-color-danger);
+            font-size: 14px;
+        
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            line-height: 16px;        /* fallback */
+            max-height: 40px;       /* fallback */
+        }
+    }
+
+    .form-item {
+        min-height: 64px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+    
+    .consent-item {
+        min-height: 120px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+}
 
 .auth-options {
     display: inherit;
     margin-top: 10px;
-};
+}
 
 .submit-button {
     display: block;
@@ -58,12 +80,12 @@ ion-icon:active {
         cursor: default;
         opacity: 0.5;
         pointer-events: none;
-    };
+    }
 
     &:hover {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    };
-};
+    }
+}
 
 .spinner-container {
     position: absolute;
@@ -75,5 +97,5 @@ ion-icon:active {
         width: 80px !important;
         height: 80px !important;
         z-index: 1;
-    };
-};
+    }
+}

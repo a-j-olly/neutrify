@@ -2,7 +2,7 @@ ion-img.logo {
     max-width: 150px;
     max-height: 48px;
     margin: 0 auto;
-};
+}
 
 .hide-label {
     @media screen and (max-width: 600px) {
@@ -12,13 +12,13 @@ ion-img.logo {
 
 ion-content {
     --overflow: hidden;
-};
+}
 
 #skeleton-feed {
     padding-top: 0px;
     margin: 0 auto;
     max-width: 1080px;
-};
+}
 
 .skeleton-card {
     padding: 5px 5px 0px 5px;
@@ -30,12 +30,12 @@ ion-content {
         line-height: 18px;
         width: 80%;
         text-align: start;
-    };
+    }
 
     .skeleton-footer {
         ion-skeleton-text {
             line-height: 14px;
             width: 30%;
         }
-    };
-};
+    }
+}

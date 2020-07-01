@@ -115,7 +115,7 @@ export class MainMenuComponent implements OnInit {
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
             } else {
               await this.enableMenus();
-              await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'warning');
+              await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'danger');
             }
           }
         }

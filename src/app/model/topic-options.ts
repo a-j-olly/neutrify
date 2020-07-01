@@ -42,7 +42,7 @@ export const Arts = [
     },
     {
         id: 9,
-        label: 'Chats and Forums',
+        label: 'Chats And Forums',
         value: 'chats and forums'
     },
     {
@@ -52,7 +52,7 @@ export const Arts = [
     },
     {
         id: 11,
-        label: 'Cultures and Groups',
+        label: 'Cultures And Groups',
         value: 'cultures and groups'
     },
     {
@@ -87,8 +87,8 @@ export const Arts = [
     },
     {
         id: 18,
-        label: 'Illustrati­on',
-        value: 'illustrati­on'
+        label: 'Illustration',
+        value: 'illustration'
     },
     {
         id: 19,
@@ -97,8 +97,8 @@ export const Arts = [
     },
     {
         id: 20,
-        label: 'Directorie­s',
-        value: 'directorie­s'
+        label: 'Directories',
+        value: 'directories'
     },
     {
         id: 21,
@@ -117,7 +117,7 @@ export const Arts = [
     },
     {
         id: 24,
-        label: 'Magazines and E-zines',
+        label: 'Magazines And E-zines',
         value: 'magazines and e-zines'
     },
     {
@@ -142,7 +142,7 @@ export const Arts = [
     },
     {
         id: 29,
-        label: 'Photograph­y',
+        label: 'Photography',
         value: 'photography'
     },
     {
@@ -152,12 +152,12 @@ export const Arts = [
     },
     {
         id: 31,
-        label: 'News and Media',
+        label: 'News And Media',
         value: 'news and media'
     },
     {
         id: 32,
-        label: 'Organizati­ons',
+        label: 'Organizations',
         value: 'organizations'
     },
     {
@@ -167,7 +167,7 @@ export const Arts = [
     },
     {
         id: 34,
-        label: 'Periods and Movements',
+        label: 'Periods And Movements',
         value: 'periods and movements'
     },
     {
@@ -225,7 +225,7 @@ export const Games = [
     },
     {
         id: 3,
-        label: 'Coin-Op',
+        label: 'Coin-ops',
         value: 'coin-ops'
     },
     {
@@ -245,8 +245,8 @@ export const Games = [
     },
     {
         id: 7,
-        label: 'Hand-Eye Coordinati­on',
-        value: 'hand-eye coordinati­on'
+        label: 'Hand-eye Coordination',
+        value: 'hand-eye coordination'
     },
     {
         id: 8,
@@ -260,12 +260,12 @@ export const Games = [
     },
     {
         id: 10,
-        label: 'Convention­s',
-        value: 'convention­s'
+        label: 'Conventions',
+        value: 'conventions'
     },
     {
         id: 11,
-        label: 'Developers and Publishers',
+        label: 'Developers And Publishers',
         value: 'developers and publishers'
     },
     {
@@ -275,7 +275,7 @@ export const Games = [
     },
     {
         id: 13,
-        label: 'Paper and Pencil',
+        label: 'Paper And Pencil',
         value: 'paper and pencil'
     },
     {
@@ -285,7 +285,7 @@ export const Games = [
     },
     {
         id: 15,
-        label: 'Play-By-Mail',
+        label: 'Play-by-mail',
         value: 'play-by-mail'
     },
     {
@@ -295,8 +295,8 @@ export const Games = [
     },
     {
         id: 17,
-        label: 'Roleplayin­g',
-        value: 'roleplayin­g'
+        label: 'Roleplaying',
+        value: 'roleplaying'
     },
     {
         id: 18,
@@ -322,7 +322,7 @@ export const Games = [
     {
         id: 22,
         label: 'Trading Card Games',
-        value: 'trading card Games'
+        value: 'trading card games'
     },
     {
         id: 23,
@@ -332,11 +332,12 @@ export const Games = [
     },
     {
         id: 24,
-        label: 'Yard, Deck, and Table Games',
+        label: 'Yard, Deck, And Table Games',
         value: 'yard, deck, and table games'
     },
 ];
 
+// rewrite got this far
 export const Regional = [
     {
         id: 1,
@@ -444,7 +445,7 @@ export const Society = [
     },
     {
         id: 9,
-        label: 'Gay, Lesbian, and Bisexual',
+        label: 'Gay, Lesbian, And Bisexual',
         value: 'gay, lesbian, and bisexual'
     },
     {
@@ -524,7 +525,7 @@ export const Society = [
     },
     {
         id: 25,
-        label: 'Religion and Spirituality',
+        label: 'Religion And Spirituality',
         value: 'religion and spirituality'
     },
     {
@@ -562,17 +563,17 @@ export const Business = [
     },
     {
         id: 2,
-        label: 'Aerospace and Defense',
+        label: 'Aerospace And Defense',
         value: 'aerospace and defense'
     },
     {
         id: 3,
-        label: 'Agricultur­e and Forestry',
+        label: 'Agricultur­e And Forestry',
         value: 'agricultur­e and forestry'
     },
     {
         id: 4,
-        label: 'Arts and Entertainm­ent',
+        label: 'Arts And Entertainm­ent',
         value: 'arts and entertainm­ent'
     },
     {
@@ -587,12 +588,12 @@ export const Business = [
     },
     {
         id: 7,
-        label: 'Biotechnol­ogy and Pharmaceut­icals',
+        label: 'Biotechnol­ogy And Pharmaceut­icals',
         value: 'biotechnol­ogy and pharmaceut­icals'
     },
     {
         id: 8,
-        label: 'Business and Society',
+        label: 'Business And Society',
         value: 'business and society'
     },
     {
@@ -622,12 +623,12 @@ export const Business = [
     },
     {
         id: 14,
-        label: 'E-Commerce',
+        label: 'E-commerce',
         value: 'e-commerce'
     },
     {
         id: 15,
-        label: 'Education and Training',
+        label: 'Education And Training',
         value: 'education and training'
     },
     {
@@ -642,17 +643,17 @@ export const Business = [
     },
     {
         id: 18,
-        label: 'Constructi­on and Maintenanc­e',
+        label: 'Constructi­on And Maintenanc­e',
         value: 'constructi­on and maintenanc­e'
     },
     {
         id: 19,
-        label: 'Consumer Goods and Services',
+        label: 'Consumer Goods And Services',
         value: 'consumer goods and services'
     },
     {
         id: 20,
-        label: 'Electronics and Electrical',
+        label: 'Electronics And Electrical',
         value: 'electronics and electrical'
     },
     {
@@ -672,12 +673,12 @@ export const Business = [
     },
     {
         id: 24,
-        label: 'Food and Related Products',
+        label: 'Food And Related Products',
         value: 'food and related products'
     },
     {
         id: 25,
-        label: 'News and Media',
+        label: 'News And Media',
         value: 'news and media'
     },
     {
@@ -692,8 +693,8 @@ export const Business = [
     },
     {
         id: 28,
-        label: 'Internatio­nal Business and Trade',
-        value: 'internatio­nal business and trade'
+        label: 'International Business And Trade',
+        value: 'international business and trade'
     },
     {
         id: 29,
@@ -717,7 +718,7 @@ export const Business = [
     },
     {
         id: 33,
-        label: 'Industrial Goods and Services',
+        label: 'Industrial Goods And Services',
         value: 'industrial goods and services'
     },
     {
@@ -732,12 +733,12 @@ export const Business = [
     },
     {
         id: 36,
-        label: 'Mining and Drilling',
+        label: 'Mining And Drilling',
         value: 'mining and drilling'
     },
     {
         id: 37,
-        label: 'Publishing and Printing',
+        label: 'Publishing And Printing',
         value: 'publishing and printing'
     },
     {
@@ -752,7 +753,7 @@ export const Business = [
     },
     {
         id: 40,
-        label: 'Marketing and Advertising',
+        label: 'Marketing And Advertising',
         value: 'marketing and advertising'
     },
     {
@@ -782,12 +783,12 @@ export const Business = [
     },
     {
         id: 46,
-        label: 'Textiles and Nonwovens',
+        label: 'Textiles And Nonwovens',
         value: 'textiles and nonwovens'
     },
     {
         id: 47,
-        label: 'Transporta­tion and Logistics',
+        label: 'Transporta­tion And Logistics',
         value: 'transporta­tion and logistics'
     },
     {
@@ -830,7 +831,7 @@ export const Health = [
     },
     {
         id: 7,
-        label: 'Conditions and Diseases',
+        label: 'Conditions And Diseases',
         value: 'conditions and diseases'
     },
     {
@@ -880,7 +881,7 @@ export const Health = [
     },
     {
         id: 17,
-        label: 'News and Media',
+        label: 'News And Media',
         value: 'news and media'
     },
     {
@@ -900,7 +901,7 @@ export const Health = [
     },
     {
         id: 21,
-        label: 'Occupation­al Health and Safety',
+        label: 'Occupation­al Health And Safety',
         value: 'occupation­al health and safety'
     },
     {
@@ -915,7 +916,7 @@ export const Health = [
     },
     {
         id: 24,
-        label: 'Products and Shopping',
+        label: 'Products And Shopping',
         value: 'products and shopping'
     },
     {
@@ -925,7 +926,7 @@ export const Health = [
     },
     {
         id: 26,
-        label: 'Public Health and Safety',
+        label: 'Public Health And Safety',
         value: 'public health and safety'
     },
     {
@@ -1113,7 +1114,7 @@ export const Recreation = [
     },
     {
         id: 26,
-        label: 'Roads and Highways',
+        label: 'Roads And Highways',
         value: 'roads and highways'
     },
     {
@@ -1133,7 +1134,7 @@ export const Recreation = [
     },
     {
         id: 30,
-        label: 'Trains and Railroads',
+        label: 'Trains And Railroads',
         value: 'trains and railroads'
     },
     {
@@ -1161,7 +1162,7 @@ export const Science = [
     },
     {
         id: 3,
-        label: 'Anomalies and Alternativ­e Science',
+        label: 'Anomalies And Alternativ­e Science',
         value: 'anomalies and alternativ­e science'
     },
     {
@@ -1181,7 +1182,7 @@ export const Science = [
     },
     {
         id: 7,
-        label: 'Chats and Forums',
+        label: 'Chats And Forums',
         value: 'chats and forums'
     },
     {
@@ -1221,12 +1222,12 @@ export const Science = [
     },
     {
         id: 15,
-        label: 'Instrument­s and Supplies',
+        label: 'Instrument­s And Supplies',
         value: 'instrument­s and supplies'
     },
     {
         id: 16,
-        label: 'Methods and Techniques',
+        label: 'Methods And Techniques',
         value: 'methods and techniques'
     },
     {
@@ -1251,7 +1252,7 @@ export const Science = [
     },
     {
         id: 21,
-        label: 'News and Media',
+        label: 'News And Media',
         value: 'news and media'
     },
     {
@@ -1276,7 +1277,7 @@ export const Science = [
     },
     {
         id: 26,
-        label: 'Research Groups and Centers',
+        label: 'Research Groups And Centers',
         value: 'research groups and centers'
     },
     {
@@ -1494,7 +1495,7 @@ export const Sports = [
     },
     {
         id: 40,
-        label: 'Multi-Sports',
+        label: 'Multi-sports',
         value: 'multi-sports'
     },
     {
@@ -1609,7 +1610,7 @@ export const Sports = [
     },
     {
         id: 63,
-        label: 'Track and Field',
+        label: 'Track And Field',
         value: 'track and field'
     },
     {
@@ -1662,7 +1663,7 @@ export const Computers = [
     },
     {
         id: 5,
-        label: 'CAD and CAM',
+        label: 'CAD And CAM',
         value: 'cad and cam'
     },
     {
@@ -1682,7 +1683,7 @@ export const Computers = [
     },
     {
         id: 9,
-        label: 'Chats and Forums',
+        label: 'Chats And Forums',
         value: 'chats and forums'
     },
     {
@@ -1712,7 +1713,7 @@ export const Computers = [
     },
     {
         id: 15,
-        label: 'E-Books',
+        label: 'E-books',
         value: 'e-books'
     },
     {
@@ -1732,7 +1733,7 @@ export const Computers = [
     },
     {
         id: 19,
-        label: 'FAQs, Help, and QuickStarts',
+        label: 'FAQs, Help, And QuickStarts',
         value: 'faqs, help, and tutorials'
     },
     {
@@ -1807,7 +1808,7 @@ export const Computers = [
     },
     {
         id: 34,
-        label: 'Performanc­e and Capacity',
+        label: 'Performanc­e And Capacity',
         value: 'performanc­e and capacity'
     },
     {
@@ -1860,7 +1861,7 @@ export const Home = [
     },
     {
         id: 4,
-        label: 'Do-It-Yourself',
+        label: 'Do-it-yourself',
         value: 'do-it-yourself'
     },
     {
@@ -1900,12 +1901,12 @@ export const Home = [
     },
     {
         id: 12,
-        label: 'Moving and Relocating',
+        label: 'Moving And Relocating',
         value: 'moving and relocating'
     },
     {
         id: 13,
-        label: 'News and Media',
+        label: 'News And Media',
         value: 'news and media'
     },
     {
@@ -1943,7 +1944,7 @@ export const Home = [
 export const Shopping = [
     {
         id: 1,
-        label: 'Antiques and Collectibl­es',
+        label: 'Antiques And Collectibl­es',
         value: 'antiques and collectibl­es'
     },
     {
@@ -1973,7 +1974,7 @@ export const Shopping = [
     },
     {
         id: 7,
-        label: 'Ethnic and Regional',
+        label: 'Ethnic And Regional',
         value: 'ethnic and regional'
     },
     {
@@ -2008,7 +2009,7 @@ export const Shopping = [
     },
     {
         id: 14,
-        label: 'Home and Garden',
+        label: 'Home And Garden',
         value: 'home and garden'
     },
     {
@@ -2063,7 +2064,7 @@ export const Shopping = [
     },
     {
         id: 25,
-        label: 'Toys and Games',
+        label: 'Toys And Games',
         value: 'toys and games'
     },
     {

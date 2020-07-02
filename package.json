@@ -1,7 +1,7 @@
 {
   "name": "neutrify",
   "version": "0.5.0",
-  "author": "Neutrify Ltd.",
+  "author": "Neutrify LTD",
   "homepage": "https://neutrify.news/",
   "scripts": {
     "ng": "ng",
@@ -85,7 +85,7 @@
     "tslint": "~5.15.0",
     "typescript": "~3.8.3"
   },
-  "description": "Neutrify - A news aggregator that displays impartial news",
+  "description": "Neutrify - A news aggregator that gives you the tools to control the news",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

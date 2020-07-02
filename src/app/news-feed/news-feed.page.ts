@@ -14,7 +14,6 @@ import { Component } from '@angular/core';
 export class NewsFeedPage {
   menuSubscription$: Subscription;
   menuStatus = false;
-  public displayAd = false;
   private platformSource;
 
   platformResize$: Subscription;
@@ -32,16 +31,17 @@ export class NewsFeedPage {
       this.platformSource = readySource;
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
-      this.displayAd = readySource === 'dom' && environment.production;
     });
 
-    this.platform.pause.subscribe(() => {
-      this.pauseAds();
-    });
-
-    this.platform.resume.subscribe(() => {
-      this.playAds();
-    });
+    if (this.platformSource !== 'dom') {
+      this.platform.pause.subscribe(() => {
+        this.pauseAds();
+      });
+  
+      this.platform.resume.subscribe(() => {
+        this.playAds();
+      });
+    }
 
     this.platformResize$ = this.platform.resize.subscribe(() => {
       this.platformWidth = this.platform.width();

@@ -17,6 +17,7 @@ export class ArticleComponent implements OnInit {
   public datePublished: string;
   public timePublished: string;
   public showImage: boolean = false;
+  public buttonClicked = false;
 
   public imageFailed = false;
   public slideOpts = {
@@ -33,7 +34,7 @@ export class ArticleComponent implements OnInit {
     private modalController: ModalController,
     private popoverController: PopoverController,
     private ga: GoogleAnalyticsService,
-    private inAppBrowser: InAppBrowser
+    private inAppBrowser: InAppBrowser,
   ) {}
 
   ngOnInit() {
@@ -41,43 +42,61 @@ export class ArticleComponent implements OnInit {
   }
 
   async viewImage() {
-    const modal = await this.modalController.create({
-      component: ImageModalComponent,
-      componentProps: {
-        image: this.article.image
-      },
-      cssClass: 'auto-height'
-    });
-    this.ga.eventEmitter('select_content', 'engagement', 'Opened image');
-    return await modal.present();
+    if (!this.buttonClicked) {
+      this.buttonClicked = true;
+      const modal = await this.modalController.create({
+        component: ImageModalComponent,
+        componentProps: {
+          image: this.article.image
+        },
+        cssClass: 'auto-height'
+      });
+      this.ga.eventEmitter('select_content', 'engagement', 'Opened image');
+      this.buttonClicked = false;
+      return await modal.present();
+    }
   }
 
   async openFilterPopover(event, optionType, value) {
-    const popover = await this.popoverController.create({
-      component: AddFilterPopoverComponent,
-      componentProps: {
-        optionType,
-        value
-      },
-      event,
-      showBackdrop: false,
-      translucent: true,
-      cssClass: 'filter-popover'
-    });
-    return await popover.present();
+    if (!this.buttonClicked) {
+      this.buttonClicked = true;
+      const popover = await this.popoverController.create({
+        component: AddFilterPopoverComponent,
+        componentProps: {
+          optionType,
+          value
+        },
+        event,
+        showBackdrop: false,
+        translucent: true,
+        cssClass: 'filter-popover'
+      });
+
+      this.buttonClicked = false;
+      return await popover.present();
+    }
   }
 
   goToArticle() {
-    this.inAppBrowser.create(encodeURI(this.article.url), '_system');
-    this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
+    if (!this.buttonClicked) {
+      this.buttonClicked = true;
+      this.inAppBrowser.create(encodeURI(this.article.url), '_system');
+      this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
+    }
+    
+    this.buttonClicked = false;
   }
 
   async slideNext() {
+    this.buttonClicked = true;
     await this.slides.slideNext();
+    this.buttonClicked = false;
   }
 
   async slidePrev() {
+    this.buttonClicked = true;
     await this.slides.slidePrev();
+    this.buttonClicked = false;
   }
 
   async checkSlidesPos() {

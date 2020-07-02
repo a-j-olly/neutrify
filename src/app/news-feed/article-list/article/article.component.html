@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
     <ion-col class="arrow-container" size="1">
-      <button (click)="slidePrev()" [disabled]="leftArrowDisabled">
+      <button (click)="slidePrev()" [disabled]="leftArrowDisabled || buttonClicked">
         <ion-icon slot="icon-only" name="arrow-back" color="primary"></ion-icon>
       </button>
     </ion-col>
@@ -106,7 +106,7 @@
       </ion-slides>
     </ion-col>
     <ion-col class="arrow-container" size="1">
-      <button (click)="slideNext()" [disabled]="rightArrowDisabled">
+      <button (click)="slideNext()" [disabled]="rightArrowDisabled || buttonClicked">
         <ion-icon slot="icon-only" name="arrow-forward" color="primary"></ion-icon>
       </button>
     </ion-col>

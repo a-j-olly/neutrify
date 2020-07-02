@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, differenceInMinutes } from 'date-fns';
 
 @Component({
   selector: 'app-article-list',
@@ -42,8 +42,10 @@ export class ArticleListComponent implements OnInit {
   @ViewChild(IonContent) content: IonContent;
 
   public openArticleIndex: number;
+  private platformSource: string;
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
+  private pausedTimestamp: number;
   public showRefreshFab = false;
 
   filters: any;
@@ -75,9 +77,23 @@ export class ArticleListComponent implements OnInit {
     ) {
 
     this.platform.ready().then((readySource) => {
+      this.platformSource = readySource;
       this.platformHeight = this.platform.height();
     });
 
+    if (this.platformSource !== 'dom') {
+      this.platform.pause.subscribe(() => {
+        this.pausedTimestamp = new Date().getTime();
+      });
+  
+      this.platform.resume.subscribe(() => {
+        if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
+          this.resetTimer();
+          this.showRefreshFab = true;
+        }
+      });
+    }
+    
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
       await this.handleInitDataLoad();
@@ -256,7 +272,6 @@ export class ArticleListComponent implements OnInit {
   }
 
   async getNextPage(event) {
-    this.filterService.updateFilterLoading(true);
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
 
       this.updatingArticles = true;
@@ -269,13 +284,12 @@ export class ArticleListComponent implements OnInit {
 
       } while (this.nextToken && noNewArticles < this.displayThreshold);
 
-      this.updatingArticles = false;
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
 
     await this.loadReadyArticles();
-    this.filterService.updateFilterLoading(false);
+    this.updatingArticles = false;
     event.target.complete();
   }
 

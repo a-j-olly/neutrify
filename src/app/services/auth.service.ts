@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
@@ -49,34 +49,7 @@ export class AuthService {
           }
 
           if (this.signedIn) {
-            let config;
-
-            try {
-              config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
-            } catch (error) {
-              console.log('An error occured when trying to load filter options: ', error);
-
-              if (error.errors && error.errors.length === 1) {
-                const errMes = error.errors[0];
-                if (errMes.message === 'Network Error') {
-                  for (let i = 0; i < 3; i++) {
-                    await setTimeout(() => {
-                      console.log('Retry attempt no: ', i + 1);
-                    }, 3000 * i + 1);
-
-                    try {
-                      config = (await this.neutrifyAPI.ConfigByOwner(authState.user.username, null, null, 1)).items[0];
-                      console.log('Successfully retried to get filters.');
-                      break;
-                    } catch (e) {}
-
-                    if (i === 2) {
-                      alert('Couldn\'t recover from network difficulties. Please check your connection.');
-                    }
-                  }
-                }
-              }
-            }
+            const config = (await this.getConfig(authState.user.username)).items[0];            
 
             if (config) {
               this.userId = this.userId ? this.userId : config.user.id;
@@ -120,7 +93,7 @@ export class AuthService {
   async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
-      const config = await this.neutrifyAPI.ConfigByOwner(user.username, null, null, 1);
+      const config = await this.getConfig(user.username);
       if (config.items.length === 0) {
         const now = new Date();
         this.userId = uuid();
@@ -348,5 +321,38 @@ export class AuthService {
     });
 
     return res;
+  }
+
+  async getConfig(username): Promise<ConfigByOwnerQuery> {
+    let config: ConfigByOwnerQuery;
+
+    try {
+      config = await this.neutrifyAPI.ConfigByOwner(username, null, null, 1);
+    } catch (error) {
+      console.log('An error occured when trying to load filter options: ', error);
+
+      if (error.errors && error.errors.length === 1) {
+        const errMes = error.errors[0];
+        if (errMes.message === 'Network Error') {
+          for (let i = 0; i < 3; i++) {
+            await setTimeout(() => {
+              console.log('Retry attempt no: ', i + 1);
+            }, 3000 * i + 1);
+
+            try {
+              config = (await this.neutrifyAPI.ConfigByOwner(username, null, null, 1));
+              console.log('Successfully retried to get filters.');
+              break;
+            } catch (e) {}
+
+            if (i === 2) {
+              window.alert('Couldn\'t recover from network difficulties. Please check your connection.');
+            }
+          }
+        }
+      }
+    }
+
+    return config;
   }
 }

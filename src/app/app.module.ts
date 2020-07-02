@@ -66,7 +66,7 @@ import { AdMob } from '@admob-plus/ionic';
     GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AdMob,
-    InAppBrowser
+    InAppBrowser,
   ],
   bootstrap: [AppComponent]
 })

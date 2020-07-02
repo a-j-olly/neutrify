@@ -144,6 +144,7 @@ export class FilterMenuComponent {
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
     }
+    this.filterService.updateFilterLoading(false);
   }
 
   async clearFilters() {

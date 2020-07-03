@@ -116,12 +116,12 @@ export class TopicsFilterComponent implements OnInit {
     this.segmentValue = event.detail.value;
   }
 
-  handleTopicChange(event) {
+  async handleTopicChange(event) {
     const { name: eventName, value: eventValue } = event;
 
     if (!this.isArrEq(this.option.include[eventName], eventValue.include) || !this.isArrEq(this.option.exclude[eventName], eventValue.exclude)) {
       this.filterService.updateFilterLoading(true);
-      this.filterService.addToTopicOptionsWrapper([...eventValue.include], [...eventValue.exclude], eventName);
+      await this.filterService.addToTopicOptionsWrapper([...eventValue.include], [...eventValue.exclude], eventName);
     }
   }
 }

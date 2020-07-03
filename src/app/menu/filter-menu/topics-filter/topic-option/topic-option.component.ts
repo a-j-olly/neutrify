@@ -62,29 +62,17 @@ export class TopicOptionComponent implements OnInit {
 
   initTopic() {
     const target = this.topicValues[this.segmentValue];
-    const oppositeTarget = this.topicValues[this.segmentValue === 'include' ? 'exclude' : 'include'];
-
-    if (oppositeTarget.length) {
-      this.oppositeDisabled = true;
-    } else {
-      this.oppositeDisabled = false;
-    }
 
     if (target.length === 1) {
-
       if (target[0].toLowerCase() === this.topicOption.name.toLowerCase()) {
         this.optionDisabled = true;
       } else {
         this.optionDisabled = false;
-      }
-    } else if (target.length > 1) {
-      if (target.findIndex(op => op.toLowerCase() === this.topicOption.name.toLowerCase()) !== -1) {
-        this.optionDisabled = true;
-      } else {
-        this.optionDisabled = false;
+        this.oppositeDisabled = false;
       }
     } else {
       this.optionDisabled = false;
+      this.oppositeDisabled = false;
     }
   }
 
@@ -128,11 +116,20 @@ export class TopicOptionComponent implements OnInit {
     }
   }
 
-  async onSelectChange(event) {
-    if (JSON.stringify(this.topicValues[this.segmentValue]).toLowerCase() != JSON.stringify(event.detail.value).toLowerCase()) {
-      this.topicValues[this.segmentValue] = event.detail.value.map(val => val.toLowerCase());
-      await this.emitTopicChange();
+  onSelectChange(event) {
+    const values = event.detail.value.map(val => val.toLowerCase());
+
+    if (!this.isArrEq(values, this.topicValues[this.segmentValue])) {
+      const oppositeSegment = this.segmentValue === 'include' ? 'exclude' : 'include';
+
+      this.topicValues[this.segmentValue] = values;
+      this.topicValues[oppositeSegment] = this.topicValues[oppositeSegment].filter(val => !values.includes(val))
+      this.emitTopicChange();
     }
+  }
+
+  isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() == JSON.stringify(arr2).toLowerCase();
   }
 
   emitTopicChange() {

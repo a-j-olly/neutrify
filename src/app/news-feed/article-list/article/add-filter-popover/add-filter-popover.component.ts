@@ -24,7 +24,7 @@ export class AddFilterPopoverComponent implements OnInit {
 
   addFilter(operation) {
     this.clicked = true;
-    this.filterService.addToFilterOptions(this.optionType, operation, this.value.toLowerCase());
+    this.filterService.addSingleFilter(this.optionType, operation, this.value.toLowerCase());
     this.dismiss();
     this.ga.eventEmitter('use_filter', 'engagement', 'Popover filter used');
   }

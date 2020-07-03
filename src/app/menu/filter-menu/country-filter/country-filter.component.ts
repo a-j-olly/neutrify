@@ -14,7 +14,6 @@ import { ToastController } from '@ionic/angular';
 export class CountryFilterComponent implements OnInit {
   private option: any = {};
   displayList: Array<string>;
-  selectList: Array<string>;
   countryOptionForm: FormGroup;
   countryListToggle = true;
   segmentValue = 'include';
@@ -71,12 +70,28 @@ export class CountryFilterComponent implements OnInit {
   }
 
   onSelectChange(event) {
-    if (JSON.stringify(this.option[this.segmentValue]).toLowerCase() != JSON.stringify(event.detail.value).toLowerCase()) {
-      this.option[this.segmentValue] = event.detail.value.map(val => val.toLowerCase());
+    const values = event.detail.value.map(val => val.toLowerCase());
+
+    if (!this.isArrEq(values, this.option[this.segmentValue])) {
+      const oppositeSegment = this.segmentValue === 'include' ? 'exclude' : 'include';
+
+      this.option[this.segmentValue] = values;
+      this.option[oppositeSegment] = this.option[oppositeSegment].filter(val => !values.includes(val))
       this.emitFilterChange();
     }
   }
 
+  removeWord(index) {
+    if (this.filtersLoading) return;
+    this.option[this.segmentValue].splice(index, 1);
+    this.option.name = 'Locations';
+    this.displayList = this.option[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));
+    this.userOptionChanged.emit(this.option);
+  }
+
+  isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() == JSON.stringify(arr2).toLowerCase();
+  }
 
   emitFilterChange() {
     this.userOptionChanged.emit({

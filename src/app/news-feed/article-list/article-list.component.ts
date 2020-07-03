@@ -19,19 +19,11 @@ import { formatDistanceToNow, differenceInMinutes } from 'date-fns';
         style({ transform: 'translateY(100%)', opacity: 0.7 }),
         animate(500)
       ]),
-      transition('* => void', [
-        style({ transform: 'translateY(-100%)', opacity: 0.7 }),
-        animate(500)
-      ]),
     ]),
     trigger('btnInLeft', [
       transition('void => *', [
         style({ transform: 'translateX(-100%)', opacity: 0.7 }),
-        animate(200)
-      ]),
-      transition('* => void', [
-        style({ transform: 'translateX(100%)', opacity: 0.7 }),
-        animate(200)
+        animate(500)
       ]),
     ])
   ],

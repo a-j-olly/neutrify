@@ -8,7 +8,7 @@
       </ion-col>
 
       <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
-        <h4>Country of Origin</h4>
+        <h4>Countries</h4>
       </ion-col>
 
       <ion-col size="2" class="ion-text-end ion-activatable tappable ion-text-right" (click)="showFilter = !showFilter">
@@ -29,6 +29,17 @@
       </ion-segment>
     </ion-row>
 
+    <ion-row class="word-list ion-justify-content-start">
+      <ion-col class="ion-text-center" *ngFor="let country of displayList; let i = index">
+        <ion-badge (click)="removeWord(i)">
+          {{ country }}<ion-icon name="close"></ion-icon>
+        </ion-badge>
+      </ion-col>
+      <ion-col [hidden]="displayList && displayList.length !== 0">
+        <p>Add countries to {{ segmentValue }} below:</p>
+      </ion-col>
+    </ion-row>
+
     <ion-item>
       <ion-label>{{ segmentValue.charAt(0).toUpperCase() + segmentValue.slice(1) }} Countries:</ion-label>
       <ion-select 
@@ -37,6 +48,5 @@
         <ion-select-option *ngFor="let country of countryOptions">{{country.label}}</ion-select-option>
       </ion-select>
     </ion-item>
-  
   </div>
 </ion-grid>

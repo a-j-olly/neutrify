@@ -96,120 +96,85 @@ export const Arts = [
         value: 'literature'
     },
     {
-        id: 20,
-        label: 'Directories',
-        value: 'directories'
-    },
-    {
-        id: 21,
-        label: 'Education',
-        value: 'education'
-    },
-    {
         id: 22,
-        label: 'Events',
-        value: 'events'
-    },
-    {
-        id: 23,
         label: 'Genres',
         value: 'genres'
     },
     {
-        id: 24,
+        id: 23,
         label: 'Magazines And E-zines',
         value: 'magazines and e-zines'
     },
     {
-        id: 25,
+        id: 24,
         label: 'Movies',
         value: 'movies'
     },
     {
-        id: 26,
+        id: 25,
         label: 'Music',
         value: 'music'
     },
     {
-        id: 27,
+        id: 26,
         label: 'Online Writing',
         value: 'online writing'
     },
     {
-        id: 28,
+        id: 27,
         label: 'Performing Arts',
         value: 'performing arts'
     },
     {
-        id: 29,
+        id: 28,
         label: 'Photography',
         value: 'photography'
     },
     {
-        id: 30,
+        id: 29,
         label: 'Radio',
         value: 'radio'
     },
     {
-        id: 31,
-        label: 'News And Media',
-        value: 'news and media'
-    },
-    {
         id: 32,
-        label: 'Organizations',
-        value: 'organizations'
-    },
-    {
-        id: 33,
-        label: 'People',
-        value: 'people'
-    },
-    {
-        id: 34,
         label: 'Periods And Movements',
         value: 'periods and movements'
     },
     {
-        id: 35,
+        id: 33,
         label: 'Personal Pages',
         value: 'personal pages'
     },
     {
-        id: 36,
+        id: 34,
         label: 'Regional',
         value: 'regional'
     },
     {
-        id: 37,
+        id: 35,
         label: 'Television',
         value: 'television'
     },
     {
-        id: 38,
+        id: 36,
         label: 'Video',
         value: 'video'
     },
     {
-        id: 39,
+        id: 37,
         label: 'Visual Arts',
         value: 'visual arts'
     },
     {
-        id: 40,
+        id: 38,
         label: 'Writers Resources',
         value: 'writers resources'
     },
     {
-        id: 41,
+        id: 39,
         label: 'Web Rings',
         value: 'web rings'
     },
-    {
-        id: 42,
-        label: 'Weblogs',
-        value: 'weblogs'
-    }
 ];
 
 export const Games = [
@@ -241,7 +206,7 @@ export const Games = [
     {
         id: 6,
         label: 'Hand Games',
-        value: 'Hand Games'
+        value: 'hand games'
     },
     {
         id: 7,
@@ -299,19 +264,9 @@ export const Games = [
         value: 'roleplaying'
     },
     {
-        id: 18,
-        label: 'History',
-        value: 'history'
-    },
-    {
         id: 19,
         label: 'Play Groups',
         value: 'play groups'
-    },
-    {
-        id: 20,
-        label: 'Resources',
-        value: 'resources'
     },
     {
         id: 21,
@@ -337,70 +292,6 @@ export const Games = [
     },
 ];
 
-// rewrite got this far
-export const Regional = [
-    {
-        id: 1,
-        label: 'Countries',
-        value: 'countries'
-    },
-    {
-        id: 2,
-        label: 'Africa',
-        value: 'africa'
-    },
-    {
-        id: 3,
-        label: 'Asia',
-        value: 'asia'
-    },
-    {
-        id: 4,
-        label: 'Caribbean',
-        value: 'caribbean'
-    },
-    {
-        id: 5,
-        label: 'Current Events',
-        value: 'current events'
-    },
-    {
-        id: 6,
-        label: 'Central America',
-        value: 'central America'
-    },
-    {
-        id: 7,
-        label: 'Europe',
-        value: 'europe'
-    },
-    {
-        id: 8,
-        label: 'Middle East',
-        value: 'middle east'
-    },
-    {
-        id: 9,
-        label: 'North America',
-        value: 'north america'
-    },
-    {
-        id: 10,
-        label: 'Oceania',
-        value: 'oceania'
-    },
-    {
-        id: 11,
-        label: 'Polar Regions',
-        value: 'polar region'
-    },
-    {
-        id: 12,
-        label:  'South America',
-        value:  'south america'
-    },
-];
-
 export const Society = [
     {
         id: 1,
@@ -409,7 +300,7 @@ export const Society = [
     },
     {
         id: 2,
-        label: 'Advide',
+        label: 'Advice',
         value: 'advice'
     },
     {
@@ -539,11 +430,6 @@ export const Society = [
         value: 'subcultures'
     },
     {
-        id: 28,
-        label: 'Support Groups',
-        value: 'support groups'
-    },
-    {
         id: 29,
         label: 'Transgendered',
         value: 'transgendered'
@@ -568,18 +454,18 @@ export const Business = [
     },
     {
         id: 3,
-        label: 'Agricultur­e And Forestry',
-        value: 'agricultur­e and forestry'
+        label: 'Agriculture And Forestry',
+        value: 'agriculture and forestry'
     },
     {
         id: 4,
-        label: 'Arts And Entertainm­ent',
-        value: 'arts and entertainm­ent'
+        label: 'Arts And Entertainment',
+        value: 'arts and entertainment'
     },
     {
         id: 5,
-        label: 'Associatio­ns',
-        value: 'associatio­ns'
+        label: 'Associations',
+        value: 'associations'
     },
     {
         id: 6,
@@ -588,8 +474,8 @@ export const Business = [
     },
     {
         id: 7,
-        label: 'Biotechnol­ogy And Pharmaceut­icals',
-        value: 'biotechnol­ogy and pharmaceut­icals'
+        label: 'Biotechnology And Pharmaceuticals',
+        value: 'biotechnology and pharmaceuticals'
     },
     {
         id: 8,
@@ -603,8 +489,8 @@ export const Business = [
     },
     {
         id: 10,
-        label: 'Cooperativ­es',
-        value: 'cooperativ­es'
+        label: 'Cooperatives',
+        value: 'cooperatives'
     },
     {
         id: 11,
@@ -618,8 +504,8 @@ export const Business = [
     },
     {
         id: 13,
-        label: 'Directorie­s',
-        value: 'directorie­s'
+        label: 'Directories',
+        value: 'directories'
     },
     {
         id: 14,
@@ -643,8 +529,8 @@ export const Business = [
     },
     {
         id: 18,
-        label: 'Constructi­on And Maintenanc­e',
-        value: 'constructi­on and maintenanc­e'
+        label: 'Construction And Maintenance',
+        value: 'construction and maintenance'
     },
     {
         id: 19,
@@ -662,11 +548,6 @@ export const Business = [
         value: 'energy'
     },
     {
-        id: 22,
-        label: 'Environmen­t',
-        value: 'environmen­t'
-    },
-    {
         id: 23,
         label: 'Financial Services',
         value: 'financial services'
@@ -682,14 +563,9 @@ export const Business = [
         value: 'news and media'
     },
     {
-        id: 26,
-        label: 'Regional',
-        value: 'regional'
-    },
-    {
         id: 27,
-        label: 'Informatio­n Services',
-        value: 'informatio­n services'
+        label: 'Information Services',
+        value: 'information services'
     },
     {
         id: 28,
@@ -713,8 +589,8 @@ export const Business = [
     },
     {
         id: 32,
-        label: 'Hospitalit­y',
-        value: 'hospitalit­y'
+        label: 'Hospitality',
+        value: 'hospitality'
     },
     {
         id: 33,
@@ -723,8 +599,8 @@ export const Business = [
     },
     {
         id: 34,
-        label: 'Informatio­n Technology',
-        value: 'informatio­n technology'
+        label: 'Information Technology',
+        value: 'information technology'
     },
     {
         id: 35,
@@ -758,8 +634,8 @@ export const Business = [
     },
     {
         id: 41,
-        label: 'Opportunit­ies',
-        value: 'opportunit­ies'
+        label: 'Opportunities',
+        value: 'opportunities'
     },
     {
         id: 42,
@@ -778,8 +654,8 @@ export const Business = [
     },
     {
         id: 45,
-        label: 'Telecommun­ications',
-        value: 'telecommun­ications'
+        label: 'Telecommunications',
+        value: 'telecommunications'
     },
     {
         id: 46,
@@ -788,8 +664,8 @@ export const Business = [
     },
     {
         id: 47,
-        label: 'Transporta­tion And Logistics',
-        value: 'transporta­tion and logistics'
+        label: 'Transportation And Logistics',
+        value: 'transportation and logistics'
     },
     {
         id: 48,
@@ -806,8 +682,8 @@ export const Health = [
     },
     {
         id: 2,
-        label: 'Alternativ­e',
-        value: 'alternativ­e'
+        label: 'Alternative',
+        value: 'alternative'
     },
     {
         id: 3,
@@ -835,27 +711,12 @@ export const Health = [
         value: 'conditions and diseases'
     },
     {
-        id: 8,
-        label: 'Conference­s',
-        value: 'conference­s'
-    },
-    {
         id: 9,
         label: 'Dentistry',
         value: 'dentistry'
     },
     {
         id: 10,
-        label: 'Directorie­s',
-        value: 'directorie­s'
-    },
-    {
-        id: 11,
-        label: 'Education',
-        value: 'education'
-    },
-    {
-        id: 12,
         label: 'Medicine',
         value: 'medicine'
     },
@@ -880,11 +741,6 @@ export const Health = [
         value: 'men\'s health'
     },
     {
-        id: 17,
-        label: 'News And Media',
-        value: 'news and media'
-    },
-    {
         id: 18,
         label: 'Nursing',
         value: 'nursing'
@@ -895,19 +751,9 @@ export const Health = [
         value: 'nutrition'
     },
     {
-        id: 20,
-        label: 'Regional',
-        value: 'regional'
-    },
-    {
         id: 21,
-        label: 'Occupation­al Health And Safety',
-        value: 'occupation­al health and safety'
-    },
-    {
-        id: 22,
-        label: 'Organizati­ons',
-        value: 'organizati­ons'
+        label: 'Occupational Health And Safety',
+        value: 'occupational health and safety'
     },
     {
         id: 23,
@@ -921,8 +767,8 @@ export const Health = [
     },
     {
         id: 25,
-        label: 'Profession­s',
-        value: 'profession­s'
+        label: 'Professions',
+        value: 'professions'
     },
     {
         id: 26,
@@ -931,18 +777,8 @@ export const Health = [
     },
     {
         id: 27,
-        label: 'Reproducti­ve Health',
-        value: 'reproducti­ve health'
-    },
-    {
-        id: 28,
-        label: 'Resources',
-        value: 'resources'
-    },
-    {
-        id: 29,
-        label: 'Search Engines',
-        value: 'search engines'
+        label: 'Reproductive Health',
+        value: 'reproductive health'
     },
     {
         id: 30,
@@ -1038,11 +874,6 @@ export const Recreation = [
         value: 'drugs'
     },
     {
-        id: 11,
-        label: 'Food',
-        value: 'food'
-    },
-    {
         id: 12,
         label: 'Guns',
         value: 'guns'
@@ -1079,8 +910,8 @@ export const Recreation = [
     },
     {
         id: 19,
-        label: 'Motorcycle­s',
-        value: 'motorcycle­s'
+        label: 'Motorcycles',
+        value: 'motorcycles'
     },
     {
         id: 20,
@@ -1106,11 +937,6 @@ export const Recreation = [
         id: 24,
         label: 'Picture Ratings',
         value: 'picture ratings'
-    },
-    {
-        id: 25,
-        label: 'Radio',
-        value: 'radio'
     },
     {
         id: 26,
@@ -1152,18 +978,13 @@ export const Recreation = [
 export const Science = [
     {
         id: 1,
-        label: 'Academic Department­s',
-        value: 'academic department­s'
-    },
-    {
-        id: 2,
-        label: 'Agricultur­e',
-        value: 'agricultur­e'
+        label: 'Academic Departments',
+        value: 'academic Departments'
     },
     {
         id: 3,
-        label: 'Anomalies And Alternativ­e Science',
-        value: 'anomalies and alternativ­e science'
+        label: 'Anomalies And Alternative Science',
+        value: 'anomalies and alternative science'
     },
     {
         id: 4,
@@ -1186,19 +1007,9 @@ export const Science = [
         value: 'chats and forums'
     },
     {
-        id: 8,
-        label: 'Directorie­s',
-        value: 'directorie­s'
-    },
-    {
         id: 9,
-        label: 'Educationa­l Resources',
-        value: 'educationa­l resources'
-    },
-    {
-        id: 10,
-        label: 'Employment',
-        value: 'employment'
+        label: 'Educational Resources',
+        value: 'educational resources'
     },
     {
         id: 11,
@@ -1212,8 +1023,8 @@ export const Science = [
     },
     {
         id: 13,
-        label: 'Environmen­t',
-        value: 'environmen­t'
+        label: 'Environment',
+        value: 'environment'
     },
     {
         id: 14,
@@ -1222,8 +1033,8 @@ export const Science = [
     },
     {
         id: 15,
-        label: 'Instrument­s And Supplies',
-        value: 'instrument­s and supplies'
+        label: 'Instruments And Supplies',
+        value: 'instruments and supplies'
     },
     {
         id: 16,
@@ -1242,7 +1053,7 @@ export const Science = [
     },
     {
         id: 19,
-        label: 'Science in Society',
+        label: 'Science In Society',
         value: 'science in society'
     },
     {
@@ -1251,24 +1062,9 @@ export const Science = [
         value: 'social sciences'
     },
     {
-        id: 21,
-        label: 'News And Media',
-        value: 'news and media'
-    },
-    {
-        id: 22,
-        label: 'Organizati­ons',
-        value: 'organizati­ons'
-    },
-    {
-        id: 23,
-        label: 'People',
-        value: 'people'
-    },
-    {
         id: 24,
-        label: 'Publicatio­ns',
-        value: 'publicatio­ns'
+        label: 'Publications',
+        value: 'publications'
     },
     {
         id: 25,
@@ -1289,11 +1085,6 @@ export const Science = [
         id: 28,
         label: 'Search Engines',
         value: 'search engines'
-    },
-    {
-        id: 29,
-        label: 'Software',
-        value: 'software'
     },
 ];
 
@@ -1355,8 +1146,8 @@ export const Sports = [
     },
     {
         id: 12,
-        label: 'Cheerleadi­ng',
-        value: 'cheerleadi­ng'
+        label: 'Cheerleading',
+        value: 'cheerleading'
     },
     {
         id: 13,
@@ -1490,8 +1281,8 @@ export const Sports = [
     },
     {
         id: 39,
-        label: 'Motorsport­s',
-        value: 'motorsport­s'
+        label: 'Motorsports',
+        value: 'motorsports'
     },
     {
         id: 40,
@@ -1505,8 +1296,8 @@ export const Sports = [
     },
     {
         id: 42,
-        label: 'Orienteeri­ng',
-        value: 'orienteeri­ng'
+        label: 'Orienteering',
+        value: 'orienteering'
     },
     {
         id: 43,
@@ -1530,8 +1321,8 @@ export const Sports = [
     },
     {
         id: 47,
-        label: 'Racquetbal­l',
-        value: 'racquetbal­l'
+        label: 'Racquetball',
+        value: 'racquetball'
     },
     {
         id: 48,
@@ -1560,8 +1351,8 @@ export const Sports = [
     },
     {
         id: 53,
-        label: 'Skateboard­ing',
-        value: 'skateboard­ing'
+        label: 'Skateboarding',
+        value: 'skateboarding'
     },
     {
         id: 54,
@@ -1648,8 +1439,8 @@ export const Computers = [
     },
     {
         id: 2,
-        label: 'Artificial Intelligen­ce',
-        value: 'artificial intelligen­ce'
+        label: 'Artificial Intelligence',
+        value: 'artificial intelligence'
     },
     {
         id: 3,
@@ -1673,8 +1464,8 @@ export const Computers = [
     },
     {
         id: 7,
-        label: 'Data Communicat­ions',
-        value: 'data communicat­ions'
+        label: 'Data Communications',
+        value: 'data communications'
     },
     {
         id: 8,
@@ -1693,23 +1484,18 @@ export const Computers = [
     },
     {
         id: 11,
-        label: 'Conference­s',
-        value: 'conference­s'
+        label: 'Conferences',
+        value: 'conferences'
     },
     {
         id: 12,
-        label: 'Consultant­s',
-        value: 'consultant­s'
+        label: 'Consultants',
+        value: 'consultants'
     },
     {
         id: 13,
         label: 'Desktop Publishing',
         value: 'desktop publishing'
-    },
-    {
-        id: 14,
-        label: 'Directories',
-        value: 'directories'
     },
     {
         id: 15,
@@ -1733,7 +1519,7 @@ export const Computers = [
     },
     {
         id: 19,
-        label: 'FAQs, Help, And QuickStarts',
+        label: 'FAQs, Help, And Tutorials',
         value: 'faqs, help, and tutorials'
     },
     {
@@ -1752,11 +1538,6 @@ export const Computers = [
         value: 'hardware'
     },
     {
-        id: 23,
-        label: 'History',
-        value: 'history'
-    },
-    {
         id: 24,
         label: 'Home Automation',
         value: 'home automation'
@@ -1770,11 +1551,6 @@ export const Computers = [
         id: 26,
         label: 'Intranet',
         value: 'intranet'
-    },
-    {
-        id: 27,
-        label: 'History',
-        value: 'history'
     },
     {
         id: 28,
@@ -1797,24 +1573,19 @@ export const Computers = [
         value: 'open source'
     },
     {
-        id: 32,
-        label: 'Organizati­ons',
-        value: 'organizati­ons'
-    },
-    {
         id: 33,
         label: 'Parallel Computing',
         value: 'parallel computing'
     },
     {
         id: 34,
-        label: 'Performanc­e And Capacity',
-        value: 'performanc­e and capacity'
+        label: 'Performance And Capacity',
+        value: 'performance and capacity'
     },
     {
         id: 35,
-        label: 'Programmin­g',
-        value: 'programmin­g'
+        label: 'Programming',
+        value: 'programming'
     },
     {
         id: 36,
@@ -1828,8 +1599,8 @@ export const Computers = [
     },
     {
         id: 38,
-        label: 'Supercompu­ting',
-        value: 'supercompu­ting'
+        label: 'Supercomputing',
+        value: 'supercomputing'
     },
     {
         id: 39,
@@ -1851,8 +1622,8 @@ export const Home = [
     },
     {
         id: 2,
-        label: 'Consumer Informatio­n',
-        value: 'consumer Informatio­n'
+        label: 'Consumer Information',
+        value: 'consumer information'
     },
     {
         id: 3,
@@ -1866,13 +1637,13 @@ export const Home = [
     },
     {
         id: 5,
-        label: 'Emergency Preparatio­n',
-        value: 'emergency preparatio­n'
+        label: 'Emergency Preparation',
+        value: 'emergency preparation'
     },
     {
         id: 6,
-        label: 'Entertaini­ng',
-        value: 'entertaini­ng'
+        label: 'Entertaining',
+        value: 'entertaining'
     },
     {
         id: 7,
@@ -1886,8 +1657,8 @@ export const Home = [
     },
     {
         id: 9,
-        label: 'Home Improvemen­t',
-        value: 'home improvemen­t'
+        label: 'Home Improvement',
+        value: 'home improvement'
     },
     {
         id: 10,
@@ -1905,19 +1676,14 @@ export const Home = [
         value: 'moving and relocating'
     },
     {
-        id: 13,
-        label: 'News And Media',
-        value: 'news and media'
-    },
-    {
         id: 14,
         label: 'Personal Finance',
         value: 'personal finance'
     },
     {
         id: 15,
-        label: 'Personal Organizati­on',
-        value: 'personal organizati­on'
+        label: 'Personal Organization',
+        value: 'personal organization'
     },
     {
         id: 16,
@@ -1944,8 +1710,8 @@ export const Home = [
 export const Shopping = [
     {
         id: 1,
-        label: 'Antiques And Collectibl­es',
-        value: 'antiques and collectibl­es'
+        label: 'Antiques And Collectibles',
+        value: 'antiques and collectibles'
     },
     {
         id: 2,
@@ -1959,13 +1725,8 @@ export const Shopping = [
     },
     {
         id: 4,
-        label: 'Consumer Electronic­s',
-        value: 'consumer electronic­s'
-    },
-    {
-        id: 5,
-        label: 'Crafts',
-        value: 'crafts'
+        label: 'Consumer Electronics',
+        value: 'consumer electronics'
     },
     {
         id: 6,
@@ -1989,23 +1750,13 @@ export const Shopping = [
     },
     {
         id: 10,
-        label: 'General Merchandis­e',
-        value: 'general merchandis­e'
+        label: 'General Merchandise',
+        value: 'general merchandise'
     },
     {
         id: 11,
         label: 'Gifts',
         value: 'gifts'
-    },
-    {
-        id: 12,
-        label: 'Health',
-        value: 'health'
-    },
-    {
-        id: 13,
-        label: 'Holidays',
-        value: 'holidays'
     },
     {
         id: 14,
@@ -2018,11 +1769,6 @@ export const Shopping = [
         value: 'jewelry'
     },
     {
-        id: 16,
-        label: 'Music',
-        value: 'music'
-    },
-    {
         id: 17,
         label: 'Niche',
         value: 'niche'
@@ -2031,31 +1777,6 @@ export const Shopping = [
         id: 18,
         label: 'Office Products',
         value: 'office products'
-    },
-    {
-        id: 19,
-        label: 'Pets',
-        value: 'pets'
-    },
-    {
-        id: 20,
-        label: 'Photograph­y',
-        value: 'photograph­y'
-    },
-    {
-        id: 21,
-        label: 'Publicatio­ns',
-        value: 'publicatio­ns'
-    },
-    {
-        id: 22,
-        label: 'Recreation',
-        value: 'recreation'
-    },
-    {
-        id: 23,
-        label: 'Tobacco',
-        value: 'tobacco'
     },
     {
         id: 24,
@@ -2068,19 +1789,9 @@ export const Shopping = [
         value: 'toys and games'
     },
     {
-        id: 26,
-        label: 'Travel',
-        value: 'travel'
-    },
-    {
         id: 27,
         label: 'Vehicles',
         value: 'vehicles'
-    },
-    {
-        id: 28,
-        label: 'Visual Arts',
-        value: 'visual arts'
     },
     {
         id: 29,

@@ -10,6 +10,18 @@ ion-img.logo {
     }
 }
 
+ion-buttons {
+    position: absolute;
+
+    &.left-buttons {
+        left: 0px;
+    }
+    
+    &.right-buttons {
+        right: 0px;
+    }
+}
+
 ion-content {
     --overflow: hidden;
 }

@@ -364,6 +364,12 @@ export class ArticleListComponent implements OnInit {
 
     if (this.displayArticles.length >= 3 * this.displayThreshold && !this.platform.is('ios')) {
       this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
+
+      if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {
+        this.openArticleIndex = undefined;
+      } else {
+        this.openArticleIndex -= (noNewArticles - 1);
+      }
     }
     
   }

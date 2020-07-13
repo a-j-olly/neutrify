@@ -15,7 +15,7 @@ const routes: Routes = [
     path: '',
     component: AuthPage,
     children: [
-      { path: '', redirectTo: '/auth/sign-in', pathMatch: 'full' },
+      { path: '', redirectTo: '/auth/create-account', pathMatch: 'full' },
       { path: 'create-account', component: CreateAccountComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'reset-password', component: ResetPasswordComponent },

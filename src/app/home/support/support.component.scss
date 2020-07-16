@@ -1,0 +1,23 @@
+ion-card {
+    white-space: pre-line;
+    max-width: 1080px;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    ion-card-title {
+        h1 {
+            color: var(--ion-color-primary);
+        }
+    }
+
+    ion-card-content {
+        h2 {
+            color: #606060;
+        }
+    }
+
+    a {
+        text-decoration: none;
+    }
+}

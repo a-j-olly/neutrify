@@ -129,11 +129,15 @@ export class MainMenuComponent implements OnInit {
     this.menuService.closeMenu();
     await this.menu.enable(false, 'filterMenu');
     await this.menu.enable(false, 'mainMenu');
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   async enableMenus() {
     await this.menu.enable(true, 'filterMenu');
     await this.menu.enable(true, 'mainMenu');
+    await this.menu.swipeGesture(true, 'filterMenu');
+    await this.menu.swipeGesture(true, 'mainMenu');
   }
 
   async openPage(url: string) {

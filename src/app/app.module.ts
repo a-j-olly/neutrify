@@ -29,7 +29,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
-import { AdMob } from '@admob-plus/ionic';
+import { SupportComponent } from './home/support/support.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,7 @@ import { AdMob } from '@admob-plus/ionic';
     CtaComponent,
     PrivacyPolicyComponent,
     TermsConditionsComponent,
+    SupportComponent,
     FooterComponent
   ],
   imports: [
@@ -65,7 +66,6 @@ import { AdMob } from '@admob-plus/ionic';
     SplashScreen,
     GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AdMob,
     InAppBrowser,
   ],
   bootstrap: [AppComponent]

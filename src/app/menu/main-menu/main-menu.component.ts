@@ -48,7 +48,7 @@ export class MainMenuComponent implements OnInit {
   async presentAlertConfirmSignout() {
     const alert = await this.alertController.create({
       message: 'You are about to sign out. Would you like to continue?',
-      header: 'Sign Out?',
+      header: 'Sign out?',
       buttons: [
         {
           text: 'Cancel',
@@ -58,7 +58,7 @@ export class MainMenuComponent implements OnInit {
             await this.enableMenus();
           }
         }, {
-          text: 'Sign Out',
+          text: 'Sign out',
           handler: async () => {
             const res = await this.authService.signOut();
 
@@ -112,7 +112,7 @@ export class MainMenuComponent implements OnInit {
                 await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');
               }
               
-              this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
+              this.router.navigateByUrl('/auth/create-account', { replaceUrl: true });
             } else {
               await this.enableMenus();
               await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'danger');
@@ -129,11 +129,15 @@ export class MainMenuComponent implements OnInit {
     this.menuService.closeMenu();
     await this.menu.enable(false, 'filterMenu');
     await this.menu.enable(false, 'mainMenu');
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   async enableMenus() {
     await this.menu.enable(true, 'filterMenu');
     await this.menu.enable(true, 'mainMenu');
+    await this.menu.swipeGesture(true, 'filterMenu');
+    await this.menu.swipeGesture(true, 'mainMenu');
   }
 
   async openPage(url: string) {

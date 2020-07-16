@@ -1,18 +1,28 @@
 ion-content {
     --overflow: hidden;
+    position: relative;
 }
 
 ion-img.logo {
+    cursor: pointer;
     max-width: 150px;
     max-height: 48px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.toolbar-buttons {
+ion-buttons {
     position: absolute;
-    right: 0px;
+
+    &.left-buttons {
+        left: 0px;
+    }
+    
+    &.right-buttons {
+        right: 0px;
+    }
 }
+
 
 ion-chip {
     padding: 5px;

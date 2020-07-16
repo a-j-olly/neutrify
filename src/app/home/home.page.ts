@@ -13,13 +13,17 @@ export class HomePage implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private menu: MenuController
   ) {}
 
   ngOnInit() {
   }
 
   async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
+
     if (await this.authService.isAuthenticated()) {
       await this.presentAlertConfirm();
     }
@@ -27,6 +31,10 @@ export class HomePage implements OnInit {
 
   navToSignIn() {
     this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  navToHome() {
+    this.router.navigateByUrl('/home/welcome');
   }
 
   async presentAlertConfirm() {

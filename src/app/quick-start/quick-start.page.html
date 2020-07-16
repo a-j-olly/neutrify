@@ -19,13 +19,16 @@
           <ion-item lines="full">
             <ion-label class="ion-text-wrap">Read only national news articles?</ion-label>
             <ion-toggle slot="start" class="form-control" formControlName="nationalNews" (ionChange)="toggleNationalNews($event)"></ion-toggle>
-            <ion-select class="form-control" formControlName="selectCountry" (ionChange)="localCountryChanged($event)">
+            <ion-select class="form-control" formControlName="selectCountry" (ionChange)="localCountryChanged($event)" placeholder="Click to Add">
               <ion-select-option *ngFor="let country of countryOptions">{{ country.label }}</ion-select-option>
             </ion-select>
           </ion-item>
   
-          <span class="ion-text-center" *ngIf="f.nationalNews.value">
-            <p>You will only see articles published in {{ localCountry }}.</p>
+          <span *ngIf="f.nationalNews.value && f.selectCountry.value">
+            <p>{{ localCountry }} will be included in the country filter.</p>
+          </span>
+          <span *ngIf="f.nationalNews.value && !f.selectCountry.value">
+            <p class="error">Please choose a country from the dropdown list.</p>
           </span>
 
           <ion-item lines="full">
@@ -35,13 +38,13 @@
 
           <ion-item lines="full">
             <ion-label class="ion-text-wrap">Are there any topics you <b>don't</b> want to read about?</ion-label>
-            <ion-select class="form-control" formControlName="topicsToExclude" multiple="true">
+            <ion-select class="form-control" formControlName="topicsToExclude" multiple="true" slot="end" placeholder="Click to Add">
               <ion-select-option *ngFor="let topic of topicList">{{ topic.label }}</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-list>
         <ion-row class="ion-justify-content-center">
-          <ion-button type="submit" [disabled]="!authService.loaded">Done</ion-button>
+          <ion-button type="submit" [disabled]="!authService.loaded || f.nationalNews.value && !f.selectCountry.value">Done</ion-button>
         </ion-row>
       </ion-grid>
     </form>

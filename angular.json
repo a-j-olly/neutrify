@@ -119,6 +119,10 @@
                 {
                   "replace": "src/app/app.module.ts",
                   "with": "src/app/app.module.mob.ts"
+                },
+                {
+                  "replace": "src/app/news-feed/news-feed.page.ts",
+                  "with": "src/app/news-feed/news-feed.page.mob.ts"
                 }
               ],
               "optimization": true,

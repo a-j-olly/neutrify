@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,5 +22,9 @@ export class FooterComponent {
 
   navToPrivacy() {
     this.router.navigateByUrl('/home/privacy-policy');
+  }
+
+  navToSupport() {
+    this.router.navigateByUrl('/home/support');
   }
 }

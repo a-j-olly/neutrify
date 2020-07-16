@@ -1,0 +1,35 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header class="ion-text-center ion-no-padding">
+      <ion-card-title>
+        <h1>Support</h1>
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <div class="faq-container">
+          <p class="ion-margin">
+            If you are having trouble with Neutrify, send an email to 
+            <a href="mailto:support@neutrify.news" title="Send an email to support@neutrify.news">support@neutrify.news</a> and we will get back to you ASAP. 
+            You might consider reading through the FAQs below to see if there is already a solution to your problem. This list will be expanded over time.
+          </p>
+          <br>
+
+          <h1>FAQs</h1>
+          <div class="ion-margin" *ngFor="let item of appFAQItems">
+            <h2>{{ item.question }}</h2>
+            <p>{{ item.answer }}</p>
+          </div>
+        </div>
+        
+        <p class="ion-margin">
+          If you have feedback for any aspect of Neutrify, we would appreciate it if you could send it to us via an email sent to
+          <a href="mailto:feedback@neutrify.news" title="Send an email to feedback@neutrify.news">feedback@neutrify.news</a>.
+        </p>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<app-footer></app-footer>

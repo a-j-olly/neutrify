@@ -3,5 +3,5 @@ export const environment = {
   gaTrackingId: 'UA-165071248-1',
   refreshTimeLimit: 300,
   appleStoreUri: 'https://example.com',
-  googleStoreUri: 'https://play.google.com/store/apps/details?id=app.neutrify.news'
+  googleStoreUri: 'https://play.google.com/store/apps/details?id=news.neutrify.app'
 };

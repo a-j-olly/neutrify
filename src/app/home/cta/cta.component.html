@@ -1,52 +1,66 @@
 <ion-content>
-  <div class="summary-section">
-    <div class="cta">
-      <ion-grid class="form-group">
-        <ion-row class="ion-justify-content-center">
-          <ion-card color="light" class="feature">
-            <ion-card-content>
-              <ion-list>
-                <ion-item>
-                  <h2>Filter out hysterical and biased news articles.</h2>
-                  <ion-icon name="options" slot="start"></ion-icon>
-                </ion-item>
-                <ion-item>
-                  <h2>Stay up to date with the things you care about.</h2>
-                  <ion-icon name="newspaper" slot="start"></ion-icon>
-                </ion-item>
-                <ion-item>
-                  <h2>Choose what you want to read about, and what you don’t.</h2>
-                  <ion-icon name="thumbs-up" slot="start"></ion-icon>
+  <div class="cta-section">
+    <ion-grid class="form-group">
+      <ion-row class="ion-justify-content-center">
+        <div class="cta-card">
+          <ion-row class="ion-justify-content-center">
+            <ion-card color="light" class="feature">
+              <ion-card-content>
+                <ion-list>
+                  <ion-item>
+                    <h2>Filter out hysterical and biased news articles.</h2>
+                    <ion-icon name="options" slot="start"></ion-icon>
                   </ion-item>
-                <ion-item>
-                  <h2>Find out what an article is about before reading it.</h2>
-                  <ion-icon name="book" slot="start"></ion-icon>
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </ion-row>     
-        <ion-row class="ion-justify-content-center ion-text-center">
-          <ion-col size="8">
-            <ion-button class="cta-button" type="submit" expand="full" color="primary" (click)="navToSignUp()">Get Started</ion-button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-label class="text-caption ion-text-center" color="light">
-            <p>Neutrify is free to use. Just sign up!</p>
-          </ion-label>
-        </ion-row>
-      </ion-grid>
-    </div>
+
+                  <ion-item>
+                    <h2>Stay up to date with the things you care about.</h2>
+                    <ion-icon name="newspaper" slot="start"></ion-icon>
+                  </ion-item>
+
+                  <ion-item>
+                    <h2>Choose what you want to read about, and what you don’t.</h2>
+                    <ion-icon name="thumbs-up" slot="start"></ion-icon>
+                  </ion-item>
+
+                  <ion-item>
+                    <h2>Find out what an article is about before reading it.</h2>
+                    <ion-icon name="book" slot="start"></ion-icon>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+            </ion-card>
+          </ion-row>  
+
+          <ion-row class="ion-justify-content-center ion-text-center">
+            <ion-col size="8">
+              <ion-button class="cta-button" type="submit" expand="full" color="primary" (click)="navToSignUp()">Get Started</ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <ion-label class="text-caption ion-text-center" color="light">
+              <p>Neutrify is free to use. Just sign up!</p>
+            </ion-label>
+          </ion-row>
+
+          <ion-row class="app-badge-container ion-justify-content-evenly">
+              <img src="../../../assets/img/logo/apple-store-badge.png" (click)="openGoogleStore()">
+              <img src="../../../assets/img/logo/google-play-badge.png" (click)="openAppleStore()">
+          </ion-row>
+        </div>
+
+        <div class="cta-img">
+          <ion-row class="ion-align-items-center ion-align-self-center ion-justify-content-center">
+            <ion-img src="../../../assets/img/graphic-ipad-iphone-right-small-min.png"></ion-img>
+          </ion-row>
+        </div>
+      </ion-row>
+    </ion-grid>
   </div>
   
   <div class="feature-section">
-  
     <ion-grid>
-      <ion-row class="ion-justify-content-center ion-text-center">
-        <ion-text color="primary"><h1>Take Control Of The News</h1></ion-text>
-      </ion-row>
-  
+      
       <ion-row class="ion-justify-content-center">
         <ion-card class="feature">
           <div>
@@ -133,10 +147,17 @@
             <p>To start using Neutrify, all you need to do is sign up for an account, which costs you nothing. You'll occassionally see adverts, which pay the bills and go towards developing more app features.</p>
           </ion-card-content>
         </ion-card>
-      </ion-row>
+      </ion-row>  
     </ion-grid>
   </div>
   
+  <div class="graphic-section">
+    <ion-row class="ion-justify-content-center ion-text-center">
+      <ion-img src="../../../assets/img/neutrify-your-news-banner-min.png"></ion-img>
+    </ion-row>
+  </div>
+
+
   <div class="privacy-footer" *ngIf="showPrivacyNotice">
     <ion-grid>
       <ion-row class="ion-no-padding ion-align-items-center ion-wrap">

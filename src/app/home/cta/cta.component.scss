@@ -38,20 +38,81 @@ ion-img.logo {
     margin: 0 auto;
 }
 
-.summary-section {
+.cta-section {
+    background-color: #0084cc;
     height: auto;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('../../../assets/img/neutrify-banner-min.png');
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    @media screen and (max-width: 720px) {
+        padding-top: 10px;
+        padding-bottom: 10px
+    }
+}
+
+.cta-card {
+    align-self: flex-end !important;
+
+    @media screen and (max-width: 720px) {
+        margin-right: auto;
+    }
+}
+
+.cta-img {
+    align-self: center !important;
+
+    @media screen and (max-width: 720px) {
+        margin-left: auto;
+    }
+
+    ion-img {
+        height: 400px;
+        min-width: 300px;        
+    }
+}
+
+.app-badge-container {
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    img {
+        height: 46px;
+        width: 153px;    
+    }
 }
 
 .feature-section {
-    background-color: white;
+    background-color: whitesmoke;
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    @media screen and (max-width: 720px) {
+        padding-top: 10px;
+        padding-bottom: 10px
+    }
 }
 
 .feature {
     max-width: 360px;
+}
+
+.graphic-section {
+    background-color: #0084cc;
+    min-width: 320px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+
+    ion-img {
+        margin: 5px;
+    }
+
+    @media screen and (max-width: 720px) {
+        padding-top: 10px;
+        padding-bottom: 10px
+    }
 }
 
 .privacy-footer {
@@ -63,4 +124,5 @@ ion-img.logo {
     background-color: whitesmoke;
     color: black;
     text-align: center;
+    z-index: 1000;
 }

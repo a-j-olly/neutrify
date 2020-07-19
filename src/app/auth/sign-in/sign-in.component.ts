@@ -14,8 +14,9 @@ import { GoogleAnalyticsService } from 'src/app/services/google-analytics.servic
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   passwordType = 'password';
-  invalidDetails = false;
-  loading = false;
+  invalidDetails: boolean = false;
+  loading: boolean = false;
+  showAlert: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,13 +25,18 @@ export class SignInComponent implements OnInit {
     private alertController: AlertController,
     private storage: Storage,
     private ga: GoogleAnalyticsService
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
     this.authService.setState('signIn');
     this.signInForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]]
+    });
+
+    this.storage.get('ion_did_quick_start').then(async (result) => {
+      this.showAlert = !result;
     });
   }
 
@@ -47,15 +53,14 @@ export class SignInComponent implements OnInit {
       const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
 
       if (res === 'true') {
+        if (this.showAlert) {
+          await this.presentAlertConfirm();
+        } else {
+          await this.router.navigateByUrl('/app', { replaceUrl: true });
+        }
+
         this.invalidDetails = false;
         this.signInForm.reset();
-        this.storage.get('ion_did_quick_start').then(async (result) => {
-          if (result) {
-            await this.router.navigateByUrl('/app', { replaceUrl: true });
-          } else {
-            await this.presentAlertConfirm();
-          }
-        });
         this.signInForm.enable();
         this.loading = false;
       } else {

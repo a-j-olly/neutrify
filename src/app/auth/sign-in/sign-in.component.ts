@@ -84,7 +84,7 @@ export class SignInComponent implements OnInit {
 
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      message: 'Would you like to set some starting filters? If not you will go straight to the app.',
+      message: 'Would you like to set some starting filters? If not you, will go straight to the app.',
       buttons: [
         {
           text: 'No thanks',

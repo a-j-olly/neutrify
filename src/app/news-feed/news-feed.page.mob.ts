@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { MenuController, Platform } from '@ionic/angular';
 import { MenuService } from '../services/menu.service';
 import { Component } from '@angular/core';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-news-feed',
@@ -25,9 +26,12 @@ export class NewsFeedPage {
     private menu: MenuController,
     private platform: Platform,
     public authService: AuthService,
-    private admob: AdMob
+    private admob: AdMob,
+    private screenOrientation: ScreenOrientation
   ) {
     this.platform.ready().then((readySource) => {
+      this.screenOrientation.unlock();
+      
       this.platformSource = readySource;
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();

@@ -1,11 +1,27 @@
-#feed {
-    padding-top: 0px;
-    margin: 0 auto;
-    max-width: 1080px;
+#page {
+    background-color: salmon;
+
+    #feed {
+        padding-top: 0px;
+        margin: 0 auto;
+        max-width: 1080px;
+        background-color: inherit;
+    }
 }
 
 ion-refresher {
     z-index: 1000;
+
+    ion-refresher-content {
+        position: relative;
+        padding-bottom: 200px;
+        background-color: salmon;
+      
+        .refresher-pulling, .refresher-refreshing {
+          position: relative;
+          top: 30px;
+        }
+    }
 }
 
 p {
@@ -39,11 +55,11 @@ ion-card {
     margin: 5px 2px;
     min-width: 270px;
     max-width: 1080px;
+    max-height: 480px;
 
     @media screen and (min-width: 720px) {
         max-height: 720px;
     }
-    max-height: 480px;
 
     ion-icon {
         font-size: 24px;
@@ -53,26 +69,23 @@ ion-card {
     }
 
     .title {
-        margin: 0px;
-        padding: 0px;
-
         &:hover {
             cursor: pointer;
         }
 
         h1 {
-            font-size: 17px;
+            font-size: 18px;
             margin-top: 2px;
             margin-bottom: 2px;
-            
+
             &.two-line-wrap {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2; /* number of lines to show */
-                line-height: 20px;        /* fallback */
-                max-height: 40px;       /* fallback */
+                line-height: 21px;        /* fallback */
+                max-height: 42px;       /* fallback */
             }
 
             &.four-line-wrap {
@@ -81,8 +94,8 @@ ion-card {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 4; /* number of lines to show */
-                line-height: 20px;        /* fallback */
-                max-height: 80px;       /* fallback */
+                line-height: 21px;        /* fallback */
+                max-height: 84px;       /* fallback */
             }
         }
     }

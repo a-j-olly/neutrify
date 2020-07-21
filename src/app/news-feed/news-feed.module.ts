@@ -6,9 +6,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-
 import { NewsFeedPage } from './news-feed.page';
 import { ArticleComponent } from './article-list/article/article.component';
+import { SkeletonFeedComponent } from './skeleton-feed/skeleton-feed.component';
 
 const routes: Routes = [
   {
@@ -29,7 +29,8 @@ const routes: Routes = [
     ArticleListComponent,
     ArticleComponent,
     ImageModalComponent,
-    AddFilterPopoverComponent
+    AddFilterPopoverComponent,
+    SkeletonFeedComponent
   ]
 })
 export class NewsFeedPageModule {}

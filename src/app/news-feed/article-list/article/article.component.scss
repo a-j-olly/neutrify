@@ -35,6 +35,10 @@ ion-slides {
         margin-right: 2px; 
         white-space: pre-line;
 
+        @media screen and (min-width: 720px) {
+            font-size: 18px;
+        }
+
         &.body-line-wrap {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -42,7 +46,11 @@ ion-slides {
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 14; /* number of lines to show */
             line-height: 20px;        /* fallback */
-            max-height: 280px;       /* fallback */
+
+            @media screen and (min-width: 720px) {
+                -webkit-line-clamp: 16;
+                line-height: 22px;
+            }
         }
     }
 

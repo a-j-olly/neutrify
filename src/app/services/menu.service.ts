@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MenuService {
 
-  private showMenu = false;
+  private showMenu = true;
   public showMenu$ = new Subject<boolean>();
 
   toggleMenu() {

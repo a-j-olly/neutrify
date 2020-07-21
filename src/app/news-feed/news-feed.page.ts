@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
 })
 export class NewsFeedPage {
   menuSubscription$: Subscription;
-  menuStatus = false;
+  menuStatus = true;
 
   platformResize$: Subscription;
   platformWidth: number;
@@ -40,6 +40,8 @@ export class NewsFeedPage {
   ionViewDidEnter() {
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
+    this.menu.swipeGesture(true, 'filterMenu');
+    this.menu.swipeGesture(true, 'mainMenu');
   }
 
   toggleMenu() {

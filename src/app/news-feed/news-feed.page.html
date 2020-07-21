@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
     <ion-buttons slot="start" class="left-buttons" *ngIf="authService.loaded">
         <ion-button (click)="toggleMenu()" *ngIf="!menuStatus || platformWidth < 720">
@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <div id="skeleton-feed" [hidden]="authService.loaded">
     <ion-row class="ion-justify-content-center">
       <ion-skeleton-text animated style="width: 240px; line-height: 16px; margin-top: 5px;"></ion-skeleton-text>

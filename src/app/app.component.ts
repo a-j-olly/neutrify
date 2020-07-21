@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
 import { Component } from '@angular/core';
-import { Platform, MenuController } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Subscription } from 'rxjs';
@@ -18,13 +18,12 @@ declare let gtag: Function;
 })
 export class AppComponent {
   menuSubscription$: Subscription;
-  menuStatus = false;
+  menuStatus = true;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private menu: MenuController,
     private menuService: MenuService,
     public authService: AuthService,
     public router: Router,
@@ -44,26 +43,6 @@ export class AppComponent {
 
   ionViewWillLeave() {
     this.menuSubscription$.unsubscribe();
-  }
-
-  mainMenuOpen() {
-    this.menu.swipeGesture(true, 'mainMenu');
-  }
-
-  filterMenuOpen() {
-    if (!this.menuStatus) {
-      this.menu.swipeGesture(true, 'filterMenu');
-    }
-  }
-
-  mainMenuClosed() {
-    this.menu.swipeGesture(false, 'mainMenu');
-  }
-
-  filterMenuClosed() {
-    if (!this.menuStatus) {
-      this.menu.swipeGesture(false, 'filterMenu');
-    }
   }
 
   toggleMenu() {

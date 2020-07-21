@@ -19,6 +19,11 @@ export class MenuService {
     this.showMenu$.next(this.showMenu);
   }
 
+  openMenu() {
+    this.showMenu = true;
+    this.showMenu$.next(this.showMenu);
+  }
+
   getMenuStatus(): Observable<boolean> {
     return this.showMenu$.asObservable();
   }

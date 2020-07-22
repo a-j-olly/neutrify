@@ -112,7 +112,6 @@ export class NewsFeedPage {
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
       if (this.authService.loaded) {
         this.filtersSaved = status;
-        console.log('filters saved? ', this.filtersSaved);
       }
     });
 
@@ -120,7 +119,6 @@ export class NewsFeedPage {
 
       if (this.authService.loaded) {
         this.filtersLoading = status;
-        console.log('filters loading? ', this.filtersLoading);
 
         if (this.filtersLoading) {
           this.openArticleIndex = undefined;

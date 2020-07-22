@@ -53,8 +53,7 @@ export class NewsFeedPage {
 
   nextToken: string;
   limit = 25;
-  updatingArticles = false;
-  public showErrorSpinner = false;
+  updatingArticles = true;
 
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription

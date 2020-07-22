@@ -140,8 +140,10 @@ export class NewsFeedPage {
   }
 
   ionViewDidLeave() {
+    this.resetArticles();
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
+    this.updatingArticles = true;
   }
 
   startTimer() {

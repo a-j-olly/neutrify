@@ -52,7 +52,6 @@ export class NewsFeedPage {
   nextToken: string;
   limit = 25;
   updatingArticles = false;
-  public showErrorSpinner = false;
 
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription
@@ -102,22 +101,17 @@ export class NewsFeedPage {
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
       if (this.authService.loaded) {
         this.filtersSaved = status;
-        console.log('filters saved? ', this.filtersSaved);
       }
     });
 
     this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-
       if (this.authService.loaded) {
         this.filtersLoading = status;
-        console.log('filters loading? ', this.filtersLoading);
 
         if (this.filtersLoading) {
           this.openArticleIndex = undefined;
         }
-      }
-      
-      
+      }    
     });
 
     this.platformResize$ = this.platform.resize.subscribe(() => {

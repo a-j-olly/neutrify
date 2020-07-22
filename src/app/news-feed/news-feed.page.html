@@ -35,6 +35,8 @@
     <ion-skeleton-text animated style="width: 240px; line-height: 16px; margin-top: 5px;"></ion-skeleton-text>
   </ion-row>
 
+  <app-skeleton-feed [hidden]="!updatingArticles"></app-skeleton-feed>
+
   <ion-list id="feed">
     <ion-card [hidden]="displayArticles.length === 0" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
       <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i === openArticleIndex">
@@ -79,10 +81,9 @@
       </ion-card-content>
     </ion-card>
 
-    <div [hidden]="displayArticles.length !== 0 || updatingArticles" class="ion-text-center">
+    <div [hidden]="displayArticles.length !== 0 || updatingArticles && authService.loaded" class="ion-text-center">
       <h2>Could not find any articles. It is likely your filters are too strict.</h2>
     </div>
-    <app-skeleton-feed [hidden]="!updatingArticles"></app-skeleton-feed>
   </ion-list>
 
   <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="updatingArticles" [hidden]="nextToken === null">
@@ -92,10 +93,6 @@
 
   <div [hidden]="nextToken !== null || updatingArticles || displayArticles.length === 0" class="ion-text-center">
     <h2>You're all caught up!</h2>
-  </div>
-
-  <div class="spinner-container" *ngIf="showErrorSpinner">
-    <ion-spinner class="spinner" name="crescent" color="danger"></ion-spinner>
   </div>
 </ion-content>
 

@@ -1,13 +1,12 @@
-import { AddFilterPopoverComponent } from './article-list/article/add-filter-popover/add-filter-popover.component';
-import { ImageModalComponent } from './article-list/article/image-modal/image-modal.component';
-import { ArticleListComponent } from './article-list/article-list.component';
+import { AddFilterPopoverComponent } from './article/add-filter-popover/add-filter-popover.component';
+import { ImageModalComponent } from './article/image-modal/image-modal.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { NewsFeedPage } from './news-feed.page';
-import { ArticleComponent } from './article-list/article/article.component';
+import { ArticleComponent } from './article/article.component';
 import { SkeletonFeedComponent } from './skeleton-feed/skeleton-feed.component';
 
 const routes: Routes = [
@@ -26,7 +25,6 @@ const routes: Routes = [
   ],
   declarations: [
     NewsFeedPage,
-    ArticleListComponent,
     ArticleComponent,
     ImageModalComponent,
     AddFilterPopoverComponent,

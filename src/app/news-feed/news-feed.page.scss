@@ -42,20 +42,6 @@ ion-header {
     background-color: inherit;
 }
 
-ion-refresher {
-
-    ion-refresher-content {
-        position: relative;
-        padding-bottom: 200px;
-        background-color: whitesmoke;
-
-        .refresher-pulling, .refresher-refreshing {
-            position: fixed;
-            top: 50px;
-        }
-    }
-}
-
 p {
     color: var(--ion-color-primary);
     margin-top: 5px;

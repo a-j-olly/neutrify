@@ -6,6 +6,18 @@ ion-img.logo {
 
 ion-content {
     --overflow: hidden;
+    --ion-background-color: white;
+    background-color: white;
+}
+
+ion-header {
+    --ion-background-color: white;
+    background-color: white;
+}
+
+ion-tab-bar {
+    --ion-background-color: whitesmoke;
+    background-color: whitesmoke;
 }
 
 .toolbar-buttons {

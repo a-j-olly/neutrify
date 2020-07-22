@@ -81,7 +81,7 @@
       </ion-card-content>
     </ion-card>
 
-    <div [hidden]="displayArticles.length !== 0 || updatingArticles && authService.loaded" class="ion-text-center">
+    <div [hidden]="displayArticles.length !== 0 || updatingArticles || authService.loaded" class="ion-text-center">
       <h2>Could not find any articles. It is likely your filters are too strict.</h2>
     </div>
   </ion-list>

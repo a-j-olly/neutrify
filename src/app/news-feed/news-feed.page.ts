@@ -51,7 +51,7 @@ export class NewsFeedPage {
 
   nextToken: string;
   limit = 25;
-  updatingArticles = false;
+  updatingArticles = true;
 
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription

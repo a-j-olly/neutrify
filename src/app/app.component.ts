@@ -17,8 +17,10 @@ declare let gtag: Function;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  menuSubscription$: Subscription;
-  menuStatus = true;
+  private menuSubscription$: Subscription;
+  public menuStatus = true;
+
+  private prefersDark; 
 
   constructor(
     private platform: Platform,
@@ -33,6 +35,9 @@ export class AppComponent {
         gtag('config', environment.gaTrackingId, { page_path: event.urlAfterRedirects });
       }
     });
+
+    this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
@@ -49,6 +54,10 @@ export class AppComponent {
     this.menuService.toggleMenu();
   }
 
+  toggleDarkTheme(shouldAdd) {
+    document.body.classList.toggle('dark', shouldAdd);
+  }
+
   initializeApp() {
     this.platform.ready().then((readySource) => {
       if (this.platform.is('android')) {
@@ -58,6 +67,7 @@ export class AppComponent {
         this.statusBar.styleDefault();
       }
 
+      this.toggleDarkTheme(this.prefersDark.matches);
       this.splashScreen.hide();
     });
   }

@@ -1,23 +1,28 @@
 import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MenuService } from '../services/menu.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private menu: MenuController
+    private menu: MenuController,
+    private menuService: MenuService
   ) {}
 
-  ngOnInit() {
+  async ionViewWillEnter() {
+    this.menuService.closeMenu();
+    await this.menu.close('filterMenu');
+    await this.menu.close('mainMenu');
   }
 
   async ionViewDidEnter() {

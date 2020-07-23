@@ -12,10 +12,6 @@ ion-icon {
     color: var(--ion-color-primary);
 }
 
-ion-img.image {
-    width: 360px;
-}
-
 ion-img.logo {
     max-width: 150px;
     max-height: 48px;
@@ -53,20 +49,18 @@ ion-img.logo {
     }
 }
 
-.cta-card {
+.cta-info {
     align-self: flex-end !important;
+    max-width: 380px;
 }
 
 .cta-img {
     align-self: center !important;
-
-    @media screen and (max-width: 720px) {
-        margin-left: auto;
-    }
+    max-width: 380px;
 
     ion-img {
         height: 400px;
-        min-width: 300px;        
+        min-width: 300px;
     }
 }
 
@@ -89,10 +83,26 @@ ion-img.logo {
         padding-top: 10px;
         padding-bottom: 10px
     }
+
+    h2 {
+        font-weight: bold;
+    }
 }
 
 .feature {
     max-width: 360px;
+
+    
+}
+
+ion-header {
+    background-color: white;
+    --ion-background-color: white;
+}
+
+ion-card {
+    background-color: white;
+    --ion-background-color: white;
 }
 
 .graphic-section {

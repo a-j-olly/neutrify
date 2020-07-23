@@ -54,5 +54,4 @@ export class SupportComponent implements OnInit {
       + 'often gives the best results.'
     },
   ];
-
 }

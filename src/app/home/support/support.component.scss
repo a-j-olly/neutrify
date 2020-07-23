@@ -4,7 +4,9 @@ ion-card {
     margin: 0 auto;
     margin-top: 5px;
     margin-bottom: 5px;
-
+    background-color: white;
+    --ion-background-color: white;
+    
     ion-card-title {
         h1 {
             color: var(--ion-color-primary);

@@ -2,7 +2,7 @@
   <div class="container">
     <form [formGroup]="signInForm" (ngSubmit)="signIn()">
       <div class="form-group">
-        <p>Sign in to your account.</p>
+        <p>Please <b>sign in</b> to your account.</p>
         <div class="form-item">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" oninput="this.value = this.value.toLowerCase().trim()" required ></ion-input>

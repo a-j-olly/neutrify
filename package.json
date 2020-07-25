@@ -42,7 +42,7 @@
     "aws-amplify": "^3.0.20",
     "aws-amplify-angular": "^5.0.20",
     "cordova-admob-plus": "^0.36.0",
-    "cordova-android": "^9.0.0",
+    "cordova-android": "^8.1.0",
     "cordova-ios": "^6.1.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-inappbrowser": "^4.0.0",

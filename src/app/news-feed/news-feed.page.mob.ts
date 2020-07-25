@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { differenceInMinutes, sub, add, formatDistanceToNow } from 'date-fns';
 import { AdMob } from '@admob-plus/ionic';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
   selector: 'app-news-feed',
@@ -76,7 +77,8 @@ export class NewsFeedPage {
     private platform: Platform,
     public authService: AuthService,
     private admob: AdMob,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private themeDetection: ThemeDetection
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -101,6 +103,14 @@ export class NewsFeedPage {
         this.showRefreshFab = true;
         this.playAds();
       }
+
+      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+        if (res.value) {
+          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+            document.body.classList.toggle('dark', res.value);
+          }).catch((error: any) => console.error(error));
+        }
+      }).catch((error: any) => console.error(error));
     });
     
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {

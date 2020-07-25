@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
 import { Subscription } from 'rxjs';
 
 // tslint:disable-next-line:ban-types
@@ -19,8 +20,7 @@ declare let gtag: Function;
 export class AppComponent {
   private menuSubscription$: Subscription;
   public menuStatus = true;
-
-  private prefersDark; 
+  private prefersDark;
 
   constructor(
     private platform: Platform,
@@ -29,15 +29,13 @@ export class AppComponent {
     private menuService: MenuService,
     public authService: AuthService,
     public router: Router,
+    private themeDetection: ThemeDetection
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         gtag('config', environment.gaTrackingId, { page_path: event.urlAfterRedirects });
       }
     });
-
-    this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
@@ -54,12 +52,36 @@ export class AppComponent {
     this.menuService.toggleMenu();
   }
 
+  private async isAvailable(): Promise<ThemeDetectionResponse> {
+    let darkModeAvailable: ThemeDetectionResponse;
+
+    try {
+      darkModeAvailable = await this.themeDetection.isAvailable();
+    } catch (e) {
+      console.log(e);
+    }
+
+    return darkModeAvailable;
+  }
+
+  private async isDarkModeEnabled(): Promise<ThemeDetectionResponse> {
+    let darkModeEnabled: ThemeDetectionResponse;
+
+    try {
+      darkModeEnabled = await this.themeDetection.isDarkModeEnabled();
+    } catch (e) {
+      console.log(e);
+    }
+
+    return darkModeEnabled;
+  }
+
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
   }
 
   initializeApp() {
-    this.platform.ready().then((readySource) => {
+    this.platform.ready().then(async (readySource) => {
       if (this.platform.is('android')) {
         this.statusBar.backgroundColorByHexString('#333');
         this.statusBar.styleLightContent();
@@ -67,7 +89,14 @@ export class AppComponent {
         this.statusBar.styleDefault();
       }
 
-      this.toggleDarkTheme(this.prefersDark.matches);
+      if (readySource !== 'dom' && (await this.isAvailable()).value) {
+        this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
+      } else {
+        this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
+        this.toggleDarkTheme(this.prefersDark.matches)
+      }
+      
       this.splashScreen.hide();
     });
   }

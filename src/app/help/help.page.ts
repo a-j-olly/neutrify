@@ -10,16 +10,14 @@ import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-dete
 })
 export class HelpPage implements OnInit {
   @ViewChild('page') page: IonContent;
-  private platformSource: string;
 
   constructor(
     private router: Router,
     private platform: Platform,
     private themeDetection: ThemeDetection
   ) {
-    this.platform.ready().then((readySource) => this.platformSource = readySource);
 
-    if (this.platformSource !== 'dom') {
+    if (this.platform.is('android')) {
       this.platform.resume.subscribe(() => {
         this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
           if (res.value) {

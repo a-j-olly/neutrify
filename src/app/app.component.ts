@@ -85,18 +85,21 @@ export class AppComponent {
       if (this.platform.is('android')) {
         this.statusBar.backgroundColorByHexString('#333');
         this.statusBar.styleLightContent();
+
+        if ((await this.isAvailable()).value) {
+          this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
+        }
+
       } else if (this.platform.is('ios')) {
         this.statusBar.styleDefault();
       }
 
-      if (readySource !== 'dom' && (await this.isAvailable()).value) {
-        this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
-      } else {
+      if (!this.platform.is('android')) {
         this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
         this.toggleDarkTheme(this.prefersDark.matches)
       }
-      
+
       this.splashScreen.hide();
     });
   }

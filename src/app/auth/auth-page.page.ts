@@ -20,9 +20,7 @@ export class AuthPage {
     private themeDetection: ThemeDetection
   ) {
 
-    this.platform.ready().then((readySource) => this.platformSource = readySource);
-
-    if (this.platformSource !== 'dom') {
+    if (this.platform.is('android')) {
       this.platform.resume.subscribe(() => {
         this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
           if (res.value) {

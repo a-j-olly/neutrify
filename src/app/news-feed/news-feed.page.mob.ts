@@ -104,13 +104,15 @@ export class NewsFeedPage {
         this.playAds();
       }
 
-      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-        if (res.value) {
-          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-            document.body.classList.toggle('dark', res.value);
-          }).catch((error: any) => console.error(error));
-        }
-      }).catch((error: any) => console.error(error));
+      if (this.platform.is('android')) {
+        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+          if (res.value) {
+            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+              document.body.classList.toggle('dark', res.value);
+            }).catch((error: any) => console.error(error));
+          }
+        }).catch((error: any) => console.error(error));
+      }
     });
     
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {

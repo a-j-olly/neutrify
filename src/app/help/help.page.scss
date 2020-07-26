@@ -1,3 +1,11 @@
+ion-header {
+    --ion-background-color: var(--ion-color-light);
+}
+
+ion-content {
+    --ion-background-color: var(--ion-color-light);
+}
+
 ion-img.logo {
     max-width: 150px;
     max-height: 48px;
@@ -11,4 +19,10 @@ ion-img.logo {
 
 ion-chip {
     padding: 5px;
+}
+
+ion-tab-bar {
+    --ion-background-color: var(--ion-color-medium);
+    --color: var(--ion-color-dark);
+    --color-selected: var(--ion-color-primary);
 }

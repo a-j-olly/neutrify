@@ -1,15 +1,7 @@
 <div class="footer">
-  <ion-grid class="ion-no-padding">
-    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-evenly ion-text-center">
-      <ion-col>
-        <ion-button (click)="navToSupport()" color="primary" fill="clear">Support</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="navToPrivacy()" color="primary" fill="clear">Privacy Policy</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="navToTC()" color="primary" fill="clear">Terms & Conditions</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-buttons class="ion-no-margin ion-no-padding ion-justify-content-evenly ion-text-center">
+    <ion-chip (click)="navToSupport()" color="primary" fill="clear">Support</ion-chip>
+    <ion-chip (click)="navToPrivacy()" color="primary" >Privacy Policy</ion-chip>
+    <ion-chip (click)="navToTC()" color="primary" >Terms & Conditions</ion-chip>
+  </ion-buttons>
 </div>

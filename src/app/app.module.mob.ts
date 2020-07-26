@@ -26,6 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { AdMob } from '@admob-plus/ionic';
+import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { AdMob } from '@admob-plus/ionic';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AdMob,
     InAppBrowser,
-    ScreenOrientation
+    ScreenOrientation,
+    ThemeDetection,
   ],
   bootstrap: [AppComponent]
 })

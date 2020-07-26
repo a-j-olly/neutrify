@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { differenceInMinutes, sub, add, formatDistanceToNow } from 'date-fns';
 import { AdMob } from '@admob-plus/ionic';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
   selector: 'app-news-feed',
@@ -59,7 +60,7 @@ export class NewsFeedPage {
   private filtersLoadingSubcription$: Subscription
 
   menuSubscription$: Subscription;
-  menuStatus = true;
+  menuStatus = false;
 
   platformResize$: Subscription;
   platformWidth: number;
@@ -76,7 +77,8 @@ export class NewsFeedPage {
     private platform: Platform,
     public authService: AuthService,
     private admob: AdMob,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private themeDetection: ThemeDetection
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -96,10 +98,21 @@ export class NewsFeedPage {
     });
 
     this.platform.resume.subscribe(() => {
+      this.playAds();
+
       if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
         this.resetTimer();
         this.showRefreshFab = true;
-        this.playAds();
+      }
+
+      if (this.platformSource !== 'dom' && this.platform.is('android')) {
+        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+          if (res.value) {
+            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+              document.body.classList.toggle('dark', res.value);
+            }).catch((error: any) => console.error(error));
+          }
+        }).catch((error: any) => console.error(error));
       }
     });
     

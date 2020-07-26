@@ -6,18 +6,17 @@ ion-img.logo {
 
 ion-content {
     --overflow: hidden;
-    --ion-background-color: white;
-    background-color: white;
+    --ion-background-color: var(--ion-color-light);
 }
 
 ion-header {
-    --ion-background-color: white;
-    background-color: white;
+    --ion-background-color: var(--ion-color-light);
 }
 
 ion-tab-bar {
-    --ion-background-color: whitesmoke;
-    background-color: whitesmoke;
+    --ion-background-color: var(--ion-color-medium);
+    --color: var(--ion-color-dark);
+    --color-selected: var(--ion-color-primary);
 }
 
 .toolbar-buttons {

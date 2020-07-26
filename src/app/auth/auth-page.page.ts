@@ -35,12 +35,6 @@ export class AuthPage {
     }
   }
 
-  async ionViewWillEnter() {
-    this.menuService.closeMenu();
-    await this.menu.close('filterMenu');
-    await this.menu.close('mainMenu');
-  }
-
   async ionViewDidEnter() {
     await this.menu.swipeGesture(false, 'filterMenu');
     await this.menu.swipeGesture(false, 'mainMenu');

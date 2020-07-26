@@ -8,8 +8,9 @@ import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-dete
   templateUrl: './help.page.html',
   styleUrls: ['./help.page.scss'],
 })
-export class HelpPage implements OnInit {
+export class HelpPage {
   @ViewChild('page') page: IonContent;
+  private platformSource: string;
 
   constructor(
     private router: Router,
@@ -17,7 +18,9 @@ export class HelpPage implements OnInit {
     private themeDetection: ThemeDetection
   ) {
 
-    if (this.platform.is('android')) {
+    this.platform.ready().then((readySource: string) => this.platformSource = readySource);
+
+    if (this.platformSource !== 'dom' && this.platform.is('android')) {
       this.platform.resume.subscribe(() => {
         this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
           if (res.value) {
@@ -28,9 +31,6 @@ export class HelpPage implements OnInit {
         }).catch((error: any) => console.error(error));
       });
     }
-  }
-
-  ngOnInit() {
   }
 
   onSlideChange(event) {

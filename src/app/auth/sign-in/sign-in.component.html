@@ -34,9 +34,9 @@
         </div>
     
         <div class="form-item">
-          <ion-item lines="none">
+          <ion-row class="ion-no-padding ion-no-margin ion-justify-content-center">
             <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
-          </ion-item>
+          </ion-row>
 
           <span *ngIf="invalidDetails">
             <p class="error">Sign in details are incorrect. Please try again.</p>

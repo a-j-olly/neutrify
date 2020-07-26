@@ -15,6 +15,8 @@ ion-header {
 
 ion-tab-bar {
     --ion-background-color: var(--ion-color-medium);
+    --color: var(--ion-color-dark);
+    --color-selected: var(--ion-color-primary);
 }
 
 .toolbar-buttons {

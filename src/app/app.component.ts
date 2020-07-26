@@ -19,7 +19,7 @@ declare let gtag: Function;
 })
 export class AppComponent {
   private menuSubscription$: Subscription;
-  public menuStatus = true;
+  public menuStatus = false;
   private prefersDark;
 
   constructor(
@@ -82,19 +82,21 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(async (readySource) => {
-      if (this.platform.is('android')) {
-        this.statusBar.backgroundColorByHexString('#333');
-        this.statusBar.styleLightContent();
-
-        if ((await this.isAvailable()).value) {
-          this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
+      if (readySource !== 'dom') {
+        if (this.platform.is('android')) {
+          this.statusBar.backgroundColorByHexString('#333');
+          this.statusBar.styleLightContent();
+  
+          if ((await this.isAvailable()).value) {
+            this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
+          }
+  
+        } else if (this.platform.is('ios')) {
+          this.statusBar.styleDefault();
         }
-
-      } else if (this.platform.is('ios')) {
-        this.statusBar.styleDefault();
       }
 
-      if (!this.platform.is('android')) {
+      if (!this.platform.is('android') || readySource === 'dom') {
         this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
         this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
         this.toggleDarkTheme(this.prefersDark.matches)

@@ -57,7 +57,7 @@ export class NewsFeedPage {
   private filtersLoadingSubcription$: Subscription
 
   menuSubscription$: Subscription;
-  menuStatus = true;
+  menuStatus = false;
 
   platformResize$: Subscription;
   platformWidth: number;

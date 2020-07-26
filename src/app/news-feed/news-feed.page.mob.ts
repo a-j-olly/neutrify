@@ -60,7 +60,7 @@ export class NewsFeedPage {
   private filtersLoadingSubcription$: Subscription
 
   menuSubscription$: Subscription;
-  menuStatus = true;
+  menuStatus = false;
 
   platformResize$: Subscription;
   platformWidth: number;
@@ -98,13 +98,14 @@ export class NewsFeedPage {
     });
 
     this.platform.resume.subscribe(() => {
+      this.playAds();
+
       if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
         this.resetTimer();
         this.showRefreshFab = true;
-        this.playAds();
       }
 
-      if (this.platform.is('android')) {
+      if (this.platformSource !== 'dom' && this.platform.is('android')) {
         this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
           if (res.value) {
             this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {

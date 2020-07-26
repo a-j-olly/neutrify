@@ -16,14 +16,7 @@ export class HomePage {
     private router: Router,
     private alertController: AlertController,
     private menu: MenuController,
-    private menuService: MenuService
   ) {}
-
-  async ionViewWillEnter() {
-    this.menuService.closeMenu();
-    await this.menu.close('filterMenu');
-    await this.menu.close('mainMenu');
-  }
 
   async ionViewDidEnter() {
     await this.menu.swipeGesture(false, 'filterMenu');

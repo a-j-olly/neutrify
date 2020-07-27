@@ -62,27 +62,14 @@ h2 {
     color: var(--ion-color-primary);
 }
 
-.ad-control {
-    min-width: 270px;
-    max-width: 1080px;
-
-    @media screen and (min-width: 720px) {
-        max-height: 720px;
-    }
-}
-
 ion-card {
     padding: 5px 5px 0px 5px;
     margin: 5px 2px;
     min-width: 270px;
     max-width: 1080px;
-    max-height: 480px;
+    max-height: 568px;
     background-color: var(--ion-color-light);
-
-    @media screen and (min-width: 720px) {
-        max-height: 720px;
-    }
-
+    
     ion-icon {
         font-size: 24px;
         &:hover {
@@ -106,8 +93,8 @@ ion-card {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2; /* number of lines to show */
-                line-height: 21px;        /* fallback */
-                max-height: 42px;       /* fallback */
+                // line-height: 21px;        /* fallback */
+                // max-height: 42px;       /* fallback */
             }
 
             &.four-line-wrap {
@@ -116,8 +103,8 @@ ion-card {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 4; /* number of lines to show */
-                line-height: 21px;        /* fallback */
-                max-height: 84px;       /* fallback */
+                // line-height: 21px;        /* fallback */
+                // max-height: 84px;       /* fallback */
             }
         }
     }

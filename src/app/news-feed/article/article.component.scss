@@ -16,7 +16,6 @@ ion-slides {
     ion-slide {
         margin-bottom: 10px;
     }
-
 }
 
 .body {
@@ -30,13 +29,13 @@ ion-slides {
     }
 
     p {
-        font-size: 16px;
+        font-size: 14px;
         margin-left: 2px;
         margin-right: 2px; 
         white-space: pre-line;
 
         @media screen and (min-width: 720px) {
-            font-size: 18px;
+            font-size: 16px;
         }
 
         &.body-line-wrap {
@@ -45,11 +44,9 @@ ion-slides {
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 14; /* number of lines to show */
-            line-height: 20px;        /* fallback */
 
             @media screen and (min-width: 720px) {
                 -webkit-line-clamp: 16;
-                line-height: 22px;
             }
         }
     }
@@ -62,17 +59,16 @@ ion-slides {
 
 .img-container {
     height: 300px;
+
+    @media screen and (min-width: 720px) {
+        height: 400px;
+    }
+
     display: flex;
     justify-content: center;
     align-items: center;
 
     ion-img {
-        @media screen and (min-width: 720px) {
-            max-width: 480px;
-            max-height: 280px;
-        }
-
-        max-width: 320px;
         margin: 5px auto;
         transition: 0.3s;
 
@@ -86,11 +82,11 @@ ion-slides {
 .metrics-line-wrap {
     @media screen and (min-width: 720px) {
         line-height: 20px;
+        max-height: 384px;
     }
     
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     line-height: 16px;

@@ -1,7 +1,6 @@
 import { MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { MenuService } from '../services/menu.service';
 import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
@@ -15,7 +14,6 @@ export class AuthPage {
   constructor(
     private router: Router,
     private menu: MenuController,
-    private menuService: MenuService,
     private platform: Platform,
     private themeDetection: ThemeDetection
   ) {

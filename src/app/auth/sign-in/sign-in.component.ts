@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
+import { KeychainService } from 'src/app/services/keychain.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,9 +15,11 @@ import { GoogleAnalyticsService } from 'src/app/services/google-analytics.servic
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   passwordType = 'password';
-  invalidDetails: boolean = false;
-  loading: boolean = false;
-  showAlert: boolean = true;
+  public invalidDetails: boolean = false;
+  public loading: boolean = false;
+  public showAlert: boolean = true;
+  private platformSource: string;
+  private keychainNotFound = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,8 +27,12 @@ export class SignInComponent implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private storage: Storage,
-    private ga: GoogleAnalyticsService
-  ) { 
+    private ga: GoogleAnalyticsService,
+    private platform: Platform,
+    private keychainService: KeychainService,
+    private toastController: ToastController
+  ) {
+    this.platform.ready().then((readySource: string) => this.platformSource = readySource);
   }
 
   ngOnInit() {
@@ -35,9 +42,29 @@ export class SignInComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(8)]]
     });
 
-    this.storage.get('ion_did_quick_start').then(async (result) => {
+    this.storage.get('ion_did_quick_start').then(result => {
       this.showAlert = !result;
     });
+  }
+
+  async ionViewDidEnter() {
+    await this.storage.get('ion_user_email').then(res => this.signInForm.value.email = res);
+    if (this.f.email.value && this.f.email.valid) {
+
+      if (this.platform.is('ios') && this.platformSource !== 'dom') {
+        try {
+          this.signInForm.value.password = await this.keychainService.getKeychainPassword(this.f.email.value);
+        } catch (err) {
+          console.log('get keychain err: ', err);
+          if (err.code === 'errSecItemNotFound') {
+            this.keychainNotFound = true;
+            // ask if they want to set up the key
+          } else {
+            await this.presentToast('Could not get your password from the keychain', 'danger');
+          }
+        }
+      }
+    }
   }
 
   get f() { return this.signInForm.controls; }
@@ -47,12 +74,33 @@ export class SignInComponent implements OnInit {
   }
 
   async signIn() {
+    const email = this.signInForm.value.email, password = this.signInForm.value.password;
     this.loading = true;
+    
     if (this.signInForm.valid) {
       this.signInForm.disable();
-      const res = await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
+      const res = await this.authService.signIn(email, password);
 
       if (res === 'true') {
+
+        if (this.keychainNotFound) {
+          try {
+            this.keychainService.setKeychainPassword(email, password);
+          } catch (err) {
+            console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
+
+            if (err.code === 'errSecDuplicateItem') {
+              try {
+                await this.keychainService.replaceKeychainPassword(email, password);
+              } catch (err) {
+                console.log('Did/could not replace the password on the keychain. Service returned this error: ', err);
+              }
+            } else {
+              this.presentToast('Did/could not add the password to the keychain.', 'danger');
+            }
+          }
+        }
+        
         if (this.showAlert) {
           await this.presentAlertConfirm();
         } else {
@@ -105,5 +153,16 @@ export class SignInComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center',
+      position: 'middle'
+    });
+    toast.present();
   }
 }

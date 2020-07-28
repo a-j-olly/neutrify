@@ -5,8 +5,10 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MustMatch } from 'src/app/helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Storage } from '@ionic/storage';
+import { KeychainService } from 'src/app/services/keychain.service';
 
 @Component({
   selector: 'app-create-account',
@@ -25,6 +27,7 @@ export class CreateAccountComponent implements OnInit {
   showConfirmSignUp = false;
   resentEmail: boolean;
   confirmSignUpForm: FormGroup;
+  private platformSource: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,8 +35,13 @@ export class CreateAccountComponent implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private ga: GoogleAnalyticsService,
-    private inAppBrowser: InAppBrowser
-  ) {}
+    private inAppBrowser: InAppBrowser,
+    private storage: Storage,
+    private keychainService: KeychainService,
+    private platform: Platform,
+  ) {
+    this.platform.ready().then((readySource: string) => this.platformSource = readySource);
+  }
 
   ngOnInit() {
     this.authService.setState('signUp');
@@ -66,8 +74,6 @@ export class CreateAccountComponent implements OnInit {
       if (res) {
         this.invalidDetails = false;
         this.initConfirmSignUp();
-        this.signUpForm.reset();
-        this.signUpForm.enable();
         this.loading = false;
         await this.presentToast('Please verify your email account.', 'secondary');
         this.signUpForm.enable();
@@ -100,9 +106,21 @@ export class CreateAccountComponent implements OnInit {
       
       if (res) {
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
+        await this.storage.set('ion_user_email', this.signUpForm.value.email);
+
+        if (this.platform.is('ios') && this.platformSource !== 'dom') {
+          try {
+            this.keychainService.setKeychainPassword(this.signUpForm.value.email, this.signUpForm.value.password);
+          } catch (err) {
+            console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
+            this.presentToast('Did/could not the add password to the keychain.', 'danger');
+          }
+        }
+
         this.navToSignIn();
         this.invalidDetails = false;
         this.showConfirmSignUp = false;
+        this.signUpForm.reset();
         this.confirmSignUpForm.reset();
         this.confirmSignUpForm.enable();
         this.loading = false;

@@ -54,21 +54,19 @@ export class SignInComponent implements OnInit {
       if (res) {
         this.storedEmail = res;
       }
-
-      console.log('get ion_user_email, res: ', res);
     });
 
-    if (this.f.email.value && this.f.email.valid) {
+    if (this.f.email.value && this.f.email.valid)  {
 
       if (this.platform.is('ios') && this.platformSource !== 'dom') {
         try {
-          this.signInForm.value.password = await this.keychainService.getKeychainPassword(this.f.email.value);
+          this.f.password.setValue(await this.keychainService.getKeychainPassword(this.f.email.value));
+          await this.presentToast('Successfully got your password via Keychain', 'success');
         } catch (err) {
-          console.log('get keychain err: ', err);
           if (err.code === 'errSecItemNotFound') {
             this.keychainNotFound = true;
-            // ask if they want to set up the key
           } else {
+            console.log('Could not get your password from the keychain. Service returned this error: ', err);
             await this.presentToast('Could not get your password from the keychain', 'danger');
           }
         }

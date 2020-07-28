@@ -31,6 +31,7 @@ export class ResetPasswordComponent implements OnInit {
     private ga: GoogleAnalyticsService,
     private platform: Platform,
     private keychainService: KeychainService,
+    private storage: Storage
   ) {
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
@@ -45,6 +46,10 @@ export class ResetPasswordComponent implements OnInit {
     }, {
       validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
+  }
+
+  async ionViewDidEnter() {
+    await this.storage.get('ion_user_email').then(res => this.f.email.setValue(res));
   }
 
   get f() { return this.resetPasswordForm.controls; }
@@ -75,14 +80,17 @@ export class ResetPasswordComponent implements OnInit {
     if (this.showSubmit && !this.invalidEmailDetails && this.f.vefCode.valid && this.f.password.valid && this.f.confirmPassword.valid) {
       this.resetPasswordForm.disable();
       const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, password);
+      
       if (res) {
         if (this.platform.is('ios') && this.platformSource !== 'dom') {
+          
           try {
             this.keychainService.setKeychainPassword(email, password);
           } catch (err) {
             console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
 
             if (err.code === 'errSecDuplicateItem') {
+
               try {
                 await this.keychainService.replaceKeychainPassword(email, password);
               } catch (err) {
@@ -95,7 +103,6 @@ export class ResetPasswordComponent implements OnInit {
         }
 
         this.navToSignIn();
-        this.f.email.reset();
         this.resetPasswordForm.reset();
         this.showSubmit = false;
         this.resetPasswordForm.enable();
@@ -104,7 +111,9 @@ export class ResetPasswordComponent implements OnInit {
         this.ga.eventEmitter('reset_password', 'engagement', 'Reset password');
       } else {
         this.invalidCode = true;
-        this.resetPasswordForm.reset();
+        this.f.vefCode.reset();
+        this.f.password.reset();
+        this.f.confirmPassword.reset();
         this.resetPasswordForm.enable();
         this.loading = false;
       }

@@ -60,8 +60,12 @@ export class SignInComponent implements OnInit {
 
       if (this.platform.is('ios') && this.platformSource !== 'dom') {
         try {
-          this.f.password.setValue(await this.keychainService.getKeychainPassword(this.f.email.value));
-          await this.presentToast('Successfully got your password via Keychain', 'success');
+          const password = await this.keychainService.getKeychainPassword(this.f.email.value);
+
+          if (password) {
+            this.f.password.setValue(password);
+            await this.presentToast('Successfully got your password via Keychain', 'success');
+          }
         } catch (err) {
           if (err.code === 'errSecItemNotFound') {
             this.keychainNotFound = true;

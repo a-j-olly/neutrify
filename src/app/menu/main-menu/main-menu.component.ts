@@ -12,7 +12,7 @@ import { KeychainService } from 'src/app/services/keychain.service';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnInit {
   public userEmail: string;
   private platformSource: string;
 
@@ -29,7 +29,7 @@ export class MainMenuComponent {
     private platform: Platform
   ) {}
 
-  ionViewWillEnter() {
+  ngOnInit() {
     this.userEmail = this.authService.userEmail;
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
@@ -123,7 +123,6 @@ export class MainMenuComponent {
 
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
-
               } else {
                 await this.enableMenus();
                 await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');

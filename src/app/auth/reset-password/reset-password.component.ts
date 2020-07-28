@@ -2,11 +2,12 @@ import { GoogleAnalyticsService } from './../../services/google-analytics.servic
 import { ToastController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../../helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
 import { KeychainService } from 'src/app/services/keychain.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-reset-password',

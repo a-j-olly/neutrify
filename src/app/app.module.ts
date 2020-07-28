@@ -31,6 +31,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { SupportComponent } from './home/support/support.component';
+import { Keychain } from '@ionic-native/keychain/ngx';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SupportComponent } from './home/support/support.component';
     GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     InAppBrowser,
-    ThemeDetection
+    ThemeDetection,
+    Keychain
   ],
   bootstrap: [AppComponent]
 })

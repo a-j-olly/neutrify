@@ -20,6 +20,7 @@ export class SignInComponent implements OnInit {
   public showAlert: boolean = true;
   private platformSource: string;
   private keychainNotFound = false;
+  private storedEmail: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,7 +49,15 @@ export class SignInComponent implements OnInit {
   }
 
   async ionViewDidEnter() {
-    await this.storage.get('ion_user_email').then(res => this.signInForm.value.email = res);
+    await this.storage.get('ion_user_email').then(res => {
+      this.f.email.setValue(res);
+      if (res) {
+        this.storedEmail = res;
+      }
+
+      console.log('get ion_user_email, res: ', res);
+    });
+
     if (this.f.email.value && this.f.email.valid) {
 
       if (this.platform.is('ios') && this.platformSource !== 'dom') {
@@ -83,7 +92,7 @@ export class SignInComponent implements OnInit {
 
       if (res === 'true') {
 
-        if (this.keychainNotFound) {
+        if (this.keychainNotFound || (!this.storedEmail && this.platform.is('ios') && this.platformSource !== 'dom')) {
           try {
             this.keychainService.setKeychainPassword(email, password);
           } catch (err) {
@@ -99,6 +108,10 @@ export class SignInComponent implements OnInit {
               this.presentToast('Did/could not add the password to the keychain.', 'danger');
             }
           }
+        }
+
+        if (email !== this.storedEmail) {
+          await this.storage.set('ion_user_email', email);
         }
         
         if (this.showAlert) {

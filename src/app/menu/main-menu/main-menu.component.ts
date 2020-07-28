@@ -3,17 +3,18 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { MenuController, ToastController, AlertController } from '@ionic/angular';
+import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { KeychainService } from 'src/app/services/keychain.service';
 
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent implements OnInit {
-  userEmail: string;
-  readySource: string;
+export class MainMenuComponent {
+  public userEmail: string;
+  private platformSource: string;
 
   constructor(
     public authService: AuthService,
@@ -23,11 +24,14 @@ export class MainMenuComponent implements OnInit {
     private ga: GoogleAnalyticsService,
     private alertController: AlertController,
     private toastController: ToastController,
-    private inAppBrowser: InAppBrowser
+    private inAppBrowser: InAppBrowser,
+    private keychainService: KeychainService,
+    private platform: Platform
   ) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.userEmail = this.authService.userEmail;
+    this.platform.ready().then(readySource => this.platformSource = readySource);
   }
 
   async signOut() {
@@ -104,6 +108,19 @@ export class MainMenuComponent implements OnInit {
               const res = await this.authService.deleteAccount();
 
               if (res) {
+
+                if (this.platform.is('ios') && this.platformSource !== 'dom') {
+                  try {
+                    this.keychainService.removeKeychainPassword(this.userEmail);
+                  } catch (err) {
+                    if (err.code === 'errSecItemNotFound') {
+                      // do nothing
+                    } else {
+                      await this.presentToast('Could not remove password from Keychain. Try to do so manually.', 'danger');
+                    }
+                  }
+                }
+
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
 

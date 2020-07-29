@@ -39,6 +39,11 @@
             <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
           </ion-row>
 
+          <ion-item *ngIf="platform.is('ios')">
+            <ion-checkbox slot="start" class="form-control" formControlName="savePassword"></ion-checkbox>
+            <ion-label>Save your password?</ion-label>
+          </ion-item>
+
           <span *ngIf="invalidDetails">
             <p class="error">Sign in details are incorrect. Please try again.</p>
           </span>

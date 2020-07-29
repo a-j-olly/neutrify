@@ -29,7 +29,7 @@ export class SignInComponent implements OnInit {
     private alertController: AlertController,
     private storage: Storage,
     private ga: GoogleAnalyticsService,
-    private platform: Platform,
+    public platform: Platform,
     private keychainService: KeychainService,
     private toastController: ToastController
   ) {
@@ -40,11 +40,8 @@ export class SignInComponent implements OnInit {
     this.authService.setState('signIn');
     this.signInForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(8)]]
-    });
-
-    this.storage.get('ion_did_quick_start').then(result => {
-      this.showAlert = !result;
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      savePassword: [false]
     });
   }
 
@@ -57,6 +54,10 @@ export class SignInComponent implements OnInit {
     });
 
     this.f.email.setValue(await this.getPassword());
+    
+    this.storage.get('ion_did_quick_start').then(result => {
+      this.showAlert = !result;
+    });
   }
 
   get f() { return this.signInForm.controls; }
@@ -75,7 +76,7 @@ export class SignInComponent implements OnInit {
 
       if (res === 'true') {
 
-        if (this.keychainNotFound || (!this.storedEmail && this.platform.is('ios') && this.platformSource !== 'dom')) {
+        if (this.keychainNotFound || (!this.storedEmail && this.platform.is('ios') && this.platformSource !== 'dom') && this.f.savePassword.value) {
           try {
             this.keychainService.setKeychainPassword(email, password);
           } catch (err) {

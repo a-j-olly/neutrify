@@ -56,26 +56,7 @@ export class SignInComponent implements OnInit {
       }
     });
 
-    if (this.f.email.value && this.f.email.valid)  {
-
-      if (this.platform.is('ios') && this.platformSource !== 'dom') {
-        try {
-          const password = await this.keychainService.getKeychainPassword(this.f.email.value);
-
-          if (password) {
-            this.f.password.setValue(password);
-            await this.presentToast('Successfully got your password via Keychain', 'success');
-          }
-        } catch (err) {
-          if (err.code === 'errSecItemNotFound') {
-            this.keychainNotFound = true;
-          } else {
-            console.log('Could not get your password from the keychain. Service returned this error: ', err);
-            await this.presentToast('Could not get your password from the keychain', 'danger');
-          }
-        }
-      }
-    }
+    this.f.email.setValue(await this.getPassword());
   }
 
   get f() { return this.signInForm.controls; }
@@ -131,6 +112,36 @@ export class SignInComponent implements OnInit {
         this.signInForm.controls.password.reset();
         this.signInForm.enable();
         this.loading = false;
+      }
+    }
+  }
+
+  async getPassword() {
+    let res;
+
+    if (this.f.email.valid && !this.f.password.valid) {
+      if (this.platform.is('ios') && this.platformSource !== 'dom') {
+        res = await this.getKeychainPassword(this.f.email.value);
+      }
+    }
+
+    return res;
+  }
+
+  async getKeychainPassword(email) {
+    try {
+      const password = await this.keychainService.getKeychainPassword(email);
+
+      if (password) {
+        this.f.password.setValue(password);
+        await this.presentToast('Successfully got your password via Keychain', 'success');
+      }
+    } catch (err) {
+      if (err.code === 'errSecItemNotFound') {
+        this.keychainNotFound = true;
+      } else {
+        console.log('Could not get your password from the keychain. Service returned this error: ', err);
+        await this.presentToast('Could not get your password from the keychain', 'danger');
       }
     }
   }

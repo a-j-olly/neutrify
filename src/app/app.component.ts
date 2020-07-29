@@ -21,6 +21,7 @@ export class AppComponent {
   private menuSubscription$: Subscription;
   public menuStatus = false;
   private prefersDark;
+  private platformSource: string;
 
   constructor(
     private platform: Platform,
@@ -44,64 +45,44 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  ionViewWillLeave() {
-    this.menuSubscription$.unsubscribe();
-  }
-
   toggleMenu() {
     this.menuService.toggleMenu();
-  }
-
-  private async isAvailable(): Promise<ThemeDetectionResponse> {
-    let darkModeAvailable: ThemeDetectionResponse;
-
-    try {
-      darkModeAvailable = await this.themeDetection.isAvailable();
-    } catch (e) {
-      console.log(e);
-    }
-
-    return darkModeAvailable;
-  }
-
-  private async isDarkModeEnabled(): Promise<ThemeDetectionResponse> {
-    let darkModeEnabled: ThemeDetectionResponse;
-
-    try {
-      darkModeEnabled = await this.themeDetection.isDarkModeEnabled();
-    } catch (e) {
-      console.log(e);
-    }
-
-    return darkModeEnabled;
   }
 
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
   }
 
+  configureDarkmode() {
+    if (!this.platform.is('android') || this.platformSource === 'dom') {
+      this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
+      this.toggleDarkTheme(this.prefersDark.matches)
+    } else {
+      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+        if (res.value) {
+          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+            document.body.classList.toggle('dark', res.value);
+          }).catch((error: any) => console.error(error));
+        }
+      }).catch((error: any) => console.error(error));
+    }  
+  }
+
   initializeApp() {
     this.platform.ready().then(async (readySource) => {
+      this.platformSource = readySource;
       if (readySource !== 'dom') {
         if (this.platform.is('android')) {
           this.statusBar.backgroundColorByHexString('#333');
           this.statusBar.styleLightContent();
-  
-          if ((await this.isAvailable()).value) {
-            this.toggleDarkTheme((await this.isDarkModeEnabled()).value);
-          }
   
         } else if (this.platform.is('ios')) {
           this.statusBar.styleDefault();
         }
       }
 
-      if (!this.platform.is('android') || readySource === 'dom') {
-        this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-        this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
-        this.toggleDarkTheme(this.prefersDark.matches)
-      }
-
+      this.configureDarkmode();
       this.splashScreen.hide();
     });
   }

@@ -7,6 +7,12 @@
       <ion-label><b>Help</b></ion-label>
     </ion-item>
 
+    <ion-item>
+      <ion-icon slot="start" name="moon" color="dark"></ion-icon>
+      <ion-label><b>Toggle dark theme</b></ion-label>
+      <ion-toggle slot="end" tappable (ionChange)="toggleTheme($event)"></ion-toggle>
+    </ion-item>
+
     <ion-item *ngIf="authService.signedIn" tappable (click)="deleteAccount()">
       <ion-icon slot="start" name="trash" color="danger"></ion-icon>
       <ion-label><b>Delete account</b></ion-label>

@@ -20,7 +20,6 @@ export class SignInComponent implements OnInit {
   public showAlert: boolean = true;
   private platformSource: string;
   private keychainNotFound = false;
-  private storedEmail: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,17 +44,7 @@ export class SignInComponent implements OnInit {
     });
   }
 
-  async ionViewDidEnter() {
-    this.storage.get('ion_user_email').then(res => {
-      this.f.email.setValue(res);
-      this.getPassword();
-
-      if (res) {
-        this.storedEmail = res;
-      }
-    });
-
-    
+  async ionViewDidEnter() {    
     this.storage.get('ion_did_quick_start').then(result => {
       this.showAlert = !result;
     });
@@ -94,10 +83,6 @@ export class SignInComponent implements OnInit {
             }
           }
         }
-
-        if (email !== this.storedEmail) {
-          await this.storage.set('ion_user_email', email);
-        }
         
         if (this.showAlert) {
           await this.presentAlertConfirm();
@@ -118,9 +103,9 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  async changeOnBlur() {
+  async passwordOnBlur() {
     this.f.password.reset();
-    this.getPassword()
+    this.getPassword();
   }
 
   async getPassword() {

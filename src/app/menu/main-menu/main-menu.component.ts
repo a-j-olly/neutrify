@@ -34,6 +34,10 @@ export class MainMenuComponent implements OnInit {
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
 
+  async toggleTheme(event) {
+    document.body.classList.toggle('dark', event.detail.checked);
+  }
+
   async signOut() {
     await this.disableMenus();
     await this.presentAlertConfirmSignout();

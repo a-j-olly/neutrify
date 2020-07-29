@@ -7,7 +7,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../../helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
 import { KeychainService } from 'src/app/services/keychain.service';
-import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-reset-password',
@@ -32,7 +31,6 @@ export class ResetPasswordComponent implements OnInit {
     private ga: GoogleAnalyticsService,
     private platform: Platform,
     private keychainService: KeychainService,
-    private storage: Storage
   ) {
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
@@ -47,10 +45,6 @@ export class ResetPasswordComponent implements OnInit {
     }, {
       validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
-  }
-
-  async ionViewDidEnter() {
-    await this.storage.get('ion_user_email').then(res => this.f.email.setValue(res));
   }
 
   get f() { return this.resetPasswordForm.controls; }

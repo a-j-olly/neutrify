@@ -7,7 +7,6 @@ import { MustMatch } from 'src/app/helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
 import { ToastController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-create-account',
@@ -20,7 +19,6 @@ export class CreateAccountComponent implements OnInit {
   confirmPasswordType = 'password';
   invalidDetails = false;
   loading = false;
-
   signUpInterrupted = false;
   resetEmail: string;
   showConfirmSignUp = false;
@@ -34,7 +32,6 @@ export class CreateAccountComponent implements OnInit {
     private router: Router,
     private ga: GoogleAnalyticsService,
     private inAppBrowser: InAppBrowser,
-    private storage: Storage,
   ) { }
 
   ngOnInit() {
@@ -100,7 +97,6 @@ export class CreateAccountComponent implements OnInit {
       
       if (res) {
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
-        await this.storage.set('ion_user_email', this.signUpForm.value.email);
 
         this.navToSignIn();
         this.invalidDetails = false;

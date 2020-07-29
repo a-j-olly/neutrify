@@ -1,12 +1,13 @@
 <ion-content> 
   <div class="container" *ngIf="!showConfirmSignUp">
-    <form  [formGroup]="signUpForm" (ngSubmit)="signUp()">
+    <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="form-group">
         <p>To begin using Neutrify, you must first <b>create an account</b>. New passwords must include an uppercase character, a number and be at least 8 characters in length.</p>
         <div class="form-item ion-tappable">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
           </ion-item>
+
           <span *ngIf="sf.email.invalid && sf.email.touched">
             <span *ngIf="sf.email.errors.email">
               <p class="error">This email address is invalid.</p>
@@ -22,6 +23,7 @@
             <ion-input class="form-control ion-tappable" [type]="passwordType" placeholder="Password" formControlName="password" required oninput="this.value = this.value.trim()"></ion-input>
             <ion-icon name="eye" position="fixed" slot="end" (click)="togglePasswordType()"></ion-icon>
           </ion-item>
+
           <span *ngIf="sf.password.invalid && sf.password.touched">
             <span *ngIf="sf.password.errors.required">
               <p class="error">You must enter a password.</p>
@@ -102,6 +104,7 @@
         [(ngModel)]="resetEmail" email required #resetEmailCtrl="ngModel" oninput="this.value = this.value.toLowerCase().trim()"></ion-input>
         <ion-button size="small" [disabled]="resetEmailCtrl.invalid" (click)="resendEmail(this.resetEmail)">Resend</ion-button>
       </ion-item>
+
       <span *ngIf="resetEmailCtrl.invalid && resetEmailCtrl.touched">
         <span *ngIf="resetEmailCtrl.errors.email">
           <p class="error">This email address is invalid.</p>
@@ -121,6 +124,7 @@
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Verification code" formControlName="vefCode" required oninput="this.value = this.value.trim()"></ion-input>
           </ion-item>
+
           <span *ngIf="cSF.vefCode.invalid && cSF.vefCode.touched">
             <span *ngIf="cSF.vefCode.errors.required">
               <p class="error">Please enter the code.</p>
@@ -129,9 +133,9 @@
         </div>
     
         <div class="form-item">
-          <ion-item lines="none">
+          <ion-row class="ion-no-padding ion-no-margin ion-justify-content-center">
             <button class="form-control submit-button" type="submit" [disabled]="this.confirmSignUpForm.invalid || loading" (keydown.enter)="confirmSignUp()">Verify email</button>
-          </ion-item>
+          </ion-row>
 
           <span *ngIf="invalidDetails">
             <p class="error">Could not verify your email. Make sure you copied the correct code.</p>
@@ -145,6 +149,7 @@
         <ion-label>Sign up code still not arrived?</ion-label>
         <ion-button size="small" (click)="resendEmail()">Resend</ion-button>
       </ion-row>
+      
       <span *ngIf="resentEmail">
         <p class="error">The verification email has been resent to {{this.authService.signUpEmail}}.</p>
       </span>

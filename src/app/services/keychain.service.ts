@@ -9,8 +9,7 @@ export class KeychainService {
   constructor(private keychain: Keychain) { }
 
   public async getKeychainPassword(email: string): Promise<string> {
-    const res = await this.keychain.get(`neutrify-${email.trim().toLowerCase()}`, 'Getting your password from Keychain...')
-    return res;
+    return await this.keychain.get(`neutrify-${email.trim().toLowerCase()}`, 'Getting your password from Keychain...')
   }
 
   public async setKeychainPassword(email: string, password: string): Promise<void> {

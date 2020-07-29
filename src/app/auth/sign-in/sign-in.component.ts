@@ -46,14 +46,15 @@ export class SignInComponent implements OnInit {
   }
 
   async ionViewDidEnter() {
-    await this.storage.get('ion_user_email').then(res => {
+    this.storage.get('ion_user_email').then(res => {
       this.f.email.setValue(res);
+      this.getPassword();
+
       if (res) {
         this.storedEmail = res;
       }
     });
 
-    this.f.email.setValue(await this.getPassword());
     
     this.storage.get('ion_did_quick_start').then(result => {
       this.showAlert = !result;
@@ -76,7 +77,7 @@ export class SignInComponent implements OnInit {
 
       if (res === 'true') {
 
-        if (this.keychainNotFound || (!this.storedEmail && this.platform.is('ios') && this.platformSource !== 'dom') && this.f.savePassword.value) {
+        if (this.keychainNotFound || (this.platform.is('ios') && this.platformSource !== 'dom') && this.f.savePassword.value) {
           try {
             this.keychainService.setKeychainPassword(email, password);
           } catch (err) {
@@ -117,16 +118,17 @@ export class SignInComponent implements OnInit {
     }
   }
 
-  async getPassword() {
-    let res;
+  async changeOnBlur() {
+    this.f.password.reset();
+    this.getPassword()
+  }
 
+  async getPassword() {
     if (this.f.email.valid && !this.f.password.valid) {
       if (this.platform.is('ios') && this.platformSource !== 'dom') {
-        res = await this.getKeychainPassword(this.f.email.value);
+        await this.getKeychainPassword(this.f.email.value);
       }
     }
-
-    return res;
   }
 
   async getKeychainPassword(email) {

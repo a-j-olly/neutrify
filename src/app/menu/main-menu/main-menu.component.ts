@@ -109,13 +109,14 @@ export class MainMenuComponent implements OnInit {
           text: 'Delete',
           handler: async (alertData) => {
             if (alertData.delete && alertData.delete === 'DELETE') {
+              const email = this.userEmail;
               const res = await this.authService.deleteAccount();
 
               if (res) {
 
                 if (this.platform.is('ios') && this.platformSource !== 'dom') {
                   try {
-                    this.keychainService.removeKeychainPassword(this.userEmail);
+                    this.keychainService.removeKeychainPassword(email);
                   } catch (err) {
                     if (err.code === 'errSecItemNotFound') {
                       // do nothing

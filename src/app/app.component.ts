@@ -57,7 +57,13 @@ export class AppComponent {
     if (!this.platform.is('android') || this.platformSource === 'dom') {
       this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
       this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
-      this.toggleDarkTheme(this.prefersDark.matches)
+      this.toggleDarkTheme(this.prefersDark.matches);
+
+      if (this.prefersDark.matches) {
+        this.statusBar.styleLightContent();
+      } else {
+        this.statusBar.styleDefault()
+      }
     } else {
       this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
         if (res.value) {

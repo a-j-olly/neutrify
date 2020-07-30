@@ -36,10 +36,8 @@ export class MainMenuComponent implements OnInit {
 
   ngOnInit() {
     this.userEmail = this.authService.userEmail;
-  }
 
-  ionViewDidEnter() {
-    if (this.platformSource !== 'dom' && this.platform.is('android')) {
+    if (this.platformSource !== 'dom') {
       this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
         if (res.value) {
           this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
@@ -50,6 +48,8 @@ export class MainMenuComponent implements OnInit {
     } else {
       this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+
+    console.log('darkMode: ', this.darkMode);
   }
 
   async toggleTheme() {

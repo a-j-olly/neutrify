@@ -31,27 +31,28 @@ export class MainMenuComponent implements OnInit {
     private platform: Platform,
     private themeDetection: ThemeDetection
   ) {
-    if (this.platformSource !== 'dom' && this.platform.is('android')) {
+    this.platform.ready().then(readySource => this.platformSource = readySource);
+  }
 
-        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-          if (res.value) {
-            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-              this.darkMode = res.value;
-            }).catch((error: any) => console.error(error));
-          }
-        }).catch((error: any) => console.error(error));
+  ngOnInit() {
+    this.userEmail = this.authService.userEmail;
+  }
+
+  ionViewDidEnter() {
+    if (this.platformSource !== 'dom' && this.platform.is('android')) {
+      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+        if (res.value) {
+          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+            this.darkMode = res.value;
+          }).catch((error: any) => console.error(error));
+        }
+      }).catch((error: any) => console.error(error));
     } else {
       this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
   }
 
-  ngOnInit() {
-    this.userEmail = this.authService.userEmail;
-    this.platform.ready().then(readySource => this.platformSource = readySource);
-  }
-
   async toggleTheme() {
-    await this.hideMenus();
     document.body.classList.toggle('dark', this.darkMode);
   }
 

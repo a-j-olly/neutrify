@@ -6,6 +6,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { KeychainService } from 'src/app/services/keychain.service';
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
   selector: 'app-main-menu',
@@ -15,6 +16,7 @@ import { KeychainService } from 'src/app/services/keychain.service';
 export class MainMenuComponent implements OnInit {
   public userEmail: string;
   private platformSource: string;
+  public darkMode: boolean
 
   constructor(
     public authService: AuthService,
@@ -26,30 +28,45 @@ export class MainMenuComponent implements OnInit {
     private toastController: ToastController,
     private inAppBrowser: InAppBrowser,
     private keychainService: KeychainService,
-    private platform: Platform
-  ) {}
+    private platform: Platform,
+    private themeDetection: ThemeDetection
+  ) {
+    if (this.platformSource !== 'dom' && this.platform.is('android')) {
+
+        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+          if (res.value) {
+            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+              this.darkMode = res.value;
+            }).catch((error: any) => console.error(error));
+          }
+        }).catch((error: any) => console.error(error));
+    } else {
+      this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+  }
 
   ngOnInit() {
     this.userEmail = this.authService.userEmail;
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
 
-  async toggleTheme(event) {
-    document.body.classList.toggle('dark', event.detail.checked);
+  async toggleTheme() {
+    await this.hideMenus();
+    document.body.classList.toggle('dark', this.darkMode);
   }
 
   async signOut() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.presentAlertConfirmSignout();
   }
 
   async deleteAccount() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.presentAlertConfirmDelete();
   }
 
   async goToHelp() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.router.navigateByUrl('/app/help');
   }
 
@@ -61,10 +78,7 @@ export class MainMenuComponent implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: async () => {
-            await this.enableMenus();
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Sign out',
           handler: async () => {
@@ -74,7 +88,6 @@ export class MainMenuComponent implements OnInit {
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
               this.ga.eventEmitter('logout', 'engagement', 'Logout');
             } else {
-              await this.enableMenus();
               this.presentToast('Could not sign you out. Please try again.', 'danger');
             }
           }
@@ -101,10 +114,7 @@ export class MainMenuComponent implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: async () => {
-            await this.enableMenus();
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Delete',
           handler: async (alertData) => {
@@ -129,13 +139,11 @@ export class MainMenuComponent implements OnInit {
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
               } else {
-                await this.enableMenus();
                 await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');
               }
               
               this.router.navigateByUrl('/auth/create-account', { replaceUrl: true });
             } else {
-              await this.enableMenus();
               await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'danger');
             }
           }
@@ -146,19 +154,10 @@ export class MainMenuComponent implements OnInit {
     await alert.present();
   }
 
-  async disableMenus() {
+  async hideMenus() {
     this.menuService.closeMenu();
-    await this.menu.enable(false, 'filterMenu');
-    await this.menu.enable(false, 'mainMenu');
-    await this.menu.swipeGesture(false, 'filterMenu');
-    await this.menu.swipeGesture(false, 'mainMenu');
-  }
-
-  async enableMenus() {
-    await this.menu.enable(true, 'filterMenu');
-    await this.menu.enable(true, 'mainMenu');
-    await this.menu.swipeGesture(true, 'filterMenu');
-    await this.menu.swipeGesture(true, 'mainMenu');
+    await this.menu.close('filterMenu');
+    await this.menu.close('mainMenu');
   }
 
   async openPage(url: string) {

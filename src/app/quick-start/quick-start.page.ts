@@ -9,7 +9,8 @@ import { Countries } from '../model/country-options';
 import { TopicList } from '../model/topic-list';
 
 import LocaleCode from 'locale-code';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController, Platform } from '@ionic/angular';
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
   selector: 'app-quick-start',
@@ -22,6 +23,7 @@ export class QuickStartPage implements OnInit {
   public countryOptions = Countries;
   public topicList = TopicList;
   public loading = false;
+  private platformSource: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,8 +31,25 @@ export class QuickStartPage implements OnInit {
     private storage: Storage,
     private toastController: ToastController,
     private filterService: FilterService,
-    public authService: AuthService
-  ) { }
+    public authService: AuthService,
+    private menu: MenuController,
+    private platform: Platform,
+    private themeDetection: ThemeDetection
+  ) { 
+    this.platform.ready().then((readySource: string) => this.platformSource = readySource);
+
+    if (this.platformSource !== 'dom' && this.platform.is('android')) {
+      this.platform.resume.subscribe(() => {
+        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+          if (res.value) {
+            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+              document.body.classList.toggle('dark', res.value);
+            }).catch((error: any) => console.error(error));
+          }
+        }).catch((error: any) => console.error(error));
+      });
+    }
+  }
 
   ngOnInit() {
     this.localCountry = LocaleCode.getCountryName(this.getLang());
@@ -40,6 +59,11 @@ export class QuickStartPage implements OnInit {
       positiveNews: [false],
       topicsToExclude: [[]]
     });
+  }
+
+  async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   get f() { return this.quickStartForm.controls; }

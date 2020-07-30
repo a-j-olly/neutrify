@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonContent, Platform } from '@ionic/angular';
+import { IonContent, Platform, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
@@ -15,7 +15,8 @@ export class HelpPage {
   constructor(
     private router: Router,
     private platform: Platform,
-    private themeDetection: ThemeDetection
+    private themeDetection: ThemeDetection,
+    private menu: MenuController
   ) {
 
     this.platform.ready().then((readySource: string) => this.platformSource = readySource);
@@ -31,6 +32,11 @@ export class HelpPage {
         }).catch((error: any) => console.error(error));
       });
     }
+  }
+
+  async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   onSlideChange(event) {

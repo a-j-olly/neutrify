@@ -21,6 +21,7 @@ export class AppComponent {
   private menuSubscription$: Subscription;
   public menuStatus = false;
   private prefersDark;
+  public darkMode: boolean;
   private platformSource: string;
 
   constructor(
@@ -51,41 +52,52 @@ export class AppComponent {
 
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
-  }
+    this.darkMode = shouldAdd;
 
-  configureDarkmode() {
-    if (!this.platform.is('android') || this.platformSource === 'dom') {
-      this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
-      this.toggleDarkTheme(this.prefersDark.matches);
-
-      if (this.prefersDark.matches) {
+    if (this.platformSource !== 'dom' && this.platform.is('ios')) {
+      if (shouldAdd) {
         this.statusBar.styleLightContent();
       } else {
         this.statusBar.styleDefault()
       }
-    } else {
+    }
+  }
+
+  configureDarkmode() {
+    if (this.platform.is('android') && this.platformSource !== 'dom') {
       this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
         if (res.value) {
           this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-            document.body.classList.toggle('dark', res.value);
+            this.toggleDarkTheme(res.value);
           }).catch((error: any) => console.error(error));
         }
       }).catch((error: any) => console.error(error));
+    } else {
+      this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
+      this.toggleDarkTheme(this.prefersDark.matches);
     }  
   }
 
-  initializeApp() {
+  async initializeApp() {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
-      if (readySource !== 'dom') {
-        if (this.platform.is('android')) {
-          this.statusBar.backgroundColorByHexString('#333');
-          this.statusBar.styleLightContent();
-  
-        } else if (this.platform.is('ios')) {
-          this.statusBar.styleDefault();
-        }
+
+      if (this.platformSource !== 'dom' && this.platform.is('android')) {
+        this.platform.resume.subscribe(() => {
+          this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+            if (res.value) {
+              this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+                this.toggleDarkTheme(res.value);
+              }).catch((error: any) => console.error(error));
+            }
+          }).catch((error: any) => console.error(error));
+        });
+
+        this.statusBar.backgroundColorByHexString('#333');
+        this.statusBar.styleLightContent();
+      } else if (this.platform.is('ios')) {
+        this.statusBar.styleDefault();
       }
 
       this.configureDarkmode();

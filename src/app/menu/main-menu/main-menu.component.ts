@@ -1,11 +1,12 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { KeychainService } from 'src/app/services/keychain.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
@@ -16,7 +17,17 @@ import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-dete
 export class MainMenuComponent implements OnInit {
   public userEmail: string;
   private platformSource: string;
-  public darkMode: boolean
+  private _darkMode: boolean;
+
+  @Input() set darkMode(val: any) {
+    if (val !== undefined) {
+      this._darkMode = val;
+    }
+  }
+
+  get darkMode() {
+    return this._darkMode;
+  }
 
   constructor(
     public authService: AuthService,
@@ -29,31 +40,44 @@ export class MainMenuComponent implements OnInit {
     private inAppBrowser: InAppBrowser,
     private keychainService: KeychainService,
     private platform: Platform,
+    private statusBar: StatusBar,
     private themeDetection: ThemeDetection
   ) {
-    this.platform.ready().then(readySource => this.platformSource = readySource);
-  }
+    this.platform.ready().then(readySource => {
+      this.platformSource = readySource;
 
-  ngOnInit() {
-    this.userEmail = this.authService.userEmail;
-
-    if (this.platformSource !== 'dom') {
-      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-        if (res.value) {
-          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-            this.darkMode = res.value;
+      if (this.platformSource !== 'dom') {
+        this.platform.resume.subscribe(() => {
+          this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+            if (res.value) {
+              this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+                this.darkMode = res.value;
+              }).catch((error: any) => console.error(error));
+            }
           }).catch((error: any) => console.error(error));
-        }
-      }).catch((error: any) => console.error(error));
-    } else {
-      this.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    console.log('darkMode: ', this.darkMode);
+        });
+      }
+    });
   }
 
-  async toggleTheme() {
+  async ngOnInit() {
+    this.userEmail = this.authService.userEmail;
+  }
+
+  async toggleTheme(event) {
+    this.darkMode = event.detail.checked;
+
+    await this.hideMenus();
+
     document.body.classList.toggle('dark', this.darkMode);
+
+    if (this.platformSource !== 'dom' && this.platform.is('ios')) {
+      if (this.darkMode) {
+        this.statusBar.styleLightContent();
+      } else {
+        this.statusBar.styleDefault()
+      }
+    }
   }
 
   async signOut() {

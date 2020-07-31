@@ -19,7 +19,7 @@ export class MainMenuComponent implements OnInit {
   private platformSource: string;
   private _darkMode: boolean;
 
-  @Input() set darkMode(val: any) {
+  set darkMode(val: any) {
     if (val !== undefined) {
       this._darkMode = val;
     }
@@ -47,15 +47,17 @@ export class MainMenuComponent implements OnInit {
       this.platformSource = readySource;
 
       if (this.platformSource !== 'dom') {
+        this.detectTheme();
+
         this.platform.resume.subscribe(() => {
-          this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-            if (res.value) {
-              this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-                this.darkMode = res.value;
-              }).catch((error: any) => console.error(error));
-            }
-          }).catch((error: any) => console.error(error));
+          this.detectTheme();
         });
+
+      } else {
+        let media = window.matchMedia('(prefers-color-scheme: dark)');
+        this.darkMode = media.matches;
+
+        media.addListener((mediaQuery) => this.darkMode = mediaQuery.matches);
       }
     });
   }
@@ -66,7 +68,6 @@ export class MainMenuComponent implements OnInit {
 
   async toggleTheme(event) {
     this.darkMode = event.detail.checked;
-
     await this.hideMenus();
 
     document.body.classList.toggle('dark', this.darkMode);
@@ -77,6 +78,24 @@ export class MainMenuComponent implements OnInit {
       } else {
         this.statusBar.styleDefault()
       }
+    }
+  }
+
+  async detectTheme() {
+    this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+      if (res.value) {
+        this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+          this.darkMode = res.value;
+        }).catch((error: any) => console.error(error));
+      }
+    }).catch((error: any) => console.error(error));
+  }
+
+  async resetDarkmode() {
+    if (this.platformSource !== 'dom') {
+      await this.detectTheme();
+    } else {
+      this.darkMode = await window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
   }
 
@@ -110,6 +129,7 @@ export class MainMenuComponent implements OnInit {
             const res = await this.authService.signOut();
 
             if (res) {
+              await this.resetDarkmode();
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
               this.ga.eventEmitter('logout', 'engagement', 'Logout');
             } else {
@@ -160,7 +180,7 @@ export class MainMenuComponent implements OnInit {
                     }
                   }
                 }
-
+                
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
               } else {
@@ -197,6 +217,6 @@ export class MainMenuComponent implements OnInit {
       cssClass: 'ion-text-center',
       position: 'middle'
     });
-    toast.present();
+    await toast.present();
   }
 }

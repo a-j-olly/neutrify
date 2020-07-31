@@ -21,7 +21,6 @@ export class AppComponent {
   private menuSubscription$: Subscription;
   public menuStatus = false;
   private prefersDark;
-  public darkMode: boolean;
   private platformSource: string;
 
   constructor(
@@ -52,7 +51,6 @@ export class AppComponent {
 
   toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
-    this.darkMode = shouldAdd;
 
     if (this.platformSource !== 'dom' && this.platform.is('ios')) {
       if (shouldAdd) {

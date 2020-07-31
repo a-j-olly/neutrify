@@ -204,7 +204,7 @@ export class NewsFeedPage {
     
   pauseAds() {
     if (this.platformSource !== 'dom') {
-      if (environment.production && !this.platform.is('ios')) {
+      if (environment.production ) {
         this.admob.banner.hide({
           ios: 'ca-app-pub-1312649730148564/2740135529',
           android: 'ca-app-pub-1312649730148564/2037976682'

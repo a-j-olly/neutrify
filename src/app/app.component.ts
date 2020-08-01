@@ -8,6 +8,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
 import { Subscription } from 'rxjs';
+import { Storage } from '@ionic/storage';
 
 // tslint:disable-next-line:ban-types
 declare let gtag: Function;
@@ -30,7 +31,8 @@ export class AppComponent {
     private menuService: MenuService,
     public authService: AuthService,
     public router: Router,
-    private themeDetection: ThemeDetection
+    private themeDetection: ThemeDetection,
+    private storage: Storage
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -61,18 +63,25 @@ export class AppComponent {
     }
   }
 
-  configureDarkmode() {
-    if (this.platform.is('android') && this.platformSource !== 'dom') {
-      this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-        if (res.value) {
-          this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-            this.toggleDarkTheme(res.value);
-          }).catch((error: any) => console.error(error));
-        }
-      }).catch((error: any) => console.error(error));
+  async detectTheme(): Promise<void> {
+    return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+      if (res.value) {
+        this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+          this.toggleDarkTheme(res.value);
+        }).catch((error: any) => console.error(error));
+      }
+    }).catch((error: any) => console.error(error));
+  }
+
+  async configureDarkmode() {
+    const displayDarkMode = await this.storage.get('ion_display_dark_mode');
+
+    if (displayDarkMode !== undefined && displayDarkMode !== null) {
+      this.toggleDarkTheme(displayDarkMode);
+    } else if (this.platform.is('android') && this.platformSource !== 'dom') {
+      this.detectTheme();
     } else {
       this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      this.prefersDark.addListener((mediaQuery) => this.toggleDarkTheme(mediaQuery.matches));
       this.toggleDarkTheme(this.prefersDark.matches);
     }  
   }
@@ -82,16 +91,6 @@ export class AppComponent {
       this.platformSource = readySource;
 
       if (this.platformSource !== 'dom' && this.platform.is('android')) {
-        this.platform.resume.subscribe(() => {
-          this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-            if (res.value) {
-              this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-                this.toggleDarkTheme(res.value);
-              }).catch((error: any) => console.error(error));
-            }
-          }).catch((error: any) => console.error(error));
-        });
-
         this.statusBar.backgroundColorByHexString('#333');
         this.statusBar.styleLightContent();
       } else if (this.platform.is('ios')) {

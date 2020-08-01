@@ -8,6 +8,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { KeychainService } from 'src/app/services/keychain.service';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-main-menu',
@@ -41,23 +42,20 @@ export class MainMenuComponent implements OnInit {
     private keychainService: KeychainService,
     private platform: Platform,
     private statusBar: StatusBar,
-    private themeDetection: ThemeDetection
+    private themeDetection: ThemeDetection,
+    private storage: Storage
   ) {
-    this.platform.ready().then(readySource => {
+    this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
+      const displayDarkMode = await this.storage.get('ion_display_dark_mode');
 
-      if (this.platformSource !== 'dom') {
-        this.detectTheme();
-
-        this.platform.resume.subscribe(() => {
-          this.detectTheme();
-        });
-
+      if (displayDarkMode !== undefined && displayDarkMode !== null) {
+        this.darkMode = displayDarkMode;
+      } else if (this.platformSource !== 'dom') {
+        await this.detectTheme();
       } else {
         let media = window.matchMedia('(prefers-color-scheme: dark)');
         this.darkMode = media.matches;
-
-        media.addListener((mediaQuery) => this.darkMode = mediaQuery.matches);
       }
     });
   }
@@ -68,6 +66,7 @@ export class MainMenuComponent implements OnInit {
 
   async toggleTheme(event) {
     this.darkMode = event.detail.checked;
+    
     await this.hideMenus();
 
     document.body.classList.toggle('dark', this.darkMode);
@@ -79,24 +78,18 @@ export class MainMenuComponent implements OnInit {
         this.statusBar.styleDefault()
       }
     }
+
+    this.storage.set('ion_display_dark_mode', this.darkMode);
   }
 
-  async detectTheme() {
-    this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+  async detectTheme(): Promise<void> {
+    return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
       if (res.value) {
         this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
           this.darkMode = res.value;
         }).catch((error: any) => console.error(error));
       }
     }).catch((error: any) => console.error(error));
-  }
-
-  async resetDarkmode() {
-    if (this.platformSource !== 'dom') {
-      await this.detectTheme();
-    } else {
-      this.darkMode = await window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
   }
 
   async signOut() {
@@ -129,7 +122,6 @@ export class MainMenuComponent implements OnInit {
             const res = await this.authService.signOut();
 
             if (res) {
-              await this.resetDarkmode();
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
               this.ga.eventEmitter('logout', 'engagement', 'Logout');
             } else {

@@ -58,8 +58,8 @@ export class NewsFeedPage {
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription
 
-  private resumeSubscription$: Subscription;
-  private pauseSubscription$: Subscription;
+  private resumeAdSubscription$: Subscription;
+  private pauseAdSubscription$: Subscription;
 
   menuSubscription$: Subscription;
   menuStatus = false;
@@ -92,24 +92,30 @@ export class NewsFeedPage {
         this.admob.setDevMode(true);
       }
     });
-
-    this.pauseSubscription$ = this.platform.pause.subscribe(() => {
+    
+    this.platform.pause.subscribe(() => {
       this.pausedTimestamp = new Date().getTime();
+    });
+
+    this.platform.resume.subscribe(() => {
+      const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
+
+      if (timePassed >= 30) {
+        this.doRefresh();
+      } else {
+        this.resetTimer();
+        this.showRefreshFab = true;
+      }
+    });
+
+    this.pauseAdSubscription$ = this.platform.pause.subscribe(() => {
       this.pauseAds();
     });
 
-    this.resumeSubscription$ = this.platform.resume.subscribe(() => {
+    this.resumeAdSubscription$ = this.platform.resume.subscribe(() => {
       this.playAds();
-      const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
-
-      if (timePassed > 15 && timePassed <= 30) {
-        this.resetTimer();
-        this.showRefreshFab = true;
-      } else {
-        this.doRefresh();
-      }
     });
-    
+
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
       await this.handleInitDataLoad();
@@ -142,6 +148,7 @@ export class NewsFeedPage {
   }
 
   ionViewWillEnter() {
+    this.playAds();
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.displayThreshold = this.setDisplayThreshold();
@@ -155,7 +162,6 @@ export class NewsFeedPage {
     this.menuService.openMenu()
     this.menu.swipeGesture(true, 'filterMenu');
     this.menu.swipeGesture(true, 'mainMenu');
-    this.playAds();
   }
 
   ionViewWillLeave() {
@@ -166,6 +172,8 @@ export class NewsFeedPage {
     this.resetArticles();
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
+    this.pauseAdSubscription$.unsubscribe();
+    this.resumeAdSubscription$.unsubscribe();
     this.updatingArticles = true;
   }
 
@@ -351,9 +359,9 @@ export class NewsFeedPage {
 
   async getNextPage(event) {
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-
       this.updatingArticles = true;
       let noNewArticles = 0;
+      
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));

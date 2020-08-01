@@ -88,11 +88,11 @@ export class NewsFeedPage {
       this.platform.resume.subscribe(() => {
         const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
 
-        if (timePassed > 15 && timePassed <= 30) {
+        if (timePassed >= 30) {
+          this.doRefresh();
+        } else {
           this.resetTimer();
           this.showRefreshFab = true;
-        } else {
-          this.doRefresh();
         }
       });
     }
@@ -283,6 +283,7 @@ export class NewsFeedPage {
     this.filterService.updateFilterLoading(true);
     this.updatingArticles = true;
     this.resetTimer();
+
     try {
       await this.handleInitDataLoad();
     } catch (error) {
@@ -300,9 +301,9 @@ export class NewsFeedPage {
 
   async getNextPage(event) {
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-
       this.updatingArticles = true;
       let noNewArticles = 0;
+      
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));

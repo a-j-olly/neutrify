@@ -86,9 +86,13 @@ export class NewsFeedPage {
       });
   
       this.platform.resume.subscribe(() => {
-        if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
+        const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
+
+        if (timePassed > 15 && timePassed <= 30) {
           this.resetTimer();
           this.showRefreshFab = true;
+        } else {
+          this.doRefresh();
         }
       });
     }

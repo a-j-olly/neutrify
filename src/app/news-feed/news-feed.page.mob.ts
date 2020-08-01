@@ -58,6 +58,9 @@ export class NewsFeedPage {
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription
 
+  private resumeSubscription$: Subscription;
+  private pauseSubscription$: Subscription;
+
   menuSubscription$: Subscription;
   menuStatus = false;
 
@@ -90,17 +93,20 @@ export class NewsFeedPage {
       }
     });
 
-    this.platform.pause.subscribe(() => {
+    this.pauseSubscription$ = this.platform.pause.subscribe(() => {
       this.pausedTimestamp = new Date().getTime();
       this.pauseAds();
     });
 
-    this.platform.resume.subscribe(() => {
+    this.resumeSubscription$ = this.platform.resume.subscribe(() => {
       this.playAds();
+      const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
 
-      if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
+      if (timePassed > 15 && timePassed <= 30) {
         this.resetTimer();
         this.showRefreshFab = true;
+      } else {
+        this.doRefresh();
       }
     });
     

@@ -1,0 +1,12 @@
+{
+    "declarations": {},
+    "sources": {},
+    "libraries": {
+        "Google-Mobile-Ads-SDK": {
+            "name": "Google-Mobile-Ads-SDK",
+            "type": "podspec",
+            "spec": "~> 7.57",
+            "count": 1
+        }
+    }
+}

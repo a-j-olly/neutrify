@@ -1,10 +1,14 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { MenuController, ToastController, AlertController } from '@ionic/angular';
+import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { KeychainService } from 'src/app/services/keychain.service';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-main-menu',
@@ -12,8 +16,19 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   styleUrls: ['./main-menu.component.scss'],
 })
 export class MainMenuComponent implements OnInit {
-  userEmail: string;
-  readySource: string;
+  public userEmail: string;
+  private platformSource: string;
+  private _darkMode: boolean;
+
+  set darkMode(val: any) {
+    if (val !== undefined) {
+      this._darkMode = val;
+    }
+  }
+
+  get darkMode() {
+    return this._darkMode;
+  }
 
   constructor(
     public authService: AuthService,
@@ -23,25 +38,72 @@ export class MainMenuComponent implements OnInit {
     private ga: GoogleAnalyticsService,
     private alertController: AlertController,
     private toastController: ToastController,
-    private inAppBrowser: InAppBrowser
-  ) {}
+    private inAppBrowser: InAppBrowser,
+    private keychainService: KeychainService,
+    private platform: Platform,
+    private statusBar: StatusBar,
+    private themeDetection: ThemeDetection,
+    private storage: Storage
+  ) {
+    this.platform.ready().then(async (readySource) => {
+      this.platformSource = readySource;
+      const displayDarkMode = await this.storage.get('ion_display_dark_mode');
 
-  ngOnInit() {
+      if (displayDarkMode !== undefined && displayDarkMode !== null) {
+        this.darkMode = displayDarkMode;
+      } else if (this.platformSource !== 'dom') {
+        await this.detectTheme();
+      } else {
+        let media = window.matchMedia('(prefers-color-scheme: dark)');
+        this.darkMode = media.matches;
+      }
+    });
+  }
+
+  async ngOnInit() {
     this.userEmail = this.authService.userEmail;
   }
 
+  async toggleTheme(event) {
+    this.darkMode = event.detail.checked;
+    
+    await this.hideMenus();
+
+    document.body.classList.toggle('dark', this.darkMode);
+
+    if (this.platformSource !== 'dom' && this.platform.is('ios')) {
+      if (this.darkMode) {
+        this.statusBar.styleLightContent();
+      } else {
+        this.statusBar.styleDefault()
+      }
+    }
+
+    this.storage.set('ion_display_dark_mode', this.darkMode);
+  }
+
+  async detectTheme(): Promise<void> {
+    return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+      if (res.value) {
+        this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
+          this.darkMode = res.value;
+        }).catch((error: any) => console.error(error));
+      }
+    }).catch((error: any) => console.error(error));
+  }
+
   async signOut() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.presentAlertConfirmSignout();
   }
 
   async deleteAccount() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.presentAlertConfirmDelete();
   }
 
   async goToHelp() {
-    await this.disableMenus();
+    await this.hideMenus();
     await this.router.navigateByUrl('/app/help');
   }
 
@@ -53,10 +115,7 @@ export class MainMenuComponent implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: async () => {
-            await this.enableMenus();
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Sign out',
           handler: async () => {
@@ -66,7 +125,6 @@ export class MainMenuComponent implements OnInit {
               this.router.navigateByUrl('/auth/sign-in', { replaceUrl: true });
               this.ga.eventEmitter('logout', 'engagement', 'Logout');
             } else {
-              await this.enableMenus();
               this.presentToast('Could not sign you out. Please try again.', 'danger');
             }
           }
@@ -93,28 +151,36 @@ export class MainMenuComponent implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'secondary',
-          handler: async () => {
-            await this.enableMenus();
-          }
+          cssClass: 'secondary'
         }, {
           text: 'Delete',
           handler: async (alertData) => {
             if (alertData.delete && alertData.delete === 'DELETE') {
+              const email = this.userEmail;
               const res = await this.authService.deleteAccount();
 
               if (res) {
+
+                if (this.platform.is('ios') && this.platformSource !== 'dom') {
+                  try {
+                    this.keychainService.removeKeychainPassword(email);
+                  } catch (err) {
+                    if (err.code === 'errSecItemNotFound') {
+                      // do nothing
+                    } else {
+                      await this.presentToast('Could not remove password from Keychain. Try to do so manually.', 'danger');
+                    }
+                  }
+                }
+                
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
-
               } else {
-                await this.enableMenus();
                 await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');
               }
               
               this.router.navigateByUrl('/auth/create-account', { replaceUrl: true });
             } else {
-              await this.enableMenus();
               await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'danger');
             }
           }
@@ -125,19 +191,10 @@ export class MainMenuComponent implements OnInit {
     await alert.present();
   }
 
-  async disableMenus() {
+  async hideMenus() {
     this.menuService.closeMenu();
-    await this.menu.enable(false, 'filterMenu');
-    await this.menu.enable(false, 'mainMenu');
-    await this.menu.swipeGesture(false, 'filterMenu');
-    await this.menu.swipeGesture(false, 'mainMenu');
-  }
-
-  async enableMenus() {
-    await this.menu.enable(true, 'filterMenu');
-    await this.menu.enable(true, 'mainMenu');
-    await this.menu.swipeGesture(true, 'filterMenu');
-    await this.menu.swipeGesture(true, 'mainMenu');
+    await this.menu.close('filterMenu');
+    await this.menu.close('mainMenu');
   }
 
   async openPage(url: string) {
@@ -152,6 +209,6 @@ export class MainMenuComponent implements OnInit {
       cssClass: 'ion-text-center',
       position: 'middle'
     });
-    toast.present();
+    await toast.present();
   }
 }

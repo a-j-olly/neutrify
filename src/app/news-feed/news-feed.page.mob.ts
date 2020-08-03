@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment';
 import { differenceInMinutes, sub, add, formatDistanceToNow } from 'date-fns';
 import { AdMob } from '@admob-plus/ionic';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 
 @Component({
   selector: 'app-news-feed',
@@ -59,6 +58,9 @@ export class NewsFeedPage {
   public filtersLoading: boolean = false;
   private filtersLoadingSubcription$: Subscription
 
+  private resumeAdSubscription$: Subscription;
+  private pauseAdSubscription$: Subscription;
+
   menuSubscription$: Subscription;
   menuStatus = false;
 
@@ -78,7 +80,6 @@ export class NewsFeedPage {
     public authService: AuthService,
     private admob: AdMob,
     private screenOrientation: ScreenOrientation,
-    private themeDetection: ThemeDetection
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -91,31 +92,30 @@ export class NewsFeedPage {
         this.admob.setDevMode(true);
       }
     });
-
+    
     this.platform.pause.subscribe(() => {
       this.pausedTimestamp = new Date().getTime();
-      this.pauseAds();
     });
 
     this.platform.resume.subscribe(() => {
-      this.playAds();
+      const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
 
-      if (differenceInMinutes(new Date(), this.pausedTimestamp) >= 15) {
+      if (timePassed >= 30) {
+        this.doRefresh();
+      } else {
         this.resetTimer();
         this.showRefreshFab = true;
       }
-
-      if (this.platformSource !== 'dom' && this.platform.is('android')) {
-        this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-          if (res.value) {
-            this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-              document.body.classList.toggle('dark', res.value);
-            }).catch((error: any) => console.error(error));
-          }
-        }).catch((error: any) => console.error(error));
-      }
     });
-    
+
+    this.pauseAdSubscription$ = this.platform.pause.subscribe(() => {
+      this.pauseAds();
+    });
+
+    this.resumeAdSubscription$ = this.platform.resume.subscribe(() => {
+      this.playAds();
+    });
+
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
       this.filters = this.filterService.getQueryFilters();
       await this.handleInitDataLoad();
@@ -148,6 +148,7 @@ export class NewsFeedPage {
   }
 
   ionViewWillEnter() {
+    this.playAds();
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.displayThreshold = this.setDisplayThreshold();
@@ -161,7 +162,6 @@ export class NewsFeedPage {
     this.menuService.openMenu()
     this.menu.swipeGesture(true, 'filterMenu');
     this.menu.swipeGesture(true, 'mainMenu');
-    this.playAds();
   }
 
   ionViewWillLeave() {
@@ -172,6 +172,8 @@ export class NewsFeedPage {
     this.resetArticles();
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
+    this.pauseAdSubscription$.unsubscribe();
+    this.resumeAdSubscription$.unsubscribe();
     this.updatingArticles = true;
   }
 
@@ -216,7 +218,7 @@ export class NewsFeedPage {
     
   pauseAds() {
     if (this.platformSource !== 'dom') {
-      if (environment.production && !this.platform.is('ios')) {
+      if (environment.production ) {
         this.admob.banner.hide({
           ios: 'ca-app-pub-1312649730148564/2740135529',
           android: 'ca-app-pub-1312649730148564/2037976682'
@@ -357,9 +359,9 @@ export class NewsFeedPage {
 
   async getNextPage(event) {
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-
       this.updatingArticles = true;
       let noNewArticles = 0;
+      
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.listArticles(this.limit, this.nextToken));

@@ -1,6 +1,5 @@
 import { AuthService } from '../services/auth.service';
 import { FilterService } from '../services/filter.service';
-import { APIService, UpdateConfigInput } from '../services/neutrify-api.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -9,7 +8,7 @@ import { Countries } from '../model/country-options';
 import { TopicList } from '../model/topic-list';
 
 import LocaleCode from 'locale-code';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-quick-start',
@@ -29,8 +28,9 @@ export class QuickStartPage implements OnInit {
     private storage: Storage,
     private toastController: ToastController,
     private filterService: FilterService,
-    public authService: AuthService
-  ) { }
+    public authService: AuthService,
+    private menu: MenuController,
+  ) {}
 
   ngOnInit() {
     this.localCountry = LocaleCode.getCountryName(this.getLang());
@@ -40,6 +40,11 @@ export class QuickStartPage implements OnInit {
       positiveNews: [false],
       topicsToExclude: [[]]
     });
+  }
+
+  async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   get f() { return this.quickStartForm.controls; }

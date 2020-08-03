@@ -27,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { AdMob } from '@admob-plus/ionic';
 import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
+import { Keychain } from '@ionic-native/keychain/ngx';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
     InAppBrowser,
     ScreenOrientation,
     ThemeDetection,
+    Keychain
   ],
   bootstrap: [AppComponent]
 })

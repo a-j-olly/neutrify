@@ -9,7 +9,8 @@ export const environment = {
   gaTrackingId: 'UA-151389291-1',
   refreshTimeLimit: 60,
   appleStoreUri: 'https://example.com',
-  googleStoreUri: 'https://example.com'
+  googleStoreUri: 'https://example.com',
+  readyToRelease: true
 };
 
 /*

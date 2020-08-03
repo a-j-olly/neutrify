@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 export class CtaComponent {
   public showPrivacyNotice = true;
   private platformSource: string;
+  public releaseToggle = environment.readyToRelease;
 
   constructor(
     public authService: AuthService,

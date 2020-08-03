@@ -50,7 +50,7 @@ ion-img.logo {
 }
 
 .cta-info {
-    align-self: flex-end !important;
+    align-self: center !important;
     max-width: 380px;
 }
 
@@ -69,18 +69,38 @@ ion-img.logo {
     margin-bottom: 10px;
 
     img {
+        cursor: pointer;
         height: 46px;
-        width: 153px;    
+        width: 153px;
+
+        &:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    }
+}
+
+.app-description {
+    max-width: 720px;
+    margin: 0 auto;
+
+    h2 {
+        font-weight: bold;
+    }
+
+    p {
+        margin-top: 2px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 10px;
     }
 }
 
 .feature-section {
     background-color: var(--ion-color-medium);
-    padding-top: 25px;
+    padding-top: 10px;
     padding-bottom: 25px;
 
     @media screen and (max-width: 720px) {
-        padding-top: 10px;
         padding-bottom: 10px
     }
 

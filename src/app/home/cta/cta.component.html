@@ -43,7 +43,7 @@
             </ion-label>
           </ion-row>
 
-          <ion-row class="app-badge-container ion-justify-content-evenly">
+          <ion-row class="app-badge-container ion-justify-content-evenly" *ngIf="releaseToggle">
               <img src="../../../assets/img/logo/apple-store-badge.png" (click)="openGoogleStore()">
               <img src="../../../assets/img/logo/google-play-badge.png" (click)="openAppleStore()">
           </ion-row>
@@ -57,10 +57,25 @@
       </ion-row>
     </ion-grid>
   </div>
+
+  <div class="app-description">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <h2 class="ion-text-center">What is Neutrify?</h2>
+      </ion-row>
+  
+      <ion-row class="ion-justify-content-center">
+        <p>
+          Neutrify grabs news articles that are published online and puts them in one place.
+          We then give you a variety of advanced tools that allow you to customise what news you see. 
+          This should help you figure out what's going on in the world on your own terms.
+        </p>
+      </ion-row>
+    </ion-grid>
+  </div>
   
   <div class="feature-section">
     <ion-grid>
-      
       <ion-row class="ion-justify-content-center">
         <ion-card class="feature">
           <div>
@@ -100,7 +115,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>Who, what, where and why? Neutrify can answer these questions for you. Taking a glance at the keywords and topics mentioned in the article often tells you enough.<p>
+            <p>Who, what, where and why? Neutrify can answer these questions for you. Take a glance at the keywords and topics mentioned in the article to see if you really want to read it.<p>
           </ion-card-content>
         </ion-card>
       </ion-row>
@@ -116,7 +131,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>We don't have anyone behind the scenes choosing the news you see, nor some algorthim telling you what to read. If you think it should be up to you to curate the news, then you're in the right place.</p>
+            <p>We don't have anyone behind the scenes choosing the news you see, nor some algorthim telling you what to read. We think it should be up to you to curate your own news.</p>
           </ion-card-content>
         </ion-card>
   
@@ -130,7 +145,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>Neutrify doesn't promote any single world view. All we want is for you to have the greatest amount of information available, so you can make up your own mind. We stay neutral.</p>
+            <p>Neutrify doesn't promote any single world view. All we want is for you to have the greatest amount of information available, so you can make up your own mind. We stay out of it.</p>
           </ion-card-content>
         </ion-card>
   
@@ -144,7 +159,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>To start using Neutrify, all you need to do is sign up for an account, which costs you nothing. You'll occassionally see adverts, which pay the bills and go towards developing more app features.</p>
+            <p>To start using Neutrify, all you need to do is sign up for an account, which costs you nothing. All you need is an email address. You'll see adverts, but they won't impede your reading experience.</p>
           </ion-card-content>
         </ion-card>
       </ion-row>  

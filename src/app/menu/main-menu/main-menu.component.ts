@@ -60,7 +60,7 @@ export class MainMenuComponent implements OnInit {
     });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.userEmail = this.authService.userEmail;
   }
 

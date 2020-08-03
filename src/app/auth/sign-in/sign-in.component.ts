@@ -177,6 +177,6 @@ export class SignInComponent implements OnInit {
       cssClass: 'ion-text-center',
       position: 'middle'
     });
-    toast.present();
+    await toast.present();
   }
 }

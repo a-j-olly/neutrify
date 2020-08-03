@@ -74,7 +74,7 @@ export class ResetPasswordComponent implements OnInit {
 
     if (this.showSubmit && !this.invalidEmailDetails && this.f.vefCode.valid && this.f.password.valid && this.f.confirmPassword.valid) {
       this.resetPasswordForm.disable();
-      const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, password);
+      const res = await this.authService.resetPasswordSubmit(vefCode, password);
       
       if (res) {
         if (this.platform.is('ios') && this.platformSource !== 'dom') {

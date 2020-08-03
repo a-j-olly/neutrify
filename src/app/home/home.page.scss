@@ -1,6 +1,9 @@
 ion-content {
     --overflow: hidden;
-    position: relative;
+}
+
+ion-header {
+    --ion-background-color: var(--ion-color-light);
 }
 
 ion-img.logo {

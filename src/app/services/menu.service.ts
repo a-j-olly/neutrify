@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class MenuService {
 
-  private showMenu = false;
+  private showMenu = true;
   public showMenu$ = new Subject<boolean>();
 
   toggleMenu() {
@@ -16,6 +16,11 @@ export class MenuService {
 
   closeMenu() {
     this.showMenu = false;
+    this.showMenu$.next(this.showMenu);
+  }
+
+  openMenu() {
+    this.showMenu = true;
     this.showMenu$.next(this.showMenu);
   }
 

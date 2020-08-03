@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cta',
@@ -12,13 +14,15 @@ import { Storage } from '@ionic/storage';
 export class CtaComponent {
   public showPrivacyNotice = true;
   private platformSource: string;
+  public releaseToggle = environment.readyToRelease;
 
   constructor(
     public authService: AuthService,
     private router: Router,
     private alertController: AlertController,
     private storage: Storage,
-    private platform: Platform
+    private platform: Platform,
+    private inAppBrowser: InAppBrowser
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -73,5 +77,17 @@ export class CtaComponent {
     });
 
     await alert.present();
+  }
+
+  openAppleStore() {
+    this.openPage(environment.appleStoreUri);
+  }
+
+  openGoogleStore() {
+    this.openPage(environment.googleStoreUri);
+  }
+
+  openPage(url: string) {
+    this.inAppBrowser.create(encodeURI(url), '_system');
   }
 }

@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu *ngIf="authService.loaded" type="overlay" side="end" contentId="mainContent" menuId="mainMenu" (ionDidOpen)="mainMenuOpen()" (ionDidClose)="mainMenuClosed()">
+  <ion-menu *ngIf="authService.loaded" type="overlay" side="end" contentId="mainContent" menuId="mainMenu">
     <ion-header>
       <ion-toolbar>
         <ion-title color="primary" size="small">MAIN MENU</ion-title>
@@ -12,7 +12,7 @@
   </ion-menu>
   
   <ion-split-pane contentId="mainContent" when="{{ menuStatus ? '(min-width: 720px)' : 'false' }}">
-    <ion-menu side="start" contentId="mainContent" menuId="filterMenu" (ionDidOpen)="filterMenuOpen()" (ionDidClose)="filterMenuClosed()">
+    <ion-menu side="start" contentId="mainContent" menuId="filterMenu">
       <ion-header>
         <ion-toolbar>
           <ion-title color="primary" size="small">FILTER MENU</ion-title>

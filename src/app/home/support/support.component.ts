@@ -47,9 +47,11 @@ export class SupportComponent implements OnInit {
       + 'and clearly displays a button that sends a reader to the original publisher.'
     },
     {
-      question: 'Do I always have to open the filter menu to add filters?',
-      answer: 'No. You can also add filters by tapping on any of the words found on the right most slide of a news article.'
+      question: 'Sometimes my filters aren\'t behaving properly. Why is that?',
+      answer: 'Neutrify classifies an articles\' topics and keywords using an AI technique called machine learning. ' 
+      + 'This means that the classifications are not always 100% accurate. If you find articles that should have been excluded from the news feed, ' 
+      + 'the best way to remove them is to open the article and find a keyword that you can add to your filters. Using a combination of keywords and topics '
+      + 'often gives the best results.'
     },
   ];
-
 }

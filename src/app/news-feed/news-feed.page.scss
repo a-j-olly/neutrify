@@ -1,53 +1,115 @@
-ion-img.logo {
-    max-width: 150px;
-    max-height: 48px;
-    margin: 0 auto;
-}
-
-.hide-label {
-    @media screen and (max-width: 600px) {
-        display: none;
-    }
-}
-
-ion-buttons {
-    position: absolute;
-
-    &.left-buttons {
-        left: 0px;
-    }
-    
-    &.right-buttons {
-        right: 0px;
-    }
-}
-
 ion-content {
-    --overflow: hidden;
+    --ion-background-color: var(--ion-color-medium);
 }
 
-#skeleton-feed {
+ion-header {
+    --ion-background-color: var(--ion-color-light);
+
+    ion-toolbar {   
+
+        ion-img.logo {
+            max-width: 150px;
+            max-height: 48px;
+            margin: 0 auto;
+        }
+        
+        ion-buttons {
+            position: absolute;
+        
+            &.left-buttons {
+                left: 0px;
+            }
+            
+            &.right-buttons {
+                right: 0px;
+            }
+
+            .hide-label {
+                @media screen and (max-width: 600px) {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+#feed {
     padding-top: 0px;
     margin: 0 auto;
     max-width: 1080px;
+    background-color: inherit;
 }
 
-.skeleton-card {
+p {
+    color: var(--ion-color-primary);
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+
+    padding-top: 0px;
+    padding-top: 0px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+h2 {
+    color: var(--ion-color-primary);
+}
+
+ion-card {
     padding: 5px 5px 0px 5px;
     margin: 5px 2px;
     min-width: 270px;
     max-width: 1080px;
-
-    .skeleton-title ion-skeleton-text {
-        line-height: 18px;
-        width: 80%;
-        text-align: start;
+    max-height: 568px;
+    background-color: var(--ion-color-light);
+    
+    ion-icon {
+        font-size: 24px;
+        &:hover {
+            cursor: pointer;
+        }
     }
 
-    .skeleton-footer {
-        ion-skeleton-text {
-            line-height: 14px;
-            width: 30%;
+    .title {
+        &:hover {
+            cursor: pointer;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+
+            &.two-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2; /* number of lines to show */
+            }
+
+            &.four-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4; /* number of lines to show */
+            }
+        }
+    }
+
+    .footer {
+        ion-label {
+            font-size: 14px;
+            color: #999;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }

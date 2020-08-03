@@ -2,10 +2,11 @@
   <div class="container">
     <form [formGroup]="signInForm" (ngSubmit)="signIn()">
       <div class="form-group">
-        <p>Sign in to your account.</p>
+        <p>Please <b>sign in</b> to your account.</p>
         <div class="form-item">
           <ion-item>
-            <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" oninput="this.value = this.value.toLowerCase().trim()" required ></ion-input>
+            <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" 
+            oninput="this.value = this.value.toLowerCase().trim()" required (ionBlur)="passwordOnBlur()"></ion-input>
           </ion-item>
           <span *ngIf="f.email.invalid && f.email.touched">
             <span *ngIf="f.email.errors.email">
@@ -34,8 +35,13 @@
         </div>
     
         <div class="form-item">
-          <ion-item lines="none">
+          <ion-row class="ion-no-padding ion-no-margin ion-justify-content-center">
             <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
+          </ion-row>
+
+          <ion-item *ngIf="platform.is('ios')">
+            <ion-checkbox slot="start" class="form-control" formControlName="savePassword"></ion-checkbox>
+            <ion-label>Save your password?</ion-label>
           </ion-item>
 
           <span *ngIf="invalidDetails">

@@ -1,4 +1,4 @@
-import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
+import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';

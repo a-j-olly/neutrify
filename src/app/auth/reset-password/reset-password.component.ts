@@ -1,11 +1,12 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../../helper/must-match.validator';
 import { Strong } from 'src/app/helper/strong.validator';
+import { KeychainService } from 'src/app/services/keychain.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,14 +21,19 @@ export class ResetPasswordComponent implements OnInit {
   loading = false;
   invalidCode = false;
   showSubmit = false;
+  private platformSource;
 
   constructor(
     private formBuilder: FormBuilder,
     public authService: AuthService,
     private router: Router,
     private toastController: ToastController,
-    private ga: GoogleAnalyticsService
-    ) { }
+    private ga: GoogleAnalyticsService,
+    private platform: Platform,
+    private keychainService: KeychainService,
+  ) {
+    this.platform.ready().then(readySource => this.platformSource = readySource);
+  }
 
   ngOnInit() {
     this.authService.setState('resetPassword');
@@ -50,7 +56,6 @@ export class ResetPasswordComponent implements OnInit {
       const res = await this.authService.resetPassword(this.f.email.value);
       if (res) {
         this.showSubmit = true;
-        this.f.email.reset();
         this.f.email.enable();
         this.loading = false;
         this.ga.eventEmitter('begin_reset_password', 'engagement', 'Begin resetting password');
@@ -64,11 +69,34 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   async resetPasswordSubmit() {
+    const vefCode = this.f.vefCode.value, email = this.f.email.value, password = this.f.password.value;
     this.loading = true;
+
     if (this.showSubmit && !this.invalidEmailDetails && this.f.vefCode.valid && this.f.password.valid && this.f.confirmPassword.valid) {
       this.resetPasswordForm.disable();
-      const res = await this.authService.resetPasswordSubmit(this.f.vefCode.value, this.f.password.value);
+      const res = await this.authService.resetPasswordSubmit(vefCode, password);
+      
       if (res) {
+        if (this.platform.is('ios') && this.platformSource !== 'dom') {
+          
+          try {
+            this.keychainService.setKeychainPassword(email, password);
+          } catch (err) {
+            console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
+
+            if (err.code === 'errSecDuplicateItem') {
+
+              try {
+                await this.keychainService.replaceKeychainPassword(email, password);
+              } catch (err) {
+                console.log('Did/could not replace the password on the keychain. Service returned this error: ', err);
+              }
+            } else {
+              this.presentToast('Did/could not add the password to the keychain.', 'danger');
+            }
+          }
+        }
+
         this.navToSignIn();
         this.resetPasswordForm.reset();
         this.showSubmit = false;
@@ -78,7 +106,9 @@ export class ResetPasswordComponent implements OnInit {
         this.ga.eventEmitter('reset_password', 'engagement', 'Reset password');
       } else {
         this.invalidCode = true;
-        this.resetPasswordForm.reset();
+        this.f.vefCode.reset();
+        this.f.password.reset();
+        this.f.confirmPassword.reset();
         this.resetPasswordForm.enable();
         this.loading = false;
       }

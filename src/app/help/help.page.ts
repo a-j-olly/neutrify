@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonContent, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -7,14 +7,17 @@ import { Router } from '@angular/router';
   templateUrl: './help.page.html',
   styleUrls: ['./help.page.scss'],
 })
-export class HelpPage implements OnInit {
+export class HelpPage {
   @ViewChild('page') page: IonContent;
 
   constructor(
     private router: Router,
-  ) { }
+    private menu: MenuController
+  ) {}
 
-  ngOnInit() {
+  async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   onSlideChange(event) {

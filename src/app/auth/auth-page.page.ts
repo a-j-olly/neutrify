@@ -11,14 +11,12 @@ export class AuthPage {
 
   constructor(
     private router: Router,
-    private menuCtrl: MenuController
-    ) { }
+    private menu: MenuController,
+  ) {}
 
-  ionViewWillEnter() {
-    setTimeout(() => {
-      this.menuCtrl.enable(false, 'filterMenu');
-      this.menuCtrl.enable(false, 'mainMenu');
-    }, 1000);
+  async ionViewDidEnter() {
+    await this.menu.swipeGesture(false, 'filterMenu');
+    await this.menu.swipeGesture(false, 'mainMenu');
   }
 
   backToHome() {

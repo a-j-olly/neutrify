@@ -19,7 +19,6 @@ export class CreateAccountComponent implements OnInit {
   confirmPasswordType = 'password';
   invalidDetails = false;
   loading = false;
-
   signUpInterrupted = false;
   resetEmail: string;
   showConfirmSignUp = false;
@@ -32,8 +31,8 @@ export class CreateAccountComponent implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private ga: GoogleAnalyticsService,
-    private inAppBrowser: InAppBrowser
-  ) {}
+    private inAppBrowser: InAppBrowser,
+  ) { }
 
   ngOnInit() {
     this.authService.setState('signUp');
@@ -41,7 +40,7 @@ export class CreateAccountComponent implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, Validators.required],
-      privacyConsent: [null, Validators.requiredTrue]
+      privacyConsent: [null, Validators.requiredTrue],
     }, {
       validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
     });
@@ -66,8 +65,6 @@ export class CreateAccountComponent implements OnInit {
       if (res) {
         this.invalidDetails = false;
         this.initConfirmSignUp();
-        this.signUpForm.reset();
-        this.signUpForm.enable();
         this.loading = false;
         await this.presentToast('Please verify your email account.', 'secondary');
         this.signUpForm.enable();
@@ -100,9 +97,11 @@ export class CreateAccountComponent implements OnInit {
       
       if (res) {
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
+
         this.navToSignIn();
         this.invalidDetails = false;
         this.showConfirmSignUp = false;
+        this.signUpForm.reset();
         this.confirmSignUpForm.reset();
         this.confirmSignUpForm.enable();
         this.loading = false;

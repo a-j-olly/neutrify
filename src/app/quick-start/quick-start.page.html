@@ -44,7 +44,7 @@
           </ion-item>
         </ion-list>
         <ion-row class="ion-justify-content-center">
-          <ion-button type="submit" [disabled]="!authService.loaded || f.nationalNews.value && !f.selectCountry.value">Done</ion-button>
+          <ion-button type="submit" [disabled]="!authService.hasLoadedFilters || f.nationalNews.value && !f.selectCountry.value">Done</ion-button>
         </ion-row>
       </ion-grid>
     </form>

@@ -97,19 +97,26 @@ export class NewsFeedPage {
       });
     }
     
-    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async () => {
-      this.filters = this.filterService.getQueryFilters();
-      await this.handleInitDataLoad();
+    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
+      console.log('(getFilterOptions) filterOptions: ', ops);
+
+      if (this.authService.hasLoadedFilters && !this.updatingArticles) {
+        this.filters = this.filterService.getQueryFilters();
+        await this.handleInitDataLoad();
+      }
     });
 
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
-      if (this.authService.loaded) {
+      console.log('(getFilterSavedStatus): ', status);
+      if (this.authService.hasLoadedFilters) {
         this.filtersSaved = status;
       }
     });
 
     this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      if (this.authService.loaded) {
+      console.log('(getFilterLoading): ', status);
+
+      if (this.authService.hasLoadedFilters) {
         this.filtersLoading = status;
 
         if (this.filtersLoading) {
@@ -134,6 +141,7 @@ export class NewsFeedPage {
   }
 
   async ionViewDidEnter() {
+    console.log('ionViewDidEnter');
     this.filters = this.filterService.getQueryFilters();
     await this.handleInitDataLoad();
 
@@ -143,11 +151,11 @@ export class NewsFeedPage {
     this.menu.swipeGesture(true, 'mainMenu');
   }
 
-  ionViewDidLeave() {
-    this.resetArticles();
+  ionViewWillLeave() {
+    this.updatingArticles = true;
     this.filterSubcription$.unsubscribe();
     this.filtersSavedSubcription$.unsubscribe();
-    this.updatingArticles = true;
+    this.resetArticles();
   }
 
   startTimer() {
@@ -280,6 +288,7 @@ export class NewsFeedPage {
   }
 
   async doRefresh(event?) {
+    console.log('do refresh');
     this.filterService.updateFilterLoading(true);
     this.updatingArticles = true;
     this.resetTimer();
@@ -364,7 +373,8 @@ export class NewsFeedPage {
 
   async saveFilters() {
     this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.saveFilters();
+    const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
+
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
       this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
@@ -376,7 +386,7 @@ export class NewsFeedPage {
 
   async loadFilters() {
     this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.loadFilters(this.authService.user.username);
+    const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
     if (res) {
       await this.presentToast('Your changes to the filters have been reset.', 'success');
       this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');

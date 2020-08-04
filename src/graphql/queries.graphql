@@ -1,93 +1,4 @@
 # this is an auto generated file. This will be overwritten
-query GetArticle($id: ID!, $uri: String!) {
-  getArticle(id: $id, uri: $uri) {
-    authors
-    body
-    createdAt
-    dataType
-    date
-    datePublished
-    displayAuthors
-    displayDateTime
-    displayKeywords
-    displaySourceCountry
-    displaySourceTitle
-    displayTopics
-    eventUri
-    id
-    image
-    keywords
-    language
-    quality
-    share
-    similarity
-    time
-    sourceCountry
-    sourceRanking
-    sourceTitle
-    title
-    tone
-    topics
-    timeToLive
-    updatedAt
-    uri
-    url
-    wordCount
-  }
-}
-query ListArticles(
-  $id: ID
-  $uri: ModelStringKeyConditionInput
-  $filter: ModelArticleFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-) {
-  listArticles(
-    id: $id
-    uri: $uri
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
-    items {
-      authors
-      body
-      createdAt
-      dataType
-      date
-      datePublished
-      displayAuthors
-      displayDateTime
-      displayKeywords
-      displaySourceCountry
-      displaySourceTitle
-      displayTopics
-      eventUri
-      id
-      image
-      keywords
-      language
-      quality
-      share
-      similarity
-      time
-      sourceCountry
-      sourceRanking
-      sourceTitle
-      title
-      tone
-      topics
-      timeToLive
-      updatedAt
-      uri
-      url
-      wordCount
-    }
-    nextToken
-  }
-}
 query GetUser($id: ID!) {
   getUser(id: $id) {
     billingAddressCity
@@ -310,61 +221,8 @@ query ListConfigs(
     nextToken
   }
 }
-query ArticlesByDate(
-  $dataType: String
-  $displayDateTime: ModelStringKeyConditionInput
-  $sortDirection: ModelSortDirection
-  $filter: ModelArticleFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  articlesByDate(
-    dataType: $dataType
-    displayDateTime: $displayDateTime
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      authors
-      body
-      createdAt
-      dataType
-      date
-      datePublished
-      displayAuthors
-      displayDateTime
-      displayKeywords
-      displaySourceCountry
-      displaySourceTitle
-      displayTopics
-      eventUri
-      id
-      image
-      keywords
-      language
-      quality
-      share
-      similarity
-      time
-      sourceCountry
-      sourceRanking
-      sourceTitle
-      title
-      tone
-      topics
-      timeToLive
-      updatedAt
-      uri
-      url
-      wordCount
-    }
-    nextToken
-  }
-}
 query UserByOwner(
-  $ownerId: String
+  $ownerId: String!
   $sortDirection: ModelSortDirection
   $filter: ModelUserFilterInput
   $limit: Int
@@ -421,7 +279,7 @@ query UserByOwner(
   }
 }
 query ConfigByOwner(
-  $ownerId: String
+  $ownerId: String!
   $sortDirection: ModelSortDirection
   $filter: ModelConfigFilterInput
   $limit: Int
@@ -473,6 +331,148 @@ query ConfigByOwner(
         feedbackPromoterScore
         updatedAt
       }
+    }
+    nextToken
+  }
+}
+query GetArticle($id: ID!, $uri: String!) {
+  getArticle(id: $id, uri: $uri) {
+    authors
+    body
+    createdAt
+    dataType
+    date
+    datePublished
+    displayAuthors
+    displayDateTime
+    displayKeywords
+    displaySourceCountry
+    displaySourceTitle
+    displayTopics
+    eventUri
+    id
+    image
+    keywords
+    language
+    quality
+    share
+    similarity
+    time
+    sourceCountry
+    sourceRanking
+    sourceTitle
+    title
+    tone
+    topics
+    timeToLive
+    updatedAt
+    uri
+    url
+    wordCount
+  }
+}
+query ListArticles(
+  $id: ID
+  $uri: ModelStringKeyConditionInput
+  $filter: ModelArticleFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listArticles(
+    id: $id
+    uri: $uri
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      authors
+      body
+      createdAt
+      dataType
+      date
+      datePublished
+      displayAuthors
+      displayDateTime
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      timeToLive
+      updatedAt
+      uri
+      url
+      wordCount
+    }
+    nextToken
+  }
+}
+query ArticlesByDate(
+  $dataType: String!
+  $displayDateTime: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelArticleFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  articlesByDate(
+    dataType: $dataType
+    displayDateTime: $displayDateTime
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      authors
+      body
+      createdAt
+      dataType
+      date
+      datePublished
+      displayAuthors
+      displayDateTime
+      displayKeywords
+      displaySourceCountry
+      displaySourceTitle
+      displayTopics
+      eventUri
+      id
+      image
+      keywords
+      language
+      quality
+      share
+      similarity
+      time
+      sourceCountry
+      sourceRanking
+      sourceTitle
+      title
+      tone
+      topics
+      timeToLive
+      updatedAt
+      uri
+      url
+      wordCount
     }
     nextToken
   }

@@ -3,9 +3,9 @@
 //  This file was automatically generated and should not be edited.
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation } from "@aws-amplify/api";
-import { GraphQLResult } from "@aws-amplify/api/lib/types";
-import * as Observable from "zen-observable";
-
+import { GraphQLResult } from "@aws-amplify/api/lib/types/";
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types/index';
+import { Observable } from "zen-observable-ts";
 export type CreateUserInput = {
   billingAddressCity?: string | null;
   billingAddressHouseNo?: string | null;
@@ -102,6 +102,110 @@ export type DeleteConfigInput = {
   id?: string | null;
 };
 
+export type ModelUserFilterInput = {
+  billingAddressCity?: ModelStringFilterInput | null;
+  billingAddressHouseNo?: ModelStringFilterInput | null;
+  billingAddressPostalCode?: ModelStringFilterInput | null;
+  billingAddressStreet?: ModelStringFilterInput | null;
+  createdAt?: ModelStringFilterInput | null;
+  email?: ModelStringFilterInput | null;
+  freeTrial?: ModelBooleanFilterInput | null;
+  freeTrialStartDate?: ModelStringFilterInput | null;
+  freeTrialEndDate?: ModelStringFilterInput | null;
+  id?: ModelIDFilterInput | null;
+  isPremium?: ModelBooleanFilterInput | null;
+  isActive?: ModelBooleanFilterInput | null;
+  lastLogin?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
+  premiumEndDate?: ModelStringFilterInput | null;
+  premiumIsExpiring?: ModelBooleanFilterInput | null;
+  premiumStartDate?: ModelStringFilterInput | null;
+  feedbackDiscovery?: ModelStringFilterInput | null;
+  feedbackLeaveReason?: ModelStringFilterInput | null;
+  feedbackPromoterScore?: ModelIntFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
+  and?: Array<ModelUserFilterInput | null> | null;
+  or?: Array<ModelUserFilterInput | null> | null;
+  not?: ModelUserFilterInput | null;
+};
+
+export type ModelStringFilterInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+};
+
+export type ModelBooleanFilterInput = {
+  ne?: boolean | null;
+  eq?: boolean | null;
+};
+
+export type ModelIDFilterInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+};
+
+export type ModelIntFilterInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+};
+
+export type ModelConfigFilterInput = {
+  createdAt?: ModelStringFilterInput | null;
+  id?: ModelIDFilterInput | null;
+  keywordsToInclude?: ModelStringFilterInput | null;
+  keywordsToExclude?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
+  toneUpperRange?: ModelFloatFilterInput | null;
+  toneLowerRange?: ModelFloatFilterInput | null;
+  topicsToInclude?: ModelStringFilterInput | null;
+  topicsToExclude?: ModelStringFilterInput | null;
+  savedArticleIds?: ModelIDFilterInput | null;
+  sourcesToInclude?: ModelStringFilterInput | null;
+  sourcesToExclude?: ModelStringFilterInput | null;
+  locationsToInclude?: ModelStringFilterInput | null;
+  locationsToExclude?: ModelStringFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
+  and?: Array<ModelConfigFilterInput | null> | null;
+  or?: Array<ModelConfigFilterInput | null> | null;
+  not?: ModelConfigFilterInput | null;
+};
+
+export type ModelFloatFilterInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
 export type ModelStringKeyConditionInput = {
   eq?: string | null;
   le?: string | null;
@@ -148,110 +252,6 @@ export type ModelArticleFilterInput = {
   and?: Array<ModelArticleFilterInput | null> | null;
   or?: Array<ModelArticleFilterInput | null> | null;
   not?: ModelArticleFilterInput | null;
-};
-
-export type ModelStringFilterInput = {
-  ne?: string | null;
-  eq?: string | null;
-  le?: string | null;
-  lt?: string | null;
-  ge?: string | null;
-  gt?: string | null;
-  contains?: string | null;
-  notContains?: string | null;
-  between?: Array<string | null> | null;
-  beginsWith?: string | null;
-};
-
-export type ModelIDFilterInput = {
-  ne?: string | null;
-  eq?: string | null;
-  le?: string | null;
-  lt?: string | null;
-  ge?: string | null;
-  gt?: string | null;
-  contains?: string | null;
-  notContains?: string | null;
-  between?: Array<string | null> | null;
-  beginsWith?: string | null;
-};
-
-export type ModelIntFilterInput = {
-  ne?: number | null;
-  eq?: number | null;
-  le?: number | null;
-  lt?: number | null;
-  ge?: number | null;
-  gt?: number | null;
-  between?: Array<number | null> | null;
-};
-
-export type ModelFloatFilterInput = {
-  ne?: number | null;
-  eq?: number | null;
-  le?: number | null;
-  lt?: number | null;
-  ge?: number | null;
-  gt?: number | null;
-  between?: Array<number | null> | null;
-};
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC"
-}
-
-export type ModelUserFilterInput = {
-  billingAddressCity?: ModelStringFilterInput | null;
-  billingAddressHouseNo?: ModelStringFilterInput | null;
-  billingAddressPostalCode?: ModelStringFilterInput | null;
-  billingAddressStreet?: ModelStringFilterInput | null;
-  createdAt?: ModelStringFilterInput | null;
-  email?: ModelStringFilterInput | null;
-  freeTrial?: ModelBooleanFilterInput | null;
-  freeTrialStartDate?: ModelStringFilterInput | null;
-  freeTrialEndDate?: ModelStringFilterInput | null;
-  id?: ModelIDFilterInput | null;
-  isPremium?: ModelBooleanFilterInput | null;
-  isActive?: ModelBooleanFilterInput | null;
-  lastLogin?: ModelStringFilterInput | null;
-  ownerId?: ModelStringFilterInput | null;
-  premiumEndDate?: ModelStringFilterInput | null;
-  premiumIsExpiring?: ModelBooleanFilterInput | null;
-  premiumStartDate?: ModelStringFilterInput | null;
-  feedbackDiscovery?: ModelStringFilterInput | null;
-  feedbackLeaveReason?: ModelStringFilterInput | null;
-  feedbackPromoterScore?: ModelIntFilterInput | null;
-  updatedAt?: ModelStringFilterInput | null;
-  and?: Array<ModelUserFilterInput | null> | null;
-  or?: Array<ModelUserFilterInput | null> | null;
-  not?: ModelUserFilterInput | null;
-};
-
-export type ModelBooleanFilterInput = {
-  ne?: boolean | null;
-  eq?: boolean | null;
-};
-
-export type ModelConfigFilterInput = {
-  createdAt?: ModelStringFilterInput | null;
-  id?: ModelIDFilterInput | null;
-  keywordsToInclude?: ModelStringFilterInput | null;
-  keywordsToExclude?: ModelStringFilterInput | null;
-  ownerId?: ModelStringFilterInput | null;
-  toneUpperRange?: ModelFloatFilterInput | null;
-  toneLowerRange?: ModelFloatFilterInput | null;
-  topicsToInclude?: ModelStringFilterInput | null;
-  topicsToExclude?: ModelStringFilterInput | null;
-  savedArticleIds?: ModelIDFilterInput | null;
-  sourcesToInclude?: ModelStringFilterInput | null;
-  sourcesToExclude?: ModelStringFilterInput | null;
-  locationsToInclude?: ModelStringFilterInput | null;
-  locationsToExclude?: ModelStringFilterInput | null;
-  updatedAt?: ModelStringFilterInput | null;
-  and?: Array<ModelConfigFilterInput | null> | null;
-  or?: Array<ModelConfigFilterInput | null> | null;
-  not?: ModelConfigFilterInput | null;
 };
 
 export type CreateUserMutation = {
@@ -638,82 +638,6 @@ export type DeleteConfigMutation = {
   } | null;
 };
 
-export type GetArticleQuery = {
-  __typename: "Article";
-  authors: Array<string> | null;
-  body: string;
-  createdAt: string | null;
-  dataType: string;
-  date: string | null;
-  datePublished: string;
-  displayAuthors: Array<string> | null;
-  displayDateTime: string;
-  displayKeywords: Array<string> | null;
-  displaySourceCountry: string;
-  displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
-  id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  quality: number | null;
-  share: number | null;
-  similarity: number | null;
-  time: string | null;
-  sourceCountry: string;
-  sourceRanking: number | null;
-  sourceTitle: string;
-  title: string;
-  tone: number;
-  topics: Array<string> | null;
-  timeToLive: number | null;
-  updatedAt: string | null;
-  uri: string;
-  url: string;
-  wordCount: number;
-};
-
-export type ListArticlesQuery = {
-  __typename: "ModelArticleConnection";
-  items: Array<{
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    createdAt: string | null;
-    dataType: string;
-    date: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayDateTime: string;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number | null;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    timeToLive: number | null;
-    updatedAt: string | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  } | null> | null;
-  nextToken: string | null;
-};
-
 export type GetUserQuery = {
   __typename: "User";
   billingAddressCity: string | null;
@@ -936,46 +860,6 @@ export type ListConfigsQuery = {
   nextToken: string | null;
 };
 
-export type ArticlesByDateQuery = {
-  __typename: "ModelArticleConnection";
-  items: Array<{
-    __typename: "Article";
-    authors: Array<string> | null;
-    body: string;
-    createdAt: string | null;
-    dataType: string;
-    date: string | null;
-    datePublished: string;
-    displayAuthors: Array<string> | null;
-    displayDateTime: string;
-    displayKeywords: Array<string> | null;
-    displaySourceCountry: string;
-    displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
-    id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    quality: number | null;
-    share: number | null;
-    similarity: number | null;
-    time: string | null;
-    sourceCountry: string;
-    sourceRanking: number | null;
-    sourceTitle: string;
-    title: string;
-    tone: number;
-    topics: Array<string> | null;
-    timeToLive: number | null;
-    updatedAt: string | null;
-    uri: string;
-    url: string;
-    wordCount: number;
-  } | null> | null;
-  nextToken: string | null;
-};
-
 export type UserByOwnerQuery = {
   __typename: "ModelUserConnection";
   items: Array<{
@@ -1066,6 +950,122 @@ export type ConfigByOwnerQuery = {
       feedbackPromoterScore: number | null;
       updatedAt: string | null;
     } | null;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type GetArticleQuery = {
+  __typename: "Article";
+  authors: Array<string> | null;
+  body: string;
+  createdAt: string | null;
+  dataType: string;
+  date: string | null;
+  datePublished: string;
+  displayAuthors: Array<string> | null;
+  displayDateTime: string;
+  displayKeywords: Array<string> | null;
+  displaySourceCountry: string;
+  displaySourceTitle: string;
+  displayTopics: Array<string> | null;
+  eventUri: string | null;
+  id: string;
+  image: string | null;
+  keywords: Array<string> | null;
+  language: string | null;
+  quality: number | null;
+  share: number | null;
+  similarity: number | null;
+  time: string | null;
+  sourceCountry: string;
+  sourceRanking: number | null;
+  sourceTitle: string;
+  title: string;
+  tone: number;
+  topics: Array<string> | null;
+  timeToLive: number | null;
+  updatedAt: string | null;
+  uri: string;
+  url: string;
+  wordCount: number;
+};
+
+export type ListArticlesQuery = {
+  __typename: "ModelArticleConnection";
+  items: Array<{
+    __typename: "Article";
+    authors: Array<string> | null;
+    body: string;
+    createdAt: string | null;
+    dataType: string;
+    date: string | null;
+    datePublished: string;
+    displayAuthors: Array<string> | null;
+    displayDateTime: string;
+    displayKeywords: Array<string> | null;
+    displaySourceCountry: string;
+    displaySourceTitle: string;
+    displayTopics: Array<string> | null;
+    eventUri: string | null;
+    id: string;
+    image: string | null;
+    keywords: Array<string> | null;
+    language: string | null;
+    quality: number | null;
+    share: number | null;
+    similarity: number | null;
+    time: string | null;
+    sourceCountry: string;
+    sourceRanking: number | null;
+    sourceTitle: string;
+    title: string;
+    tone: number;
+    topics: Array<string> | null;
+    timeToLive: number | null;
+    updatedAt: string | null;
+    uri: string;
+    url: string;
+    wordCount: number;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ArticlesByDateQuery = {
+  __typename: "ModelArticleConnection";
+  items: Array<{
+    __typename: "Article";
+    authors: Array<string> | null;
+    body: string;
+    createdAt: string | null;
+    dataType: string;
+    date: string | null;
+    datePublished: string;
+    displayAuthors: Array<string> | null;
+    displayDateTime: string;
+    displayKeywords: Array<string> | null;
+    displaySourceCountry: string;
+    displaySourceTitle: string;
+    displayTopics: Array<string> | null;
+    eventUri: string | null;
+    id: string;
+    image: string | null;
+    keywords: Array<string> | null;
+    language: string | null;
+    quality: number | null;
+    share: number | null;
+    similarity: number | null;
+    time: string | null;
+    sourceCountry: string;
+    sourceRanking: number | null;
+    sourceTitle: string;
+    title: string;
+    tone: number;
+    topics: Array<string> | null;
+    timeToLive: number | null;
+    updatedAt: string | null;
+    uri: string;
+    url: string;
+    wordCount: number;
   } | null> | null;
   nextToken: string | null;
 };
@@ -1518,126 +1518,6 @@ export class APIService {
     )) as any;
     return <DeleteConfigMutation>response.data.deleteConfig;
   }
-  async GetArticle(id: string, uri: string): Promise<GetArticleQuery> {
-    const statement = `query GetArticle($id: ID!, $uri: String!) {
-        getArticle(id: $id, uri: $uri) {
-          __typename
-          authors
-          body
-          createdAt
-          dataType
-          date
-          datePublished
-          displayAuthors
-          displayDateTime
-          displayKeywords
-          displaySourceCountry
-          displaySourceTitle
-          displayTopics
-          eventUri
-          id
-          image
-          keywords
-          language
-          quality
-          share
-          similarity
-          time
-          sourceCountry
-          sourceRanking
-          sourceTitle
-          title
-          tone
-          topics
-          timeToLive
-          updatedAt
-          uri
-          url
-          wordCount
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      id,
-      uri
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <GetArticleQuery>response.data.getArticle;
-  }
-  async ListArticles(
-    id?: string,
-    uri?: ModelStringKeyConditionInput,
-    filter?: ModelArticleFilterInput,
-    limit?: number,
-    nextToken?: string,
-    sortDirection?: ModelSortDirection
-  ): Promise<ListArticlesQuery> {
-    const statement = `query ListArticles($id: ID, $uri: ModelStringKeyConditionInput, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-        listArticles(id: $id, uri: $uri, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
-          __typename
-          items {
-            __typename
-            authors
-            body
-            createdAt
-            dataType
-            date
-            datePublished
-            displayAuthors
-            displayDateTime
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            timeToLive
-            updatedAt
-            uri
-            url
-            wordCount
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (id) {
-      gqlAPIServiceArguments.id = id;
-    }
-    if (uri) {
-      gqlAPIServiceArguments.uri = uri;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ListArticlesQuery>response.data.listArticles;
-  }
   async GetUser(id: string): Promise<GetUserQuery> {
     const statement = `query GetUser($id: ID!) {
         getUser(id: $id) {
@@ -1922,87 +1802,14 @@ export class APIService {
     )) as any;
     return <ListConfigsQuery>response.data.listConfigs;
   }
-  async ArticlesByDate(
-    dataType?: string,
-    displayDateTime?: ModelStringKeyConditionInput,
-    sortDirection?: ModelSortDirection,
-    filter?: ModelArticleFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ArticlesByDateQuery> {
-    const statement = `query ArticlesByDate($dataType: String, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
-        articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            authors
-            body
-            createdAt
-            dataType
-            date
-            datePublished
-            displayAuthors
-            displayDateTime
-            displayKeywords
-            displaySourceCountry
-            displaySourceTitle
-            displayTopics
-            eventUri
-            id
-            image
-            keywords
-            language
-            quality
-            share
-            similarity
-            time
-            sourceCountry
-            sourceRanking
-            sourceTitle
-            title
-            tone
-            topics
-            timeToLive
-            updatedAt
-            uri
-            url
-            wordCount
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (dataType) {
-      gqlAPIServiceArguments.dataType = dataType;
-    }
-    if (displayDateTime) {
-      gqlAPIServiceArguments.displayDateTime = displayDateTime;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ArticlesByDateQuery>response.data.articlesByDate;
-  }
   async UserByOwner(
-    ownerId?: string,
+    ownerId: string,
     sortDirection?: ModelSortDirection,
     filter?: ModelUserFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<UserByOwnerQuery> {
-    const statement = `query UserByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query UserByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
         userByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -2050,10 +1857,9 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {};
-    if (ownerId) {
-      gqlAPIServiceArguments.ownerId = ownerId;
-    }
+    const gqlAPIServiceArguments: any = {
+      ownerId
+    };
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;
     }
@@ -2072,13 +1878,13 @@ export class APIService {
     return <UserByOwnerQuery>response.data.userByOwner;
   }
   async ConfigByOwner(
-    ownerId?: string,
+    ownerId: string,
     sortDirection?: ModelSortDirection,
     filter?: ModelConfigFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ConfigByOwnerQuery> {
-    const statement = `query ConfigByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query ConfigByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
         configByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -2126,10 +1932,9 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {};
-    if (ownerId) {
-      gqlAPIServiceArguments.ownerId = ownerId;
-    }
+    const gqlAPIServiceArguments: any = {
+      ownerId
+    };
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;
     }
@@ -2146,5 +1951,199 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <ConfigByOwnerQuery>response.data.configByOwner;
+  }
+  async GetArticle(id: string, uri: string): Promise<GetArticleQuery> {
+    const statement = `query GetArticle($id: ID!, $uri: String!) {
+        getArticle(id: $id, uri: $uri) {
+          __typename
+          authors
+          body
+          createdAt
+          dataType
+          date
+          datePublished
+          displayAuthors
+          displayDateTime
+          displayKeywords
+          displaySourceCountry
+          displaySourceTitle
+          displayTopics
+          eventUri
+          id
+          image
+          keywords
+          language
+          quality
+          share
+          similarity
+          time
+          sourceCountry
+          sourceRanking
+          sourceTitle
+          title
+          tone
+          topics
+          timeToLive
+          updatedAt
+          uri
+          url
+          wordCount
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      id,
+      uri
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetArticleQuery>response.data.getArticle;
+  }
+  async ListArticles(
+    id?: string,
+    uri?: ModelStringKeyConditionInput,
+    filter?: ModelArticleFilterInput,
+    limit?: number,
+    nextToken?: string,
+    sortDirection?: ModelSortDirection
+  ): Promise<ListArticlesQuery> {
+    const statement = `query ListArticles($id: ID, $uri: ModelStringKeyConditionInput, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listArticles(id: $id, uri: $uri, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+          __typename
+          items {
+            __typename
+            authors
+            body
+            createdAt
+            dataType
+            date
+            datePublished
+            displayAuthors
+            displayDateTime
+            displayKeywords
+            displaySourceCountry
+            displaySourceTitle
+            displayTopics
+            eventUri
+            id
+            image
+            keywords
+            language
+            quality
+            share
+            similarity
+            time
+            sourceCountry
+            sourceRanking
+            sourceTitle
+            title
+            tone
+            topics
+            timeToLive
+            updatedAt
+            uri
+            url
+            wordCount
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (id) {
+      gqlAPIServiceArguments.id = id;
+    }
+    if (uri) {
+      gqlAPIServiceArguments.uri = uri;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ListArticlesQuery>response.data.listArticles;
+  }
+  async ArticlesByDate(
+    dataType: string,
+    displayDateTime?: ModelStringKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelArticleFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ArticlesByDateQuery> {
+    const statement = `query ArticlesByDate($dataType: String!, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+        articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            authors
+            body
+            createdAt
+            dataType
+            date
+            datePublished
+            displayAuthors
+            displayDateTime
+            displayKeywords
+            displaySourceCountry
+            displaySourceTitle
+            displayTopics
+            eventUri
+            id
+            image
+            keywords
+            language
+            quality
+            share
+            similarity
+            time
+            sourceCountry
+            sourceRanking
+            sourceTitle
+            title
+            tone
+            topics
+            timeToLive
+            updatedAt
+            uri
+            url
+            wordCount
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      dataType
+    };
+    if (displayDateTime) {
+      gqlAPIServiceArguments.displayDateTime = displayDateTime;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql({
+      query: statement,
+      variables: gqlAPIServiceArguments,
+      authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+    })) as any;
+    return <ArticlesByDateQuery>response.data.articlesByDate;
   }
 }

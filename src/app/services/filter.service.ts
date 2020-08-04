@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as TopicGroups from '../model/topic-options';
 import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,8 @@ export class FilterService {
 
   constructor(
     private neutrifyAPI: APIService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private storage: Storage
     ) { }
 
   buildFilterOptions(userOptions) {
@@ -282,12 +284,17 @@ export class FilterService {
     };
   }
 
-  async saveFilters(): Promise<boolean> {
+  async saveFilters(local?: boolean): Promise<boolean> {
     let result: boolean;
 
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
-      await this.neutrifyAPI.UpdateConfig(reqBody);
+      if (local) {
+        await this.storage.set('neutrify_filters', JSON.stringify(reqBody));
+      } else {
+        await this.neutrifyAPI.UpdateConfig(reqBody);
+      }
+
       this.updateFilterSaved(true);
       result = true;
     } catch (e) {
@@ -297,12 +304,19 @@ export class FilterService {
     return result;
   }
 
-  async loadFilters(username) {
+  async loadFilters(username, local?: boolean) {
     let result: boolean;
 
     try {
-      const loadedConfig = await this.neutrifyAPI.ConfigByOwner(username, null, null , 1);
-      await this.updateFilterOptions(loadedConfig.items[0]);
+      let loadedFilter;
+
+      if (local) {
+        loadedFilter = JSON.parse(await this.storage.get('neutrify_filters'));
+      } else {
+        loadedFilter = (await this.neutrifyAPI.ConfigByOwner(username, null, null , 1)).items[0];
+      }
+
+      await this.updateFilterOptions(loadedFilter);
       this.updateFilterSaved(true);
       this.updateFilterLoaded(true);
       result = true;
@@ -316,9 +330,9 @@ export class FilterService {
     return result;
   }
 
-  blankFilterObj() {
+  blankFilterObj(id?: string) {
     return {
-      id: this.filterOptions.id,
+      id: this.filterOptions && this.filterOptions.id ? this.filterOptions.id : id,
       keywordsToInclude: [],
       keywordsToExclude: [],
       savedArticleIds: [],
@@ -363,6 +377,7 @@ export class FilterService {
 
   getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
+    console.log('options: ', ops);
     const filterInput: ModelArticleFilterInput = {
       tone: {
         between: [

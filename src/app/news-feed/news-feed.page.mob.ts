@@ -122,14 +122,14 @@ export class NewsFeedPage {
     });
 
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
-      if (this.authService.loaded) {
+      if (this.authService.hasLoadedFilters) {
         this.filtersSaved = status;
       }
     });
 
     this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
 
-      if (this.authService.loaded) {
+      if (this.authService.hasLoadedFilters) {
         this.filtersLoading = status;
 
         if (this.filtersLoading) {
@@ -422,7 +422,8 @@ export class NewsFeedPage {
 
   async saveFilters() {
     this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.saveFilters();
+    const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
+
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
       this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
@@ -434,7 +435,7 @@ export class NewsFeedPage {
 
   async loadFilters() {
     this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.loadFilters(this.authService.user.username);
+    const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
     if (res) {
       await this.presentToast('Your changes to the filters have been reset.', 'success');
       this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');

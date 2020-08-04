@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu *ngIf="authService.loaded" type="overlay" side="end" contentId="mainContent" menuId="mainMenu">
+  <ion-menu *ngIf="authService.hasLoadedFilters" type="overlay" side="end" contentId="mainContent" menuId="mainMenu">
     <ion-header>
       <ion-toolbar>
         <ion-title color="primary" size="small">MAIN MENU</ion-title>
@@ -25,7 +25,7 @@
       </ion-header>
 
       <ion-content>
-        <app-filter-menu *ngIf="authService.loaded"></app-filter-menu>
+        <app-filter-menu *ngIf="authService.hasLoadedFilters"></app-filter-menu>
       </ion-content>
     </ion-menu>
 

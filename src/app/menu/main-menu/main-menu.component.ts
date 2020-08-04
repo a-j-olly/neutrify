@@ -92,9 +92,19 @@ export class MainMenuComponent implements OnInit {
     }).catch((error: any) => console.error(error));
   }
 
+  async signIn() {
+    await this.hideMenus();
+    await this.router.navigateByUrl('/auth/sign-in');
+  }
+
   async signOut() {
     await this.hideMenus();
     await this.presentAlertConfirmSignout();
+  }
+
+  async createAccount() {
+    await this.hideMenus();
+    this.router.navigateByUrl('/auth/create-account');
   }
 
   async deleteAccount() {

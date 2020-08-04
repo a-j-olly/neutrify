@@ -100,7 +100,8 @@ export class QuickStartPage implements OnInit {
 
     if (updatedFilters) {
       this.filterService.updateFilterOptions(updatedFilterOptions);
-      const res = await this.filterService.saveFilters();
+      const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
+
       if (res) {
         this.presentToast('Success. Taking you to the app.', 'success');
         this.storage.set('ion_did_quick_start', true);

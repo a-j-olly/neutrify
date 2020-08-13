@@ -44,16 +44,8 @@ export class CtaComponent {
     this.showPrivacyNotice = false;
   }
 
-  navToSignUp() {
-    this.router.navigateByUrl('/auth/create-account');
-  }
-
-  navToSignIn() {
-    this.router.navigateByUrl('/auth/sign-in');
-  }
-
-  navToPrivacy() {
-    this.router.navigateByUrl('/home/privacy-policy');
+  navTo(path: string) {
+    this.router.navigateByUrl(path);
   }
 
   async presentAlertConfirm() {
@@ -77,10 +69,6 @@ export class CtaComponent {
     });
 
     await alert.present();
-  }
-
-  openAppleStore() {
-    this.openPage(environment.appleStoreUri);
   }
 
   openGoogleStore() {

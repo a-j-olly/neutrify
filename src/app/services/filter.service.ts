@@ -377,7 +377,6 @@ export class FilterService {
 
   getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
-    console.log('options: ', ops);
     const filterInput: ModelArticleFilterInput = {
       tone: {
         between: [

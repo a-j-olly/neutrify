@@ -2,7 +2,6 @@ import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
 import { Component } from '@angular/core';
-import { MenuService } from '../services/menu.service';
 
 @Component({
   selector: 'app-home',

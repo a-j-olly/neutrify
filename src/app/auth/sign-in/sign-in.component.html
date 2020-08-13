@@ -1,5 +1,8 @@
 <ion-content>
   <div class="container">
+
+    <app-sign-in-as-guest></app-sign-in-as-guest>
+
     <form [formGroup]="signInForm" (ngSubmit)="signIn()">
       <div class="form-group">
         <p>Please <b>sign in</b> to your account.</p>
@@ -39,7 +42,7 @@
             <button class="form-control submit-button" type="submit" [disabled]="this.signInForm.invalid || loading" (keydown.enter)="signIn()">Sign in</button>
           </ion-row>
 
-          <ion-item *ngIf="platform.is('ios')">
+          <ion-item *ngIf="platform.is('ios') && platformSource !== 'dom'">
             <ion-checkbox slot="start" class="form-control" formControlName="savePassword"></ion-checkbox>
             <ion-label>Save your password?</ion-label>
           </ion-item>

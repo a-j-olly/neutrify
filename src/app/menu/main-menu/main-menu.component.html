@@ -1,4 +1,4 @@
-<p class="ion-text-center" *ngIf="authService.signedIn"><b>Account</b>: <ion-text color="primary">{{userEmail}}</ion-text></p>
+<p class="ion-text-center" *ngIf="authService.signedIn && userEmail"><b>Account</b>: <ion-text color="primary">{{userEmail}}</ion-text></p>
 
 <ion-list>
   <ion-menu-toggle auto-hide="false">

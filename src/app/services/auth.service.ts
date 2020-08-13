@@ -1,13 +1,12 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService, ConfigByOwnerQuery } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery, CreateConfigInput } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from 'aws-amplify';
 import { retryWhen, delayWhen, tap } from 'rxjs/operators';
-import { add } from 'date-fns';
 import { timer } from 'rxjs';
 import { Storage } from '@ionic/storage';
 const uuid = require('uuid/v4');
@@ -18,6 +17,7 @@ const uuid = require('uuid/v4');
 export class AuthService {
   signedIn = false;
   hasLoadedFilters = false;
+  state: string;
   user: any;
   userEmail: string;
   signUpEmail: string;
@@ -39,10 +39,9 @@ export class AuthService {
           tap(() => console.log('An error has occured with amplify\'s auth service, the error is as follows: ', errors))
         ))
       ).subscribe(async authState => {
-        const state = authState.state
-        console.log('state: ', state);
-        console.log('current user: ', authState.user);
-        this.signedIn = state === 'signedIn';
+        const state = authState.state;
+        this.state = authState.state;
+        this.signedIn = this.state === 'signedIn';
 
         if (!authState.user) {
           this.user = await Auth.currentCredentials();
@@ -52,8 +51,6 @@ export class AuthService {
             this.userEmail = this.user.attributes.email;
           }
         }
-
-        console.log('current user: ', this.user);
 
         try {
           if (state !== 'signedOut' && state !== 'signIn' && state !== 'resetPassword' && state !== 'confirmSignUp' && state !== 'signUp') {
@@ -71,20 +68,19 @@ export class AuthService {
   }
 
   async handleInitialLoad() {
-    console.log('handlingInitialLoad');
     let loadedFilters;
 
     if (this.signedIn) {
       const config = (await this.getConfig(this.user.username)).items[0];            
-      console.log('config: ', config);
       if (config !== null && config !== undefined) {
         this.userId = this.userId ? this.userId : config.user.id;
         loadedFilters = config;
         this.ga.eventEmitter('login', 'engagement', 'Login');
+      } else {
+        loadedFilters = await this.createConfig(this.user);
       }
     } else {
       const localfilters = await this.storage.get('neutrify_filters');
-      console.log('local filters: ', localfilters);
       if (localfilters !== null && localfilters !== undefined) {
         loadedFilters = JSON.parse(localfilters);
       } else {
@@ -110,7 +106,6 @@ export class AuthService {
         locationsToInclude: loadedFilters.locationsToInclude,
         locationsToExclude: loadedFilters.locationsToExclude
       };
-      console.log('init filters: ', filters);
 
       this.menu.enable(true, 'filterMenu');
       this.menu.enable(true, 'mainMenu');
@@ -118,6 +113,7 @@ export class AuthService {
       this.menu.swipeGesture(true, 'mainMenu');
 
       await this.filterService.updateFilterOptions(filters);
+      await this.filterService.updateFilterSaved(true);
     } else {
       throw new Error('Loaded filters object was null or undefined.');
     }
@@ -130,34 +126,6 @@ export class AuthService {
   async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
-      const config = await this.getConfig(user.username);
-      if (config.items.length === 0) {
-        const now = new Date();
-        this.userId = uuid();
-        this.configId = uuid();
-
-        const createUserPromise = this.neutrifyAPI.CreateUser({
-          email: user.attributes.email,
-          freeTrial: true,
-          freeTrialStartDate: now.toISOString(),
-          freeTrialEndDate: add(now, {months: 1}).toISOString(),
-          id: this.userId,
-          isPremium: false,
-          userConfigId: this.configId
-        });
-
-        let blankConfig = this.filterService.blankFilterObj(this.configId);
-        blankConfig['configUserId'] = this.userId;
-
-        const createConfigPromise = this.neutrifyAPI.CreateConfig(blankConfig);
-        const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
-
-        if (!this.hasLoadedFilters) {
-          await this.filterService.updateFilterOptions(creationRes[1]);
-          this.hasLoadedFilters = true;
-        }
-      }
-
       return 'true';
     } catch (e) {
       if (e.code === 'UserNotFoundException') {
@@ -178,9 +146,40 @@ export class AuthService {
     }
   }
 
+  async createConfig(user) {
+    this.userId = uuid();
+    this.configId = uuid();
+
+    const createUserPromise = this.neutrifyAPI.CreateUser({
+      email: user.attributes.email,
+      id: this.userId,
+      userConfigId: this.configId
+    });
+
+    let newConfig: CreateConfigInput;
+    const localfilters = await this.storage.get('neutrify_filters');
+
+    if (localfilters !== null && localfilters !== undefined) {
+      newConfig = JSON.parse(localfilters);
+      this.configId = newConfig.id;
+    } else {
+      newConfig = this.filterService.blankFilterObj(this.configId);
+    }
+
+    newConfig['configUserId'] = this.userId;
+
+    const createConfigPromise = this.neutrifyAPI.CreateConfig(newConfig);
+    const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
+
+    return creationRes[1];
+  }
+
   async signOut(): Promise<boolean> {
     try {
       await Auth.signOut();
+      this.user = null;
+      this.userEmail = null;
+      this.userId = null;
       return true;
     } catch (e) {
       console.log('There was an error signing out. Service returned this error: ', e);
@@ -286,6 +285,10 @@ export class AuthService {
     }
 
     return creds ? true : false;
+  }
+
+  async isAuthenticatedOrGuest(): Promise<boolean> {
+    return this.state === 'guest' || await this.isAuthenticated();
   }
 
   async deleteAccount(): Promise<boolean> {

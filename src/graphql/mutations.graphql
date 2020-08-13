@@ -1,10 +1,6 @@
 # this is an auto generated file. This will be overwritten
 mutation CreateUser($input: CreateUserInput!) {
   createUser(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
     config {
       createdAt
       id
@@ -22,23 +18,11 @@ mutation CreateUser($input: CreateUserInput!) {
       locationsToExclude
       updatedAt
       user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
         createdAt
         email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
         id
-        isPremium
-        isActive
         lastLogin
         ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
@@ -47,17 +31,9 @@ mutation CreateUser($input: CreateUserInput!) {
     }
     createdAt
     email
-    freeTrial
-    freeTrialStartDate
-    freeTrialEndDate
     id
-    isPremium
-    isActive
     lastLogin
     ownerId
-    premiumEndDate
-    premiumIsExpiring
-    premiumStartDate
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
@@ -66,10 +42,6 @@ mutation CreateUser($input: CreateUserInput!) {
 }
 mutation UpdateUser($input: UpdateUserInput!) {
   updateUser(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
     config {
       createdAt
       id
@@ -87,23 +59,11 @@ mutation UpdateUser($input: UpdateUserInput!) {
       locationsToExclude
       updatedAt
       user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
         createdAt
         email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
         id
-        isPremium
-        isActive
         lastLogin
         ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
@@ -112,17 +72,9 @@ mutation UpdateUser($input: UpdateUserInput!) {
     }
     createdAt
     email
-    freeTrial
-    freeTrialStartDate
-    freeTrialEndDate
     id
-    isPremium
-    isActive
     lastLogin
     ownerId
-    premiumEndDate
-    premiumIsExpiring
-    premiumStartDate
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
@@ -131,10 +83,6 @@ mutation UpdateUser($input: UpdateUserInput!) {
 }
 mutation DeleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
     config {
       createdAt
       id
@@ -152,23 +100,11 @@ mutation DeleteUser($input: DeleteUserInput!) {
       locationsToExclude
       updatedAt
       user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
         createdAt
         email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
         id
-        isPremium
-        isActive
         lastLogin
         ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
         feedbackDiscovery
         feedbackLeaveReason
         feedbackPromoterScore
@@ -177,17 +113,9 @@ mutation DeleteUser($input: DeleteUserInput!) {
     }
     createdAt
     email
-    freeTrial
-    freeTrialStartDate
-    freeTrialEndDate
     id
-    isPremium
-    isActive
     lastLogin
     ownerId
-    premiumEndDate
-    premiumIsExpiring
-    premiumStartDate
     feedbackDiscovery
     feedbackLeaveReason
     feedbackPromoterScore
@@ -212,10 +140,6 @@ mutation CreateConfig($input: CreateConfigInput!) {
     locationsToExclude
     updatedAt
     user {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
       config {
         createdAt
         id
@@ -235,17 +159,9 @@ mutation CreateConfig($input: CreateConfigInput!) {
       }
       createdAt
       email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
       id
-      isPremium
-      isActive
       lastLogin
       ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
@@ -271,10 +187,6 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
     locationsToExclude
     updatedAt
     user {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
       config {
         createdAt
         id
@@ -294,17 +206,9 @@ mutation UpdateConfig($input: UpdateConfigInput!) {
       }
       createdAt
       email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
       id
-      isPremium
-      isActive
       lastLogin
       ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore
@@ -330,10 +234,6 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
     locationsToExclude
     updatedAt
     user {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
       config {
         createdAt
         id
@@ -353,17 +253,9 @@ mutation DeleteConfig($input: DeleteConfigInput!) {
       }
       createdAt
       email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
       id
-      isPremium
-      isActive
       lastLogin
       ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
       feedbackDiscovery
       feedbackLeaveReason
       feedbackPromoterScore

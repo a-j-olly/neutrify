@@ -43,24 +43,12 @@ type User @model(subscriptions: null)
     @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
     @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
 {
-    billingAddressCity: String
-    billingAddressHouseNo: String
-    billingAddressPostalCode: String
-    billingAddressStreet: String
     config: Config @connection(name: "UserConfig")
     createdAt: AWSDateTime
     email: String!
-    freeTrial: Boolean!
-    freeTrialStartDate: String!
-    freeTrialEndDate: String!
     id: ID!
-    isPremium: Boolean!
-    isActive: Boolean
-    lastLogin: String
+    lastLogin: AWSDateTime
     ownerId: String
-    premiumEndDate: String
-    premiumIsExpiring: Boolean
-    premiumStartDate: String
     feedbackDiscovery: String
     feedbackLeaveReason: String
     feedbackPromoterScore: Int

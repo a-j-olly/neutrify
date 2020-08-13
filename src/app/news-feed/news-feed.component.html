@@ -1,0 +1,69 @@
+
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="isFeedUpdating">
+  <ion-refresher-content
+    pullingIcon="refresh"
+    refreshingSpinner="crescent">
+  </ion-refresher-content>
+</ion-refresher>
+
+<div [hidden]="isFeedUpdating" class="ion-text-center">
+  <p><b>Pull down the feed to get the latest articles</b></p>
+</div>
+
+<ion-list id="feed">
+  <ion-card [hidden]="displayArticles.length === 0" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
+    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i === openArticleIndex">
+      <ion-ripple-effect type="unbound"></ion-ripple-effect>
+      <ion-row>
+        <ion-col size="11" class="ion-no-margin ion-no-padding title">
+          <h1 class="two-line-wrap"><b>{{ article.title }}</b></h1>
+        </ion-col>
+        <ion-col size="1" class="ion-text-end">
+          <ion-icon name="chevron-down-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </div>
+  
+    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i !== openArticleIndex">
+
+      <ion-ripple-effect type="unbound"></ion-ripple-effect>
+      <ion-row>
+        <ion-col size="11" class="ion-no-margin ion-no-padding title">
+          <h1 class="four-line-wrap"><b>{{ article.title }}</b></h1>
+        </ion-col>
+        <ion-col size="1" class="ion-text-end">
+          <ion-icon name="chevron-up-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <ion-card-content class="ion-no-margin ion-no-padding">
+      <app-article *ngIf="i === openArticleIndex"
+        [article]="article">
+      </app-article>
+
+      <ion-row class="ion-justify-content-between footer" (click)="onArticleSelected(i)">
+        <ion-row class="ion-justify-content-start">
+          <ion-label>{{ article.displaySourceTitle }}</ion-label>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-end">
+          <ion-label>{{ getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished) }}</ion-label>
+        </ion-row>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <div [hidden]="displayArticles.length !== 0 || isFeedUpdating" class="ion-text-center">
+    <h2>Could not find any articles. It is likely your filters are too strict.</h2>
+  </div>
+</ion-list>
+
+<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="isFeedUpdating" [hidden]="nextToken === null">
+  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+<div [hidden]="nextToken !== null || isFeedUpdating || displayArticles.length === 0" class="ion-text-center">
+  <h2>You're all caught up!</h2>
+</div>

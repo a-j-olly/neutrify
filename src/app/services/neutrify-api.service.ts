@@ -3,27 +3,16 @@
 //  This file was automatically generated and should not be edited.
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation } from "@aws-amplify/api";
-import { GraphQLResult } from "@aws-amplify/api/lib/types/";
+import { GraphQLResult } from "@aws-amplify/api/lib/types";
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types/index';
 import { Observable } from "zen-observable-ts";
+
 export type CreateUserInput = {
-  billingAddressCity?: string | null;
-  billingAddressHouseNo?: string | null;
-  billingAddressPostalCode?: string | null;
-  billingAddressStreet?: string | null;
   createdAt?: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id?: string | null;
-  isPremium: boolean;
-  isActive?: boolean | null;
   lastLogin?: string | null;
   ownerId?: string | null;
-  premiumEndDate?: string | null;
-  premiumIsExpiring?: boolean | null;
-  premiumStartDate?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -32,23 +21,11 @@ export type CreateUserInput = {
 };
 
 export type UpdateUserInput = {
-  billingAddressCity?: string | null;
-  billingAddressHouseNo?: string | null;
-  billingAddressPostalCode?: string | null;
-  billingAddressStreet?: string | null;
   createdAt?: string | null;
   email?: string | null;
-  freeTrial?: boolean | null;
-  freeTrialStartDate?: string | null;
-  freeTrialEndDate?: string | null;
   id: string;
-  isPremium?: boolean | null;
-  isActive?: boolean | null;
   lastLogin?: string | null;
   ownerId?: string | null;
-  premiumEndDate?: string | null;
-  premiumIsExpiring?: boolean | null;
-  premiumStartDate?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -103,23 +80,11 @@ export type DeleteConfigInput = {
 };
 
 export type ModelUserFilterInput = {
-  billingAddressCity?: ModelStringFilterInput | null;
-  billingAddressHouseNo?: ModelStringFilterInput | null;
-  billingAddressPostalCode?: ModelStringFilterInput | null;
-  billingAddressStreet?: ModelStringFilterInput | null;
   createdAt?: ModelStringFilterInput | null;
   email?: ModelStringFilterInput | null;
-  freeTrial?: ModelBooleanFilterInput | null;
-  freeTrialStartDate?: ModelStringFilterInput | null;
-  freeTrialEndDate?: ModelStringFilterInput | null;
   id?: ModelIDFilterInput | null;
-  isPremium?: ModelBooleanFilterInput | null;
-  isActive?: ModelBooleanFilterInput | null;
   lastLogin?: ModelStringFilterInput | null;
   ownerId?: ModelStringFilterInput | null;
-  premiumEndDate?: ModelStringFilterInput | null;
-  premiumIsExpiring?: ModelBooleanFilterInput | null;
-  premiumStartDate?: ModelStringFilterInput | null;
   feedbackDiscovery?: ModelStringFilterInput | null;
   feedbackLeaveReason?: ModelStringFilterInput | null;
   feedbackPromoterScore?: ModelIntFilterInput | null;
@@ -140,11 +105,6 @@ export type ModelStringFilterInput = {
   notContains?: string | null;
   between?: Array<string | null> | null;
   beginsWith?: string | null;
-};
-
-export type ModelBooleanFilterInput = {
-  ne?: boolean | null;
-  eq?: boolean | null;
 };
 
 export type ModelIDFilterInput = {
@@ -256,10 +216,6 @@ export type ModelArticleFilterInput = {
 
 export type CreateUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -279,23 +235,11 @@ export type CreateUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -304,17 +248,9 @@ export type CreateUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -323,10 +259,6 @@ export type CreateUserMutation = {
 
 export type UpdateUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -346,23 +278,11 @@ export type UpdateUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -371,17 +291,9 @@ export type UpdateUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -390,10 +302,6 @@ export type UpdateUserMutation = {
 
 export type DeleteUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -413,23 +321,11 @@ export type DeleteUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -438,17 +334,9 @@ export type DeleteUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -474,10 +362,6 @@ export type CreateConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -498,17 +382,9 @@ export type CreateConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -535,10 +411,6 @@ export type UpdateConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -559,17 +431,9 @@ export type UpdateConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -596,10 +460,6 @@ export type DeleteConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -620,17 +480,9 @@ export type DeleteConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -640,10 +492,6 @@ export type DeleteConfigMutation = {
 
 export type GetUserQuery = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -663,23 +511,11 @@ export type GetUserQuery = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -688,17 +524,9 @@ export type GetUserQuery = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -709,10 +537,6 @@ export type ListUsersQuery = {
   __typename: "ModelUserConnection";
   items: Array<{
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -733,17 +557,9 @@ export type ListUsersQuery = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -771,10 +587,6 @@ export type GetConfigQuery = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -795,17 +607,9 @@ export type GetConfigQuery = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -834,23 +638,11 @@ export type ListConfigsQuery = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -864,10 +656,6 @@ export type UserByOwnerQuery = {
   __typename: "ModelUserConnection";
   items: Array<{
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -888,17 +676,9 @@ export type UserByOwnerQuery = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -928,23 +708,11 @@ export type ConfigByOwnerQuery = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -1078,10 +846,6 @@ export class APIService {
     const statement = `mutation CreateUser($input: CreateUserInput!) {
         createUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1101,23 +865,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1126,17 +878,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1155,10 +899,6 @@ export class APIService {
     const statement = `mutation UpdateUser($input: UpdateUserInput!) {
         updateUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1178,23 +918,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1203,17 +931,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1232,10 +952,6 @@ export class APIService {
     const statement = `mutation DeleteUser($input: DeleteUserInput!) {
         deleteUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1255,23 +971,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1280,17 +984,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1326,10 +1022,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1350,17 +1042,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1397,10 +1081,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1421,17 +1101,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1468,10 +1140,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1492,17 +1160,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1522,10 +1182,6 @@ export class APIService {
     const statement = `query GetUser($id: ID!) {
         getUser(id: $id) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1545,23 +1201,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1570,17 +1214,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1605,10 +1241,6 @@ export class APIService {
           __typename
           items {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1629,17 +1261,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1684,10 +1308,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1708,17 +1328,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1761,23 +1373,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1814,10 +1414,6 @@ export class APIService {
           __typename
           items {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1838,17 +1434,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1906,23 +1494,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore

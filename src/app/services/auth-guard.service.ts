@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
     
     async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         const url: string = state.url;
-        const isAuthenticated = await this.authService.isAuthenticated();
+        const isAuthenticated = await this.authService.isAuthenticatedOrGuest();
         
         if (url.startsWith('/app')) {
             if (isAuthenticated) {

@@ -1,4 +1,256 @@
 # this is an auto generated file. This will be overwritten
+query GetUser($id: ID!) {
+  getUser(id: $id) {
+    config {
+      createdAt
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      updatedAt
+      user {
+        createdAt
+        email
+        id
+        lastLogin
+        ownerId
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+        updatedAt
+      }
+    }
+    createdAt
+    email
+    id
+    lastLogin
+    ownerId
+    feedbackDiscovery
+    feedbackLeaveReason
+    feedbackPromoterScore
+    updatedAt
+  }
+}
+query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      config {
+        createdAt
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+        updatedAt
+      }
+      createdAt
+      email
+      id
+      lastLogin
+      ownerId
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+      updatedAt
+    }
+    nextToken
+  }
+}
+query GetConfig($id: ID!) {
+  getConfig(id: $id) {
+    createdAt
+    id
+    keywordsToInclude
+    keywordsToExclude
+    ownerId
+    toneUpperRange
+    toneLowerRange
+    topicsToInclude
+    topicsToExclude
+    savedArticleIds
+    sourcesToInclude
+    sourcesToExclude
+    locationsToInclude
+    locationsToExclude
+    updatedAt
+    user {
+      config {
+        createdAt
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+        updatedAt
+      }
+      createdAt
+      email
+      id
+      lastLogin
+      ownerId
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+      updatedAt
+    }
+  }
+}
+query ListConfigs(
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      createdAt
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      updatedAt
+      user {
+        createdAt
+        email
+        id
+        lastLogin
+        ownerId
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+        updatedAt
+      }
+    }
+    nextToken
+  }
+}
+query UserByOwner(
+  $ownerId: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  userByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      config {
+        createdAt
+        id
+        keywordsToInclude
+        keywordsToExclude
+        ownerId
+        toneUpperRange
+        toneLowerRange
+        topicsToInclude
+        topicsToExclude
+        savedArticleIds
+        sourcesToInclude
+        sourcesToExclude
+        locationsToInclude
+        locationsToExclude
+        updatedAt
+      }
+      createdAt
+      email
+      id
+      lastLogin
+      ownerId
+      feedbackDiscovery
+      feedbackLeaveReason
+      feedbackPromoterScore
+      updatedAt
+    }
+    nextToken
+  }
+}
+query ConfigByOwner(
+  $ownerId: String!
+  $sortDirection: ModelSortDirection
+  $filter: ModelConfigFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  configByOwner(
+    ownerId: $ownerId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      createdAt
+      id
+      keywordsToInclude
+      keywordsToExclude
+      ownerId
+      toneUpperRange
+      toneLowerRange
+      topicsToInclude
+      topicsToExclude
+      savedArticleIds
+      sourcesToInclude
+      sourcesToExclude
+      locationsToInclude
+      locationsToExclude
+      updatedAt
+      user {
+        createdAt
+        email
+        id
+        lastLogin
+        ownerId
+        feedbackDiscovery
+        feedbackLeaveReason
+        feedbackPromoterScore
+        updatedAt
+      }
+    }
+    nextToken
+  }
+}
 query GetArticle($id: ID!, $uri: String!) {
   getArticle(id: $id, uri: $uri) {
     authors
@@ -88,230 +340,8 @@ query ListArticles(
     nextToken
   }
 }
-query GetUser($id: ID!) {
-  getUser(id: $id) {
-    billingAddressCity
-    billingAddressHouseNo
-    billingAddressPostalCode
-    billingAddressStreet
-    config {
-      createdAt
-      id
-      keywordsToInclude
-      keywordsToExclude
-      ownerId
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticleIds
-      sourcesToInclude
-      sourcesToExclude
-      locationsToInclude
-      locationsToExclude
-      updatedAt
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        createdAt
-        email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
-        id
-        isPremium
-        isActive
-        lastLogin
-        ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-        updatedAt
-      }
-    }
-    createdAt
-    email
-    freeTrial
-    freeTrialStartDate
-    freeTrialEndDate
-    id
-    isPremium
-    isActive
-    lastLogin
-    ownerId
-    premiumEndDate
-    premiumIsExpiring
-    premiumStartDate
-    feedbackDiscovery
-    feedbackLeaveReason
-    feedbackPromoterScore
-    updatedAt
-  }
-}
-query ListUsers(
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
-      config {
-        createdAt
-        id
-        keywordsToInclude
-        keywordsToExclude
-        ownerId
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-        savedArticleIds
-        sourcesToInclude
-        sourcesToExclude
-        locationsToInclude
-        locationsToExclude
-        updatedAt
-      }
-      createdAt
-      email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
-      id
-      isPremium
-      isActive
-      lastLogin
-      ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
-      feedbackDiscovery
-      feedbackLeaveReason
-      feedbackPromoterScore
-      updatedAt
-    }
-    nextToken
-  }
-}
-query GetConfig($id: ID!) {
-  getConfig(id: $id) {
-    createdAt
-    id
-    keywordsToInclude
-    keywordsToExclude
-    ownerId
-    toneUpperRange
-    toneLowerRange
-    topicsToInclude
-    topicsToExclude
-    savedArticleIds
-    sourcesToInclude
-    sourcesToExclude
-    locationsToInclude
-    locationsToExclude
-    updatedAt
-    user {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
-      config {
-        createdAt
-        id
-        keywordsToInclude
-        keywordsToExclude
-        ownerId
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-        savedArticleIds
-        sourcesToInclude
-        sourcesToExclude
-        locationsToInclude
-        locationsToExclude
-        updatedAt
-      }
-      createdAt
-      email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
-      id
-      isPremium
-      isActive
-      lastLogin
-      ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
-      feedbackDiscovery
-      feedbackLeaveReason
-      feedbackPromoterScore
-      updatedAt
-    }
-  }
-}
-query ListConfigs(
-  $filter: ModelConfigFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      createdAt
-      id
-      keywordsToInclude
-      keywordsToExclude
-      ownerId
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticleIds
-      sourcesToInclude
-      sourcesToExclude
-      locationsToInclude
-      locationsToExclude
-      updatedAt
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        createdAt
-        email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
-        id
-        isPremium
-        isActive
-        lastLogin
-        ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-        updatedAt
-      }
-    }
-    nextToken
-  }
-}
 query ArticlesByDate(
-  $dataType: String
+  $dataType: String!
   $displayDateTime: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelArticleFilterInput
@@ -359,120 +389,6 @@ query ArticlesByDate(
       uri
       url
       wordCount
-    }
-    nextToken
-  }
-}
-query UserByOwner(
-  $ownerId: String
-  $sortDirection: ModelSortDirection
-  $filter: ModelUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  userByOwner(
-    ownerId: $ownerId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      billingAddressCity
-      billingAddressHouseNo
-      billingAddressPostalCode
-      billingAddressStreet
-      config {
-        createdAt
-        id
-        keywordsToInclude
-        keywordsToExclude
-        ownerId
-        toneUpperRange
-        toneLowerRange
-        topicsToInclude
-        topicsToExclude
-        savedArticleIds
-        sourcesToInclude
-        sourcesToExclude
-        locationsToInclude
-        locationsToExclude
-        updatedAt
-      }
-      createdAt
-      email
-      freeTrial
-      freeTrialStartDate
-      freeTrialEndDate
-      id
-      isPremium
-      isActive
-      lastLogin
-      ownerId
-      premiumEndDate
-      premiumIsExpiring
-      premiumStartDate
-      feedbackDiscovery
-      feedbackLeaveReason
-      feedbackPromoterScore
-      updatedAt
-    }
-    nextToken
-  }
-}
-query ConfigByOwner(
-  $ownerId: String
-  $sortDirection: ModelSortDirection
-  $filter: ModelConfigFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  configByOwner(
-    ownerId: $ownerId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      createdAt
-      id
-      keywordsToInclude
-      keywordsToExclude
-      ownerId
-      toneUpperRange
-      toneLowerRange
-      topicsToInclude
-      topicsToExclude
-      savedArticleIds
-      sourcesToInclude
-      sourcesToExclude
-      locationsToInclude
-      locationsToExclude
-      updatedAt
-      user {
-        billingAddressCity
-        billingAddressHouseNo
-        billingAddressPostalCode
-        billingAddressStreet
-        createdAt
-        email
-        freeTrial
-        freeTrialStartDate
-        freeTrialEndDate
-        id
-        isPremium
-        isActive
-        lastLogin
-        ownerId
-        premiumEndDate
-        premiumIsExpiring
-        premiumStartDate
-        feedbackDiscovery
-        feedbackLeaveReason
-        feedbackPromoterScore
-        updatedAt
-      }
     }
     nextToken
   }

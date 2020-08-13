@@ -2,11 +2,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { AuthPage } from './auth-page.page';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { SignInAsGuestComponent } from './sign-in-as-guest/sign-in-as-guest.component';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
 
 
@@ -31,6 +32,12 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AuthPage, CreateAccountComponent, SignInComponent, ResetPasswordComponent]
+  declarations: [
+    AuthPage,
+    CreateAccountComponent,
+    SignInComponent,
+    ResetPasswordComponent,
+    SignInAsGuestComponent
+  ]
 })
 export class AuthPageModule {}

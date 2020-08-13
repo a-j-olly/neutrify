@@ -1,9 +1,4 @@
 import { IonicStorageModule } from '@ionic/storage';
-import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
-import { FooterComponent } from './home/footer/footer.component';
-import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
-import { CtaComponent } from './home/cta/cta.component';
-import { HomePage } from './home/home.page';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { CountryFilterComponent } from './menu/filter-menu/country-filter/country-filter.component';
 import { TopicsFilterComponent } from './menu/filter-menu/topics-filter/topics-filter.component';
@@ -30,8 +25,19 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
-import { SupportComponent } from './home/support/support.component';
 import { Keychain } from '@ionic-native/keychain/ngx';
+import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { ArticleComponent } from './news-feed/article/article.component';
+import { ImageModalComponent } from './news-feed/article/image-modal/image-modal.component';
+import { AddFilterPopoverComponent } from './news-feed/article/add-filter-popover/add-filter-popover.component';
+import { SkeletonFeedComponent } from './news-feed/skeleton-feed/skeleton-feed.component';
+import { NewsFeedWrapperPage } from './news-feed/news-feed-wrapper.page';
+import { HomePage } from './home/home.page';
+import { CtaComponent } from './home/cta/cta.component';
+import { FooterComponent } from './home/footer/footer.component';
+import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
+import { SupportComponent } from './home/support/support.component';
+import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
 
 @NgModule({
   declarations: [
@@ -43,12 +49,18 @@ import { Keychain } from '@ionic-native/keychain/ngx';
     TopicsFilterComponent,
     TopicOptionComponent,
     CountryFilterComponent,
+    NewsFeedComponent,
+    ArticleComponent,
+    ImageModalComponent,
+    AddFilterPopoverComponent,
+    SkeletonFeedComponent,
+    NewsFeedWrapperPage,
     HomePage,
     CtaComponent,
+    FooterComponent,
     PrivacyPolicyComponent,
-    TermsConditionsComponent,
     SupportComponent,
-    FooterComponent
+    TermsConditionsComponent
   ],
   imports: [
     BrowserModule,

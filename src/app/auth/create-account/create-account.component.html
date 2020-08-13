@@ -1,8 +1,11 @@
 <ion-content> 
   <div class="container" *ngIf="!showConfirmSignUp">
+
+    <app-sign-in-as-guest></app-sign-in-as-guest>
+
     <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
       <div class="form-group">
-        <p>To begin using Neutrify, you must first <b>create an account</b>. New passwords must include an uppercase character, a number and be at least 8 characters in length.</p>
+        <p>To access the full range of features that Neutrify has to offer, you must first <b>create an account</b>. New passwords must include an uppercase character, a number and be at least 8 characters in length.</p>
         <div class="form-item ion-tappable">
           <ion-item>
             <ion-input class="form-control" type="text" placeholder="Email" formControlName="email" required oninput="this.value = this.value.toLowerCase().trim()"></ion-input>

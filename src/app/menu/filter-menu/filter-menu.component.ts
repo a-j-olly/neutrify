@@ -126,7 +126,8 @@ export class FilterMenuComponent {
 
   async loadFilters() {
     this.filterService.updateFilterLoading(true);
-      const res = await this.filterService.loadFilters(this.authService.user.username);
+      const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
+      
       if (res) {
         await this.presentToast('Your filters have been loaded.', 'success');
         this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
@@ -137,7 +138,8 @@ export class FilterMenuComponent {
 
   async saveFilters() {
     this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.saveFilters();
+    const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
+
     if (res) {
       await this.presentToast('Your filters have been saved.', 'success');
       this.ga.eventEmitter('save_filters', 'engagement', 'Saved filters');

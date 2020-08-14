@@ -22,9 +22,16 @@ ion-tab-bar {
     --color-selected: var(--ion-color-primary);
 }
 
-.toolbar-buttons {
+ion-buttons {
     position: absolute;
-    left: 0px;
+
+    &.left-buttons {
+        left: 0px;
+    }
+    
+    &.right-buttons {
+        right: 0px;
+    }
 }
 
 ion-chip {

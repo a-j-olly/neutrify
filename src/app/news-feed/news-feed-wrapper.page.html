@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" class="left-buttons" *ngIf="authService.hasLoadedFilters">
+        <ion-button (click)="toggleMenu()" *ngIf="!menuStatus || platformWidth < 720">
+          <ion-icon name="options" slot="icon-only"></ion-icon>
+        </ion-button>
+      <ion-label class="hide-label" *ngIf="!menuStatus || platformWidth < 720" color="primary">Filter Menu</ion-label>
+    </ion-buttons>
+    
+    <ion-title>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-v2.png"></ion-img>
+    </ion-title>
+
+    <ion-buttons slot="end" class="right-buttons" *ngIf="authService.hasLoadedFilters">
+      <ion-label class="hide-label" color="primary">Main Menu</ion-label>
+      <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-row [hidden]="!isFeedUpdating && this.displayArticles.length !== 0" class="ion-justify-content-center">
+    <ion-skeleton-text animated style="width: 240px; line-height: 16px; margin-top: 5px;"></ion-skeleton-text>
+  </ion-row>
+
+  <app-news-feed *ngIf="authService.hasLoadedFilters"></app-news-feed>
+  <app-skeleton-feed [hidden]="!isFeedUpdating"></app-skeleton-feed>
+
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [disabled]="!authService.hasLoadedFilters || filtersLoading" [@btnInBottom]>
+  <ion-fab-button (click)="doRefresh()">
+    <ion-icon size="large" name="refresh"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [@btnInLeft]>
+  <ion-fab-button (click)="saveFilters()" color="primary" [disabled]="!authService.hasLoadedFilters || filtersLoading">
+    <ion-icon size="large" name="save"></ion-icon>
+  </ion-fab-button>
+
+  <ion-fab-button (click)="loadFilters()" color="danger" style="margin-top: 10px;" [disabled]="!authService.hasLoadedFilters || filtersLoading">
+    <ion-icon size="large" name="close-circle"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

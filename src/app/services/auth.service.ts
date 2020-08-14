@@ -1,14 +1,14 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService, ConfigByOwnerQuery } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery, CreateConfigInput } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from 'aws-amplify';
 import { retryWhen, delayWhen, tap } from 'rxjs/operators';
-import { add } from 'date-fns';
 import { timer } from 'rxjs';
+import { Storage } from '@ionic/storage';
 const uuid = require('uuid/v4');
 
 @Injectable({
@@ -16,7 +16,8 @@ const uuid = require('uuid/v4');
 })
 export class AuthService {
   signedIn = false;
-  loaded = false;
+  hasLoadedFilters = false;
+  state: string;
   user: any;
   userEmail: string;
   signUpEmail: string;
@@ -29,7 +30,8 @@ export class AuthService {
       private neutrifyAPI: APIService,
       private filterService: FilterService,
       private menu: MenuController,
-      private ga: GoogleAnalyticsService
+      private ga: GoogleAnalyticsService,
+      private storage: Storage
     ) {
       this.amplifyService.authStateChange$.pipe(
         retryWhen(errors => errors.pipe(
@@ -37,53 +39,85 @@ export class AuthService {
           tap(() => console.log('An error has occured with amplify\'s auth service, the error is as follows: ', errors))
         ))
       ).subscribe(async authState => {
-          this.signedIn = authState.state === 'signedIn';
+        const state = authState.state;
+        this.state = authState.state;
+        this.signedIn = this.state === 'signedIn';
 
-          if (!authState.user) {
-            this.user = null;
-          } else {
-            this.user = authState.user;
-            if (this.signedIn) {
-              this.userEmail = this.user.attributes.email;
-            }
-          }
-
+        if (!authState.user) {
+          this.user = await Auth.currentCredentials();
+        } else {
+          this.user = authState.user;
           if (this.signedIn) {
-            const config = (await this.getConfig(authState.user.username)).items[0];            
-
-            if (config) {
-              this.userId = this.userId ? this.userId : config.user.id;
-              this.configId = this.configId ? this.configId : config.id;
-  
-              const filters = {
-                id: config.id,
-                keywordsToInclude: config.keywordsToInclude,
-                keywordsToExclude: config.keywordsToExclude,
-                toneUpperRange: config.toneUpperRange,
-                toneLowerRange: config.toneLowerRange,
-                topicsToInclude: config.topicsToInclude,
-                topicsToExclude: config.topicsToExclude,
-                sourcesToInclude: config.sourcesToInclude,
-                sourcesToExclude: config.sourcesToExclude,
-                locationsToInclude: config.locationsToInclude,
-                locationsToExclude: config.locationsToExclude
-              };
-
-              await this.filterService.updateFilterOptions(filters);
-              this.loaded = true;
-            } else {
-              this.loaded = false;
-            }
-
-            this.menu.enable(true, 'filterMenu');
-            this.menu.enable(true, 'mainMenu');
-            this.menu.swipeGesture(false, 'filterMenu');
-            this.menu.swipeGesture(false, 'mainMenu');
-            this.ga.eventEmitter('login', 'engagement', 'Login');
-          } else {
-            this.loaded = false;
+            this.userEmail = this.user.attributes.email;
           }
+        }
+
+        try {
+          if (state !== 'signedOut' && state !== 'signIn' && state !== 'resetPassword' && state !== 'confirmSignUp' && state !== 'signUp') {
+            await this.handleInitialLoad();
+            this.hasLoadedFilters = true;
+          } else {
+            this.hasLoadedFilters = false;
+          }
+        } catch (err) {
+          this.hasLoadedFilters = false;
+          console.log('Could not load your filters. Service returned this error: ', err);
+          alert('Could not load your filters. Please check your network conntection.');
+        }
       });
+  }
+
+  async handleInitialLoad() {
+    let loadedFilters;
+
+    if (this.signedIn) {
+      const config = (await this.getConfig(this.user.username)).items[0];            
+      if (config !== null && config !== undefined) {
+        this.userId = this.userId ? this.userId : config.user.id;
+        loadedFilters = config;
+        this.ga.eventEmitter('login', 'engagement', 'Login');
+      } else {
+        loadedFilters = await this.createConfig(this.user);
+      }
+    } else {
+      const localfilters = await this.storage.get('neutrify_filters');
+      
+      if (localfilters !== null && localfilters !== undefined) {
+        loadedFilters = JSON.parse(localfilters);
+      } else {
+        const newFilters = this.filterService.blankFilterObj(uuid());
+        this.storage.set('neutrify_filters', JSON.stringify(newFilters));
+        loadedFilters = newFilters;
+      }
+    }
+
+    if (loadedFilters !== null && loadedFilters !== undefined) {
+      this.configId = this.configId ? this.configId : loadedFilters.id;
+
+      const filters = {
+        id: loadedFilters.id,
+        keywordsToInclude: loadedFilters.keywordsToInclude,
+        keywordsToExclude: loadedFilters.keywordsToExclude,
+        toneUpperRange: loadedFilters.toneUpperRange,
+        toneLowerRange: loadedFilters.toneLowerRange,
+        topicsToInclude: loadedFilters.topicsToInclude,
+        topicsToExclude: loadedFilters.topicsToExclude,
+        sourcesToInclude: loadedFilters.sourcesToInclude,
+        sourcesToExclude: loadedFilters.sourcesToExclude,
+        locationsToInclude: loadedFilters.locationsToInclude,
+        locationsToExclude: loadedFilters.locationsToExclude
+      };
+
+      this.menu.enable(true, 'filterMenu');
+      this.menu.enable(true, 'mainMenu');
+      this.menu.swipeGesture(true, 'filterMenu');
+      this.menu.swipeGesture(true, 'mainMenu');
+
+      await this.filterService.updateFilterOptions(filters);
+      await this.filterService.updateFilterSaved(true);
+    } else {
+      throw new Error('Loaded filters object was null or undefined.');
+    }
   }
 
   setState(state: string, user?: any) {
@@ -93,73 +127,6 @@ export class AuthService {
   async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
-      const config = await this.getConfig(user.username);
-      if (config.items.length === 0) {
-        const now = new Date();
-        this.userId = uuid();
-        this.configId = uuid();
-
-        const createUserPromise = this.neutrifyAPI.CreateUser({
-          email: user.attributes.email,
-          freeTrial: true,
-          freeTrialStartDate: now.toISOString(),
-          freeTrialEndDate: add(now, {months: 1}).toISOString(),
-          id: this.userId,
-          isPremium: false,
-          userConfigId: this.configId
-        });
-
-        const createConfigPromise = this.neutrifyAPI.CreateConfig({
-          configUserId: this.userId,
-          id: this.configId,
-          keywordsToInclude: [],
-          keywordsToExclude: [],
-          savedArticleIds: [],
-          sourcesToInclude: [],
-          sourcesToExclude: [],
-          toneUpperRange: 1,
-          toneLowerRange: -1,
-          topicsToInclude: JSON.stringify({
-            arts: [],
-            games: [],
-            news: [],
-            regional: [],
-            society: [],
-            business: [],
-            health: [],
-            recreation: [],
-            science: [],
-            sports: [],
-            computers: [],
-            home: [],
-            shopping: [],
-          }),
-          topicsToExclude: JSON.stringify({
-            arts: [],
-            games: [],
-            news: [],
-            regional: [],
-            society: [],
-            business: [],
-            health: [],
-            recreation: [],
-            science: [],
-            sports: [],
-            computers: [],
-            home: [],
-            shopping: [],
-          }),
-          locationsToInclude: [],
-          locationsToExclude: []
-        });
-
-        const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
-        if (!this.loaded) {
-          await this.filterService.updateFilterOptions(creationRes[1]);
-          this.loaded = true;
-        }
-      }
-
       return 'true';
     } catch (e) {
       if (e.code === 'UserNotFoundException') {
@@ -180,9 +147,40 @@ export class AuthService {
     }
   }
 
+  async createConfig(user) {
+    this.userId = uuid();
+    this.configId = uuid();
+
+    const createUserPromise = this.neutrifyAPI.CreateUser({
+      email: user.attributes.email,
+      id: this.userId,
+      userConfigId: this.configId
+    });
+
+    let newConfig: CreateConfigInput;
+    const localfilters = await this.storage.get('neutrify_filters');
+
+    if (localfilters !== null && localfilters !== undefined) {
+      newConfig = JSON.parse(localfilters);
+      this.configId = newConfig.id;
+    } else {
+      newConfig = this.filterService.blankFilterObj(this.configId);
+    }
+
+    newConfig['configUserId'] = this.userId;
+
+    const createConfigPromise = this.neutrifyAPI.CreateConfig(newConfig);
+    const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
+
+    return creationRes[1];
+  }
+
   async signOut(): Promise<boolean> {
     try {
       await Auth.signOut();
+      this.user = null;
+      this.userEmail = null;
+      this.userId = null;
       return true;
     } catch (e) {
       console.log('There was an error signing out. Service returned this error: ', e);
@@ -288,6 +286,10 @@ export class AuthService {
     }
 
     return creds ? true : false;
+  }
+
+  async isAuthenticatedOrGuest(): Promise<boolean> {
+    return this.state === 'guest' || await this.isAuthenticated();
   }
 
   async deleteAccount(): Promise<boolean> {

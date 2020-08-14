@@ -36,7 +36,6 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.setState('resetPassword');
     this.resetPasswordForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       vefCode: [null, [Validators.required]],

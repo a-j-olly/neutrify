@@ -9,29 +9,29 @@ export class AuthGuardService implements CanActivate {
     backClicked = false;
 
     constructor(
+        private authService: AuthService,
         private router: Router,
-        public authService: AuthService,
-        ) { }
+    ) {}
+    
     async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         const url: string = state.url;
-
-        const isAuthenticated = await this.authService.isAuthenticated();
-        if (url === '' || url.startsWith('/home')) {
-            return true;
+        
+        if (url.startsWith('/app')) {
+            if (await this.authService.isAuthenticatedOrGuest()) {
+                return true;
+            } else {
+                this.authService.setState('guest');
+                return true;
+            }
         } else if (url.startsWith('/auth')) {
-            if (isAuthenticated) {
+            if (await this.authService.isAuthenticated()) {
                 this.router.navigateByUrl('/app');
                 return false;
             } else {
                 return true;
             }
-        } else if (url.startsWith('/app')) {
-            if (isAuthenticated) {
-                return true;
-            } else {
-                this.router.navigateByUrl('/auth/sign-in');
-                return false;
-            }
+        } else {
+            return true;
         }
     }
 }

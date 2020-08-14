@@ -4,26 +4,15 @@
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation } from "@aws-amplify/api";
 import { GraphQLResult } from "@aws-amplify/api/lib/types";
-import * as Observable from "zen-observable";
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types/index';
+import { Observable } from "zen-observable-ts";
 
 export type CreateUserInput = {
-  billingAddressCity?: string | null;
-  billingAddressHouseNo?: string | null;
-  billingAddressPostalCode?: string | null;
-  billingAddressStreet?: string | null;
   createdAt?: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id?: string | null;
-  isPremium: boolean;
-  isActive?: boolean | null;
   lastLogin?: string | null;
   ownerId?: string | null;
-  premiumEndDate?: string | null;
-  premiumIsExpiring?: boolean | null;
-  premiumStartDate?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -32,23 +21,11 @@ export type CreateUserInput = {
 };
 
 export type UpdateUserInput = {
-  billingAddressCity?: string | null;
-  billingAddressHouseNo?: string | null;
-  billingAddressPostalCode?: string | null;
-  billingAddressStreet?: string | null;
   createdAt?: string | null;
   email?: string | null;
-  freeTrial?: boolean | null;
-  freeTrialStartDate?: string | null;
-  freeTrialEndDate?: string | null;
   id: string;
-  isPremium?: boolean | null;
-  isActive?: boolean | null;
   lastLogin?: string | null;
   ownerId?: string | null;
-  premiumEndDate?: string | null;
-  premiumIsExpiring?: boolean | null;
-  premiumStartDate?: string | null;
   feedbackDiscovery?: string | null;
   feedbackLeaveReason?: string | null;
   feedbackPromoterScore?: number | null;
@@ -102,6 +79,93 @@ export type DeleteConfigInput = {
   id?: string | null;
 };
 
+export type ModelUserFilterInput = {
+  createdAt?: ModelStringFilterInput | null;
+  email?: ModelStringFilterInput | null;
+  id?: ModelIDFilterInput | null;
+  lastLogin?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
+  feedbackDiscovery?: ModelStringFilterInput | null;
+  feedbackLeaveReason?: ModelStringFilterInput | null;
+  feedbackPromoterScore?: ModelIntFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
+  and?: Array<ModelUserFilterInput | null> | null;
+  or?: Array<ModelUserFilterInput | null> | null;
+  not?: ModelUserFilterInput | null;
+};
+
+export type ModelStringFilterInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+};
+
+export type ModelIDFilterInput = {
+  ne?: string | null;
+  eq?: string | null;
+  le?: string | null;
+  lt?: string | null;
+  ge?: string | null;
+  gt?: string | null;
+  contains?: string | null;
+  notContains?: string | null;
+  between?: Array<string | null> | null;
+  beginsWith?: string | null;
+};
+
+export type ModelIntFilterInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+};
+
+export type ModelConfigFilterInput = {
+  createdAt?: ModelStringFilterInput | null;
+  id?: ModelIDFilterInput | null;
+  keywordsToInclude?: ModelStringFilterInput | null;
+  keywordsToExclude?: ModelStringFilterInput | null;
+  ownerId?: ModelStringFilterInput | null;
+  toneUpperRange?: ModelFloatFilterInput | null;
+  toneLowerRange?: ModelFloatFilterInput | null;
+  topicsToInclude?: ModelStringFilterInput | null;
+  topicsToExclude?: ModelStringFilterInput | null;
+  savedArticleIds?: ModelIDFilterInput | null;
+  sourcesToInclude?: ModelStringFilterInput | null;
+  sourcesToExclude?: ModelStringFilterInput | null;
+  locationsToInclude?: ModelStringFilterInput | null;
+  locationsToExclude?: ModelStringFilterInput | null;
+  updatedAt?: ModelStringFilterInput | null;
+  and?: Array<ModelConfigFilterInput | null> | null;
+  or?: Array<ModelConfigFilterInput | null> | null;
+  not?: ModelConfigFilterInput | null;
+};
+
+export type ModelFloatFilterInput = {
+  ne?: number | null;
+  eq?: number | null;
+  le?: number | null;
+  lt?: number | null;
+  ge?: number | null;
+  gt?: number | null;
+  between?: Array<number | null> | null;
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
 export type ModelStringKeyConditionInput = {
   eq?: string | null;
   le?: string | null;
@@ -150,116 +214,8 @@ export type ModelArticleFilterInput = {
   not?: ModelArticleFilterInput | null;
 };
 
-export type ModelStringFilterInput = {
-  ne?: string | null;
-  eq?: string | null;
-  le?: string | null;
-  lt?: string | null;
-  ge?: string | null;
-  gt?: string | null;
-  contains?: string | null;
-  notContains?: string | null;
-  between?: Array<string | null> | null;
-  beginsWith?: string | null;
-};
-
-export type ModelIDFilterInput = {
-  ne?: string | null;
-  eq?: string | null;
-  le?: string | null;
-  lt?: string | null;
-  ge?: string | null;
-  gt?: string | null;
-  contains?: string | null;
-  notContains?: string | null;
-  between?: Array<string | null> | null;
-  beginsWith?: string | null;
-};
-
-export type ModelIntFilterInput = {
-  ne?: number | null;
-  eq?: number | null;
-  le?: number | null;
-  lt?: number | null;
-  ge?: number | null;
-  gt?: number | null;
-  between?: Array<number | null> | null;
-};
-
-export type ModelFloatFilterInput = {
-  ne?: number | null;
-  eq?: number | null;
-  le?: number | null;
-  lt?: number | null;
-  ge?: number | null;
-  gt?: number | null;
-  between?: Array<number | null> | null;
-};
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC"
-}
-
-export type ModelUserFilterInput = {
-  billingAddressCity?: ModelStringFilterInput | null;
-  billingAddressHouseNo?: ModelStringFilterInput | null;
-  billingAddressPostalCode?: ModelStringFilterInput | null;
-  billingAddressStreet?: ModelStringFilterInput | null;
-  createdAt?: ModelStringFilterInput | null;
-  email?: ModelStringFilterInput | null;
-  freeTrial?: ModelBooleanFilterInput | null;
-  freeTrialStartDate?: ModelStringFilterInput | null;
-  freeTrialEndDate?: ModelStringFilterInput | null;
-  id?: ModelIDFilterInput | null;
-  isPremium?: ModelBooleanFilterInput | null;
-  isActive?: ModelBooleanFilterInput | null;
-  lastLogin?: ModelStringFilterInput | null;
-  ownerId?: ModelStringFilterInput | null;
-  premiumEndDate?: ModelStringFilterInput | null;
-  premiumIsExpiring?: ModelBooleanFilterInput | null;
-  premiumStartDate?: ModelStringFilterInput | null;
-  feedbackDiscovery?: ModelStringFilterInput | null;
-  feedbackLeaveReason?: ModelStringFilterInput | null;
-  feedbackPromoterScore?: ModelIntFilterInput | null;
-  updatedAt?: ModelStringFilterInput | null;
-  and?: Array<ModelUserFilterInput | null> | null;
-  or?: Array<ModelUserFilterInput | null> | null;
-  not?: ModelUserFilterInput | null;
-};
-
-export type ModelBooleanFilterInput = {
-  ne?: boolean | null;
-  eq?: boolean | null;
-};
-
-export type ModelConfigFilterInput = {
-  createdAt?: ModelStringFilterInput | null;
-  id?: ModelIDFilterInput | null;
-  keywordsToInclude?: ModelStringFilterInput | null;
-  keywordsToExclude?: ModelStringFilterInput | null;
-  ownerId?: ModelStringFilterInput | null;
-  toneUpperRange?: ModelFloatFilterInput | null;
-  toneLowerRange?: ModelFloatFilterInput | null;
-  topicsToInclude?: ModelStringFilterInput | null;
-  topicsToExclude?: ModelStringFilterInput | null;
-  savedArticleIds?: ModelIDFilterInput | null;
-  sourcesToInclude?: ModelStringFilterInput | null;
-  sourcesToExclude?: ModelStringFilterInput | null;
-  locationsToInclude?: ModelStringFilterInput | null;
-  locationsToExclude?: ModelStringFilterInput | null;
-  updatedAt?: ModelStringFilterInput | null;
-  and?: Array<ModelConfigFilterInput | null> | null;
-  or?: Array<ModelConfigFilterInput | null> | null;
-  not?: ModelConfigFilterInput | null;
-};
-
 export type CreateUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -279,23 +235,11 @@ export type CreateUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -304,17 +248,9 @@ export type CreateUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -323,10 +259,6 @@ export type CreateUserMutation = {
 
 export type UpdateUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -346,23 +278,11 @@ export type UpdateUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -371,17 +291,9 @@ export type UpdateUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -390,10 +302,6 @@ export type UpdateUserMutation = {
 
 export type DeleteUserMutation = {
   __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
   config: {
     __typename: "Config";
     createdAt: string | null;
@@ -413,23 +321,11 @@ export type DeleteUserMutation = {
     updatedAt: string | null;
     user: {
       __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
       createdAt: string | null;
       email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
       id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
       lastLogin: string | null;
       ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
       feedbackDiscovery: string | null;
       feedbackLeaveReason: string | null;
       feedbackPromoterScore: number | null;
@@ -438,17 +334,9 @@ export type DeleteUserMutation = {
   } | null;
   createdAt: string | null;
   email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
   id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
   lastLogin: string | null;
   ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
   feedbackDiscovery: string | null;
   feedbackLeaveReason: string | null;
   feedbackPromoterScore: number | null;
@@ -474,10 +362,6 @@ export type CreateConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -498,17 +382,9 @@ export type CreateConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -535,10 +411,6 @@ export type UpdateConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -559,17 +431,9 @@ export type UpdateConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
@@ -596,10 +460,6 @@ export type DeleteConfigMutation = {
   updatedAt: string | null;
   user: {
     __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
     config: {
       __typename: "Config";
       createdAt: string | null;
@@ -620,22 +480,246 @@ export type DeleteConfigMutation = {
     } | null;
     createdAt: string | null;
     email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
     id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
     lastLogin: string | null;
     ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
     feedbackDiscovery: string | null;
     feedbackLeaveReason: string | null;
     feedbackPromoterScore: number | null;
     updatedAt: string | null;
   } | null;
+};
+
+export type GetUserQuery = {
+  __typename: "User";
+  config: {
+    __typename: "Config";
+    createdAt: string | null;
+    id: string;
+    keywordsToInclude: Array<string | null>;
+    keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
+    toneUpperRange: number;
+    toneLowerRange: number;
+    topicsToInclude: string;
+    topicsToExclude: string;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
+    user: {
+      __typename: "User";
+      createdAt: string | null;
+      email: string;
+      id: string;
+      lastLogin: string | null;
+      ownerId: string | null;
+      feedbackDiscovery: string | null;
+      feedbackLeaveReason: string | null;
+      feedbackPromoterScore: number | null;
+      updatedAt: string | null;
+    } | null;
+  } | null;
+  createdAt: string | null;
+  email: string;
+  id: string;
+  lastLogin: string | null;
+  ownerId: string | null;
+  feedbackDiscovery: string | null;
+  feedbackLeaveReason: string | null;
+  feedbackPromoterScore: number | null;
+  updatedAt: string | null;
+};
+
+export type ListUsersQuery = {
+  __typename: "ModelUserConnection";
+  items: Array<{
+    __typename: "User";
+    config: {
+      __typename: "Config";
+      createdAt: string | null;
+      id: string;
+      keywordsToInclude: Array<string | null>;
+      keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
+      toneUpperRange: number;
+      toneLowerRange: number;
+      topicsToInclude: string;
+      topicsToExclude: string;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
+      updatedAt: string | null;
+    } | null;
+    createdAt: string | null;
+    email: string;
+    id: string;
+    lastLogin: string | null;
+    ownerId: string | null;
+    feedbackDiscovery: string | null;
+    feedbackLeaveReason: string | null;
+    feedbackPromoterScore: number | null;
+    updatedAt: string | null;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type GetConfigQuery = {
+  __typename: "Config";
+  createdAt: string | null;
+  id: string;
+  keywordsToInclude: Array<string | null>;
+  keywordsToExclude: Array<string | null>;
+  ownerId: string | null;
+  toneUpperRange: number;
+  toneLowerRange: number;
+  topicsToInclude: string;
+  topicsToExclude: string;
+  savedArticleIds: Array<string> | null;
+  sourcesToInclude: Array<string | null>;
+  sourcesToExclude: Array<string | null>;
+  locationsToInclude: Array<string | null>;
+  locationsToExclude: Array<string | null>;
+  updatedAt: string | null;
+  user: {
+    __typename: "User";
+    config: {
+      __typename: "Config";
+      createdAt: string | null;
+      id: string;
+      keywordsToInclude: Array<string | null>;
+      keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
+      toneUpperRange: number;
+      toneLowerRange: number;
+      topicsToInclude: string;
+      topicsToExclude: string;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
+      updatedAt: string | null;
+    } | null;
+    createdAt: string | null;
+    email: string;
+    id: string;
+    lastLogin: string | null;
+    ownerId: string | null;
+    feedbackDiscovery: string | null;
+    feedbackLeaveReason: string | null;
+    feedbackPromoterScore: number | null;
+    updatedAt: string | null;
+  } | null;
+};
+
+export type ListConfigsQuery = {
+  __typename: "ModelConfigConnection";
+  items: Array<{
+    __typename: "Config";
+    createdAt: string | null;
+    id: string;
+    keywordsToInclude: Array<string | null>;
+    keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
+    toneUpperRange: number;
+    toneLowerRange: number;
+    topicsToInclude: string;
+    topicsToExclude: string;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
+    user: {
+      __typename: "User";
+      createdAt: string | null;
+      email: string;
+      id: string;
+      lastLogin: string | null;
+      ownerId: string | null;
+      feedbackDiscovery: string | null;
+      feedbackLeaveReason: string | null;
+      feedbackPromoterScore: number | null;
+      updatedAt: string | null;
+    } | null;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type UserByOwnerQuery = {
+  __typename: "ModelUserConnection";
+  items: Array<{
+    __typename: "User";
+    config: {
+      __typename: "Config";
+      createdAt: string | null;
+      id: string;
+      keywordsToInclude: Array<string | null>;
+      keywordsToExclude: Array<string | null>;
+      ownerId: string | null;
+      toneUpperRange: number;
+      toneLowerRange: number;
+      topicsToInclude: string;
+      topicsToExclude: string;
+      savedArticleIds: Array<string> | null;
+      sourcesToInclude: Array<string | null>;
+      sourcesToExclude: Array<string | null>;
+      locationsToInclude: Array<string | null>;
+      locationsToExclude: Array<string | null>;
+      updatedAt: string | null;
+    } | null;
+    createdAt: string | null;
+    email: string;
+    id: string;
+    lastLogin: string | null;
+    ownerId: string | null;
+    feedbackDiscovery: string | null;
+    feedbackLeaveReason: string | null;
+    feedbackPromoterScore: number | null;
+    updatedAt: string | null;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ConfigByOwnerQuery = {
+  __typename: "ModelConfigConnection";
+  items: Array<{
+    __typename: "Config";
+    createdAt: string | null;
+    id: string;
+    keywordsToInclude: Array<string | null>;
+    keywordsToExclude: Array<string | null>;
+    ownerId: string | null;
+    toneUpperRange: number;
+    toneLowerRange: number;
+    topicsToInclude: string;
+    topicsToExclude: string;
+    savedArticleIds: Array<string> | null;
+    sourcesToInclude: Array<string | null>;
+    sourcesToExclude: Array<string | null>;
+    locationsToInclude: Array<string | null>;
+    locationsToExclude: Array<string | null>;
+    updatedAt: string | null;
+    user: {
+      __typename: "User";
+      createdAt: string | null;
+      email: string;
+      id: string;
+      lastLogin: string | null;
+      ownerId: string | null;
+      feedbackDiscovery: string | null;
+      feedbackLeaveReason: string | null;
+      feedbackPromoterScore: number | null;
+      updatedAt: string | null;
+    } | null;
+  } | null> | null;
+  nextToken: string | null;
 };
 
 export type GetArticleQuery = {
@@ -714,228 +798,6 @@ export type ListArticlesQuery = {
   nextToken: string | null;
 };
 
-export type GetUserQuery = {
-  __typename: "User";
-  billingAddressCity: string | null;
-  billingAddressHouseNo: string | null;
-  billingAddressPostalCode: string | null;
-  billingAddressStreet: string | null;
-  config: {
-    __typename: "Config";
-    createdAt: string | null;
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: string;
-    topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
-    sourcesToInclude: Array<string | null>;
-    sourcesToExclude: Array<string | null>;
-    locationsToInclude: Array<string | null>;
-    locationsToExclude: Array<string | null>;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
-      createdAt: string | null;
-      email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
-  } | null;
-  createdAt: string | null;
-  email: string;
-  freeTrial: boolean;
-  freeTrialStartDate: string;
-  freeTrialEndDate: string;
-  id: string;
-  isPremium: boolean;
-  isActive: boolean | null;
-  lastLogin: string | null;
-  ownerId: string | null;
-  premiumEndDate: string | null;
-  premiumIsExpiring: boolean | null;
-  premiumStartDate: string | null;
-  feedbackDiscovery: string | null;
-  feedbackLeaveReason: string | null;
-  feedbackPromoterScore: number | null;
-  updatedAt: string | null;
-};
-
-export type ListUsersQuery = {
-  __typename: "ModelUserConnection";
-  items: Array<{
-    __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
-    email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
-    id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
-    lastLogin: string | null;
-    ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
-  } | null> | null;
-  nextToken: string | null;
-};
-
-export type GetConfigQuery = {
-  __typename: "Config";
-  createdAt: string | null;
-  id: string;
-  keywordsToInclude: Array<string | null>;
-  keywordsToExclude: Array<string | null>;
-  ownerId: string | null;
-  toneUpperRange: number;
-  toneLowerRange: number;
-  topicsToInclude: string;
-  topicsToExclude: string;
-  savedArticleIds: Array<string> | null;
-  sourcesToInclude: Array<string | null>;
-  sourcesToExclude: Array<string | null>;
-  locationsToInclude: Array<string | null>;
-  locationsToExclude: Array<string | null>;
-  updatedAt: string | null;
-  user: {
-    __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
-    email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
-    id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
-    lastLogin: string | null;
-    ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
-  } | null;
-};
-
-export type ListConfigsQuery = {
-  __typename: "ModelConfigConnection";
-  items: Array<{
-    __typename: "Config";
-    createdAt: string | null;
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: string;
-    topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
-    sourcesToInclude: Array<string | null>;
-    sourcesToExclude: Array<string | null>;
-    locationsToInclude: Array<string | null>;
-    locationsToExclude: Array<string | null>;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
-      createdAt: string | null;
-      email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
-  } | null> | null;
-  nextToken: string | null;
-};
-
 export type ArticlesByDateQuery = {
   __typename: "ModelArticleConnection";
   items: Array<{
@@ -976,100 +838,6 @@ export type ArticlesByDateQuery = {
   nextToken: string | null;
 };
 
-export type UserByOwnerQuery = {
-  __typename: "ModelUserConnection";
-  items: Array<{
-    __typename: "User";
-    billingAddressCity: string | null;
-    billingAddressHouseNo: string | null;
-    billingAddressPostalCode: string | null;
-    billingAddressStreet: string | null;
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
-    email: string;
-    freeTrial: boolean;
-    freeTrialStartDate: string;
-    freeTrialEndDate: string;
-    id: string;
-    isPremium: boolean;
-    isActive: boolean | null;
-    lastLogin: string | null;
-    ownerId: string | null;
-    premiumEndDate: string | null;
-    premiumIsExpiring: boolean | null;
-    premiumStartDate: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
-  } | null> | null;
-  nextToken: string | null;
-};
-
-export type ConfigByOwnerQuery = {
-  __typename: "ModelConfigConnection";
-  items: Array<{
-    __typename: "Config";
-    createdAt: string | null;
-    id: string;
-    keywordsToInclude: Array<string | null>;
-    keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
-    toneUpperRange: number;
-    toneLowerRange: number;
-    topicsToInclude: string;
-    topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
-    sourcesToInclude: Array<string | null>;
-    sourcesToExclude: Array<string | null>;
-    locationsToInclude: Array<string | null>;
-    locationsToExclude: Array<string | null>;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      billingAddressCity: string | null;
-      billingAddressHouseNo: string | null;
-      billingAddressPostalCode: string | null;
-      billingAddressStreet: string | null;
-      createdAt: string | null;
-      email: string;
-      freeTrial: boolean;
-      freeTrialStartDate: string;
-      freeTrialEndDate: string;
-      id: string;
-      isPremium: boolean;
-      isActive: boolean | null;
-      lastLogin: string | null;
-      ownerId: string | null;
-      premiumEndDate: string | null;
-      premiumIsExpiring: boolean | null;
-      premiumStartDate: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
-  } | null> | null;
-  nextToken: string | null;
-};
-
 @Injectable({
   providedIn: "root"
 })
@@ -1078,10 +846,6 @@ export class APIService {
     const statement = `mutation CreateUser($input: CreateUserInput!) {
         createUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1101,23 +865,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1126,17 +878,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1155,10 +899,6 @@ export class APIService {
     const statement = `mutation UpdateUser($input: UpdateUserInput!) {
         updateUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1178,23 +918,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1203,17 +931,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1232,10 +952,6 @@ export class APIService {
     const statement = `mutation DeleteUser($input: DeleteUserInput!) {
         deleteUser(input: $input) {
           __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
           config {
             __typename
             createdAt
@@ -1255,23 +971,11 @@ export class APIService {
             updatedAt
             user {
               __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
               createdAt
               email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
               id
-              isPremium
-              isActive
               lastLogin
               ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
               feedbackDiscovery
               feedbackLeaveReason
               feedbackPromoterScore
@@ -1280,17 +984,9 @@ export class APIService {
           }
           createdAt
           email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
           id
-          isPremium
-          isActive
           lastLogin
           ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
           feedbackDiscovery
           feedbackLeaveReason
           feedbackPromoterScore
@@ -1326,10 +1022,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1350,17 +1042,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1397,10 +1081,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1421,17 +1101,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1468,10 +1140,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
             config {
               __typename
               createdAt
@@ -1492,17 +1160,9 @@ export class APIService {
             }
             createdAt
             email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
             id
-            isPremium
-            isActive
             lastLogin
             ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
             feedbackDiscovery
             feedbackLeaveReason
             feedbackPromoterScore
@@ -1517,6 +1177,356 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <DeleteConfigMutation>response.data.deleteConfig;
+  }
+  async GetUser(id: string): Promise<GetUserQuery> {
+    const statement = `query GetUser($id: ID!) {
+        getUser(id: $id) {
+          __typename
+          config {
+            __typename
+            createdAt
+            id
+            keywordsToInclude
+            keywordsToExclude
+            ownerId
+            toneUpperRange
+            toneLowerRange
+            topicsToInclude
+            topicsToExclude
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
+            locationsToInclude
+            locationsToExclude
+            updatedAt
+            user {
+              __typename
+              createdAt
+              email
+              id
+              lastLogin
+              ownerId
+              feedbackDiscovery
+              feedbackLeaveReason
+              feedbackPromoterScore
+              updatedAt
+            }
+          }
+          createdAt
+          email
+          id
+          lastLogin
+          ownerId
+          feedbackDiscovery
+          feedbackLeaveReason
+          feedbackPromoterScore
+          updatedAt
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetUserQuery>response.data.getUser;
+  }
+  async ListUsers(
+    filter?: ModelUserFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ListUsersQuery> {
+    const statement = `query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+        listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            config {
+              __typename
+              createdAt
+              id
+              keywordsToInclude
+              keywordsToExclude
+              ownerId
+              toneUpperRange
+              toneLowerRange
+              topicsToInclude
+              topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
+              locationsToInclude
+              locationsToExclude
+              updatedAt
+            }
+            createdAt
+            email
+            id
+            lastLogin
+            ownerId
+            feedbackDiscovery
+            feedbackLeaveReason
+            feedbackPromoterScore
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ListUsersQuery>response.data.listUsers;
+  }
+  async GetConfig(id: string): Promise<GetConfigQuery> {
+    const statement = `query GetConfig($id: ID!) {
+        getConfig(id: $id) {
+          __typename
+          createdAt
+          id
+          keywordsToInclude
+          keywordsToExclude
+          ownerId
+          toneUpperRange
+          toneLowerRange
+          topicsToInclude
+          topicsToExclude
+          savedArticleIds
+          sourcesToInclude
+          sourcesToExclude
+          locationsToInclude
+          locationsToExclude
+          updatedAt
+          user {
+            __typename
+            config {
+              __typename
+              createdAt
+              id
+              keywordsToInclude
+              keywordsToExclude
+              ownerId
+              toneUpperRange
+              toneLowerRange
+              topicsToInclude
+              topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
+              locationsToInclude
+              locationsToExclude
+              updatedAt
+            }
+            createdAt
+            email
+            id
+            lastLogin
+            ownerId
+            feedbackDiscovery
+            feedbackLeaveReason
+            feedbackPromoterScore
+            updatedAt
+          }
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetConfigQuery>response.data.getConfig;
+  }
+  async ListConfigs(
+    filter?: ModelConfigFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ListConfigsQuery> {
+    const statement = `query ListConfigs($filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
+        listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            createdAt
+            id
+            keywordsToInclude
+            keywordsToExclude
+            ownerId
+            toneUpperRange
+            toneLowerRange
+            topicsToInclude
+            topicsToExclude
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
+            locationsToInclude
+            locationsToExclude
+            updatedAt
+            user {
+              __typename
+              createdAt
+              email
+              id
+              lastLogin
+              ownerId
+              feedbackDiscovery
+              feedbackLeaveReason
+              feedbackPromoterScore
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ListConfigsQuery>response.data.listConfigs;
+  }
+  async UserByOwner(
+    ownerId: string,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelUserFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<UserByOwnerQuery> {
+    const statement = `query UserByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+        userByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            config {
+              __typename
+              createdAt
+              id
+              keywordsToInclude
+              keywordsToExclude
+              ownerId
+              toneUpperRange
+              toneLowerRange
+              topicsToInclude
+              topicsToExclude
+              savedArticleIds
+              sourcesToInclude
+              sourcesToExclude
+              locationsToInclude
+              locationsToExclude
+              updatedAt
+            }
+            createdAt
+            email
+            id
+            lastLogin
+            ownerId
+            feedbackDiscovery
+            feedbackLeaveReason
+            feedbackPromoterScore
+            updatedAt
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      ownerId
+    };
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <UserByOwnerQuery>response.data.userByOwner;
+  }
+  async ConfigByOwner(
+    ownerId: string,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelConfigFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ConfigByOwnerQuery> {
+    const statement = `query ConfigByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
+        configByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            createdAt
+            id
+            keywordsToInclude
+            keywordsToExclude
+            ownerId
+            toneUpperRange
+            toneLowerRange
+            topicsToInclude
+            topicsToExclude
+            savedArticleIds
+            sourcesToInclude
+            sourcesToExclude
+            locationsToInclude
+            locationsToExclude
+            updatedAt
+            user {
+              __typename
+              createdAt
+              email
+              id
+              lastLogin
+              ownerId
+              feedbackDiscovery
+              feedbackLeaveReason
+              feedbackPromoterScore
+              updatedAt
+            }
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      ownerId
+    };
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <ConfigByOwnerQuery>response.data.configByOwner;
   }
   async GetArticle(id: string, uri: string): Promise<GetArticleQuery> {
     const statement = `query GetArticle($id: ID!, $uri: String!) {
@@ -1638,299 +1648,15 @@ export class APIService {
     )) as any;
     return <ListArticlesQuery>response.data.listArticles;
   }
-  async GetUser(id: string): Promise<GetUserQuery> {
-    const statement = `query GetUser($id: ID!) {
-        getUser(id: $id) {
-          __typename
-          billingAddressCity
-          billingAddressHouseNo
-          billingAddressPostalCode
-          billingAddressStreet
-          config {
-            __typename
-            createdAt
-            id
-            keywordsToInclude
-            keywordsToExclude
-            ownerId
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticleIds
-            sourcesToInclude
-            sourcesToExclude
-            locationsToInclude
-            locationsToExclude
-            updatedAt
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              createdAt
-              email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
-              id
-              isPremium
-              isActive
-              lastLogin
-              ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
-          }
-          createdAt
-          email
-          freeTrial
-          freeTrialStartDate
-          freeTrialEndDate
-          id
-          isPremium
-          isActive
-          lastLogin
-          ownerId
-          premiumEndDate
-          premiumIsExpiring
-          premiumStartDate
-          feedbackDiscovery
-          feedbackLeaveReason
-          feedbackPromoterScore
-          updatedAt
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      id
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <GetUserQuery>response.data.getUser;
-  }
-  async ListUsers(
-    filter?: ModelUserFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ListUsersQuery> {
-    const statement = `query ListUsers($filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
-        listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              updatedAt
-            }
-            createdAt
-            email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
-            id
-            isPremium
-            isActive
-            lastLogin
-            ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
-            feedbackDiscovery
-            feedbackLeaveReason
-            feedbackPromoterScore
-            updatedAt
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ListUsersQuery>response.data.listUsers;
-  }
-  async GetConfig(id: string): Promise<GetConfigQuery> {
-    const statement = `query GetConfig($id: ID!) {
-        getConfig(id: $id) {
-          __typename
-          createdAt
-          id
-          keywordsToInclude
-          keywordsToExclude
-          ownerId
-          toneUpperRange
-          toneLowerRange
-          topicsToInclude
-          topicsToExclude
-          savedArticleIds
-          sourcesToInclude
-          sourcesToExclude
-          locationsToInclude
-          locationsToExclude
-          updatedAt
-          user {
-            __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              updatedAt
-            }
-            createdAt
-            email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
-            id
-            isPremium
-            isActive
-            lastLogin
-            ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
-            feedbackDiscovery
-            feedbackLeaveReason
-            feedbackPromoterScore
-            updatedAt
-          }
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      id
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <GetConfigQuery>response.data.getConfig;
-  }
-  async ListConfigs(
-    filter?: ModelConfigFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ListConfigsQuery> {
-    const statement = `query ListConfigs($filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
-        listConfigs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            createdAt
-            id
-            keywordsToInclude
-            keywordsToExclude
-            ownerId
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticleIds
-            sourcesToInclude
-            sourcesToExclude
-            locationsToInclude
-            locationsToExclude
-            updatedAt
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              createdAt
-              email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
-              id
-              isPremium
-              isActive
-              lastLogin
-              ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ListConfigsQuery>response.data.listConfigs;
-  }
   async ArticlesByDate(
-    dataType?: string,
+    dataType: string,
     displayDateTime?: ModelStringKeyConditionInput,
     sortDirection?: ModelSortDirection,
     filter?: ModelArticleFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ArticlesByDateQuery> {
-    const statement = `query ArticlesByDate($dataType: String, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query ArticlesByDate($dataType: String!, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
         articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -1971,10 +1697,9 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {};
-    if (dataType) {
-      gqlAPIServiceArguments.dataType = dataType;
-    }
+    const gqlAPIServiceArguments: any = {
+      dataType
+    };
     if (displayDateTime) {
       gqlAPIServiceArguments.displayDateTime = displayDateTime;
     }
@@ -1990,161 +1715,11 @@ export class APIService {
     if (nextToken) {
       gqlAPIServiceArguments.nextToken = nextToken;
     }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
+    const response = (await API.graphql({
+      query: statement,
+      variables: gqlAPIServiceArguments,
+      authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+    })) as any;
     return <ArticlesByDateQuery>response.data.articlesByDate;
-  }
-  async UserByOwner(
-    ownerId?: string,
-    sortDirection?: ModelSortDirection,
-    filter?: ModelUserFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<UserByOwnerQuery> {
-    const statement = `query UserByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
-        userByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            billingAddressCity
-            billingAddressHouseNo
-            billingAddressPostalCode
-            billingAddressStreet
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              updatedAt
-            }
-            createdAt
-            email
-            freeTrial
-            freeTrialStartDate
-            freeTrialEndDate
-            id
-            isPremium
-            isActive
-            lastLogin
-            ownerId
-            premiumEndDate
-            premiumIsExpiring
-            premiumStartDate
-            feedbackDiscovery
-            feedbackLeaveReason
-            feedbackPromoterScore
-            updatedAt
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (ownerId) {
-      gqlAPIServiceArguments.ownerId = ownerId;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <UserByOwnerQuery>response.data.userByOwner;
-  }
-  async ConfigByOwner(
-    ownerId?: string,
-    sortDirection?: ModelSortDirection,
-    filter?: ModelConfigFilterInput,
-    limit?: number,
-    nextToken?: string
-  ): Promise<ConfigByOwnerQuery> {
-    const statement = `query ConfigByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
-        configByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
-          __typename
-          items {
-            __typename
-            createdAt
-            id
-            keywordsToInclude
-            keywordsToExclude
-            ownerId
-            toneUpperRange
-            toneLowerRange
-            topicsToInclude
-            topicsToExclude
-            savedArticleIds
-            sourcesToInclude
-            sourcesToExclude
-            locationsToInclude
-            locationsToExclude
-            updatedAt
-            user {
-              __typename
-              billingAddressCity
-              billingAddressHouseNo
-              billingAddressPostalCode
-              billingAddressStreet
-              createdAt
-              email
-              freeTrial
-              freeTrialStartDate
-              freeTrialEndDate
-              id
-              isPremium
-              isActive
-              lastLogin
-              ownerId
-              premiumEndDate
-              premiumIsExpiring
-              premiumStartDate
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
-          }
-          nextToken
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {};
-    if (ownerId) {
-      gqlAPIServiceArguments.ownerId = ownerId;
-    }
-    if (sortDirection) {
-      gqlAPIServiceArguments.sortDirection = sortDirection;
-    }
-    if (filter) {
-      gqlAPIServiceArguments.filter = filter;
-    }
-    if (limit) {
-      gqlAPIServiceArguments.limit = limit;
-    }
-    if (nextToken) {
-      gqlAPIServiceArguments.nextToken = nextToken;
-    }
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <ConfigByOwnerQuery>response.data.configByOwner;
   }
 }

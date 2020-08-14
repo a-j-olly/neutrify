@@ -9,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class AuthPage {
 
+  public disableNavButtons: boolean = false;
+
   constructor(
     private router: Router,
     private menu: MenuController,
@@ -19,7 +21,11 @@ export class AuthPage {
     await this.menu.swipeGesture(false, 'mainMenu');
   }
 
-  backToHome() {
-    this.router.navigateByUrl('home');
+  async navTo(path: string, replaceUrl: boolean) {
+    if (!this.disableNavButtons) {
+      this.disableNavButtons = true;
+      await this.router.navigateByUrl(path, { replaceUrl });
+      this.disableNavButtons = false;
+    }
   }
 }

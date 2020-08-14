@@ -28,6 +28,12 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
 import { AdMob } from '@admob-plus/ionic';
 import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
 import { Keychain } from '@ionic-native/keychain/ngx';
+import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { ArticleComponent } from './news-feed/article/article.component';
+import { ImageModalComponent } from './news-feed/article/image-modal/image-modal.component';
+import { AddFilterPopoverComponent } from './news-feed/article/add-filter-popover/add-filter-popover.component';
+import { SkeletonFeedComponent } from './news-feed/skeleton-feed/skeleton-feed.component';
+import { NewsFeedWrapperPage } from './news-feed/news-feed-wrapper.page';
 
 @NgModule({
   declarations: [
@@ -39,6 +45,12 @@ import { Keychain } from '@ionic-native/keychain/ngx';
     TopicsFilterComponent,
     TopicOptionComponent,
     CountryFilterComponent,
+    NewsFeedComponent,
+    ArticleComponent,
+    ImageModalComponent,
+    AddFilterPopoverComponent,
+    SkeletonFeedComponent,
+    NewsFeedWrapperPage
   ],
   imports: [
     BrowserModule,

@@ -33,19 +33,18 @@
 
           <ion-row class="ion-justify-content-center ion-text-center">
             <ion-col size="8">
-              <ion-button class="cta-button" type="submit" expand="full" color="success" (click)="navToSignUp()">Get Started</ion-button>
+              <ion-button class="cta-button" type="submit" expand="full" color="success" (click)="navTo('/auth/create-account')">Let's Go</ion-button>
             </ion-col>
           </ion-row>
 
           <ion-row class="ion-justify-content-center">
             <ion-label class="text-caption ion-text-center" color="dark">
-              <p><b>Neutrify is free to use. Just sign up!</b></p>
+              <p><b>Neutrify is free to use!</b></p>
             </ion-label>
           </ion-row>
 
           <ion-row class="app-badge-container ion-justify-content-evenly" *ngIf="releaseToggle">
-              <img src="../../../assets/img/logo/apple-store-badge.png" (click)="openGoogleStore()">
-              <img src="../../../assets/img/logo/google-play-badge.png" (click)="openAppleStore()">
+            <img src="../../../assets/img/logo/google-play-badge.png" (click)="openAppleStore()">
           </ion-row>
         </div>
 
@@ -66,9 +65,8 @@
   
       <ion-row class="ion-justify-content-center">
         <p>
-          Neutrify grabs news articles that are published online and puts them in one place.
-          We then give you a variety of advanced tools that allow you to customise what news you see. 
-          This should help you figure out what's going on in the world on your own terms.
+          Neutrify is a free app that grabs news articles that have been recently published online and collects them in one place.
+          You can customise which news articles you see using a variety of advanced tools that Neutrify provides. 
         </p>
       </ion-row>
     </ion-grid>
@@ -178,7 +176,7 @@
         </ion-col>
 
         <ion-col class="ion-no-padding">
-          <ion-button class="ion-no-padding ion-no-margin" (click)="navToPrivacy()" color="primary" fill="clear">Privacy Policy</ion-button>
+          <ion-button class="ion-no-padding ion-no-margin" (click)="navTo('/home/privacy-policy')" color="primary" fill="clear">Privacy Policy</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

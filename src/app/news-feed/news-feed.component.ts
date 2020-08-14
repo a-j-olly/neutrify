@@ -100,6 +100,7 @@ export class NewsFeedComponent implements OnInit {
   async ngOnInit() {
     this.displayThreshold = this.newsFeedService.displayThreshold;
     this.filters = this.filterService.getQueryFilters();
+    this.newsFeedService.setFilters(this.filters);
     await this.newsFeedService.handleInitDataLoad();
 
     this.menu.enable(true, 'filterMenu');

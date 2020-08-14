@@ -81,6 +81,7 @@ export class AuthService {
       }
     } else {
       const localfilters = await this.storage.get('neutrify_filters');
+      
       if (localfilters !== null && localfilters !== undefined) {
         loadedFilters = JSON.parse(localfilters);
       } else {

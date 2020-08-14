@@ -4,7 +4,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { NewsFeedWrapperPage } from './news-feed/news-feed-wrapper.page';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'app', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   { path: 'app', children: [
     { path: '', component: NewsFeedWrapperPage },
     { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },

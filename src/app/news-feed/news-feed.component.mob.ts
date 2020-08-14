@@ -128,6 +128,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.displayThreshold = this.newsFeedService.displayThreshold;
     this.playAds();
     this.filters = this.filterService.getQueryFilters();
+    this.newsFeedService.setFilters(this.filters);
     await this.newsFeedService.handleInitDataLoad();
 
     this.menu.enable(true, 'filterMenu');

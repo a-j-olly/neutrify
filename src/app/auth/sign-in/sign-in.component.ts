@@ -31,6 +31,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.setState('signIn');
     this.signInForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(8)]],

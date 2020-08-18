@@ -18,7 +18,7 @@ const routes: Routes = [
       { path: 'support', component: SupportComponent } 
   ], canActivate: [AuthGuardService] },
   { path: 'app', children: [
-    { path: '', component: NewsFeedWrapperPage },
+    { path: '', loadChildren: () => import('./news-feed/news-feed-wrapper.module').then( m => m.NewsFeedWrapperPageModule) },
     { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },
   ], canActivate: [AuthGuardService] },
   { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] },

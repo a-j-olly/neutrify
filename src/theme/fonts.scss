@@ -3,6 +3,7 @@
     font-style: normal;
     font-weight: normal;
     src: url('src/assets/fonts/OpenSans-Regular.ttf');
+    font-display: swap;
 }
 
 @font-face {
@@ -10,6 +11,7 @@
     font-style: normal;
     font-weight: bold;
     src: url('src/assets/fonts/OpenSans-Bold.ttf');
+    font-display: swap;
 }
 
 @font-face {
@@ -17,6 +19,7 @@
     font-style: italic;
     font-weight: normal;
     src: url('src/assets/fonts/OpenSans-Italic.ttf');
+    font-display: swap;
 }
 
 @font-face {
@@ -24,4 +27,5 @@
     font-style: italic;
     font-weight: bold;
     src: url('src/assets/fonts/OpenSans-BoldItalic.ttf');
+    font-display: swap;
 }

@@ -2,13 +2,15 @@ import { environment } from './../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Compiler, Injector, ComponentRef } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
 import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
+import { MainMenuComponent } from './menu/main-menu/main-menu.component';
+import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 
 // tslint:disable-next-line:ban-types
 declare let gtag: Function;
@@ -19,12 +21,23 @@ declare let gtag: Function;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  private menuSubscription$: Subscription;
+  @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
+  @ViewChild('mainMenuContainer', { read: ViewContainerRef }) mainMenuContainer: ViewContainerRef;
+
+  hasFilterView: boolean = false;
+
   public menuStatus = false;
+  private menuSubscription$: Subscription;
+
   private prefersDark;
   private platformSource: string;
 
+  public filtersInitStatus: boolean = false;
+  private filtersInitStatus$: Subscription;
+
   constructor(
+    private compiler: Compiler,
+    private injector: Injector,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -40,11 +53,34 @@ export class AppComponent {
       }
     });
 
+    this.initializeApp();
+
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
     });
 
-    this.initializeApp();
+    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => {
+      this.filtersInitStatus = status;
+
+      if (this.filtersInitStatus && !this.hasFilterView) {
+        this.loadMenuComponents();
+      }
+    });
+  }
+
+  private loadMenuComponents() {
+    // Dynamic import, activate code splitting and on demand loading of feature module
+    import('./menu/menu.module').then(({ MenuComponentModule }) => {
+      // Compile the module
+      this.compiler.compileModuleAsync(MenuComponentModule).then(moduleFactory => {
+        // Create a moduleRef, resolve an entry component, create the component
+        const moduleRef = moduleFactory.create(this.injector);
+        const { filterMenuFactory, mainMenuFactory } = moduleRef.instance.resolveComponents();
+        <ComponentRef<MainMenuComponent>> this.mainMenuContainer.createComponent(mainMenuFactory, null, moduleRef.injector);
+        <ComponentRef<FilterMenuComponent>> this.filterMenuContainer.createComponent(filterMenuFactory, null, moduleRef.injector);
+        this.hasFilterView = true;
+      });
+    });
   }
 
   toggleMenu() {

@@ -257,7 +257,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       this.readyArticles = [];
     }
 
-    if (this.displayArticles.length >= 3 * this.displayThreshold && !this.platform.is('ios')) {
+    if (this.displayArticles.length >= 3 * this.displayThreshold) {
       this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
 
       if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {

@@ -11,9 +11,7 @@ import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
-
-// tslint:disable-next-line:ban-types
-declare let gtag: Function;
+import { GoogleAnalyticsService } from './services/google-analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -45,13 +43,9 @@ export class AppComponent {
     public authService: AuthService,
     public router: Router,
     private themeDetection: ThemeDetection,
-    private storage: Storage
+    private storage: Storage,
+    private ga: GoogleAnalyticsService
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        gtag('config', environment.gaTrackingId, { page_path: event.urlAfterRedirects });
-      }
-    });
 
     this.initializeApp();
 
@@ -64,6 +58,12 @@ export class AppComponent {
 
       if (this.filtersInitStatus && !this.hasFilterView) {
         this.loadMenuComponents();
+      }
+    });
+    
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.ga.configEmitter(event.urlAfterRedirects);
       }
     });
   }

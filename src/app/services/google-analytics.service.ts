@@ -11,7 +11,7 @@ export class GoogleAnalyticsService {
   	private scriptLoader: DelayedScriptLoader;
 
 	constructor() { 
-		this.scriptLoader = new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 10 * 1000 ) );
+		this.scriptLoader = new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 5 * 1000 ) );
 	}
   
   public eventEmitter(

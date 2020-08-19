@@ -1,5 +1,4 @@
 import { IonicStorageModule } from '@ionic/storage';
-import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { APIService } from './services/neutrify-api.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -42,7 +41,6 @@ import { Keychain } from '@ionic-native/keychain/ngx';
     StatusBar,
     AmplifyService,
     SplashScreen,
-    GoogleAnalyticsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AdMob,
     InAppBrowser,

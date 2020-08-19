@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons class="left-buttons" slot="start">
-      <ion-chip color="primary" (click)="navToHome()">
+      <ion-chip color="primary" (click)="navToHome()" [hidden]="!showHomeButton">
         <ion-label>Home</ion-label>
         <ion-icon name="home"></ion-icon>
       </ion-chip>
@@ -19,5 +19,5 @@
 </ion-header>
 
 <ion-content>
-  <ion-tabs></ion-tabs>
+  <ion-tabs #homeTabs (ionTabsWillChange)="onTabChange()"></ion-tabs>
 </ion-content>

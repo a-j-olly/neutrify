@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 
 @Component({
   selector: 'app-sign-in-as-guest',
@@ -8,9 +9,13 @@ import { Router } from '@angular/router';
 })
 export class SignInAsGuestComponent {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private ga: GoogleAnalyticsService
+  ) { }
 
   public async navToApp() {
+    this.ga.eventEmitter('guest_login', 'engagement', 'Guest login');
     await this.router.navigateByUrl('app', { replaceUrl: true });
   }
 }

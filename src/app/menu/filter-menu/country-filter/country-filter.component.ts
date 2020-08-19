@@ -1,4 +1,3 @@
-import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Countries } from './../../../model/country-options';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';

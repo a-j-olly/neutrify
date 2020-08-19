@@ -1,7 +1,7 @@
-import { MenuController, AlertController } from '@ionic/angular';
+import { MenuController, AlertController, IonTabs } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from './../services/auth.service';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +9,9 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  @ViewChild('homeTabs') tabs: IonTabs;
+  private currentTab: string;
+  public showHomeButton = true;
 
   constructor(
     public authService: AuthService,
@@ -32,6 +35,15 @@ export class HomePage {
 
   navToHome() {
     this.router.navigateByUrl('/home/welcome');
+  }
+
+  private getCurrentTab() {
+    return this.tabs.getSelected();
+  }
+
+  public onTabChange() {
+    this.currentTab = this.getCurrentTab();
+    this.showHomeButton = this.currentTab !== 'welcome';
   }
 
   async presentAlertConfirm() {

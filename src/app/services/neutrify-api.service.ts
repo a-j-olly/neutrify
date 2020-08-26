@@ -1403,13 +1403,13 @@ export class APIService {
     return <ListConfigsQuery>response.data.listConfigs;
   }
   async UserByOwner(
-    ownerId: string,
+    ownerId?: string,
     sortDirection?: ModelSortDirection,
     filter?: ModelUserFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<UserByOwnerQuery> {
-    const statement = `query UserByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query UserByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
         userByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -1445,9 +1445,10 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {
-      ownerId
-    };
+    const gqlAPIServiceArguments: any = {};
+    if (ownerId) {
+      gqlAPIServiceArguments.ownerId = ownerId;
+    }
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;
     }
@@ -1466,13 +1467,13 @@ export class APIService {
     return <UserByOwnerQuery>response.data.userByOwner;
   }
   async ConfigByOwner(
-    ownerId: string,
+    ownerId?: string,
     sortDirection?: ModelSortDirection,
     filter?: ModelConfigFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ConfigByOwnerQuery> {
-    const statement = `query ConfigByOwner($ownerId: String!, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query ConfigByOwner($ownerId: String, $sortDirection: ModelSortDirection, $filter: ModelConfigFilterInput, $limit: Int, $nextToken: String) {
         configByOwner(ownerId: $ownerId, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -1508,9 +1509,10 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {
-      ownerId
-    };
+    const gqlAPIServiceArguments: any = {};
+    if (ownerId) {
+      gqlAPIServiceArguments.ownerId = ownerId;
+    }
     if (sortDirection) {
       gqlAPIServiceArguments.sortDirection = sortDirection;
     }
@@ -1649,14 +1651,14 @@ export class APIService {
     return <ListArticlesQuery>response.data.listArticles;
   }
   async ArticlesByDate(
-    dataType: string,
+    dataType?: string,
     displayDateTime?: ModelStringKeyConditionInput,
     sortDirection?: ModelSortDirection,
     filter?: ModelArticleFilterInput,
     limit?: number,
     nextToken?: string
   ): Promise<ArticlesByDateQuery> {
-    const statement = `query ArticlesByDate($dataType: String!, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+    const statement = `query ArticlesByDate($dataType: String, $displayDateTime: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
         articlesByDate(dataType: $dataType, displayDateTime: $displayDateTime, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
           __typename
           items {
@@ -1697,9 +1699,10 @@ export class APIService {
           nextToken
         }
       }`;
-    const gqlAPIServiceArguments: any = {
-      dataType
-    };
+    const gqlAPIServiceArguments: any = {};
+    if (dataType) {
+      gqlAPIServiceArguments.dataType = dataType;
+    }
     if (displayDateTime) {
       gqlAPIServiceArguments.displayDateTime = displayDateTime;
     }

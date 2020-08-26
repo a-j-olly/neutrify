@@ -162,7 +162,7 @@ query ListConfigs(
   }
 }
 query UserByOwner(
-  $ownerId: String!
+  $ownerId: String
   $sortDirection: ModelSortDirection
   $filter: ModelUserFilterInput
   $limit: Int
@@ -207,7 +207,7 @@ query UserByOwner(
   }
 }
 query ConfigByOwner(
-  $ownerId: String!
+  $ownerId: String
   $sortDirection: ModelSortDirection
   $filter: ModelConfigFilterInput
   $limit: Int
@@ -341,7 +341,7 @@ query ListArticles(
   }
 }
 query ArticlesByDate(
-  $dataType: String!
+  $dataType: String
   $displayDateTime: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelArticleFilterInput

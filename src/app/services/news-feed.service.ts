@@ -45,6 +45,7 @@ export class NewsFeedService {
 
   public updateIsFeedUpdatingStatus(status: boolean) {
     this.isFeedUpdating = status;
+    console.log('feed is updating? ', status);
     this.isFeedUpdating$.next(status);
   }
 
@@ -205,7 +206,7 @@ export class NewsFeedService {
       this.ga.eventEmitter('refresh_fab', 'engagement', 'Refreshed feed');
     }
 
-    this.updateIsFeedUpdatingStatus(false);
+    // this.updateIsFeedUpdatingStatus(false);
   }
 
   public setDisplayThreshold(platformHeight: number): number {

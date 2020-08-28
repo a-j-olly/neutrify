@@ -58,7 +58,7 @@ export class NewsFeedWrapperPage {
   public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
 
-  public filtersInitStatus: boolean = false;
+  public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
   private filtersInitStatus$: Subscription;
 
   constructor(
@@ -132,14 +132,16 @@ export class NewsFeedWrapperPage {
   }
 
   async ionViewWillEnter() {
-    if (this.filtersInitStatus) {
-      this.newsFeedService.handleInitDataLoad();
-      this.menu.enable(true, 'filterMenu');
-      this.menu.enable(true, 'mainMenu');
-      this.menu.swipeGesture(true, 'filterMenu');
-      this.menu.swipeGesture(true, 'mainMenu');
-      this.menuService.openMenu()
-    }
+    console.log('(news-feed-wrapper) will enter')
+    this.menu.enable(true, 'filterMenu');
+    this.menu.enable(true, 'mainMenu');
+    this.menu.swipeGesture(true, 'filterMenu');
+    this.menu.swipeGesture(true, 'mainMenu');
+    this.menuService.openMenu()
+    // if (this.filtersInitStatus && !this.displayArticles.length) {
+    //   console.log('(news-feed-wrapper) loaded and displayArticles length =', this.displayArticles.length);
+    //   this.newsFeedService.updateIsFeedUpdatingStatus(false);
+    // }
   }
 
   async ionViewDidEnter() {
@@ -147,7 +149,7 @@ export class NewsFeedWrapperPage {
   }
 
   async ionViewWillLeave() {
-    this.newsFeedService.updateIsFeedUpdatingStatus(true);
+    // this.newsFeedService.updateIsFeedUpdatingStatus(true);
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();

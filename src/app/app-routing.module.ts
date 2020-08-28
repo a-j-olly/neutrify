@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './services/auth-guard.service';
-import { NewsFeedWrapperPage } from './news-feed/news-feed-wrapper.page';
 import { HomePage } from './home/home.page';
 import { CtaComponent } from './home/cta/cta.component';
 import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
@@ -22,6 +21,10 @@ const routes: Routes = [
     { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },
   ], canActivate: [AuthGuardService] },
   { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] },
+  {
+    path: 'unbiased-news',
+    loadChildren: () => import('./blog/unbiased-news/unbiased-news.module').then( m => m.UnbiasedNewsPageModule)
+  },
 ];
 
 

@@ -23,7 +23,7 @@ export class AuthService {
   userId: string;
   configId: string;
 
-  private filtersInitStatus = false;  
+  public filtersInitStatus = false;  
   public filtersInitStatus$ = new Subject<boolean>();
 
   constructor(
@@ -48,20 +48,24 @@ export class AuthService {
         }
       }
 
-      try {
-        if (state === 'signedIn' || state === 'guest') {
+      console.log('auth state: ', state);
+
+      if (state === 'signedIn' || state === 'guest') {
+        try {
+          console.log('init load');
           await this.handleInitialLoad();
           this.updateFiltersInitStatus(true);
+        } catch (err) {
+          console.log('Could not load your filters. Service returned this error: ', err);
+          alert('Could not load your filters. Please check your network conntection.');
         }
-      } catch (err) {
-        console.log('Could not load your filters. Service returned this error: ', err);
-        alert('Could not load your filters. Please check your network conntection.');
       }
     });
   }
 
   public async updateFiltersInitStatus(isSaved: boolean) {
     this.filtersInitStatus = isSaved;
+    console.log('filter init status: ', isSaved);
     this.filtersInitStatus$.next(isSaved);
   }
 
@@ -72,6 +76,7 @@ export class AuthService {
   async handleInitialLoad() {
     let loadedFilters;
 
+    console.log('(auth service) is signed in? ', this.signedIn);
     if (this.signedIn) {
       const config = (await this.getConfig(this.user.username)).items[0];            
       if (config !== null && config !== undefined) {
@@ -83,11 +88,13 @@ export class AuthService {
       }
     } else {
       const localfilters = await this.storage.get('neutrify_filters');
+      console.log('(auth service) localFilters: ', localfilters);
       
       if (localfilters !== null && localfilters !== undefined) {
         loadedFilters = JSON.parse(localfilters);
       } else {
         const newFilters = this.filterService.blankFilterObj(uuid());
+        console.log('(auth service) new filters: ', newFilters);
         this.storage.set('neutrify_filters', JSON.stringify(newFilters));
         loadedFilters = newFilters;
       }

@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { MetaService } from './services/meta.service';
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,8 @@ export class AppComponent {
     public router: Router,
     private themeDetection: ThemeDetection,
     private storage: Storage,
-    private ga: GoogleAnalyticsService
+    private ga: GoogleAnalyticsService,
+    private meta: MetaService
   ) {
 
     this.initializeApp();
@@ -66,6 +68,8 @@ export class AppComponent {
         this.ga.configEmitter(event.urlAfterRedirects);
       }
     });
+
+    this.meta.updateTitle();
   }
 
   private loadMenuComponents() {

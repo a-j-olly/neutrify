@@ -98,7 +98,6 @@ export class NewsFeedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('(news-feed) on init');
     this.displayThreshold = this.newsFeedService.displayThreshold;
     this.filters = this.filterService.getQueryFilters();
     this.newsFeedService.setFilters(this.filters);

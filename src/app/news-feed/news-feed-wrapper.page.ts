@@ -132,16 +132,11 @@ export class NewsFeedWrapperPage {
   }
 
   async ionViewWillEnter() {
-    console.log('(news-feed-wrapper) will enter')
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');
     this.menu.swipeGesture(true, 'mainMenu');
     this.menuService.openMenu()
-    // if (this.filtersInitStatus && !this.displayArticles.length) {
-    //   console.log('(news-feed-wrapper) loaded and displayArticles length =', this.displayArticles.length);
-    //   this.newsFeedService.updateIsFeedUpdatingStatus(false);
-    // }
   }
 
   async ionViewDidEnter() {
@@ -149,7 +144,6 @@ export class NewsFeedWrapperPage {
   }
 
   async ionViewWillLeave() {
-    // this.newsFeedService.updateIsFeedUpdatingStatus(true);
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();

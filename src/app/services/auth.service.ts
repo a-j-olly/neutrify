@@ -48,11 +48,9 @@ export class AuthService {
         }
       }
 
-      console.log('auth state: ', state);
 
       if (state === 'signedIn' || state === 'guest') {
         try {
-          console.log('init load');
           await this.handleInitialLoad();
           this.updateFiltersInitStatus(true);
         } catch (err) {
@@ -65,7 +63,6 @@ export class AuthService {
 
   public async updateFiltersInitStatus(isSaved: boolean) {
     this.filtersInitStatus = isSaved;
-    console.log('filter init status: ', isSaved);
     this.filtersInitStatus$.next(isSaved);
   }
 
@@ -76,7 +73,6 @@ export class AuthService {
   async handleInitialLoad() {
     let loadedFilters;
 
-    console.log('(auth service) is signed in? ', this.signedIn);
     if (this.signedIn) {
       const config = (await this.getConfig(this.user.username)).items[0];            
       if (config !== null && config !== undefined) {
@@ -88,13 +84,11 @@ export class AuthService {
       }
     } else {
       const localfilters = await this.storage.get('neutrify_filters');
-      console.log('(auth service) localFilters: ', localfilters);
       
       if (localfilters !== null && localfilters !== undefined) {
         loadedFilters = JSON.parse(localfilters);
       } else {
         const newFilters = this.filterService.blankFilterObj(uuid());
-        console.log('(auth service) new filters: ', newFilters);
         this.storage.set('neutrify_filters', JSON.stringify(newFilters));
         loadedFilters = newFilters;
       }

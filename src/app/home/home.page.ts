@@ -34,7 +34,7 @@ export class HomePage {
   }
 
   navToHome() {
-    this.router.navigateByUrl('/home/welcome');
+    this.router.navigateByUrl('/home');
   }
 
   private getCurrentTab() {

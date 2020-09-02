@@ -290,7 +290,6 @@ export class FilterService {
     try {
       const reqBody: UpdateConfigInput = this.marshalRequest();
       if (local) {
-        console.log('saved filters: ', reqBody);
         await this.storage.set('neutrify_filters', JSON.stringify(reqBody));
       } else {
         await this.neutrifyAPI.UpdateConfig(reqBody);
@@ -314,7 +313,6 @@ export class FilterService {
 
       if (local) {
         let localFilters = await this.storage.get('neutrify_filters');
-        console.log('local filters: ', localFilters);
         loadedFilter = JSON.parse(localFilters);
       } else {
         loadedFilter = (await this.neutrifyAPI.ConfigByOwner(username, null, null , 1)).items[0];

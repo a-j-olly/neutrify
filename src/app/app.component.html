@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu *ngIf="filtersInitStatus" type="overlay" side="end" contentId="mainContent" menuId="mainMenu">
+  <ion-menu type="overlay" side="end" contentId="mainContent" menuId="mainMenu">
     <ion-header>
       <ion-toolbar>
         <ion-title color="primary" size="small">MAIN MENU</ion-title>
@@ -7,9 +7,7 @@
     </ion-header>
 
     <ion-content>
-      <div *ngIf="filtersInitStatus">
-        <ng-template #mainMenuContainer></ng-template>
-      </div>
+      <app-main-menu></app-main-menu>
     </ion-content>
   </ion-menu>
   

@@ -16,10 +16,27 @@ const routes: Routes = [
     path: '',
     component: AuthPage,
     children: [
-      { path: '', redirectTo: '/auth/create-account', pathMatch: 'full' },
-      { path: 'create-account', component: CreateAccountComponent },
-      { path: 'sign-in', component: SignInComponent },
-      { path: 'reset-password', component: ResetPasswordComponent },
+      { 
+        path: '', redirectTo: '/auth/create-account', pathMatch: 'full'
+      },
+      { 
+        path: 'create-account', component: CreateAccountComponent,
+        data: {
+          title: 'Neutrify: Create An Account',
+        } 
+      },
+      { 
+        path: 'sign-in', component: SignInComponent,
+        data: {
+          title: 'Neutrify: Sign In',
+        } 
+      },
+      { 
+        path: 'reset-password', component: ResetPasswordComponent,
+        data: {
+          title: 'Neutrify: Reset Your Password',
+        } 
+      },
     ]
   }
 ];

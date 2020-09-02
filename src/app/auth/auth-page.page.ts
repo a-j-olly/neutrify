@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth-page.page.scss'],
 })
 export class AuthPage {
-
   public disableNavButtons: boolean = false;
 
   constructor(
@@ -25,7 +24,7 @@ export class AuthPage {
     if (!this.disableNavButtons) {
       this.disableNavButtons = true;
       await this.router.navigateByUrl(path, { replaceUrl });
-      this.disableNavButtons = false;
     }
+    this.disableNavButtons = false;
   }
 }

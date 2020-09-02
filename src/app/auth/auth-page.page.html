@@ -5,17 +5,15 @@
         <ion-icon name="arrow-back"></ion-icon>
         <ion-label>Home</ion-label>
       </ion-chip>
-    </ion-buttons>
-
+    </ion-buttons>    
+    
     <ion-title>
-      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo.webp"></ion-img>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo.png"></ion-img>
     </ion-title>
 
-    <ion-buttons class="right-buttons" slot="end">
-      <ion-chip color="primary" (click)="navTo('app', true)">
-        <ion-label>App</ion-label>
-        <ion-icon name="arrow-forward"></ion-icon>
-      </ion-chip>
+    <ion-buttons slot="end" class="right-buttons">
+      <ion-label class="hide-label" color="primary">Main Menu</ion-label>
+      <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

@@ -297,7 +297,8 @@ export class FilterService {
 
       this.updateFilterSaved(true);
       result = true;
-    } catch (e) {
+    } catch (error) {
+      console.log('Could not save filters. Service returned this error: ', error);
       this.updateFilterSaved(false);
       result = false;
     }
@@ -311,7 +312,8 @@ export class FilterService {
       let loadedFilter;
 
       if (local) {
-        loadedFilter = JSON.parse(await this.storage.get('neutrify_filters'));
+        let localFilters = await this.storage.get('neutrify_filters');
+        loadedFilter = JSON.parse(localFilters);
       } else {
         loadedFilter = (await this.neutrifyAPI.ConfigByOwner(username, null, null , 1)).items[0];
       }

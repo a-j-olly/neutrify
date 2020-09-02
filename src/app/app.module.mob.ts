@@ -20,10 +20,12 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
 import { AdMob } from '@admob-plus/ionic';
 import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
 import { Keychain } from '@ionic-native/keychain/ngx';
+import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainMenuComponent
   ],
   imports: [
     BrowserModule,

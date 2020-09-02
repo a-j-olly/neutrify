@@ -76,6 +76,7 @@ export class NewsFeedService {
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
     }
+    
     this.filterService.updateFilterLoading(false);
   }
 
@@ -204,8 +205,6 @@ export class NewsFeedService {
     } else {
       this.ga.eventEmitter('refresh_fab', 'engagement', 'Refreshed feed');
     }
-
-    this.updateIsFeedUpdatingStatus(false);
   }
 
   public setDisplayThreshold(platformHeight: number): number {

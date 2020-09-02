@@ -20,20 +20,20 @@ import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-am
 import { Keychain } from '@ionic-native/keychain/ngx';
 import { HomePage } from './home/home.page';
 import { CtaComponent } from './home/cta/cta.component';
-import { FooterComponent } from './home/footer/footer.component';
 import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
 import { SupportComponent } from './home/support/support.component';
 import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
+import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePage,
     CtaComponent,
-    FooterComponent,
     PrivacyPolicyComponent,
     SupportComponent,
-    TermsConditionsComponent
+    TermsConditionsComponent,
+    MainMenuComponent
   ],
   imports: [
     BrowserModule,

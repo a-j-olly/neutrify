@@ -23,8 +23,10 @@ export class AuthService {
   userId: string;
   configId: string;
 
-  private filtersInitStatus = false;  
+  public filtersInitStatus = false;  
   public filtersInitStatus$ = new Subject<boolean>();
+
+  public userEmail$ = new Subject<string>();
 
   constructor(
     private amplifyService: AmplifyService,
@@ -44,18 +46,19 @@ export class AuthService {
       } else {
         this.user = authState.user;
         if (this.signedIn) {
-          this.userEmail = this.user.attributes.email;
+          this.updateUserEmail(this.user.attributes.email);
         }
       }
 
-      try {
-        if (state === 'signedIn' || state === 'guest') {
+
+      if (state === 'signedIn' || state === 'guest') {
+        try {
           await this.handleInitialLoad();
           this.updateFiltersInitStatus(true);
+        } catch (err) {
+          console.log('Could not load your filters. Service returned this error: ', err);
+          alert('Could not load your filters. Please check your network conntection.');
         }
-      } catch (err) {
-        console.log('Could not load your filters. Service returned this error: ', err);
-        alert('Could not load your filters. Please check your network conntection.');
       }
     });
   }
@@ -67,6 +70,15 @@ export class AuthService {
 
   public getFiltersInitStatus() {
     return this.filtersInitStatus$.asObservable();
+  }
+
+  public async updateUserEmail(email: string) {
+    this.userEmail = email;
+    this.userEmail$.next(email);
+  }
+
+  public getUserEmail() {
+    return this.userEmail$.asObservable();
   }
 
   async handleInitialLoad() {
@@ -181,7 +193,7 @@ export class AuthService {
     try {
       await Auth.signOut();
       this.user = null;
-      this.userEmail = null;
+      this.updateUserEmail(null);
       this.userId = null;
       return true;
     } catch (e) {

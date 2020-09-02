@@ -1,4 +1,3 @@
-import { environment } from './../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
@@ -9,7 +8,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
 import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { MetaService } from './services/meta.service';
@@ -23,7 +21,7 @@ export class AppComponent {
   @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
   @ViewChild('mainMenuContainer', { read: ViewContainerRef }) mainMenuContainer: ViewContainerRef;
 
-  hasFilterView: boolean = false;
+  private hasFilterMenuViewInit: boolean = false;
 
   public menuStatus = false;
   private menuSubscription$: Subscription;
@@ -54,12 +52,12 @@ export class AppComponent {
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
     });
-
+    
     this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => {
       this.filtersInitStatus = status;
 
-      if (this.filtersInitStatus && !this.hasFilterView) {
-        this.loadMenuComponents();
+      if (this.filtersInitStatus && !this.hasFilterMenuViewInit) {
+        this.loadFilterMenu();
       }
     });
     
@@ -72,17 +70,16 @@ export class AppComponent {
     this.meta.updateTitle();
   }
 
-  private loadMenuComponents() {
+  private loadFilterMenu() {
     // Dynamic import, activate code splitting and on demand loading of feature module
-    import('./menu/menu.module').then(({ MenuComponentModule }) => {
+    import('./menu/filter-menu/filter-menu.module').then(({ FilterMenuModule }) => {
       // Compile the module
-      this.compiler.compileModuleAsync(MenuComponentModule).then(moduleFactory => {
+      this.compiler.compileModuleAsync(FilterMenuModule).then(moduleFactory => {
         // Create a moduleRef, resolve an entry component, create the component
         const moduleRef = moduleFactory.create(this.injector);
-        const { filterMenuFactory, mainMenuFactory } = moduleRef.instance.resolveComponents();
-        <ComponentRef<MainMenuComponent>> this.mainMenuContainer.createComponent(mainMenuFactory, null, moduleRef.injector);
+        const filterMenuFactory = moduleRef.instance.resolveFilterMenuComponent();
         <ComponentRef<FilterMenuComponent>> this.filterMenuContainer.createComponent(filterMenuFactory, null, moduleRef.injector);
-        this.hasFilterView = true;
+        this.hasFilterMenuViewInit = true;
       });
     });
   }
@@ -114,7 +111,7 @@ export class AppComponent {
   }
 
   async configureDarkmode() {
-    const displayDarkMode = await this.storage.get('ion_display_dark_mode');
+    const displayDarkMode = await this.storage.get('neutrify_dark_mode');
 
     if (displayDarkMode !== undefined && displayDarkMode !== null) {
       this.toggleDarkTheme(displayDarkMode);

@@ -26,6 +26,8 @@ export class AuthService {
   public filtersInitStatus = false;  
   public filtersInitStatus$ = new Subject<boolean>();
 
+  public userEmail$ = new Subject<string>();
+
   constructor(
     private amplifyService: AmplifyService,
     private neutrifyAPI: APIService,
@@ -44,7 +46,7 @@ export class AuthService {
       } else {
         this.user = authState.user;
         if (this.signedIn) {
-          this.userEmail = this.user.attributes.email;
+          this.updateUserEmail(this.user.attributes.email);
         }
       }
 
@@ -68,6 +70,15 @@ export class AuthService {
 
   public getFiltersInitStatus() {
     return this.filtersInitStatus$.asObservable();
+  }
+
+  public async updateUserEmail(email: string) {
+    this.userEmail = email;
+    this.userEmail$.next(email);
+  }
+
+  public getUserEmail() {
+    return this.userEmail$.asObservable();
   }
 
   async handleInitialLoad() {
@@ -182,7 +193,7 @@ export class AuthService {
     try {
       await Auth.signOut();
       this.user = null;
-      this.userEmail = null;
+      this.updateUserEmail(null);
       this.userId = null;
       return true;
     } catch (e) {

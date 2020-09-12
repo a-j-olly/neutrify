@@ -32,6 +32,12 @@ ion-buttons {
     &.right-buttons {
         right: 0px;
     }
+
+    .hide-label {
+        @media screen and (max-width: 600px) {
+            display: none;
+        }
+    }
 }
 
 ion-chip {

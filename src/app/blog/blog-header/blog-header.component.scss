@@ -22,4 +22,10 @@ ion-buttons {
     ion-chip {
         padding: 5px;
     }
+    
+    .hide-label {
+        @media screen and (max-width: 600px) {
+            display: none;
+        }
+    }
 }

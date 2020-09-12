@@ -5,11 +5,11 @@ import { IonContent, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
-  selector: 'app-unbiased-news',
-  templateUrl: './unbiased-news.page.html',
-  styleUrls: ['./unbiased-news.page.scss'],
+  selector: 'app-media-bias',
+  templateUrl: './media-bias.page.html',
+  styleUrls: ['./media-bias.page.scss'],
 })
-export class UnbiasedNewsPage {
+export class MediaBiasPage {
   @ViewChild('content') content: IonContent;
 
   constructor(
@@ -19,7 +19,7 @@ export class UnbiasedNewsPage {
     private platform: Platform,
     private inAppBrowser: InAppBrowser
   ) {
-    const pageDescription = 'Follow these 5 tips to become better informed, and less susceptable to media manipulation. Media Bias, Framing, Opinion Columns and More!';
+    const pageDescription = 'Discover 10 ways media bias misleads you and become less susceptable to media manipulation. Sensationalism, Gatekeeping, Statement Bias and More!';
     this.meta.updateMetaInfo(pageDescription);
   }
 

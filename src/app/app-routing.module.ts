@@ -6,6 +6,7 @@ import { CtaComponent } from './home/cta/cta.component';
 import { PrivacyPolicyComponent } from './home/privacy-policy/privacy-policy.component';
 import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
 import { SupportComponent } from './home/support/support.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { 
@@ -52,16 +53,19 @@ const routes: Routes = [
     },
   ], data: {
       title: 'Neutrify: Filter Out The Hysteria'
-    }, canActivate: [AuthGuardService] 
+    }, canActivate: [AuthGuardService]
   },
   { 
     path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] 
   },
   { 
-    path: 'unbiased-news', loadChildren: () => import('./blog/unbiased-news/unbiased-news.module').then( m => m.UnbiasedNewsPageModule),
+    path: 'blog', loadChildren: () => import('./blog/blog.module').then( m => m.BlogPageModule), canActivate: [AuthGuardService]
+  },
+  { 
+    path: '**', component: PageNotFoundComponent, canActivate: [AuthGuardService],
     data: {
-      title: 'Unbiased News - 5 Tips To Help You Become Better Informed'
-    }
+      title: 'Neutrify: Page Not Found' 
+    }, 
   },
 ];
 

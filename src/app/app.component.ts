@@ -19,7 +19,6 @@ import { MetaService } from './services/meta.service';
 })
 export class AppComponent {
   @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
-  @ViewChild('mainMenuContainer', { read: ViewContainerRef }) mainMenuContainer: ViewContainerRef;
 
   private hasFilterMenuViewInit: boolean = false;
 
@@ -63,6 +62,7 @@ export class AppComponent {
     
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        this.menuService.updateCurrentRoute(event.urlAfterRedirects);
         this.ga.configEmitter(event.urlAfterRedirects);
       }
     });

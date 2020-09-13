@@ -312,8 +312,7 @@ export class FilterService {
       let loadedFilter;
 
       if (local) {
-        let localFilters = await this.storage.get('neutrify_filters');
-        loadedFilter = JSON.parse(localFilters);
+        loadedFilter = JSON.parse(await this.storage.get('neutrify_filters'));
       } else {
         loadedFilter = (await this.neutrifyAPI.ConfigByOwner(username, null, null , 1)).items[0];
       }

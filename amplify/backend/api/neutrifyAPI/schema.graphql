@@ -39,7 +39,7 @@ type Article @model(mutations: null, subscriptions: null)
 }
 
 # Used to store most user information 
-type User @model(subscriptions: null) 
+type User @model(subscriptions: null)
     @auth(rules:  [{ allow: owner, ownerField: "ownerId", operations: [ create, update, delete, read ] }])
     @key(name: "ByOwner" fields: ["ownerId"], queryField: "userByOwner")
 {

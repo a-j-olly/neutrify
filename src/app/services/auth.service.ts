@@ -6,8 +6,7 @@ import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
 import { Auth } from 'aws-amplify';
-import { retryWhen, delayWhen, tap } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
 const uuid = require('uuid/v4');
 
@@ -16,7 +15,6 @@ const uuid = require('uuid/v4');
 })
 export class AuthService {
   signedIn = false;
-  hasLoadedFilters = false;
   state: string;
   user: any;
   userEmail: string;
@@ -25,46 +23,62 @@ export class AuthService {
   userId: string;
   configId: string;
 
+  public filtersInitStatus = false;  
+  public filtersInitStatus$ = new Subject<boolean>();
+
+  public userEmail$ = new Subject<string>();
+
   constructor(
-      private amplifyService: AmplifyService,
-      private neutrifyAPI: APIService,
-      private filterService: FilterService,
-      private menu: MenuController,
-      private ga: GoogleAnalyticsService,
-      private storage: Storage
-    ) {
-      this.amplifyService.authStateChange$.pipe(
-        retryWhen(errors => errors.pipe(
-          delayWhen(() => timer(5000)),
-          tap(() => console.log('An error has occured with amplify\'s auth service, the error is as follows: ', errors))
-        ))
-      ).subscribe(async authState => {
-        const state = authState.state;
-        this.state = authState.state;
-        this.signedIn = this.state === 'signedIn';
+    private amplifyService: AmplifyService,
+    private neutrifyAPI: APIService,
+    private filterService: FilterService,
+    private menu: MenuController,
+    private ga: GoogleAnalyticsService,
+    private storage: Storage
+  ) {
+    this.amplifyService.authStateChange$.subscribe(async authState => {
+      const state = authState.state;
+      this.state = authState.state;
+      this.signedIn = this.state === 'signedIn';
 
-        if (!authState.user) {
-          this.user = await Auth.currentCredentials();
-        } else {
-          this.user = authState.user;
-          if (this.signedIn) {
-            this.userEmail = this.user.attributes.email;
-          }
+      if (!authState.user) {
+        this.user = await Auth.currentCredentials();
+      } else {
+        this.user = authState.user;
+        if (this.signedIn) {
+          this.updateUserEmail(this.user.attributes.email);
         }
+      }
 
+
+      if (state === 'signedIn' || state === 'guest') {
         try {
-          if (state !== 'signedOut' && state !== 'signIn' && state !== 'resetPassword' && state !== 'confirmSignUp' && state !== 'signUp') {
-            await this.handleInitialLoad();
-            this.hasLoadedFilters = true;
-          } else {
-            this.hasLoadedFilters = false;
-          }
+          await this.handleInitialLoad();
+          this.updateFiltersInitStatus(true);
         } catch (err) {
-          this.hasLoadedFilters = false;
           console.log('Could not load your filters. Service returned this error: ', err);
           alert('Could not load your filters. Please check your network conntection.');
         }
-      });
+      }
+    });
+  }
+
+  public async updateFiltersInitStatus(isSaved: boolean) {
+    this.filtersInitStatus = isSaved;
+    this.filtersInitStatus$.next(isSaved);
+  }
+
+  public getFiltersInitStatus() {
+    return this.filtersInitStatus$.asObservable();
+  }
+
+  public async updateUserEmail(email: string) {
+    this.userEmail = email;
+    this.userEmail$.next(email);
+  }
+
+  public getUserEmail() {
+    return this.userEmail$.asObservable();
   }
 
   async handleInitialLoad() {
@@ -161,8 +175,7 @@ export class AuthService {
     const localfilters = await this.storage.get('neutrify_filters');
 
     if (localfilters !== null && localfilters !== undefined) {
-      newConfig = JSON.parse(localfilters);
-      this.configId = newConfig.id;
+      this.configId = JSON.parse(localfilters).id;
     } else {
       newConfig = this.filterService.blankFilterObj(this.configId);
     }
@@ -179,7 +192,7 @@ export class AuthService {
     try {
       await Auth.signOut();
       this.user = null;
-      this.userEmail = null;
+      this.updateUserEmail(null);
       this.userId = null;
       return true;
     } catch (e) {

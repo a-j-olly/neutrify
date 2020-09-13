@@ -2,7 +2,7 @@ import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform, ToastController, IonContent } from '@ionic/angular';
 import { MenuService } from '../services/menu.service';
-import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FilterService } from '../services/filter.service';
 import { formatDistanceToNow } from 'date-fns';
 import { NewsFeedService } from '../services/news-feed.service';
@@ -193,7 +193,7 @@ export class NewsFeedComponent implements OnInit {
       this.readyArticles = [];
     }
 
-    if (this.displayArticles.length >= 3 * this.displayThreshold && !this.platform.is('ios')) {
+    if (this.displayArticles.length >= 3 * this.displayThreshold) {
       this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
 
       if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {

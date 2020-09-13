@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -9,14 +9,20 @@ import { KeychainService } from 'src/app/services/keychain.service';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 import { Storage } from '@ionic/storage';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent implements OnInit {
-  public userEmail: string;
+export class MainMenuComponent {
+  public userEmail: string = this.authService.userEmail;
+  private userEmail$: Subscription;
+
+  public currentRoute: string = '';
+  private currentRoute$: Subscription;
+
   private platformSource: string;
   private _darkMode: boolean;
 
@@ -47,7 +53,7 @@ export class MainMenuComponent implements OnInit {
   ) {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
-      const displayDarkMode = await this.storage.get('ion_display_dark_mode');
+      const displayDarkMode = await this.storage.get('neutrify_dark_mode');
 
       if (displayDarkMode !== undefined && displayDarkMode !== null) {
         this.darkMode = displayDarkMode;
@@ -58,10 +64,9 @@ export class MainMenuComponent implements OnInit {
         this.darkMode = media.matches;
       }
     });
-  }
 
-  ngOnInit() {
-    this.userEmail = this.authService.userEmail;
+    this.userEmail$ = this.authService.getUserEmail().subscribe((email: string) => this.userEmail = email);
+    this.currentRoute$ = this.menuService.getCurrentRoute().subscribe((currentRoute: string) => this.currentRoute = currentRoute);
   }
 
   async toggleTheme(event) {
@@ -79,7 +84,7 @@ export class MainMenuComponent implements OnInit {
       }
     }
 
-    this.storage.set('ion_display_dark_mode', this.darkMode);
+    this.storage.set('neutrify_dark_mode', this.darkMode);
   }
 
   async detectTheme(): Promise<void> {
@@ -92,19 +97,9 @@ export class MainMenuComponent implements OnInit {
     }).catch((error: any) => console.error(error));
   }
 
-  async signIn() {
-    await this.hideMenus();
-    await this.router.navigateByUrl('/auth/sign-in');
-  }
-
   async signOut() {
     await this.hideMenus();
     await this.presentAlertConfirmSignout();
-  }
-
-  async createAccount() {
-    await this.hideMenus();
-    this.router.navigateByUrl('/auth/create-account');
   }
 
   async deleteAccount() {
@@ -112,9 +107,19 @@ export class MainMenuComponent implements OnInit {
     await this.presentAlertConfirmDelete();
   }
 
-  async goToHelp() {
+  async navTo(path: string) {
     await this.hideMenus();
-    await this.router.navigateByUrl('/app/help');
+    await this.router.navigateByUrl(path);
+  }
+
+  async openPage(url: string) {
+    await this.hideMenus();
+    if (this.platformSource === 'dom' && url.startsWith('https://neutrify.news')) {
+      const path = url.split('https://neutrify.news')[1];
+      this.router.navigateByUrl(path);
+    } else {
+      this.inAppBrowser.create(encodeURI(url), '_system');
+    }
   }
 
   async presentAlertConfirmSignout() {
@@ -205,10 +210,6 @@ export class MainMenuComponent implements OnInit {
     this.menuService.closeMenu();
     await this.menu.close('filterMenu');
     await this.menu.close('mainMenu');
-  }
-
-  async openPage(url: string) {
-    this.inAppBrowser.create(encodeURI(url), '_system');
   }
 
   async presentToast(message, color) {

@@ -1,5 +1,5 @@
-import { GoogleAnalyticsService } from './../../services/google-analytics.service';
-import { AuthService } from './../../services/auth.service';
+import { GoogleAnalyticsService } from '../../services/google-analytics.service';
+import { AuthService } from '../../services/auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
@@ -33,28 +33,28 @@ export class FilterMenuComponent {
     public authService: AuthService,
     private toastController: ToastController,
     private ga: GoogleAnalyticsService
-    ) {
-      this.filterOptions = this.filterService.filterOptions;
+  ) {
+    this.filterOptions = this.filterService.filterOptions;
+    this.initOptions();
+    this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
+      this.filtersSaved = status;
+    });
+
+    this.filtersLoadedSubcription$ = this.filterService.getFilterLoadedStatus().subscribe(async (status) => {
+      if (this.filtersSaved) {
+        await this.initOptions();
+      }
+    });
+
+    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (filters) => {
+      this.filterOptions = filters;
       this.initOptions();
-      this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
-        this.filtersSaved = status;
-      });
+    });
 
-      this.filtersLoadedSubcription$ = this.filterService.getFilterLoadedStatus().subscribe(async (status) => {
-        if (this.filtersSaved) {
-          await this.initOptions();
-        }
-      });
-
-      this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (filters) => {
-        this.filterOptions = filters;
-        this.initOptions();
-      });
-
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
-      });
-    }
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
+    });
+  }
 
   async initOptions() {
 

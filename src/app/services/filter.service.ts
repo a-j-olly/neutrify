@@ -297,7 +297,8 @@ export class FilterService {
 
       this.updateFilterSaved(true);
       result = true;
-    } catch (e) {
+    } catch (error) {
+      console.log('Could not save filters. Service returned this error: ', error);
       this.updateFilterSaved(false);
       result = false;
     }

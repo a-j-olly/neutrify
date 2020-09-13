@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { environment } from 'src/environments/environment';
+import { GoogleAnalyticsService } from 'src/app/services/google-analytics.service';
 
 @Component({
   selector: 'app-cta',
@@ -22,7 +23,8 @@ export class CtaComponent {
     private alertController: AlertController,
     private storage: Storage,
     private platform: Platform,
-    private inAppBrowser: InAppBrowser
+    private inAppBrowser: InAppBrowser,
+    private ga: GoogleAnalyticsService
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -45,6 +47,10 @@ export class CtaComponent {
   }
 
   navTo(path: string) {
+    if (path === '/app') {
+      this.ga.eventEmitter('guest_login', 'engagement', 'Guest login');
+    }
+
     this.router.navigateByUrl(path);
   }
 

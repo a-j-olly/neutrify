@@ -9,7 +9,6 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   constructor(
     public authService: AuthService,
     private router: Router,
@@ -31,7 +30,7 @@ export class HomePage {
   }
 
   navToHome() {
-    this.router.navigateByUrl('/home/welcome');
+    this.router.navigateByUrl('/home');
   }
 
   async presentAlertConfirm() {

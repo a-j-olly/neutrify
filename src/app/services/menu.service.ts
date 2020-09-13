@@ -9,23 +9,35 @@ export class MenuService {
   private showMenu = true;
   public showMenu$ = new Subject<boolean>();
 
-  toggleMenu() {
+  public currentRoute: string = '';
+  private currentRoute$ = new Subject<string>();
+
+  public toggleMenu() {
     this.showMenu = !this.showMenu;
     this.showMenu$.next(this.showMenu);
   }
 
-  closeMenu() {
+  public closeMenu() {
     this.showMenu = false;
     this.showMenu$.next(this.showMenu);
   }
 
-  openMenu() {
+  public openMenu() {
     this.showMenu = true;
     this.showMenu$.next(this.showMenu);
   }
 
-  getMenuStatus(): Observable<boolean> {
+  public updateCurrentRoute(newRoute: string) {
+    this.currentRoute = newRoute;
+    this.currentRoute$.next(this.currentRoute);
+  }
+
+  public getMenuStatus(): Observable<boolean> {
     return this.showMenu$.asObservable();
+  }
+
+  public getCurrentRoute(): Observable<string> {
+    return this.currentRoute$.asObservable();
   }
 
   constructor() { }

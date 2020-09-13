@@ -1,17 +1,16 @@
-import { environment } from './../environments/environment';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Compiler, Injector, ComponentRef } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
 import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
-
-// tslint:disable-next-line:ban-types
-declare let gtag: Function;
+import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
+import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { MetaService } from './services/meta.service';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +18,22 @@ declare let gtag: Function;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  private menuSubscription$: Subscription;
+  @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
+
+  private hasFilterMenuViewInit: boolean = false;
+
   public menuStatus = false;
+  private menuSubscription$: Subscription;
+
   private prefersDark;
   private platformSource: string;
 
+  public filtersInitStatus: boolean = false;
+  private filtersInitStatus$: Subscription;
+
   constructor(
+    private compiler: Compiler,
+    private injector: Injector,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -32,19 +41,47 @@ export class AppComponent {
     public authService: AuthService,
     public router: Router,
     private themeDetection: ThemeDetection,
-    private storage: Storage
+    private storage: Storage,
+    private ga: GoogleAnalyticsService,
+    private meta: MetaService
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        gtag('config', environment.gaTrackingId, { page_path: event.urlAfterRedirects });
-      }
-    });
+
+    this.initializeApp();
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
     });
+    
+    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => {
+      this.filtersInitStatus = status;
 
-    this.initializeApp();
+      if (this.filtersInitStatus && !this.hasFilterMenuViewInit) {
+        this.loadFilterMenu();
+      }
+    });
+    
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.menuService.updateCurrentRoute(event.urlAfterRedirects);
+        this.ga.configEmitter(event.urlAfterRedirects);
+      }
+    });
+
+    this.meta.updateTitle();
+  }
+
+  private loadFilterMenu() {
+    // Dynamic import, activate code splitting and on demand loading of feature module
+    import('./menu/filter-menu/filter-menu.module').then(({ FilterMenuModule }) => {
+      // Compile the module
+      this.compiler.compileModuleAsync(FilterMenuModule).then(moduleFactory => {
+        // Create a moduleRef, resolve an entry component, create the component
+        const moduleRef = moduleFactory.create(this.injector);
+        const filterMenuFactory = moduleRef.instance.resolveFilterMenuComponent();
+        <ComponentRef<FilterMenuComponent>> this.filterMenuContainer.createComponent(filterMenuFactory, null, moduleRef.injector);
+        this.hasFilterMenuViewInit = true;
+      });
+    });
   }
 
   toggleMenu() {
@@ -74,7 +111,7 @@ export class AppComponent {
   }
 
   async configureDarkmode() {
-    const displayDarkMode = await this.storage.get('ion_display_dark_mode');
+    const displayDarkMode = await this.storage.get('neutrify_dark_mode');
 
     if (displayDarkMode !== undefined && displayDarkMode !== null) {
       this.toggleDarkTheme(displayDarkMode);

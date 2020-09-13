@@ -175,8 +175,7 @@ export class AuthService {
     const localfilters = await this.storage.get('neutrify_filters');
 
     if (localfilters !== null && localfilters !== undefined) {
-      newConfig = JSON.parse(localfilters);
-      this.configId = newConfig.id;
+      this.configId = JSON.parse(localfilters).id;
     } else {
       newConfig = this.filterService.blankFilterObj(this.configId);
     }

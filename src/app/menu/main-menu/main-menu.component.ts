@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -19,6 +19,9 @@ import { Subscription } from 'rxjs';
 export class MainMenuComponent {
   public userEmail: string = this.authService.userEmail;
   private userEmail$: Subscription;
+
+  public currentRoute: string = '';
+  private currentRoute$: Subscription;
 
   private platformSource: string;
   private _darkMode: boolean;
@@ -63,6 +66,7 @@ export class MainMenuComponent {
     });
 
     this.userEmail$ = this.authService.getUserEmail().subscribe((email: string) => this.userEmail = email);
+    this.currentRoute$ = this.menuService.getCurrentRoute().subscribe((currentRoute: string) => this.currentRoute = currentRoute);
   }
 
   async toggleTheme(event) {

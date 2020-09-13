@@ -2,7 +2,7 @@
 
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <ion-item class="ion-activatable" tappable (click)="navTo('/app')">
+    <ion-item class="ion-activatable" tappable *ngIf="currentRoute !== '/app'" (click)="navTo('/app')">
       <ion-icon slot="start" name="play" color="primary"></ion-icon>
       <ion-label><b>Go To App</b></ion-label>
     </ion-item>

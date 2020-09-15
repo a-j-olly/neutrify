@@ -11,10 +11,7 @@ export class DelayedScriptLoader {
  
 		this.delayInMilliseconds = delayInMilliseconds;
 		this.scriptPromise = null;
-		this.urls = Array.isArray( urls )
-			? urls
-			: [ urls ]
-		;
+		this.urls = Array.isArray( urls ) ? urls : [ urls ];
  
 	}
  
@@ -90,31 +87,26 @@ export class DelayedScriptLoader {
 	// I inject a Script tag with the given URL into the head. Returns a Promise.
 	private loadScript( url: string ) : Promise<any> {
  
-		var promise = new Promise(
-			( resolve, reject ) => {
+		var promise = new Promise(( resolve, reject ) => {
  
-				var commentNode = document.createComment( " Script injected via DelayedScriptLoader. " );
- 
-                var scriptNode = document.createElement( "script" );
-                scriptNode.async = true;
-				scriptNode.type = "text/javascript";
-				scriptNode.onload = resolve;
-				scriptNode.onerror = reject;
-                scriptNode.src = url;
+			var commentNode = document.createComment( "Script injected via DelayedScriptLoader." );
+			var scriptNode = document.createElement( "script" );
 
-				document.head.appendChild( commentNode );
-                document.head.appendChild( scriptNode );
+			scriptNode.async = true;
+			scriptNode.type = "text/javascript";
+			scriptNode.onload = resolve;
+			scriptNode.onerror = reject;
+			scriptNode.src = url;
+			document.head.appendChild( commentNode );
+			document.head.appendChild( scriptNode );
 
-                var gtagNode = document.createElement( "script" );
-                gtagNode.innerHTML = ( window as any ).dataLayer = ( window as any ).dataLayer || [];let func: Function = function gtag() {(window as any).dataLayer.push(arguments);};
-                gtagNode.onload = resolve;
-				gtagNode.onerror = reject;
-                
-                document.head.appendChild( gtagNode );
-
-                func('js', new Date());
-			}
-		);
+			var gtagNode = document.createElement( "script" );
+			gtagNode.innerHTML = ( window as any ).dataLayer = ( window as any ).dataLayer || [];let func: Function = function gtag() {(window as any).dataLayer.push(arguments);};
+			gtagNode.onload = resolve;
+			gtagNode.onerror = reject;
+			document.head.appendChild( gtagNode );
+			func('js', new Date());
+		});
  
 		return( promise );
 	}

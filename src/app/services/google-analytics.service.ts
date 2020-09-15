@@ -11,15 +11,14 @@ export class GoogleAnalyticsService {
   	private scriptLoader: DelayedScriptLoader;
 
 	constructor() { 
-		this.scriptLoader = new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 5 * 1000 ) );
+		this.scriptLoader = new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 10 * 1000 ) );
 	}
   
   public eventEmitter(
     eventAction: string,
     eventCategory: string = null,
     eventLabel: string = null,
-    eventValue: number = null ) 
-    {
+	eventValue: number = null ) {
       this.run((analytics: Function) => {
 
         analytics('event', eventAction, {
@@ -28,7 +27,7 @@ export class GoogleAnalyticsService {
           event_value: eventValue
         });
       });
-  }
+  	}
 
   public configEmitter(urlAfterRedirects) {
     this.run((analytics: Function) => {

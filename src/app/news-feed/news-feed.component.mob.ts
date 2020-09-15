@@ -6,7 +6,6 @@ import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { FilterService } from '../services/filter.service';
 import { formatDistanceToNow } from 'date-fns';
 import { NewsFeedService } from '../services/news-feed.service';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AdMob } from '@admob-plus/ionic';
 import { environment } from 'src/environments/environment';
 
@@ -59,7 +58,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private content: IonContent,
     public newsFeedService: NewsFeedService,
-    private screenOrientation: ScreenOrientation,
     private admob: AdMob,
   ) {
     this.platform.ready().then((readySource) => {
@@ -67,7 +65,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
 
-      this.screenOrientation.unlock();
       this.admob.setAppVolume(0);
 
       if (!environment.production) {

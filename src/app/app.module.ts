@@ -25,6 +25,9 @@ import { SupportComponent } from './home/support/support.component';
 import { TermsConditionsComponent } from './home/terms-conditions/terms-conditions.component';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ReactiveFormsModule,
     AppRoutingModule,
     AmplifyAngularModule,
-    AmplifyIonicModule
+    AmplifyIonicModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     APIService,
@@ -55,6 +59,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     InAppBrowser,
+    ScreenOrientation,
     ThemeDetection,
     Keychain
   ],

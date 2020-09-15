@@ -11,6 +11,7 @@ import { Storage } from '@ionic/storage';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { MetaService } from './services/meta.service';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +44,8 @@ export class AppComponent {
     private themeDetection: ThemeDetection,
     private storage: Storage,
     private ga: GoogleAnalyticsService,
-    private meta: MetaService
+    private meta: MetaService,
+    private screenOrientation: ScreenOrientation
   ) {
 
     this.initializeApp();
@@ -127,9 +129,14 @@ export class AppComponent {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
 
-      if (this.platformSource !== 'dom' && this.platform.is('android')) {
-        this.statusBar.backgroundColorByHexString('#333');
-        this.statusBar.styleLightContent();
+      if (this.platformSource !== 'dom') {
+        this.screenOrientation.unlock();
+
+        if (this.platform.is('android')) {
+          this.statusBar.backgroundColorByHexString('#333');
+          this.statusBar.styleLightContent();
+        }
+
       } else if (this.platform.is('ios')) {
         this.statusBar.styleDefault();
       }

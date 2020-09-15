@@ -50,7 +50,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
     AppRoutingModule,
     AmplifyAngularModule,
     AmplifyIonicModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js')
   ],
   providers: [
     APIService,

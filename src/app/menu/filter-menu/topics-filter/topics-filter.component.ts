@@ -11,7 +11,7 @@ import {
   Computers,
   Home,
   Shopping
-} from '../../../model/topic-options';
+} from '../../../../assets/model/topic-options';
 import { FilterService } from 'src/app/services/filter.service';
 import { Subscription } from 'rxjs';
 

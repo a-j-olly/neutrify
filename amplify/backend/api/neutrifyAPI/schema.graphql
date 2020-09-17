@@ -5,6 +5,7 @@ type Article @model(mutations: null, subscriptions: null)
     @auth(rules: [{ allow: public, operations: [read], provider: iam }])
 {
     authors: [String!]
+    biasRating: String
     body: String!
     createdAt: AWSDateTime
     dataType: String!
@@ -21,7 +22,6 @@ type Article @model(mutations: null, subscriptions: null)
     image: String
     keywords: [String!]
     language: String
-    quality: Int
     share: Int
     similarity: Float
     time: String

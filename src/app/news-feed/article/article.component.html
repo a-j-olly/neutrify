@@ -19,18 +19,18 @@
           </ion-grid>
         </ion-slide>
 
-        <ion-slide class="img-container" *ngIf="article.image">
+        <ion-slide class="slide-container" *ngIf="article.image">
           <img [hidden]="!showImage" src="{{ article.image }}" alt="Loading image..." (click)="viewImage()" loading="eager"/>
         </ion-slide>
 
-        <ion-slide *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 
+        <ion-slide class="slide-container" *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 
           article.displaySourceCountry || (article.displayKeywords && article.displayKeywords.length > 0) || article.wordCount">
             <div class="metrics-line-wrap">
               <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
                 <ion-row class="ion-justify-content-center">
                   <h4>Topics</h4>
                 </ion-row>
-                <ion-row class="ion-text-wrap ion-justify-content-start">
+                <ion-row class="ion-text-wrap ion-justify-content-center">
                   <p>
                     <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
                       {{ topic }}{{ i === article.displayTopics.length - 1 ? "" : ","}}
@@ -38,56 +38,6 @@
                   </p>
                 </ion-row>
               </div>
-
-              <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
-                <div class="metric-item ion-no-margin ion-no-padding">
-                  <ion-row class="ion-justify-content-center">
-                      <h4>Attitude</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
-                      value="{{ article.tone >= 0 ? '0' : article.tone}}"></ion-range>
-                    <ion-range min="0" max="1" step="0.1" color="primary"
-                    value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
-                  </ion-row>
-                </div>
-
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>News Source</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <p class="clickable" (click)="openFilterPopover($event, 'sources', article.displaySourceTitle)">{{ article.displaySourceTitle }}</p>
-                  </ion-row>
-                </div>
-                  
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>Word Count</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <p>{{ article.wordCount }}</p>
-                  </ion-row>
-                </div>
-  
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>Article Origin</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <p class="clickable" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</p>
-                  </ion-row>
-                </div>
-
-                <div class="metric-item">
-                  <ion-row class="ion-justify-content-center">
-                    <h4>Date Published</h4>
-                  </ion-row>
-                  <ion-row class="ion-justify-content-center">
-                    <p>{{ datePublished }}<p>
-                  </ion-row>
-                </div>
-              </ion-row>
 
               <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
                 <ion-row class="ion-justify-content-center">
@@ -102,6 +52,70 @@
                 </ion-row>
               </div>
             </div>
+        </ion-slide>
+
+        <ion-slide class="slide-container">
+          <div class="metrics-line-wrap">
+            <ion-row class="ion-justify-content-evenly ion-no-margin ion-no-padding">
+
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>News Source</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <p class="clickable" (click)="openFilterPopover($event, 'sources', article.displaySourceTitle)">{{ article.displaySourceTitle }}</p>
+                </ion-row>
+              </div>
+
+              <div class="metric-item" *ngIf="article.biasRating">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Political Bias</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <p>{{ article.biasRating }}</p>
+                </ion-row>
+              </div>
+
+              <div class="metric-item ion-no-margin ion-no-padding">
+                <ion-row class="ion-justify-content-center">
+                    <h4>Attitude</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"
+                    value="{{ article.tone >= 0 ? '0' : article.tone}}"></ion-range>
+                  <ion-range min="0" max="1" step="0.1" color="primary"
+                  value="{{ article.tone >= 0 ? article.tone : '0' }}"></ion-range>
+                </ion-row>
+              </div>
+                
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Word Count</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <p>{{ article.wordCount }}</p>
+                </ion-row>
+              </div>
+
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Article Origin</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <p class="clickable" (click)="openFilterPopover($event, 'locations', article.displaySourceCountry)">{{ article.displaySourceCountry }}</p>
+                </ion-row>
+              </div>
+
+              <div class="metric-item">
+                <ion-row class="ion-justify-content-center">
+                  <h4>Date Published</h4>
+                </ion-row>
+                <ion-row class="ion-justify-content-center">
+                  <p>{{ datePublished }}<p>
+                </ion-row>
+              </div>
+            </ion-row>
+          </div>
         </ion-slide>
       </ion-slides>
     </ion-col>

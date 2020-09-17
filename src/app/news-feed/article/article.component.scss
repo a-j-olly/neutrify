@@ -57,7 +57,7 @@ ion-slides {
     }
 }
 
-.img-container {
+.slide-container {
     height: 300px;
 
     @media screen and (min-width: 720px) {
@@ -110,7 +110,15 @@ ion-slides {
 .metric-item {
     min-width: 100px;
     max-width: 200px;
-    margin-bottom: 0px;      
+    margin: 10px;
+    margin-bottom: 2px;    
+
+    @media screen and (min-width: 890px) {
+        min-width: 200px;
+        max-width: 400px;
+        margin: 20px;
+        margin-bottom: 4px;   
+    }
 
     h4 {
         color: #999;
@@ -127,6 +135,10 @@ ion-slides {
     min-width: 100px;
     max-width: auto;
     margin-bottom: 10px;
+
+    @media screen and (min-width: 890px) {
+        margin: 20px;
+    }
 
     h4 {
         color: #999;

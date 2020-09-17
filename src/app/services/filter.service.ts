@@ -1,7 +1,7 @@
 import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import * as TopicGroups from '../model/topic-options';
+import * as TopicGroups from '../../assets/model/topic-options';
 import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 

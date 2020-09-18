@@ -2,7 +2,7 @@ import { GoogleAnalyticsService } from './../../services/google-analytics.servic
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ModalController, PopoverController, IonSlides } from '@ionic/angular';
+import { ModalController, PopoverController, IonSlides, Platform } from '@ionic/angular';
 import { format } from 'date-fns';
 import { enGB } from 'date-fns/locale';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -18,6 +18,7 @@ export class ArticleComponent implements OnInit {
   public timePublished: string;
   public showImage: boolean = false;
   public buttonClicked = false;
+  private platformSource: string;
 
   public imageFailed = false;
   public slideOpts = {
@@ -35,7 +36,10 @@ export class ArticleComponent implements OnInit {
     private popoverController: PopoverController,
     private ga: GoogleAnalyticsService,
     private inAppBrowser: InAppBrowser,
-  ) {}
+    private platform: Platform
+  ) {
+    this.platform.ready().then(readySource => this.platformSource = readySource);
+  }
 
   ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
@@ -80,7 +84,13 @@ export class ArticleComponent implements OnInit {
   goToArticle() {
     if (!this.buttonClicked) {
       this.buttonClicked = true;
-      this.inAppBrowser.create(encodeURI(this.article.url), '_system');
+
+      if (this.platformSource === 'dom') {
+        window.open(encodeURI(this.article.url), '_blank');
+      } else {
+        this.inAppBrowser.create(encodeURI(this.article.url), '_system');
+      }
+
       this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
     }
     

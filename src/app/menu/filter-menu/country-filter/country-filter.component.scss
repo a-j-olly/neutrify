@@ -74,18 +74,20 @@ ion-icon {
 
 .tooltip .tooltiptext {
     @media screen and (min-width: 1080px) {
-        font-size: 14px;
+        font-size: 12px;
         width: 240px;
-        top: -11px;
+        top: -13px;
+        line-height: 12px;
     }
 
     @media screen and (min-width: 1600px) {
-        font-size: 16px;
+        font-size: 14px;
         width: 320px;
-        top: -13px;
+        top: -10px;
+        line-height: 14px;
     }
 
-    font-size: 11px;
+    font-size: 10px;
     visibility: hidden;
     width: 200px;
     background-color: black;

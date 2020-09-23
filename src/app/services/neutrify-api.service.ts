@@ -52,6 +52,8 @@ export type CreateConfigInput = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
   updatedAt?: string | null;
   configUserId?: string | null;
 };
@@ -71,6 +73,8 @@ export type UpdateConfigInput = {
   sourcesToExclude?: Array<string | null> | null;
   locationsToInclude?: Array<string | null> | null;
   locationsToExclude?: Array<string | null> | null;
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
   updatedAt?: string | null;
   configUserId?: string | null;
 };
@@ -145,6 +149,8 @@ export type ModelConfigFilterInput = {
   sourcesToExclude?: ModelStringFilterInput | null;
   locationsToInclude?: ModelStringFilterInput | null;
   locationsToExclude?: ModelStringFilterInput | null;
+  biasToInclude?: ModelStringFilterInput | null;
+  biasToExclude?: ModelStringFilterInput | null;
   updatedAt?: ModelStringFilterInput | null;
   and?: Array<ModelConfigFilterInput | null> | null;
   or?: Array<ModelConfigFilterInput | null> | null;
@@ -184,6 +190,7 @@ export type ModelArticleFilterInput = {
   dataType?: ModelStringFilterInput | null;
   date?: ModelStringFilterInput | null;
   datePublished?: ModelStringFilterInput | null;
+  displayBiasRating?: ModelStringFilterInput | null;
   displayAuthors?: ModelStringFilterInput | null;
   displayDateTime?: ModelStringFilterInput | null;
   displayKeywords?: ModelStringFilterInput | null;
@@ -232,6 +239,8 @@ export type CreateUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -275,6 +284,8 @@ export type UpdateUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -318,6 +329,8 @@ export type DeleteUserMutation = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -359,6 +372,8 @@ export type CreateConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  biasToInclude: Array<string | null> | null;
+  biasToExclude: Array<string | null> | null;
   updatedAt: string | null;
   user: {
     __typename: "User";
@@ -378,6 +393,8 @@ export type CreateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -408,6 +425,8 @@ export type UpdateConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  biasToInclude: Array<string | null> | null;
+  biasToExclude: Array<string | null> | null;
   updatedAt: string | null;
   user: {
     __typename: "User";
@@ -427,6 +446,8 @@ export type UpdateConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -457,6 +478,8 @@ export type DeleteConfigMutation = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  biasToInclude: Array<string | null> | null;
+  biasToExclude: Array<string | null> | null;
   updatedAt: string | null;
   user: {
     __typename: "User";
@@ -476,6 +499,8 @@ export type DeleteConfigMutation = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -508,6 +533,8 @@ export type GetUserQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -553,6 +580,8 @@ export type ListUsersQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -584,6 +613,8 @@ export type GetConfigQuery = {
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
+  biasToInclude: Array<string | null> | null;
+  biasToExclude: Array<string | null> | null;
   updatedAt: string | null;
   user: {
     __typename: "User";
@@ -603,6 +634,8 @@ export type GetConfigQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -635,6 +668,8 @@ export type ListConfigsQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -672,6 +707,8 @@ export type UserByOwnerQuery = {
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
+      biasToInclude: Array<string | null> | null;
+      biasToExclude: Array<string | null> | null;
       updatedAt: string | null;
     } | null;
     createdAt: string | null;
@@ -705,6 +742,8 @@ export type ConfigByOwnerQuery = {
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
+    biasToInclude: Array<string | null> | null;
+    biasToExclude: Array<string | null> | null;
     updatedAt: string | null;
     user: {
       __typename: "User";
@@ -731,6 +770,7 @@ export type GetArticleQuery = {
   dataType: string;
   date: string | null;
   datePublished: string;
+  displayBiasRating: string | null;
   displayAuthors: Array<string> | null;
   displayDateTime: string;
   displayKeywords: Array<string> | null;
@@ -769,6 +809,7 @@ export type ListArticlesQuery = {
     dataType: string;
     date: string | null;
     datePublished: string;
+    displayBiasRating: string | null;
     displayAuthors: Array<string> | null;
     displayDateTime: string;
     displayKeywords: Array<string> | null;
@@ -809,6 +850,7 @@ export type ArticlesByDateQuery = {
     dataType: string;
     date: string | null;
     datePublished: string;
+    displayBiasRating: string | null;
     displayAuthors: Array<string> | null;
     displayDateTime: string;
     displayKeywords: Array<string> | null;
@@ -862,6 +904,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -915,6 +959,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -968,6 +1014,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -1019,6 +1067,8 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          biasToInclude
+          biasToExclude
           updatedAt
           user {
             __typename
@@ -1038,6 +1088,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1078,6 +1130,8 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          biasToInclude
+          biasToExclude
           updatedAt
           user {
             __typename
@@ -1097,6 +1151,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1137,6 +1193,8 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          biasToInclude
+          biasToExclude
           updatedAt
           user {
             __typename
@@ -1156,6 +1214,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1198,6 +1258,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -1257,6 +1319,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1305,6 +1369,8 @@ export class APIService {
           sourcesToExclude
           locationsToInclude
           locationsToExclude
+          biasToInclude
+          biasToExclude
           updatedAt
           user {
             __typename
@@ -1324,6 +1390,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1370,6 +1438,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -1430,6 +1500,8 @@ export class APIService {
               sourcesToExclude
               locationsToInclude
               locationsToExclude
+              biasToInclude
+              biasToExclude
               updatedAt
             }
             createdAt
@@ -1492,6 +1564,8 @@ export class APIService {
             sourcesToExclude
             locationsToInclude
             locationsToExclude
+            biasToInclude
+            biasToExclude
             updatedAt
             user {
               __typename
@@ -1541,6 +1615,7 @@ export class APIService {
           dataType
           date
           datePublished
+          displayBiasRating
           displayAuthors
           displayDateTime
           displayKeywords
@@ -1597,6 +1672,7 @@ export class APIService {
             dataType
             date
             datePublished
+            displayBiasRating
             displayAuthors
             displayDateTime
             displayKeywords
@@ -1670,6 +1746,7 @@ export class APIService {
             dataType
             date
             datePublished
+            displayBiasRating
             displayAuthors
             displayDateTime
             displayKeywords

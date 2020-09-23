@@ -42,7 +42,9 @@ export class FilterService {
       keywordsToInclude: userOptions.keywordsUserOption.include,
       keywordsToExclude: userOptions.keywordsUserOption.exclude,
       locationsToInclude: userOptions.locationsUserOption.include,
-      locationsToExclude: userOptions.locationsUserOption.exclude
+      locationsToExclude: userOptions.locationsUserOption.exclude,
+      biasToInclude: userOptions.biasUserOption.include,
+      biasToExclude: userOptions.biasUserOption.exclude,
     });
   }
 
@@ -280,7 +282,9 @@ export class FilterService {
       locationsToInclude: this.filterOptions.locationsToInclude,
       locationsToExclude: this.filterOptions.locationsToExclude,
       topicsToInclude: JSON.stringify(this.topicsUserOption.include),
-      topicsToExclude: JSON.stringify(this.topicsUserOption.exclude)
+      topicsToExclude: JSON.stringify(this.topicsUserOption.exclude),
+      biasToInclude: this.filterOptions.biasToInclude,
+      biasToExclude: this.filterOptions.biasToExclude
     };
   }
 
@@ -341,38 +345,30 @@ export class FilterService {
       sourcesToExclude: [],
       toneUpperRange: 1,
       toneLowerRange: -1,
-      topicsToInclude: JSON.stringify({
-        arts: [],
-        games: [],
-        news: [],
-        regional: [],
-        society: [],
-        business: [],
-        health: [],
-        recreation: [],
-        science: [],
-        sports: [],
-        computers: [],
-        home: [],
-        shopping: [],
-      }),
-      topicsToExclude: JSON.stringify({
-        arts: [],
-        games: [],
-        news: [],
-        regional: [],
-        society: [],
-        business: [],
-        health: [],
-        recreation: [],
-        science: [],
-        sports: [],
-        computers: [],
-        home: [],
-        shopping: [],
-      }),
+      topicsToInclude: JSON.stringify(this.blankTopicObj),
+      topicsToExclude: JSON.stringify(this.blankTopicObj),
       locationsToInclude: [],
-      locationsToExclude: []
+      locationsToExclude: [],
+      biasToInclude: [],
+      biasToExclude: []
+    };
+  }
+
+  blankTopicObj() {
+    return {
+      arts: [],
+      games: [],
+      news: [],
+      regional: [],
+      society: [],
+      business: [],
+      health: [],
+      recreation: [],
+      science: [],
+      sports: [],
+      computers: [],
+      home: [],
+      shopping: []
     };
   }
 
@@ -388,25 +384,32 @@ export class FilterService {
 
     if (ops.sourcesToInclude.length > 0 || ops.sourcesToExclude.length > 0 || ops.topicsToInclude.length > 0 ||
         ops.topicsToExclude.length > 0 || ops.keywordsToInclude.length > 0 || ops.keywordsToExclude.length > 0 ||
-        ops.locationsToInclude.length > 0 || ops.locationsToExclude.length > 0) {
+        ops.locationsToInclude.length > 0 || ops.locationsToExclude.length > 0 || ops.biasToInclude.length > 0 ||
+        ops.biasToExclude.length > 0) {
       filterInput.and = [];
 
       if (ops.sourcesToInclude.length > 0) {
         const sourceFilter: Array<ModelArticleFilterInput> = [];
-        sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq'));
+        sourceFilter.push(...this.buildWordFilter(ops.sourcesToInclude, 'sourceTitle', 'eq', true));
         filterInput.and.push({or: sourceFilter});
       }
 
       if (ops.locationsToInclude.length > 0) {
         const locationFilter: Array<ModelArticleFilterInput> = [];
-        locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq'));
+        locationFilter.push(...this.buildWordFilter(ops.locationsToInclude, 'sourceCountry', 'eq', true));
         filterInput.and.push({or: locationFilter});
       }
 
       if (ops.keywordsToInclude.length > 0) {
         const keywordFilter: Array<ModelArticleFilterInput> = [];
-        keywordFilter.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains'));
+        keywordFilter.push(...this.buildWordFilter(ops.keywordsToInclude, 'keywords', 'contains', true));
         filterInput.and.push({or: keywordFilter});
+      }
+
+      if (ops.biasToInclude.length > 0) {
+        const biasFilter: Array<ModelArticleFilterInput> = [];
+        biasFilter.push(...this.buildWordFilter(ops.biasToInclude, 'biasRating', 'eq'));
+        filterInput.and.push({or: biasFilter});
       }
 
       if (typeof ops.topicsToInclude === 'string') {
@@ -415,20 +418,24 @@ export class FilterService {
 
       if (ops.topicsToInclude.length > 0) {
         const topicsFilter: Array<ModelArticleFilterInput> = [];
-        topicsFilter.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains'));
+        topicsFilter.push(...this.buildWordFilter(ops.topicsToInclude, 'topics', 'contains', true));
         filterInput.and.push({or: topicsFilter});
       }
 
       if (ops.sourcesToExclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.sourcesToExclude, 'sourceTitle', 'ne'));
+        filterInput.and.push(...this.buildWordFilter(ops.sourcesToExclude, 'sourceTitle', 'ne', true));
       }
 
       if (ops.keywordsToExclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.keywordsToExclude, 'keywords', 'notContains'));
+        filterInput.and.push(...this.buildWordFilter(ops.keywordsToExclude, 'keywords', 'notContains', true));
+      }
+
+      if (ops.biasToExclude.length > 0) {
+        filterInput.and.push(...this.buildWordFilter(ops.biasToExclude, 'biasRating', 'ne'));
       }
 
       if (ops.locationsToExclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne'));
+        filterInput.and.push(...this.buildWordFilter(ops.locationsToExclude, 'sourceCountry', 'ne', true));
       }
 
       if (typeof ops.topicsToExclude === 'string') {
@@ -436,19 +443,23 @@ export class FilterService {
       }
 
       if (ops.topicsToExclude.length > 0) {
-        filterInput.and.push(...this.buildWordFilter(ops.topicsToExclude, 'topics', 'notContains'));
+        filterInput.and.push(...this.buildWordFilter(ops.topicsToExclude, 'topics', 'notContains', true));
       }
     }
 
     return filterInput;
   }
 
-  buildWordFilter(wordList, key, operation): any {
+  private buildWordFilter(wordList, key, operation, lowercase?: boolean): any {
     return wordList.map((word: string) => {
-      const res: object = {};
+      let res: object = {};
 
       res[key] = {};
-      res[key][operation] = word.trim().toLowerCase();
+      if (lowercase) {
+        res[key][operation] = word.trim().toLowerCase();
+      } else {
+        res[key][operation] = word.trim();
+      }
       return res;
     });
   }

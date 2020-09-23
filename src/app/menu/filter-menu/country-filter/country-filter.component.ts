@@ -15,8 +15,8 @@ export class CountryFilterComponent implements OnInit {
   displayList: Array<string>;
   countryOptionForm: FormGroup;
   countryListToggle = true;
-  segmentValue = 'include';
-  showFilter = false;
+  public segmentValue = 'include';
+  public showFilter = false;
   disableCountries = false;
   countryOptions = Countries;
 

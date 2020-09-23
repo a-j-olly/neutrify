@@ -118,7 +118,11 @@ export class MainMenuComponent {
       const path = url.split('https://neutrify.news')[1];
       this.router.navigateByUrl(path);
     } else {
-      this.inAppBrowser.create(encodeURI(url), '_system');
+      if (this.platformSource === 'dom') {
+        window.open(encodeURI(url), '_blank');
+      } else {
+        this.inAppBrowser.create(encodeURI(url), '_system');
+      }
     }
   }
 

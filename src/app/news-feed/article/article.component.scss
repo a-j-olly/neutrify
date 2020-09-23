@@ -134,11 +134,7 @@ ion-slides {
 .text-list-item {
     min-width: 100px;
     max-width: auto;
-    margin-bottom: 10px;
-
-    @media screen and (min-width: 890px) {
-        margin: 20px;
-    }
+    margin-bottom: 12px;
 
     h4 {
         color: #999;

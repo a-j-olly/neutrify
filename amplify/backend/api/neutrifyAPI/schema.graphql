@@ -11,6 +11,7 @@ type Article @model(mutations: null, subscriptions: null)
     dataType: String!
     date: String
     datePublished: AWSDateTime!
+    displayBiasRating: String
     displayAuthors: [String!]
     displayDateTime: AWSDateTime!
     displayKeywords: [String!]
@@ -74,6 +75,8 @@ type Config @model(subscriptions: null)
     sourcesToExclude: [String]!
     locationsToInclude: [String]!
     locationsToExclude: [String]!
+    biasToInclude: [String]
+    biasToExclude: [String]
     updatedAt: AWSDateTime
     user: User @connection(name: "UserConfig")
 }

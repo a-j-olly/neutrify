@@ -16,6 +16,10 @@
   </ion-item>
 
   <ion-item lines="full">
+    <app-bias-filter class="filter" (biasOptionChanged)="onFilterChange($event)" [biasOption]="biasUserOption"></app-bias-filter>
+  </ion-item>
+
+  <ion-item lines="full">
     <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Attitude"></app-range-filter>
   </ion-item>
   

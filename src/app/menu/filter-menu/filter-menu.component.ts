@@ -164,9 +164,10 @@ export class FilterMenuComponent {
       const blankFilterObj = this.filterService.blankFilterObj();
       await this.filterService.updateFilterOptions(blankFilterObj);
       this.initOptions();
-      await this.presentToast('Your filters have been reset. Don\'t forget to save them.', 'success');
+      await this.presentToast('Your filters have been cleared. Don\'t forget to save them.', 'success');
     } catch (e) {
-      this.presentToast('Could not reset your filters. Please try again.', 'danger');
+      console.log('Could not clear your filters. Service returned this error: ', e);
+      this.presentToast('Could not clear your filters. Please try again.', 'danger');
     }
   }
 

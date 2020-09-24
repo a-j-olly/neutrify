@@ -143,7 +143,6 @@ export class FilterService {
       let oppositeTarget: Array<string> = newFilterOptions[`${optionType}To${operation === 'include' ? 'Exclude' : 'Include'}`];
 
       if (optionType === 'topics') {
-
         topicGroup = this.findTopicsGroup(input).toLowerCase();
         let oppositeTopics: Array<string> = this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][topicGroup];
 
@@ -345,8 +344,8 @@ export class FilterService {
       sourcesToExclude: [],
       toneUpperRange: 1,
       toneLowerRange: -1,
-      topicsToInclude: JSON.stringify(this.blankTopicObj),
-      topicsToExclude: JSON.stringify(this.blankTopicObj),
+      topicsToInclude: JSON.stringify(this.blankTopicObj()),
+      topicsToExclude: JSON.stringify(this.blankTopicObj()),
       locationsToInclude: [],
       locationsToExclude: [],
       biasToInclude: [],

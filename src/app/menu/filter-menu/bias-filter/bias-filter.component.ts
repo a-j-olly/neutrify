@@ -61,7 +61,9 @@ export class BiasFilterComponent implements OnInit {
         setNames.push(bias);
         this.setBiasObject(bias, 'include');
       });
-    } else if (this.option.exclude && this.option.exclude.length) {
+    } 
+    
+    if (this.option.exclude && this.option.exclude.length) {
       this.option.exclude.forEach((bias: string) => {
         setNames.push(bias);
         this.setBiasObject(bias, 'exclude');

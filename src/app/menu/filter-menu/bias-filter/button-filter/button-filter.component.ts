@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
   selector: 'app-button-filter',
@@ -25,8 +26,16 @@ export class ButtonFilterComponent implements OnInit {
   }
 
   @Output() onToggleButton: EventEmitter<any> = new EventEmitter();
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
-  constructor() { }
+  constructor(
+    private filterService: FilterService,
+  ) {
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
+    });
+  }
 
   ngOnInit() { }
 

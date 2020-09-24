@@ -24,14 +24,14 @@ export class RangeFilterComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private ga: GoogleAnalyticsService
-    ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
-      });
-    }
+  ) {
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
+    });
+  }
 
   ngOnInit() {
-    if (this.rangeFilterType === 'Attitude') {
+    if (this.rangeFilterType === 'Article Attitude') {
       this.rangeSettings = {
         max: '1',
         min: '-1',

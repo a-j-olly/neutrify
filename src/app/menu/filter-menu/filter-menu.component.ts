@@ -16,6 +16,7 @@ export class FilterMenuComponent {
   public topicsUserOption;
   public keywordsUserOption;
   public locationsUserOption;
+  public biasUserOption;
 
   private filtersSaved: boolean = true;
   private filtersSavedSubcription$: Subscription;
@@ -75,10 +76,14 @@ export class FilterMenuComponent {
       exclude: [...this.filterOptions.keywordsToExclude]
     };
 
-
     this.locationsUserOption = {
       include: [...this.filterOptions.locationsToInclude],
       exclude: [...this.filterOptions.locationsToExclude]
+    };
+
+    this.biasUserOption = {
+      include: [...this.filterOptions.biasToInclude],
+      exclude: [...this.filterOptions.biasToExclude]
     };
 
     this.topicsUserOption = {
@@ -90,7 +95,7 @@ export class FilterMenuComponent {
 
   async onFilterChange(event) {
     switch (event.name) {
-      case 'Attitude':
+      case 'Article Attitude':
         this.toneUserOption = event;
         break;
       case 'News Sources':
@@ -105,6 +110,9 @@ export class FilterMenuComponent {
       case 'Keywords':
         this.keywordsUserOption = event;
         break;
+      case 'Bias':
+        this.biasUserOption = event;
+        break;
       default:
         throw new Error(`Unknown event: ${JSON.stringify(event)}`);
     }
@@ -118,7 +126,8 @@ export class FilterMenuComponent {
       sourcesUserOption: this.sourcesUserOption,
       topicsUserOption: this.topicsUserOption,
       keywordsUserOption: this.keywordsUserOption,
-      locationsUserOption: this.locationsUserOption
+      locationsUserOption: this.locationsUserOption,
+      biasUserOption: this.biasUserOption
     });
 
     await this.filterService.updateFilterOptions(filterOptions);
@@ -155,9 +164,10 @@ export class FilterMenuComponent {
       const blankFilterObj = this.filterService.blankFilterObj();
       await this.filterService.updateFilterOptions(blankFilterObj);
       this.initOptions();
-      await this.presentToast('Your filters have been reset. Don\'t forget to save them.', 'success');
+      await this.presentToast('Your filters have been cleared. Don\'t forget to save them.', 'success');
     } catch (e) {
-      this.presentToast('Could not reset your filters. Please try again.', 'danger');
+      console.log('Could not clear your filters. Service returned this error: ', e);
+      this.presentToast('Could not clear your filters. Please try again.', 'danger');
     }
   }
 

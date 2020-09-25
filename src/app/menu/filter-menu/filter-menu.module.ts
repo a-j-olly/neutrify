@@ -8,6 +8,8 @@ import { RangeFilterComponent } from '../filter-menu/range-filter/range-filter.c
 import { TopicsFilterComponent } from '../filter-menu/topics-filter/topics-filter.component';
 import { TopicOptionComponent } from '../filter-menu/topics-filter/topic-option/topic-option.component';
 import { CountryFilterComponent } from '../filter-menu/country-filter/country-filter.component';
+import { BiasFilterComponent } from './bias-filter/bias-filter.component';
+import { ButtonFilterComponent } from './bias-filter/button-filter/button-filter.component';
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import { CountryFilterComponent } from '../filter-menu/country-filter/country-fi
     TopicsFilterComponent,
     TopicOptionComponent,
     CountryFilterComponent,
+    BiasFilterComponent,
+    ButtonFilterComponent
   ]
 })
 export class FilterMenuModule {

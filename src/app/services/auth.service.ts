@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService, ConfigByOwnerQuery, CreateConfigInput } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery, CreateConfigInput, UpdateConfigInput } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from "amazon-cognito-identity-js";
@@ -50,7 +50,6 @@ export class AuthService {
         }
       }
 
-
       if (state === 'signedIn' || state === 'guest') {
         try {
           await this.handleInitialLoad();
@@ -85,7 +84,8 @@ export class AuthService {
     let loadedFilters;
 
     if (this.signedIn) {
-      const config = (await this.getConfig(this.user.username)).items[0];            
+      const config = (await this.getConfig(this.user.username)).items[0];
+
       if (config !== null && config !== undefined) {
         this.userId = this.userId ? this.userId : config.user.id;
         loadedFilters = config;
@@ -95,7 +95,7 @@ export class AuthService {
       }
     } else {
       const localfilters = await this.storage.get('neutrify_filters');
-      
+
       if (localfilters !== null && localfilters !== undefined) {
         loadedFilters = JSON.parse(localfilters);
       } else {
@@ -108,6 +108,8 @@ export class AuthService {
     if (loadedFilters !== null && loadedFilters !== undefined) {
       this.configId = this.configId ? this.configId : loadedFilters.id;
 
+      loadedFilters = await this.validateFilters(loadedFilters);
+
       const filters = {
         id: loadedFilters.id,
         keywordsToInclude: loadedFilters.keywordsToInclude,
@@ -119,7 +121,9 @@ export class AuthService {
         sourcesToInclude: loadedFilters.sourcesToInclude,
         sourcesToExclude: loadedFilters.sourcesToExclude,
         locationsToInclude: loadedFilters.locationsToInclude,
-        locationsToExclude: loadedFilters.locationsToExclude
+        locationsToExclude: loadedFilters.locationsToExclude,
+        biasToInclude: loadedFilters.biasToInclude,
+        biasToExclude: loadedFilters.biasToExclude
       };
 
       this.menu.enable(true, 'filterMenu');
@@ -165,22 +169,23 @@ export class AuthService {
     this.userId = uuid();
     this.configId = uuid();
 
-    const createUserPromise = this.neutrifyAPI.CreateUser({
-      email: user.attributes.email,
-      id: this.userId,
-      userConfigId: this.configId
-    });
-
     let newConfig: CreateConfigInput;
     const localfilters = await this.storage.get('neutrify_filters');
 
     if (localfilters !== null && localfilters !== undefined) {
-      this.configId = JSON.parse(localfilters).id;
+      newConfig = JSON.parse(localfilters);
     } else {
       newConfig = this.filterService.blankFilterObj(this.configId);
     }
 
     newConfig['configUserId'] = this.userId;
+    newConfig['id'] = this.configId;
+
+    const createUserPromise = this.neutrifyAPI.CreateUser({
+      email: user.attributes.email,
+      id: this.userId,
+      userConfigId: this.configId
+    });
 
     const createConfigPromise = this.neutrifyAPI.CreateConfig(newConfig);
     const creationRes = await Promise.all([createUserPromise, createConfigPromise]);
@@ -194,6 +199,7 @@ export class AuthService {
       this.user = null;
       this.updateUserEmail(null);
       this.userId = null;
+      this.configId = null;
       return true;
     } catch (e) {
       console.log('There was an error signing out. Service returned this error: ', e);
@@ -346,7 +352,7 @@ export class AuthService {
     } catch (error) {
       console.log('An error occured when trying to load filter options: ', error);
 
-      if (error.errors && error.errors.length === 1) {
+      if (error.errors) {
         const errMes = error.errors[0];
         if (errMes.message === 'Network Error') {
           for (let i = 0; i < 3; i++) {
@@ -369,5 +375,66 @@ export class AuthService {
     }
 
     return config;
+  }
+
+  private async validateFilters(filters: any) {
+    const validFields = [ 
+      'id', 'toneUpperRange', 'toneLowerRange', 'sourcesToInclude', 'sourcesToExclude', 'topicsToInclude', 'topicsToExclude', 'keywordsToInclude', 'keywordsToExclude',
+      'locationsToInclude', 'locationsToExclude', 'biasToInclude', 'biasToExclude'
+    ];
+
+    let missingFields = [];
+    validFields.forEach((field: string) => {
+      if (!filters.hasOwnProperty(field) || !filters[field]) {
+        missingFields.push(field);
+      }
+    });
+
+    if (missingFields && missingFields.length) {
+      filters = await this.updateMissingConfig(missingFields, filters);
+    }
+
+    return filters;
+  }
+
+  private async updateMissingConfig(missingItems: Array<string>, filters) {
+    console.log(`Adding ${missingItems.length} missing items`);
+    missingItems.forEach((item: string) => {
+      filters[item] = this.setBlankUpdate(item);
+    });
+
+    if (this.signedIn) {
+      let updateInput: UpdateConfigInput = { id: this.configId };
+      missingItems.forEach((item: string) => {
+        updateInput[item] = this.setBlankUpdate(item);
+      });
+
+
+      try {
+        await this.neutrifyAPI.UpdateConfig(updateInput);
+      } catch (err) {
+        console.log('Could not update config with missing items. Service returned this error: ', err);
+      }
+    } else {
+      await this.storage.set('neutrify_filters', JSON.stringify(filters));
+    }
+
+    return filters;
+  }
+
+  private setBlankUpdate(item: string) {
+    let res;
+    
+    if (item === 'toneLowerRange') {
+      res = -1;
+    } else if (item === 'toneUpperRange') {
+      res = 1;
+    } else if (item === 'topicsToExclude' || item === 'topicsToInclude') {
+      res = JSON.stringify(this.filterService.blankTopicObj());
+    } else {
+      res = [];
+    }
+
+    return res;
   }
 }

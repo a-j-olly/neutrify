@@ -1,0 +1,51 @@
+<ion-grid class="ion-no-padding">
+  <ion-row class="ion-no-margin ion-no-padding">
+    <ion-col class="ion-no-margin ion-no-padding" size="1">
+      <div class="tooltip">
+        <ion-icon size="small" name="help-circle"></ion-icon>
+        <span class="tooltiptext">Include/exclude the political biases that you want to see in your feed.</span>
+      </div> 
+    </ion-col>
+
+    <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
+      <h4><b>Political Bias</b></h4>
+    </ion-col>
+
+    <ion-col size="2" class="ion-text-end ion-activatable tappable ion-text-right" (click)="showFilter = !showFilter">
+      <ion-icon name="chevron-down-outline" [hidden]="showFilter"></ion-icon>
+      <ion-icon name="chevron-up-outline" [hidden]="!showFilter"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <div [hidden]="!showFilter">
+    <ion-row class="ion-align-items-center">
+      <p>
+        Tap any of the political bias buttons multiple times to toggle between 
+        <ion-text color="primary"><b>including</b></ion-text> and 
+        <ion-text color="danger"><b>excluding</b></ion-text> it from your news feed:
+      </p>
+    </ion-row>
+  
+    <ion-row class="ion-justify-content-center">
+      <app-button-filter [buttonValue]="leftValue" [buttonText]="'Left'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+
+      <app-button-filter [buttonValue]="leftLeaningValue" [buttonText]="'Left Leaning'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <app-button-filter [buttonValue]="centerValue" [buttonText]="'Center'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <app-button-filter [buttonValue]="rightLeaningValue" [buttonText]="'Right Leaning'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+
+      <app-button-filter [buttonValue]="rightValue" [buttonText]="'Right'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-evenly">
+      <app-button-filter [buttonValue]="balancedValue" [buttonText]="'Balanced'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+
+      <app-button-filter [buttonValue]="unratedValue" [buttonText]="'Unrated'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+    </ion-row>
+  </div>
+</ion-grid>

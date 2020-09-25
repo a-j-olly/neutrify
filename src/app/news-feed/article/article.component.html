@@ -67,18 +67,18 @@
                 </ion-row>
               </div>
 
-              <div class="metric-item" *ngIf="article.biasRating">
+              <div class="metric-item" *ngIf="article.displayBiasRating">
                 <ion-row class="ion-justify-content-center">
                   <h4>Political Bias</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
-                  <p>{{ article.biasRating }}</p>
+                  <p class="clickable" (click)="openFilterPopover($event, 'bias', article.displayBiasRating)">{{ article.displayBiasRating }}</p>
                 </ion-row>
               </div>
 
               <div class="metric-item ion-no-margin ion-no-padding">
                 <ion-row class="ion-justify-content-center">
-                    <h4>Attitude</h4>
+                    <h4>Article Attitude</h4>
                 </ion-row>
                 <ion-row class="ion-justify-content-center">
                   <ion-range class="negative-range" min="0" max="-1" step="0.1" color="danger"

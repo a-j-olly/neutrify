@@ -95,7 +95,7 @@ export class FilterMenuComponent {
 
   async onFilterChange(event) {
     switch (event.name) {
-      case 'Attitude':
+      case 'Article Attitude':
         this.toneUserOption = event;
         break;
       case 'News Sources':

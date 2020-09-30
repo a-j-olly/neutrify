@@ -26,7 +26,6 @@ import { TermsConditionsComponent } from './home/terms-conditions/terms-conditio
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @NgModule({

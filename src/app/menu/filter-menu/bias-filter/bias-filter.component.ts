@@ -141,8 +141,8 @@ export class BiasFilterComponent implements OnInit {
     if (hasChanged) {
       this.debouncer.next({
         name: 'Bias', 
-        include: this.option.include, 
-        exclude: this.option.exclude 
+        include: [...this.option.include], 
+        exclude: [...this.option.exclude] 
       });
     }
   }

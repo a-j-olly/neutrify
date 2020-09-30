@@ -106,9 +106,9 @@
       },
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-screen-orientation": {},
       "cordova-plugin-theme-detection": {},
-      "cordova-plugin-ios-keychain": {}
+      "cordova-plugin-ios-keychain": {},
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "ios",

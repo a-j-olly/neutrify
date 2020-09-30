@@ -133,12 +133,11 @@ export class AppComponent {
         this.screenOrientation.unlock();
 
         if (this.platform.is('android')) {
-          this.statusBar.backgroundColorByHexString('#333');
+          this.statusBar.backgroundColorByHexString('#0083ce');
           this.statusBar.styleLightContent();
+        } else if (this.platform.is('ios')) {
+          this.statusBar.styleDefault();
         }
-
-      } else if (this.platform.is('ios')) {
-        this.statusBar.styleDefault();
       }
 
       this.configureDarkmode();

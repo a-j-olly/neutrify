@@ -13,7 +13,8 @@ ion-content {
 }
 
 ion-header {
-    --ion-background-color: var(--ion-color-light);
+    --ion-background-color: var(--ion-color-primary);
+    --ion-toolbar-background: var(--ion-color-primary);
 }
 
 ion-tab-bar {

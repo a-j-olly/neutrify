@@ -1,19 +1,19 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons class="left-buttons" slot="start">
-      <ion-chip color="primary" (click)="navTo('home', false)">
-        <ion-icon name="arrow-back"></ion-icon>
-        <ion-label>Home</ion-label>
+      <ion-chip color="dark" (click)="navTo('home', false)">
+        <ion-icon name="arrow-back" color="medium"></ion-icon>
+        <ion-label color="medium"><b>Home</b></ion-label>
       </ion-chip>
     </ion-buttons>    
     
     <ion-title>
-      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo.png"></ion-img>
+      <ion-img class="logo" src="../../assets/img/logo/neutrify-logo-light.png"></ion-img>
     </ion-title>
 
     <ion-buttons slot="end" class="right-buttons">
-      <ion-label class="hide-label" color="primary">Main Menu</ion-label>
-      <ion-menu-button menu="mainMenu" slot="end"></ion-menu-button>
+      <ion-label class="hide-label" color="medium"><b>Main Menu</b></ion-label>
+      <ion-menu-button menu="mainMenu" slot="end" color="medium"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

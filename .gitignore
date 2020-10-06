@@ -16,6 +16,7 @@ $RECYCLE.BIN/
 *.log
 log.txt
 npm-debug.log*
+gradlew*
 
 /.idea
 /.ionic
@@ -30,6 +31,8 @@ npm-debug.log*
 /plugins
 /www
 /discards
+/gradle
+/.gradle
 
 #amplify
 amplify/\#current-cloud-backend

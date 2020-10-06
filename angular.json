@@ -149,7 +149,8 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ]
+              ], 
+              "serviceWorker": false
             },
             "ci": {
               "budgets": [

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Platform, MenuController } from '@ionic/angular';
+import { Platform, MenuController, PopoverController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { MenuService } from '../services/menu.service';
 import { FilterService } from '../services/filter.service';
@@ -68,7 +68,8 @@ export class NewsFeedWrapperPage {
     private menu: MenuController,
     private filterService: FilterService,
     private newsFeedService: NewsFeedService,
-    private router: Router
+    private router: Router,
+    private popoverController: PopoverController
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -155,6 +156,30 @@ export class NewsFeedWrapperPage {
 
   public async loadFilters() {
     await this.newsFeedService.loadFilters();
+  }
+
+  public async search(event) {
+    if (event.detail.value) {
+      console.log('search term: ', event.detail.value);
+    }
+  }
+
+  public async showSearchBar() {
+    // this.buttonClicked = true;
+    // const popover = await this.popoverController.create({
+    //   component: AddFilterPopoverComponent,
+    //   componentProps: {
+    //     optionType,
+    //     value
+    //   },
+    //   event,
+    //   showBackdrop: false,
+    //   translucent: true,
+    //   cssClass: 'filter-popover'
+    // });
+
+    // this.buttonClicked = false;
+    // return await popover.present();
   }
 
   public async doRefresh() {

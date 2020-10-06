@@ -204,11 +204,12 @@ export type ModelArticleFilterInput = {
   language?: ModelStringFilterInput | null;
   share?: ModelIntFilterInput | null;
   similarity?: ModelFloatFilterInput | null;
-  time?: ModelStringFilterInput | null;
+  searchTerms?: ModelStringFilterInput | null;
   sourceCountry?: ModelStringFilterInput | null;
   sourceRanking?: ModelIntFilterInput | null;
   sourceTitle?: ModelStringFilterInput | null;
   title?: ModelStringFilterInput | null;
+  time?: ModelStringFilterInput | null;
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
   timeToLive?: ModelFloatFilterInput | null;
@@ -784,11 +785,12 @@ export type GetArticleQuery = {
   language: string | null;
   share: number | null;
   similarity: number | null;
-  time: string | null;
+  searchTerms: Array<string | null> | null;
   sourceCountry: string;
   sourceRanking: number | null;
   sourceTitle: string;
   title: string;
+  time: string | null;
   tone: number;
   topics: Array<string> | null;
   timeToLive: number | null;
@@ -823,11 +825,12 @@ export type ListArticlesQuery = {
     language: string | null;
     share: number | null;
     similarity: number | null;
-    time: string | null;
+    searchTerms: Array<string | null> | null;
     sourceCountry: string;
     sourceRanking: number | null;
     sourceTitle: string;
     title: string;
+    time: string | null;
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
@@ -864,11 +867,54 @@ export type ArticlesByDateQuery = {
     language: string | null;
     share: number | null;
     similarity: number | null;
-    time: string | null;
+    searchTerms: Array<string | null> | null;
     sourceCountry: string;
     sourceRanking: number | null;
     sourceTitle: string;
     title: string;
+    time: string | null;
+    tone: number;
+    topics: Array<string> | null;
+    timeToLive: number | null;
+    updatedAt: string | null;
+    uri: string;
+    url: string;
+    wordCount: number;
+  } | null> | null;
+  nextToken: string | null;
+};
+
+export type ArticlesBySearchTermQuery = {
+  __typename: "ModelArticleConnection";
+  items: Array<{
+    __typename: "Article";
+    authors: Array<string> | null;
+    biasRating: string | null;
+    body: string;
+    createdAt: string | null;
+    dataType: string;
+    date: string | null;
+    datePublished: string;
+    displayBiasRating: string | null;
+    displayAuthors: Array<string> | null;
+    displayDateTime: string;
+    displayKeywords: Array<string> | null;
+    displaySourceCountry: string;
+    displaySourceTitle: string;
+    displayTopics: Array<string> | null;
+    eventUri: string | null;
+    id: string;
+    image: string | null;
+    keywords: Array<string> | null;
+    language: string | null;
+    share: number | null;
+    similarity: number | null;
+    searchTerms: Array<string | null> | null;
+    sourceCountry: string;
+    sourceRanking: number | null;
+    sourceTitle: string;
+    title: string;
+    time: string | null;
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
@@ -1629,11 +1675,12 @@ export class APIService {
           language
           share
           similarity
-          time
+          searchTerms
           sourceCountry
           sourceRanking
           sourceTitle
           title
+          time
           tone
           topics
           timeToLive
@@ -1686,11 +1733,12 @@ export class APIService {
             language
             share
             similarity
-            time
+            searchTerms
             sourceCountry
             sourceRanking
             sourceTitle
             title
+            time
             tone
             topics
             timeToLive
@@ -1760,11 +1808,12 @@ export class APIService {
             language
             share
             similarity
-            time
+            searchTerms
             sourceCountry
             sourceRanking
             sourceTitle
             title
+            time
             tone
             topics
             timeToLive
@@ -1801,5 +1850,82 @@ export class APIService {
       authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
     })) as any;
     return <ArticlesByDateQuery>response.data.articlesByDate;
+  }
+  async ArticlesBySearchTerm(
+    dataType?: string,
+    searchTerms?: ModelStringKeyConditionInput,
+    sortDirection?: ModelSortDirection,
+    filter?: ModelArticleFilterInput,
+    limit?: number,
+    nextToken?: string
+  ): Promise<ArticlesBySearchTermQuery> {
+    const statement = `query ArticlesBySearchTerm($dataType: String, $searchTerms: ModelStringKeyConditionInput, $sortDirection: ModelSortDirection, $filter: ModelArticleFilterInput, $limit: Int, $nextToken: String) {
+        articlesBySearchTerm(dataType: $dataType, searchTerms: $searchTerms, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+          __typename
+          items {
+            __typename
+            authors
+            biasRating
+            body
+            createdAt
+            dataType
+            date
+            datePublished
+            displayBiasRating
+            displayAuthors
+            displayDateTime
+            displayKeywords
+            displaySourceCountry
+            displaySourceTitle
+            displayTopics
+            eventUri
+            id
+            image
+            keywords
+            language
+            share
+            similarity
+            searchTerms
+            sourceCountry
+            sourceRanking
+            sourceTitle
+            title
+            time
+            tone
+            topics
+            timeToLive
+            updatedAt
+            uri
+            url
+            wordCount
+          }
+          nextToken
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {};
+    if (dataType) {
+      gqlAPIServiceArguments.dataType = dataType;
+    }
+    if (searchTerms) {
+      gqlAPIServiceArguments.searchTerms = searchTerms;
+    }
+    if (sortDirection) {
+      gqlAPIServiceArguments.sortDirection = sortDirection;
+    }
+    if (filter) {
+      gqlAPIServiceArguments.filter = filter;
+    }
+    if (limit) {
+      gqlAPIServiceArguments.limit = limit;
+    }
+    if (nextToken) {
+      gqlAPIServiceArguments.nextToken = nextToken;
+    }
+    const response = (await API.graphql({
+      query: statement,
+      variables: gqlAPIServiceArguments,
+      authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+    })) as any;
+    return <ArticlesBySearchTermQuery>response.data.articlesBySearchTerm;
   }
 }

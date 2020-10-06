@@ -1,11 +1,11 @@
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform, ToastController, IonContent } from '@ionic/angular';
-import { MenuService } from '../services/menu.service';
+import { MenuService } from '../../services/menu.service';
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { FilterService } from '../services/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { formatDistanceToNow } from 'date-fns';
-import { NewsFeedService } from '../services/news-feed.service';
+import { NewsFeedService } from '../../services/news-feed.service';
 
 @Component({
   selector: 'app-news-feed',

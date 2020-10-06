@@ -1,10 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar class="ion-align-items-center">
     <ion-buttons slot="start" class="left-buttons" *ngIf="filtersInitStatus">
-        <ion-button (click)="toggleMenu()" color="medium" *ngIf="!menuStatus || platformWidth < 720">
-          <ion-icon name="options" slot="icon-only"></ion-icon>
-        </ion-button>
+      <ion-button (click)="toggleMenu()" color="medium" *ngIf="!menuStatus || platformWidth < 720">
+        <ion-icon name="options" slot="icon-only"></ion-icon>
+      </ion-button>
       <ion-label class="hide-label" *ngIf="!menuStatus || platformWidth < 720" color="medium"><b>Filter Menu</b></ion-label>
+
+      <ion-searchbar type="search" debounce="1000" inputmode="search" spellcheck="true" autocorrect="on" color="medium" 
+      placeholder="Search here..." (ionChange)="search($event)"></ion-searchbar>
+
     </ion-buttons>
     
     <ion-title>

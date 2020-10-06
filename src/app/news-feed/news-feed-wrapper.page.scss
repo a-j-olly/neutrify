@@ -3,7 +3,7 @@ ion-header {
     --ion-toolbar-background: var(--ion-color-primary);
 
     ion-toolbar {   
-
+        
         ion-img.logo {
             max-width: 150px;
             max-height: 48px;
@@ -12,7 +12,19 @@ ion-header {
         
         ion-buttons {
             position: absolute;
-        
+
+            ion-searchbar {
+                @media screen and (max-width: 1023px) {
+                    display: none;
+                }
+
+                min-width: 260px;
+                max-width: 280px;
+                height: 38px;
+                padding: 0px;
+                margin-left: 10px;
+            }
+            
             &.left-buttons {
                 left: 0px;
             }

@@ -9,6 +9,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { differenceInMinutes } from 'date-fns';
 import { environment } from 'src/environments/environment';
 import { Router, NavigationStart } from '@angular/router';
+import { ModelStringFilterInput } from '../services/neutrify-api.service';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 
 @Component({
@@ -61,6 +63,9 @@ export class NewsFeedWrapperPage {
   public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
   private filtersInitStatus$: Subscription;
 
+  public searchTerm: string;
+  private searchTermSubscription$: Subscription;
+
   constructor(
     private platform: Platform,
     public authService: AuthService,
@@ -96,6 +101,14 @@ export class NewsFeedWrapperPage {
 
     this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => this.filtersInitStatus = status);
 
+    this.searchTermSubscription$ = this.newsFeedService.getSearchFilter().subscribe((searchFilter) => {
+      if (searchFilter) {
+        this.searchTerm = searchFilter.searchTerms.contains;
+      } else {
+        this.searchTerm = '';
+      }
+    });
+
     this.routerEventSubscription$ = this.router.events.subscribe((event: NavigationStart) => {
       if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
         this.newsFeedService.resetArticles();
@@ -126,6 +139,8 @@ export class NewsFeedWrapperPage {
     });
 
     this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
+      this.searchTerm = '';
+
       if (this.filtersInitStatus) {
         this.filtersSaved = status;
       }
@@ -159,27 +174,40 @@ export class NewsFeedWrapperPage {
   }
 
   public async search(event) {
-    if (event.detail.value) {
-      console.log('search term: ', event.detail.value);
+    if (event.detail.value && event.detail.value !== this.searchTerm) {
+      this.searchTerm = event.detail.value;
+
+      const searchFilter: ModelStringFilterInput = {
+        contains: event.detail.value.toLowerCase()
+      };
+
+      this.newsFeedService.setSearchFilter({searchTerms: searchFilter});
+      this.newsFeedService.handleInitDataLoad();
+    } else if (!event.detail.value && !this.searchTerm) {
+      this.searchTerm = '';
+      this.newsFeedService.setSearchFilter(null);
+    } else {
+      this.searchTerm = '';
+      this.newsFeedService.setSearchFilter(null);
+      this.newsFeedService.handleInitDataLoad();
     }
   }
 
-  public async showSearchBar() {
-    // this.buttonClicked = true;
-    // const popover = await this.popoverController.create({
-    //   component: AddFilterPopoverComponent,
-    //   componentProps: {
-    //     optionType,
-    //     value
-    //   },
-    //   event,
-    //   showBackdrop: false,
-    //   translucent: true,
-    //   cssClass: 'filter-popover'
-    // });
+  public async showSearchBar(event) {
 
-    // this.buttonClicked = false;
-    // return await popover.present();
+    const popover = await this.popoverController.create({
+      component: SearchBarComponent,
+      event,
+      showBackdrop: false,
+      translucent: true,
+      cssClass: 'search-bar-popover',
+      mode: 'md',
+      componentProps: {
+        searchTerm: this.searchTerm
+      }
+    });
+
+    return await popover.present();
   }
 
   public async doRefresh() {

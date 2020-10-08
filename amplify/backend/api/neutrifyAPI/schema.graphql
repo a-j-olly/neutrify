@@ -2,7 +2,6 @@
 type Article @model(mutations: null, subscriptions: null)
     @key(fields: ["id", "uri"])
     @key(name: "byDate", fields: ["dataType", "displayDateTime"], queryField: "articlesByDate")
-    @key(name: "bySearchTerm", fields: ["dataType", "searchTerms"], queryField: "articlesBySearchTerm")
     @auth(rules: [{ allow: public, operations: [read], provider: iam }])
 {
     authors: [String!]

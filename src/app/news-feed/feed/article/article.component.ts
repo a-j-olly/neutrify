@@ -43,7 +43,6 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
-    console.log('article keywords: ', this.article.keywords);
   }
 
   async viewImage() {

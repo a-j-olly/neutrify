@@ -9,6 +9,7 @@ import { NewsFeedWrapperPage } from './news-feed-wrapper.page';
 import { ArticleComponent } from './feed/article/article.component';
 import { SkeletonFeedComponent } from './skeleton-feed/skeleton-feed.component';
 import { NewsFeedComponent } from './feed/news-feed.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,8 @@ const routes: Routes = [
     ImageModalComponent,
     AddFilterPopoverComponent,
     SkeletonFeedComponent,
-    NewsFeedComponent
+    NewsFeedComponent,
+    SearchBarComponent
   ]
 })
 export class NewsFeedWrapperPageModule {}

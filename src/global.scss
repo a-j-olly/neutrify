@@ -66,3 +66,9 @@ ion-modal.auto-height {
         border: 1px solid var(--ion-color-primary);
     }
 };
+
+.search-bar-popover .popover-wrapper  {
+    .popover-content {
+        background: var(--ion-color-primary);
+    }
+};

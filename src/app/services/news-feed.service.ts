@@ -27,6 +27,9 @@ export class NewsFeedService {
 
   public filters: any;
 
+  public searchFilter: any;
+  private searchFilter$ = new Subject<any>()
+
   constructor(
     private filterService: FilterService,
     private authService: AuthService,
@@ -37,6 +40,15 @@ export class NewsFeedService {
 
   public setFilters(filters) {
     this.filters = filters;
+  }
+
+  public setSearchFilter(searchFilter) {
+    this.searchFilter = searchFilter;
+    this.searchFilter$.next(searchFilter);
+  }
+
+  public getSearchFilter() {
+    return this.searchFilter$.asObservable();
   }
 
   public getIsFeedUpdatingStatus() {
@@ -112,9 +124,11 @@ export class NewsFeedService {
       limit = 25;
     }
 
+    const filters = this.searchFilter ? this.searchFilter : this.filters;
     let results;
+
     try {
-      results = await this.neutrifyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, this.filters, limit, nextToken);
+      results = await this.neutrifyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, filters, limit, nextToken);
     } catch (error) {
       console.log('Could not get articles. Service returned this error: ', error);
 
@@ -160,7 +174,7 @@ export class NewsFeedService {
     let newLimit = 100;
     do {
       if (i === 1) {
-        this.readyArticles = await this.listArticles(newLimit);
+        this.readyArticles = await this.listArticles(newLimit, null);
       } else if (i === 2) {
         newLimit = 400;
         this.readyArticles = await this.listArticles(newLimit, null);
@@ -168,16 +182,15 @@ export class NewsFeedService {
         newLimit = 1000;
         this.readyArticles.push(...await this.listArticles(newLimit, this.nextToken));
       } else {
-        await this.presentToast('Could only find a few articles that fit your criteria. Please remove some filters.', 'primary');
+        await this.presentToast('There are not that many articles that fit your criteria.', 'primary');
         break;
       }
-      
+
       i++;
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
     this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
-
     this.limit = newLimit;
 
     this.updateDisplayArticles(this.displayArticles);

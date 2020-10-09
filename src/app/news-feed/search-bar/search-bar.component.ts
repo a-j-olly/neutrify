@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { Component, Input, ViewChild } from '@angular/core';
+import { IonSearchbar } from '@ionic/angular';
 import { ModelStringFilterInput } from 'src/app/services/neutrify-api.service';
 import { NewsFeedService } from 'src/app/services/news-feed.service';
 
@@ -8,20 +8,21 @@ import { NewsFeedService } from 'src/app/services/news-feed.service';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
 })
-export class SearchBarComponent implements OnInit {
+export class SearchBarComponent {
   @Input() searchTerm;
+  @ViewChild('searchBarCtrl') searchBarCtrl: IonSearchbar;
 
   constructor(
-    private popoverController: PopoverController,
     public newsFeedService: NewsFeedService
-  ) { 
+  ) {}
 
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.searchBarCtrl.setFocus();
+    }, 200);
   }
 
-  ngOnInit() {}
-
   public async search(event) {
-
     if (event.detail.value && event.detail.value !== this.searchTerm) {
       this.searchTerm = event.detail.value;
       const searchFilter: ModelStringFilterInput = {

@@ -182,11 +182,7 @@ export class NewsFeedService {
         newLimit = 1000;
         this.readyArticles.push(...await this.listArticles(newLimit, this.nextToken));
       } else {
-        await this.presentToast('Could only find a few articles that fit your criteria. Please remove some filters.', 'primary');
-        break;
-      }
-
-      if (i <= 10) {
+        await this.presentToast('There are not that many articles that fit your criteria.', 'primary');
         break;
       }
 

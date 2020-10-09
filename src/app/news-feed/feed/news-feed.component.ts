@@ -169,9 +169,10 @@ export class NewsFeedComponent implements OnInit {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-        if (i <= 10) {
+        if (i > 10) {
           break;
         }
+
         i++;
       } while ((this.newsFeedService.nextToken && noNewArticles < this.displayThreshold));
 

@@ -181,7 +181,7 @@ export class NewsFeedWrapperPage {
         contains: event.detail.value.toLowerCase()
       };
 
-      this.newsFeedService.setSearchFilter({searchTerms: searchFilter});
+      this.newsFeedService.setSearchFilter({ searchTerms: searchFilter });
       this.newsFeedService.handleInitDataLoad();
     } else if (!event.detail.value && !this.searchTerm) {
       this.searchTerm = '';
@@ -194,7 +194,6 @@ export class NewsFeedWrapperPage {
   }
 
   public async showSearchBar(event) {
-
     const popover = await this.popoverController.create({
       component: SearchBarComponent,
       event,

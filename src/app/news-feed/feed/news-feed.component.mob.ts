@@ -100,7 +100,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
       this.filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(this.filters);
-
+      this.newsFeedService.setSearchFilter(null);
       await this.newsFeedService.handleInitDataLoad();
     });
 
@@ -218,6 +218,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   }
 
   async getNextPage(event) {
+    let i = 1;
+
     if (this.newsFeedService.nextToken && this.readyArticles.length < this.displayThreshold) {
       this.newsFeedService.updateIsFeedUpdatingStatus(true);
       let noNewArticles = 0;
@@ -228,6 +230,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
+        if (i > 10) {
+          break;
+        }
       } while (this.newsFeedService.nextToken && noNewArticles < this.displayThreshold);
 
     } else if (!this.newsFeedService.nextToken) {

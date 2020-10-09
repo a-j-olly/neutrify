@@ -126,8 +126,8 @@
                   "with": "src/app/app.module.mob.ts"
                 },
                 {
-                  "replace": "src/app/news-feed/news-feed.component.ts",
-                  "with": "src/app/news-feed/news-feed.component.mob.ts"
+                  "replace": "src/app/news-feed/feed/news-feed.component.ts",
+                  "with": "src/app/news-feed/feed/news-feed.component.mob.ts"
                 }
               ],
               "optimization": true,

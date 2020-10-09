@@ -3,7 +3,7 @@ ion-header {
     --ion-toolbar-background: var(--ion-color-primary);
 
     ion-toolbar {   
-        
+
         ion-img.logo {
             max-width: 150px;
             max-height: 48px;
@@ -14,27 +14,23 @@ ion-header {
             position: absolute;
 
             ion-searchbar {
-                @media screen and (max-width: 904px) {
+                @media screen and (max-width: 942px) {
                     display: none;
                 }
 
                 @media screen and (max-width: 1056px) {
                     width: 220px;
-                    margin-left: 10px;
                 }
 
                 @media screen and (min-width: 1056px) {
                     width: 260px;
-                    margin-left: 20px;
                 }
 
                 @media screen and (min-width: 1200px) {
-                    margin-left: 50px;
                     width: 280px;
                 }
 
                 @media screen and (min-width: 1500px) {
-                    margin-left: 100px;
                     width: 320px;
                 }
 
@@ -63,7 +59,7 @@ ion-header {
                     padding-left: 0px; 
                 }
                     
-                @media screen and (min-width: 904px) {
+                @media screen and (min-width: 943px) {
                     display: none;
                 }
             }

@@ -1,11 +1,11 @@
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform, ToastController, IonContent } from '@ionic/angular';
-import { MenuService } from '../services/menu.service';
+import { MenuService } from '../../services/menu.service';
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { FilterService } from '../services/filter.service';
+import { FilterService } from '../../services/filter.service';
 import { formatDistanceToNow } from 'date-fns';
-import { NewsFeedService } from '../services/news-feed.service';
+import { NewsFeedService } from '../../services/news-feed.service';
 
 @Component({
   selector: 'app-news-feed',
@@ -77,6 +77,7 @@ export class NewsFeedComponent implements OnInit {
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
       this.filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(this.filters);
+      this.newsFeedService.setSearchFilter(null);
       await this.newsFeedService.handleInitDataLoad();
     });
 
@@ -157,20 +158,26 @@ export class NewsFeedComponent implements OnInit {
   }
 
   async getNextPage(event) {
+    let i = 1;
+
     if (this.newsFeedService.nextToken && this.readyArticles.length < this.displayThreshold) {
       this.newsFeedService.updateIsFeedUpdatingStatus(true);
       let noNewArticles = 0;
-      
       do {
         const newArticles: Array<any> = new Array<any>();
         newArticles.push(...await this.newsFeedService.listArticles(this.limit, this.newsFeedService.nextToken));
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-      } while (this.newsFeedService.nextToken && noNewArticles < this.displayThreshold);
+        if (i > 10) {
+          break;
+        }
+
+        i++;
+      } while ((this.newsFeedService.nextToken && noNewArticles < this.displayThreshold));
 
     } else if (!this.newsFeedService.nextToken) {
-      this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
+      await this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
 
     await this.loadReadyArticles();

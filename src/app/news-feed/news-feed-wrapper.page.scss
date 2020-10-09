@@ -12,7 +12,33 @@ ion-header {
         
         ion-buttons {
             position: absolute;
-        
+
+            ion-searchbar {
+                @media screen and (max-width: 942px) {
+                    display: none;
+                }
+
+                @media screen and (max-width: 1056px) {
+                    width: 220px;
+                }
+
+                @media screen and (min-width: 1056px) {
+                    width: 260px;
+                }
+
+                @media screen and (min-width: 1200px) {
+                    width: 280px;
+                }
+
+                @media screen and (min-width: 1500px) {
+                    width: 320px;
+                }
+
+                height: 38px;
+                padding: 0px;
+                margin-left: 10px;
+            }
+            
             &.left-buttons {
                 left: 0px;
             }
@@ -22,7 +48,18 @@ ion-header {
             }
 
             .hide-label {
-                @media screen and (max-width: 600px) {
+                @media screen and (max-width: 720px) {
+                    display: none;
+                }
+            }
+
+            .hide-icon {
+                @media screen and (max-width: 360px) {
+                    margin-left: -8px;
+                    padding-left: 0px; 
+                }
+                    
+                @media screen and (min-width: 943px) {
                     display: none;
                 }
             }

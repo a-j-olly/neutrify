@@ -1,6 +1,6 @@
-import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
+import { GoogleAnalyticsService } from './../../../../services/google-analytics.service';
 import { PopoverController } from '@ionic/angular';
-import { FilterService } from './../../../services/filter.service';
+import { FilterService } from './../../../../services/filter.service';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({

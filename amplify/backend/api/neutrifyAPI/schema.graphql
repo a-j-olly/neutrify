@@ -25,11 +25,12 @@ type Article @model(mutations: null, subscriptions: null)
     language: String
     share: Int
     similarity: Float
-    time: String
+    searchTerms: [String]
     sourceCountry: String!
     sourceRanking: Int
     sourceTitle: String!
     title: String!
+    time: String
     tone: Float!
     topics: [String!]
     timeToLive: Float

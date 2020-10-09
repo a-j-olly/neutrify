@@ -204,11 +204,12 @@ export type ModelArticleFilterInput = {
   language?: ModelStringFilterInput | null;
   share?: ModelIntFilterInput | null;
   similarity?: ModelFloatFilterInput | null;
-  time?: ModelStringFilterInput | null;
+  searchTerms?: ModelStringFilterInput | null;
   sourceCountry?: ModelStringFilterInput | null;
   sourceRanking?: ModelIntFilterInput | null;
   sourceTitle?: ModelStringFilterInput | null;
   title?: ModelStringFilterInput | null;
+  time?: ModelStringFilterInput | null;
   tone?: ModelFloatFilterInput | null;
   topics?: ModelStringFilterInput | null;
   timeToLive?: ModelFloatFilterInput | null;
@@ -784,11 +785,12 @@ export type GetArticleQuery = {
   language: string | null;
   share: number | null;
   similarity: number | null;
-  time: string | null;
+  searchTerms: Array<string | null> | null;
   sourceCountry: string;
   sourceRanking: number | null;
   sourceTitle: string;
   title: string;
+  time: string | null;
   tone: number;
   topics: Array<string> | null;
   timeToLive: number | null;
@@ -823,11 +825,12 @@ export type ListArticlesQuery = {
     language: string | null;
     share: number | null;
     similarity: number | null;
-    time: string | null;
+    searchTerms: Array<string | null> | null;
     sourceCountry: string;
     sourceRanking: number | null;
     sourceTitle: string;
     title: string;
+    time: string | null;
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
@@ -864,11 +867,12 @@ export type ArticlesByDateQuery = {
     language: string | null;
     share: number | null;
     similarity: number | null;
-    time: string | null;
+    searchTerms: Array<string | null> | null;
     sourceCountry: string;
     sourceRanking: number | null;
     sourceTitle: string;
     title: string;
+    time: string | null;
     tone: number;
     topics: Array<string> | null;
     timeToLive: number | null;
@@ -1629,11 +1633,12 @@ export class APIService {
           language
           share
           similarity
-          time
+          searchTerms
           sourceCountry
           sourceRanking
           sourceTitle
           title
+          time
           tone
           topics
           timeToLive
@@ -1686,11 +1691,12 @@ export class APIService {
             language
             share
             similarity
-            time
+            searchTerms
             sourceCountry
             sourceRanking
             sourceTitle
             title
+            time
             tone
             topics
             timeToLive
@@ -1760,11 +1766,12 @@ export class APIService {
             language
             share
             similarity
-            time
+            searchTerms
             sourceCountry
             sourceRanking
             sourceTitle
             title
+            time
             tone
             topics
             timeToLive

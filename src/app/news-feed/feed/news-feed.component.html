@@ -64,6 +64,6 @@
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>
 
-<div [hidden]="nextToken !== null || isFeedUpdating || displayArticles.length === 0" class="ion-text-center">
+<div [hidden]="newsFeedService.nextToken !== null || isFeedUpdating || displayArticles.length === 0" class="ion-text-center">
   <h2>You're all caught up!</h2>
 </div>

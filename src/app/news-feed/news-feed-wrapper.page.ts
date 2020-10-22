@@ -9,7 +9,6 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { differenceInMinutes } from 'date-fns';
 import { environment } from 'src/environments/environment';
 import { Router, NavigationStart } from '@angular/router';
-import { ModelStringFilterInput } from '../services/neutrify-api.service';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 
 
@@ -63,8 +62,9 @@ export class NewsFeedWrapperPage {
   public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
   private filtersInitStatus$: Subscription;
 
-  public searchTerm: string;
-  private searchTermSubscription$: Subscription;
+  private useFilters: boolean = false;
+  private searchTerm: string;
+  private searchFilterSubscription$: Subscription;
 
   constructor(
     private platform: Platform,
@@ -91,7 +91,7 @@ export class NewsFeedWrapperPage {
           const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
   
           if (timePassed >= 20) {
-            this.newsFeedService.doRefresh();
+            this.newsFeedService.handleInitDataLoad();
           } else {
             this.showRefreshFab = true;
           }
@@ -101,11 +101,14 @@ export class NewsFeedWrapperPage {
 
     this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => this.filtersInitStatus = status);
 
-    this.searchTermSubscription$ = this.newsFeedService.getSearchFilter().subscribe((searchFilter) => {
-      if (searchFilter) {
-        this.searchTerm = searchFilter.searchTerms.contains;
+    this.searchFilterSubscription$ = this.newsFeedService.getSearchFilter().subscribe(data => {
+
+      if (data && data.searchTerm) {
+        this.searchTerm = data.searchTerm;
+        this.useFilters = data.useFilters;
       } else {
         this.searchTerm = '';
+        this.useFilters = false;
       }
     });
 
@@ -152,7 +155,7 @@ export class NewsFeedWrapperPage {
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');
     this.menu.swipeGesture(true, 'mainMenu');
-    this.menuService.openMenu()
+    this.menuService.openMenu();
   }
 
   async ionViewDidEnter() {
@@ -173,26 +176,6 @@ export class NewsFeedWrapperPage {
     await this.newsFeedService.loadFilters();
   }
 
-  public async search(event) {
-    if (event.detail.value && event.detail.value !== this.searchTerm) {
-      this.searchTerm = event.detail.value;
-
-      const searchFilter: ModelStringFilterInput = {
-        contains: event.detail.value.toLowerCase()
-      };
-
-      this.newsFeedService.setSearchFilter({ searchTerms: searchFilter });
-      this.newsFeedService.handleInitDataLoad();
-    } else if (!event.detail.value && !this.searchTerm) {
-      this.searchTerm = '';
-      this.newsFeedService.setSearchFilter(null);
-    } else {
-      this.searchTerm = '';
-      this.newsFeedService.setSearchFilter(null);
-      this.newsFeedService.handleInitDataLoad();
-    }
-  }
-
   public async showSearchBar(event) {
     const popover = await this.popoverController.create({
       component: SearchBarComponent,
@@ -202,7 +185,8 @@ export class NewsFeedWrapperPage {
       cssClass: 'search-bar-popover',
       mode: 'md',
       componentProps: {
-        searchTerm: this.searchTerm
+        searchTerm: this.searchTerm,
+        useFilters: this.useFilters,
       }
     });
 

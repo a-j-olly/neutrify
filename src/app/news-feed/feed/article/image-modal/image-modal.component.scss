@@ -9,9 +9,15 @@
 
 .dismiss-icon {
     position: absolute;
-    top: 0px;
     right: 0px;
-    font-size: 32px;
+    bottom: 0px;
+
+    @media screen and (min-width: 520px) {
+        top: 0px;
+        bottom: inherit;
+    }
+
+    font-size: 24px;
 
     &:hover {
         cursor: pointer; 

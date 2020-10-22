@@ -1,4 +1,20 @@
-<ion-row>
-  <ion-searchbar #searchBarCtrl type="search" debounce="1000" inputmode="search" spellcheck="true" autocorrect="on" color="medium" 
-  placeholder="Search here..." (ionChange)="search($event)" value="{{ searchTerm }}"></ion-searchbar>
-</ion-row>
+<div class="container">
+
+  <ion-icon class="dismiss-icon" name="close-circle" (click)="dismiss()" color="danger"></ion-icon>
+
+  <form [formGroup]="searchBarForm">
+    <ion-row class="ion-no-margin ion-no-padding ion-justify-content-evenly ion-align-items-center">
+      <ion-searchbar #searchBarCtrl formControlName="searchTerm" (keyup.enter)="onEnter()" spellcheck="true" color="medium" 
+      placeholder="Search..." (ionClear)="onClear()" value="{{ searchTerm }}"></ion-searchbar>
+  
+      <ion-button (click)="search()" color="success" [disabled]="!f.searchTerm.valid">
+        <ion-icon name="caret-forward" size="large" color="medium"></ion-icon>
+      </ion-button>
+  
+      <ion-item class="use-filters-item ion-tappable"  lines="none" color="primary">
+        <ion-checkbox slot="end" formControlName="useFilters" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
+        <ion-label color="medium"><b>Use With Filters?</b></ion-label>
+      </ion-item>
+    </ion-row>
+  </form>
+</div>

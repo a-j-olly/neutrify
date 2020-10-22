@@ -100,7 +100,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
       this.filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(this.filters);
-      this.newsFeedService.setSearchFilter(null);
+      this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: false});
       await this.newsFeedService.handleInitDataLoad();
     });
 

@@ -6,13 +6,10 @@
       </ion-button>
       <ion-label class="hide-label" *ngIf="!menuStatus || platformWidth < 720" color="medium"><b>Filter Menu</b></ion-label>
 
-      <ion-searchbar *ngIf="platformWidth > 942" [ngStyle]="{'margin-left': menuStatus ? '5px': '25px'}" type="search" debounce="1000" inputmode="search" 
-      spellcheck="true" autocorrect="on" color="medium" placeholder="Search here..." (ionChange)="search($event)" value="{{ searchTerm }}"></ion-searchbar>
-
-      <ion-button *ngIf="platformWidth < 943" class="hide-icon" (click)="showSearchBar($event)" color="medium">
+      <ion-button class="hide-icon" (click)="showSearchBar($event)" color="{{ this.searchTerm ? 'danger' : 'medium' }}">
         <ion-icon name="search" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-label class="hide-label" *ngIf="platformWidth < 943" color="medium"><b>Search</b></ion-label>
+      <ion-label class="hide-label" color="{{ this.searchTerm ? 'danger' : 'medium' }}"><b>Search</b></ion-label>
     </ion-buttons>
     
     <ion-title>

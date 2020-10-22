@@ -77,7 +77,7 @@ export class NewsFeedComponent implements OnInit {
     this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
       this.filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(this.filters);
-      this.newsFeedService.setSearchFilter(null);
+      this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: false});
       await this.newsFeedService.handleInitDataLoad();
     });
 

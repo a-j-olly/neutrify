@@ -26,8 +26,8 @@ export class FilterMenuComponent {
   private filterOptions
   private filterSubcription$: Subscription;
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
@@ -52,8 +52,8 @@ export class FilterMenuComponent {
       this.initOptions();
     });
 
-    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filtersLoading = status;
+    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filterLoading = status;
     });
   }
 

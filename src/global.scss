@@ -69,6 +69,13 @@ ion-modal.auto-height {
 
 .search-bar-popover .popover-wrapper  {
     .popover-content {
-        background: var(--ion-color-primary);
+        
+        width: 90%;
+        background: rgba(var(--ion-color-primary), 1);
+        --box-shadow: 0px;
+
+        @media screen and (min-width: 560px) {
+            width: 560px;
+        }
     }
 };

@@ -18,15 +18,15 @@ export class RangeFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private ga: GoogleAnalyticsService
   ) {
-    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filtersLoading = status;
+    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filterLoading = status;
     });
   }
 

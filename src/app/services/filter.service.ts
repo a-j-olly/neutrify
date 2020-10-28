@@ -18,7 +18,7 @@ export class FilterService {
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
-  filtersLoading: boolean = false;
+  filterLoading: boolean = false;
   filterLoading$ = new Subject<boolean>();
 
   topicsUserOption: any = {};
@@ -125,7 +125,7 @@ export class FilterService {
   }
 
   async updateFilterLoading(isLoading: boolean) {
-    this.filtersLoading = isLoading;
+    this.filterLoading = isLoading;
     this.filterLoading$.next(isLoading);
   }
 

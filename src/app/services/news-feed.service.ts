@@ -187,10 +187,8 @@ export class NewsFeedService {
 
   public async resetArticles() {
     this.nextToken = null;
-    this.readyArticles = new Array();
-    this.displayArticles = new Array();
-    this.updateDisplayArticles(this.displayArticles);
-    this.updateReadyArticles(this.readyArticles);
+    this.updateDisplayArticles(new Array());
+    this.updateReadyArticles(new Array());
   }
 
   public async handleInitDataLoad() {

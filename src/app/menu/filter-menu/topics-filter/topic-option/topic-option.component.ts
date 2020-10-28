@@ -11,7 +11,7 @@ export class TopicOptionComponent implements OnInit {
   public oppositeDisabled = false;
   public displayValue: Array<string> = new Array<string>();
 
-  @Input() filtersLoading;
+  @Input() filterLoading;
   @Input() topicOption;
 
   private _topicValues: any = {};

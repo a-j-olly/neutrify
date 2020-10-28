@@ -47,8 +47,8 @@ export class NewsFeedWrapperPage {
   private pausedTimestamp: number;
   public showRefreshFab = false;
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   public filtersSaved: boolean = true;
   private filtersSavedSubcription$: Subscription;
@@ -83,18 +83,9 @@ export class NewsFeedWrapperPage {
       this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight);
 
       if (this.platformSource !== 'dom') {
-        this.platform.pause.subscribe(() => {
-          this.pausedTimestamp = new Date().getTime();
-        });
-    
+
         this.platform.resume.subscribe(() => {
-          const timePassed = differenceInMinutes(new Date(), this.pausedTimestamp);
-  
-          if (timePassed >= 20) {
-            this.newsFeedService.handleInitDataLoad();
-          } else {
             this.showRefreshFab = true;
-          }
         });
       }
     });
@@ -135,9 +126,9 @@ export class NewsFeedWrapperPage {
 
     this.isFeedUpdatingSubscription$ = this.newsFeedService.getIsFeedUpdatingStatus().subscribe(status => this.isFeedUpdating = status);
     
-    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe(status => {
+    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe(status => {
       if (this.filtersInitStatus) {
-        this.filtersLoading = status;
+        this.filterLoading = status;
       }
     });
 

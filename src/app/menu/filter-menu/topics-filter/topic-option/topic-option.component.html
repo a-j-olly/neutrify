@@ -4,7 +4,7 @@
       name="{{topicOption.name}}Checkbox"
       [(ngModel)]="optionDisabled"
       (ionChange)="onCheckboxChange($event)"
-      [disabled]="filtersLoading">
+      [disabled]="filterLoading">
     </ion-checkbox>
   </ion-col>
   <ion-col size="10">
@@ -14,7 +14,7 @@
           name="{{topicOption.name}}Select"
           multiple="true"
           [(ngModel)]="displayValue"
-          [disabled]="optionDisabled || oppositeDisabled || filtersLoading"
+          [disabled]="optionDisabled || oppositeDisabled || filterLoading"
           (ionChange)="onSelectChange($event)"
           placeholder="Click to Add">
         <ion-select-option *ngFor="let value of topicOption.values">{{value.label}}</ion-select-option>

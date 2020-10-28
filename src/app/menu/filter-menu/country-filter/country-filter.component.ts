@@ -34,15 +34,15 @@ export class CountryFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private toastController: ToastController
     ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
+      this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filterLoading = status;
       });
     }
 
@@ -81,7 +81,7 @@ export class CountryFilterComponent implements OnInit {
   }
 
   removeWord(index) {
-    if (this.filtersLoading) return;
+    if (this.filterLoading) return;
     this.option[this.segmentValue].splice(index, 1);
     this.option.name = 'Locations';
     this.displayList = this.option[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));

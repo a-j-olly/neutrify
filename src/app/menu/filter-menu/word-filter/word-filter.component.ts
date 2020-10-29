@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
@@ -8,6 +9,17 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-word-filter',
   templateUrl: './word-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./word-filter.component.scss'],
 })
 export class WordFilterComponent implements OnInit {

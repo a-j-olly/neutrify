@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -5,6 +6,17 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-bias-filter',
   templateUrl: './bias-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./bias-filter.component.scss'],
 })
 export class BiasFilterComponent implements OnInit {

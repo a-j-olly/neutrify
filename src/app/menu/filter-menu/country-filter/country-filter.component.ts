@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Countries } from '../../../../assets/model/country-options';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
@@ -8,6 +9,17 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-country-filter',
   templateUrl: './country-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./country-filter.component.scss'],
 })
 export class CountryFilterComponent implements OnInit {

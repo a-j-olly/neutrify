@@ -58,6 +58,8 @@ export class NewsFeedService {
           } else {
             this.filters.and = [{ searchTerms: searchFilter }];
           }
+        } else {
+          this.filters['and'] = [{ searchTerms: searchFilter }]
         }
       } else {
         // use just searchTerm filter
@@ -275,7 +277,11 @@ export class NewsFeedService {
   private removeSearchFilter() {
     const searchFilterIndex = this.filters.and.findIndex(f => f.searchTerms);
     if (searchFilterIndex != -1) {
-      this.filters.and.splice(searchFilterIndex, 1);
+      if (this.filters.and.length === 1) {
+        delete this.filters.and;
+      } else {
+        this.filters.and.splice(searchFilterIndex, 1);
+      }
     }
   }
 }

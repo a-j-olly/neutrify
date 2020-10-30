@@ -51,6 +51,7 @@ export class SearchBarComponent implements OnInit{
       this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: this.useFilters});
       this.newsFeedService.handleInitDataLoad();
     }
+    this.dismiss();
   }
 
   public onEnter() {
@@ -66,6 +67,7 @@ export class SearchBarComponent implements OnInit{
     this.searchTerm = '';
     this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: this.useFilters});
     this.newsFeedService.handleInitDataLoad();
+    this.dismiss();
   }
 
   public onCheckboxChange(event) {

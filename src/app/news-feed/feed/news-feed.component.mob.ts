@@ -230,7 +230,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-        if (i > 10) {
+        if (i > 10  && noNewArticles >= 3) {
           break;
         }
       } while (this.newsFeedService.nextToken && noNewArticles < this.displayThreshold);

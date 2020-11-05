@@ -38,9 +38,7 @@
     </div>
 
     <ion-card-content class="ion-no-margin ion-no-padding">
-      <app-article *ngIf="i === openArticleIndex"
-        [article]="article">
-      </app-article>
+      <app-article *ngIf="i === openArticleIndex" [article]="article"></app-article>
 
       <ion-row class="ion-justify-content-between footer" (click)="onArticleSelected(i)">
         <ion-row class="ion-justify-content-start">

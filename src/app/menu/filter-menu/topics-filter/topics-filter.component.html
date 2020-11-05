@@ -17,7 +17,7 @@
       </ion-col>
     </ion-row>
 
-  <div [hidden]="!showFilter">
+  <div *ngIf="showFilter" [@enterLeave]>
     <ion-row class="ion-justify-content-center">
       <ion-segment (ionChange)="onSegmentChange($event)" value="include">
         <ion-segment-button class="primary" value="include">
@@ -28,8 +28,8 @@
         </ion-segment-button>
       </ion-segment>
     </ion-row>
-
-    <app-topic-option 
+    
+    <app-topic-option
       *ngFor="let option of selectOptions" 
       [topicOption]="option" 
       [topicValues]="filterValues[option.name]"

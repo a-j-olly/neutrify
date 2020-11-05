@@ -18,7 +18,7 @@
       </ion-col>
     </ion-row>
 
-  <div [hidden]="!showFilter">
+  <div *ngIf="showFilter" [@enterLeave]>
     <ion-row class="ion-justify-content-center" >
       <ion-segment [(ngModel)]="segmentValue" (ionChange)="onSegmentChange()">
         <ion-segment-button class="primary" value="include">

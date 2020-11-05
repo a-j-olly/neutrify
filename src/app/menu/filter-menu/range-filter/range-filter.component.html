@@ -17,7 +17,7 @@
     </ion-col>
   </ion-row>
 
-  <div [hidden]="!showFilter">
+  <div *ngIf="showFilter" [@enterLeave]>
     <ion-row>
       <p>Filter articles based on {{ rangeFilterType.toLowerCase() }}:</p>
     </ion-row>

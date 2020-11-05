@@ -87,6 +87,7 @@ export class MainMenuComponent {
     this.storage.set('neutrify_dark_mode', this.darkMode);
   }
 
+  // used to ensure this.darkmode in this component is correct at init 
   async detectTheme(): Promise<void> {
     return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
       if (res.value) {

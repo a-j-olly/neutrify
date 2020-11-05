@@ -1,3 +1,4 @@
+import { TutorialComponent } from './news-feed/tutorial/tutorial.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { APIService } from './services/neutrify-api.service';
 import { NgModule } from '@angular/core';
@@ -37,7 +38,8 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
     SupportComponent,
     TermsConditionsComponent,
     MainMenuComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,

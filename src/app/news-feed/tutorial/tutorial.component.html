@@ -1,0 +1,112 @@
+<div class="container">
+
+  <ion-icon class="dismiss-icon" name="close-circle" (click)="dismiss()" color="danger"></ion-icon>
+
+  <ion-grid class="ion-no-padding">
+    <ion-slides pager="false" #slides (ionSlidesDidLoad)="checkSlidesPos()" (ionSlideDidChange)="checkSlidesPos()" >
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Adding Filters</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Quick-Filters.gif" alt="Add filters easily" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>You can easily add filters by clicking on one of the key terms found in an article.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Manual Filters</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Manual-Filters.gif" alt="Add filters manually" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>You can also manually add filters by using the filter menu. You have many to choose from.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Searching</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Search.gif" alt="Search for key terms" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>You can search for a single key term by clicking the search icon and then entering your search term.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Political Bias</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Political-Alignment.gif" alt="Filters by political bias" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>To filter by political bias, cycle the button's colour to include or exclude the bias from you feed.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Clearing Filters</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Clear-Filters.gif" alt="Clearing filters" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>To clear your current filters, open the filter menu and click the 'clear filters' button.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-col>
+          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+            <h3><b>Tutorial: Dark Theme</b></h3>
+          </ion-row>
+          
+          <ion-row class="img-container ion-padding ion-justify-content-center">
+            <ion-img src="../../assets/img/tutorial/Dark-Theme.gif" alt="Switch to dark mode" loading="eager"></ion-img>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center">
+            <p>To easily switch to and from dark mode, open the main menu and check the 'Dark Theme' option.</p>
+          </ion-row>
+        </ion-col>
+      </ion-slide>
+
+      
+    </ion-slides>
+
+    <ion-row class="ion-justify-content-between">
+      <ion-button color="danger" (click)="slidePrev()" [disabled]="backButtonDisabled || buttonClicked"><b>Back</b></ion-button>
+      <ion-button color="success" (click)="slideNext()" [disabled]="nextButtonDisabled || buttonClicked" *ngIf="!nextButtonDisabled"><b>Next</b></ion-button>
+      <ion-button color="success" (click)="dismiss()" [disabled]="buttonClicked" *ngIf="nextButtonDisabled"><b>Done</b></ion-button>
+    </ion-row>
+  </ion-grid>
+</div>

@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Platform, MenuController, PopoverController } from '@ionic/angular';
+import { Platform, MenuController, PopoverController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { MenuService } from '../services/menu.service';
 import { FilterService } from '../services/filter.service';
 import { NewsFeedService } from '../services/news-feed.service';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { differenceInMinutes } from 'date-fns';
 import { environment } from 'src/environments/environment';
 import { Router, NavigationStart } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -74,7 +75,9 @@ export class NewsFeedWrapperPage {
     private filterService: FilterService,
     private newsFeedService: NewsFeedService,
     private router: Router,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private modalController: ModalController,
+    private storage: Storage
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
@@ -114,7 +117,7 @@ export class NewsFeedWrapperPage {
 
     this.displayArticlesSubscription$ = this.newsFeedService.getDisplayArticles().subscribe(articles => {
       this.resetTimer();
-  
+
       if (JSON.stringify(this.displayArticles) != JSON.stringify(articles)) {
         this.displayArticles = articles;
       }
@@ -125,7 +128,7 @@ export class NewsFeedWrapperPage {
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(async (status) => this.menuStatus = status);
 
     this.isFeedUpdatingSubscription$ = this.newsFeedService.getIsFeedUpdatingStatus().subscribe(status => this.isFeedUpdating = status);
-    
+
     this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe(status => {
       if (this.filtersInitStatus) {
         this.filterLoading = status;
@@ -150,6 +153,11 @@ export class NewsFeedWrapperPage {
   }
 
   async ionViewDidEnter() {
+    const doneTutorial = await this.storage.get('neutrify_done_tutorial');
+    if (!doneTutorial) {
+      await this.showTutorial().then(() => this.storage.set('neutrify_done_tutorial', true));
+    }
+
     this.startTimer();
   }
 
@@ -165,6 +173,16 @@ export class NewsFeedWrapperPage {
 
   public async loadFilters() {
     await this.newsFeedService.loadFilters();
+  }
+
+  public async showTutorial() {
+    const popover = await this.modalController.create({
+      component: TutorialComponent,
+      showBackdrop: false,
+      cssClass: 'tutorial-modal'
+    });
+
+    return await popover.present();
   }
 
   public async showSearchBar(event) {
@@ -190,7 +208,7 @@ export class NewsFeedWrapperPage {
 
   public startTimer() {
     this.timerObj = setTimeout(() => {
-      this.timeLeft -= 1;      
+      this.timeLeft -= 1;
       if (this.timeLeft > 0) {
         this.startTimer();
       } else {

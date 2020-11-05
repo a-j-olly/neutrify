@@ -31,7 +31,7 @@
     </ion-row>
     <ion-row class="word-list ion-justify-content-start">
       <ion-col class="ion-text-center" *ngFor="let word of wordDisplayList; let i = index">
-        <ion-badge (click)="removeWord(i)" [disabled]="filterLoading">
+        <ion-badge (click)="removeWord(i)">
           {{ word }}<ion-icon name="close"></ion-icon>
         </ion-badge>
       </ion-col>

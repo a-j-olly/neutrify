@@ -4,16 +4,16 @@
 
   <form [formGroup]="searchBarForm">
     <ion-row class="ion-no-margin ion-no-padding ion-justify-content-evenly ion-align-items-center">
-      <ion-searchbar #searchBarCtrl formControlName="searchTerm" (keyup.enter)="onEnter()" spellcheck="true" color="medium" 
+      <ion-searchbar #searchBarCtrl formControlName="searchTerm" (keyup.enter)="onEnter()" spellcheck="true" color="light" 
       placeholder="Search..." (ionClear)="onClear()" value="{{ searchTerm }}"></ion-searchbar>
   
       <ion-button (click)="search()" color="success" [disabled]="!f.searchTerm.valid">
-        <ion-icon name="caret-forward" size="large" color="medium"></ion-icon>
+        <ion-icon name="caret-forward" size="large" color="light"></ion-icon>
       </ion-button>
   
       <ion-item class="use-filters-item ion-tappable"  lines="none" color="primary">
         <ion-checkbox slot="end" formControlName="useFilters" (ionChange)="onCheckboxChange($event)"></ion-checkbox>
-        <ion-label color="medium"><b>Use With Filters?</b></ion-label>
+        <ion-label color="light"><b>Use With Filters?</b></ion-label>
       </ion-item>
     </ion-row>
   </form>

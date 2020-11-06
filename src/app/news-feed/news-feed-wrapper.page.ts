@@ -64,7 +64,7 @@ export class NewsFeedWrapperPage {
   private filtersInitStatus$: Subscription;
 
   private useFilters: boolean = false;
-  private searchTerm: string;
+  public searchTerm: string;
   private searchFilterSubscription$: Subscription;
 
   constructor(

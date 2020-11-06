@@ -1,0 +1,61 @@
+.container {
+    margin: 2px 8px;
+    background-color: var(--ion-color-primary);
+    border-radius: 5px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+    h3 {
+        color: var(--ion-color-light);
+    }
+
+    p {
+        color: var(--ion-color-light);
+        margin-bottom: 10px;
+    }
+
+    .img-container {
+        background: var(--ion-color-medium);
+        border-radius: 10px;
+        margin: 2px 8px;
+
+        ion-img {
+            @media screen and (max-height: 720px) {
+                max-height: 400px;
+            }
+
+            @media screen and (max-height: 640px) {
+                max-height: 360px;
+            }
+
+            @media screen and (max-height: 580px) {
+                max-height: 320px;
+            }
+
+            @media screen and (max-height: 540px) {
+                max-height: 280px;
+            }
+
+            @media screen and (max-height: 480px) {
+                max-height: 200px;
+            }
+
+            @media screen and (max-height: 420px) {
+                max-height: 140px;
+            }
+        }   
+    }
+
+    .dismiss-icon {
+        position: absolute;
+        top: -2px;
+        right: 0px;
+        font-size: 32px;
+        z-index: 1000;
+    
+        &:hover {
+            cursor: pointer; 
+        }
+    }
+}
+
+

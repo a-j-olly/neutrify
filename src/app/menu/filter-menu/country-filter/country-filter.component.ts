@@ -106,9 +106,9 @@ export class CountryFilterComponent implements OnInit {
 
   emitFilterChange() {
     this.userOptionChanged.emit({
-      name: 'Locations', 
-      include: [...this.option.include], 
-      exclude: [...this.option.exclude] 
+      name: 'Locations',
+      include: [...this.option.include],
+      exclude: [...this.option.exclude]
     });
   }
 

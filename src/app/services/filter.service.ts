@@ -96,7 +96,7 @@ export class FilterService {
         }
       });
     }
-    
+
     this.filterOptions = newFilterOptions;
     this.filterOptions$.next(this.filterOptions);
     this.updateFilterSaved(false);
@@ -230,7 +230,7 @@ export class FilterService {
         }
       });
 
-      topics = input
+      topics = input;
     } else {
       target = target.filter((topic) => group != this.findTopicsGroup(topic).toLowerCase());
       topics = new Array();

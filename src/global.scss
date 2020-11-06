@@ -31,7 +31,7 @@
 /* CSS for amplify components */
 // @import '~aws-amplify-angular/Theme.css'
 
-ion-modal.auto-height {
+.auto-height {
     &.bottom {
         align-items: flex-end;
     };
@@ -60,6 +60,28 @@ ion-modal.auto-height {
     };
 };
 
+.tutorial-modal {
+    --max-width: 420px;
+    --height: auto;
+
+    .modal-wrapper {
+        background: rgba(var(--ion-color-primary), 1);
+        --box-shadow: 0px;
+    }
+
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 0px;
+        };
+    };
+};
+
 .filter-popover .popover-wrapper  {
     .popover-content {
         background: rgba(whitesmoke, 1);
@@ -69,7 +91,6 @@ ion-modal.auto-height {
 
 .search-bar-popover .popover-wrapper  {
     .popover-content {
-        
         width: 90%;
         background: rgba(var(--ion-color-primary), 1);
         --box-shadow: 0px;

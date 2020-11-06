@@ -34,9 +34,11 @@ export class WordFilterComponent implements OnInit {
   set userOption(val: any) {
     const { include, exclude } = val;
     if (JSON.stringify(include) != JSON.stringify(this.includeList)) {
-      this.includeList = [...include];
+      this.includeList = new Array();
+      this.includeList.push(...include);
     } else if (JSON.stringify(exclude) != JSON.stringify(this.excludeList)) {
-      this.excludeList = [...exclude];
+      this.excludeList = new Array();
+      this.excludeList.push(...exclude);
     }
 
     this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
@@ -85,8 +87,8 @@ export class WordFilterComponent implements OnInit {
       this.wordDisplayList = wordList;
 
       this.userOptionChanged.emit({
-        include: this.includeList,
-        exclude: this.excludeList,
+        include: [...this.includeList],
+        exclude: [...this.excludeList],
         name: this.wordFilterType
       });
 
@@ -100,14 +102,14 @@ export class WordFilterComponent implements OnInit {
 
   removeWord(index) {
     if (this.filterLoading) return;
-  
+
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     wordList.splice(index, 1);
 
     this.wordDisplayList = wordList;
     this.userOptionChanged.emit({
-      include: this.includeList,
-      exclude: this.excludeList,
+      include: [...this.includeList],
+      exclude: [...this.excludeList],
       name: this.wordFilterType
     });
   }

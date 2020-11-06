@@ -1,3 +1,4 @@
+import { TutorialComponent } from './news-feed/tutorial/tutorial.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { APIService } from './services/neutrify-api.service';
 import { NgModule } from '@angular/core';
@@ -25,7 +26,8 @@ import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,

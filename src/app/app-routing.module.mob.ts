@@ -6,8 +6,7 @@ import { NewsFeedWrapperPage } from './news-feed/news-feed-wrapper.page';
 const routes: Routes = [
   { path: '', redirectTo: 'app', pathMatch: 'full' },
   { path: 'app', children: [
-    { path: '', loadChildren: () => import('./news-feed/news-feed-wrapper.module').then( m => m.NewsFeedWrapperPageModule) },
-    { path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule) },
+    { path: '', loadChildren: () => import('./news-feed/news-feed-wrapper.module').then( m => m.NewsFeedWrapperPageModule) }
   ], canActivate: [AuthGuardService]},
   { path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] },
 ];

@@ -17,12 +17,12 @@
     </ion-col>
   </ion-row>
 
-  <div [hidden]="!showFilter">
+  <div *ngIf="showFilter" [@enterLeave]>
     <ion-row>
       <p>Filter articles based on {{ rangeFilterType.toLowerCase() }}:</p>
     </ion-row>
     <ion-row>
-      <ion-range min="{{ rangeSettings.min }}" max="{{ rangeSettings.max }}" step="{{ rangeSettings.step }}" [disabled]="filtersLoading"
+      <ion-range min="{{ rangeSettings.min }}" max="{{ rangeSettings.max }}" step="{{ rangeSettings.step }}" [disabled]="filterLoading"
         dualKnobs="{{ rangeSettings.dualKnobs }}" ticks="{{ rangeSettings.ticks }}" snaps="{{ rangeSettings.snaps }}" 
         pin="{{ rangeSettings.pin }}" debounce="250" [ngModel]="userOption.value" (ionChange)="onChange($event)">
         <ion-icon slot="start" name="{{ rangeSettings.rangeIcons.start.name }}" color="{{ rangeSettings.rangeIcons.start.color }}"></ion-icon>

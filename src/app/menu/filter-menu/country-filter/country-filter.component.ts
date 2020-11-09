@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Countries } from '../../../../assets/model/country-options';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
@@ -8,6 +9,17 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-country-filter',
   templateUrl: './country-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./country-filter.component.scss'],
 })
 export class CountryFilterComponent implements OnInit {
@@ -34,15 +46,15 @@ export class CountryFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private toastController: ToastController
     ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
+      this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filterLoading = status;
       });
     }
 
@@ -81,7 +93,7 @@ export class CountryFilterComponent implements OnInit {
   }
 
   removeWord(index) {
-    if (this.filtersLoading) return;
+    if (this.filterLoading) return;
     this.option[this.segmentValue].splice(index, 1);
     this.option.name = 'Locations';
     this.displayList = this.option[this.segmentValue].map((topic: string) => topic.replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()));
@@ -94,9 +106,9 @@ export class CountryFilterComponent implements OnInit {
 
   emitFilterChange() {
     this.userOptionChanged.emit({
-      name: 'Locations', 
-      include: [...this.option.include], 
-      exclude: [...this.option.exclude] 
+      name: 'Locations',
+      include: [...this.option.include],
+      exclude: [...this.option.exclude]
     });
   }
 

@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
@@ -8,6 +9,17 @@ import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-word-filter',
   templateUrl: './word-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./word-filter.component.scss'],
 })
 export class WordFilterComponent implements OnInit {
@@ -22,9 +34,11 @@ export class WordFilterComponent implements OnInit {
   set userOption(val: any) {
     const { include, exclude } = val;
     if (JSON.stringify(include) != JSON.stringify(this.includeList)) {
-      this.includeList = [...include];
+      this.includeList = new Array();
+      this.includeList.push(...include);
     } else if (JSON.stringify(exclude) != JSON.stringify(this.excludeList)) {
-      this.excludeList = [...exclude];
+      this.excludeList = new Array();
+      this.excludeList.push(...exclude);
     }
 
     this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
@@ -40,16 +54,16 @@ export class WordFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private ga: GoogleAnalyticsService,
     private toastController: ToastController
     ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
+      this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filterLoading = status;
       });
     }
 
@@ -73,8 +87,8 @@ export class WordFilterComponent implements OnInit {
       this.wordDisplayList = wordList;
 
       this.userOptionChanged.emit({
-        include: this.includeList,
-        exclude: this.excludeList,
+        include: [...this.includeList],
+        exclude: [...this.excludeList],
         name: this.wordFilterType
       });
 
@@ -87,15 +101,15 @@ export class WordFilterComponent implements OnInit {
   }
 
   removeWord(index) {
-    if (this.filtersLoading) return;
-  
+    if (this.filterLoading) return;
+
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     wordList.splice(index, 1);
 
     this.wordDisplayList = wordList;
     this.userOptionChanged.emit({
-      include: this.includeList,
-      exclude: this.excludeList,
+      include: [...this.includeList],
+      exclude: [...this.excludeList],
       name: this.wordFilterType
     });
   }

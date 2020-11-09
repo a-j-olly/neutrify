@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { ToastController } from '@ionic/angular';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { Subject } from 'rxjs';
-import { APIService, ModelSortDirection, ModelStringKeyConditionInput } from './neutrify-api.service';
+import { APIService, ModelSortDirection, ModelStringKeyConditionInput, ModelStringFilterInput } from './neutrify-api.service';
 import { sub, add } from 'date-fns';
 
 @Injectable({
@@ -42,9 +42,38 @@ export class NewsFeedService {
     this.filters = filters;
   }
 
-  public setSearchFilter(searchFilter) {
-    this.searchFilter = searchFilter;
-    this.searchFilter$.next(searchFilter);
+  public setSearchFilter(data) {
+    if (data && data.searchTerm) {
+      const searchFilter: ModelStringFilterInput = {
+        contains: data.searchTerm.toLowerCase()
+      };
+
+      if (data.useFilters) {
+        this.searchFilter = null;
+        // add search term to filters
+        if (this.filters && this.filters.and) {
+          if (this.filters.and.length) {
+            this.removeSearchFilter();
+            this.filters.and.push({ searchTerms: searchFilter });
+          } else {
+            this.filters.and = [{ searchTerms: searchFilter }];
+          }
+        } else {
+          this.filters['and'] = [{ searchTerms: searchFilter }]
+        }
+      } else {
+        // use just searchTerm filter
+        this.searchFilter = { searchTerms: searchFilter };
+      }
+
+    } else {
+      if (this.filters && this.filters.and) {
+        this.removeSearchFilter();
+      }
+      this.searchFilter = null;
+    }
+
+    this.searchFilter$.next(data);
   }
 
   public getSearchFilter() {
@@ -160,10 +189,8 @@ export class NewsFeedService {
 
   public async resetArticles() {
     this.nextToken = null;
-    this.readyArticles = new Array();
-    this.displayArticles = new Array();
-    this.updateDisplayArticles(this.displayArticles);
-    this.updateReadyArticles(this.readyArticles);
+    this.updateDisplayArticles(new Array());
+    this.updateReadyArticles(new Array());
   }
 
   public async handleInitDataLoad() {
@@ -245,5 +272,16 @@ export class NewsFeedService {
     });
     
     await toast.present();
+  }
+
+  private removeSearchFilter() {
+    const searchFilterIndex = this.filters.and.findIndex(f => f.searchTerms);
+    if (searchFilterIndex != -1) {
+      if (this.filters.and.length === 1) {
+        delete this.filters.and;
+      } else {
+        this.filters.and.splice(searchFilterIndex, 1);
+      }
+    }
   }
 }

@@ -17,7 +17,7 @@
     </ion-col>
   </ion-row>
 
-  <div [hidden]="!showFilter">
+  <div *ngIf="showFilter" [@enterLeave]>
     <ion-row class="ion-align-items-center">
       <p>
         Tap any of the political bias buttons multiple times to toggle between 

@@ -45,6 +45,10 @@ export class ArticleComponent implements OnInit {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
   }
 
+  async ionViewWillEnter() {
+    await this.slides.update();
+  }
+
   async viewImage() {
     if (!this.buttonClicked) {
       this.buttonClicked = true;
@@ -93,7 +97,7 @@ export class ArticleComponent implements OnInit {
 
       this.ga.eventEmitter('select_content', 'engagement', 'Went to external website');
     }
-    
+
     this.buttonClicked = false;
   }
 
@@ -118,6 +122,6 @@ export class ArticleComponent implements OnInit {
     const currentSlideIndex = await this.slides.getActiveIndex();
     if (currentSlideIndex === 1) {
       this.showImage = true;
-    } 
+    }
   }
 }

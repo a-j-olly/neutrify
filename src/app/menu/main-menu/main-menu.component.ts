@@ -1,9 +1,10 @@
+import { TutorialComponent } from './../../news-feed/tutorial/tutorial.component';
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
-import { MenuController, ToastController, AlertController, Platform } from '@ionic/angular';
+import { MenuController, ToastController, AlertController, Platform, ModalController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { KeychainService } from 'src/app/services/keychain.service';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -44,6 +45,7 @@ export class MainMenuComponent {
     private ga: GoogleAnalyticsService,
     private alertController: AlertController,
     private toastController: ToastController,
+    private modalController: ModalController,
     private inAppBrowser: InAppBrowser,
     private keychainService: KeychainService,
     private platform: Platform,
@@ -87,6 +89,7 @@ export class MainMenuComponent {
     this.storage.set('neutrify_dark_mode', this.darkMode);
   }
 
+  // used to ensure this.darkmode in this component is correct at init 
   async detectTheme(): Promise<void> {
     return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
       if (res.value) {
@@ -124,6 +127,16 @@ export class MainMenuComponent {
         this.inAppBrowser.create(encodeURI(url), '_system');
       }
     }
+  }
+
+  public async openTutorial() {
+    const popover = await this.modalController.create({
+      component: TutorialComponent,
+      showBackdrop: false,
+      cssClass: 'tutorial-modal'
+    });
+
+    return await popover.present().then(() => this.storage.set('neutrify_done_tutorial', true));
   }
 
   async presentAlertConfirmSignout() {

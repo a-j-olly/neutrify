@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -6,6 +7,17 @@ import { FilterService } from 'src/app/services/filter.service';
 @Component({
   selector: 'app-range-filter',
   templateUrl: './range-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ]),
+  ],
   styleUrls: ['./range-filter.component.scss'],
 })
 export class RangeFilterComponent implements OnInit {
@@ -18,15 +30,15 @@ export class RangeFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private ga: GoogleAnalyticsService
   ) {
-    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filtersLoading = status;
+    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filterLoading = status;
     });
   }
 

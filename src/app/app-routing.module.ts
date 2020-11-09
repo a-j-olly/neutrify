@@ -44,13 +44,7 @@ const routes: Routes = [
     path: 'app', children: [
     { 
       path: '', loadChildren: () => import('./news-feed/news-feed-wrapper.module').then( m => m.NewsFeedWrapperPageModule)
-    },
-    { 
-      path: 'help', loadChildren: () => import('./help/help.module').then( m => m.HelpPageModule), 
-      data: {
-        title: 'Neutrify: Filter Out The Hysteria' 
-      }, 
-    },
+    }
   ], data: {
       title: 'Neutrify: Filter Out The Hysteria'
     }, canActivate: [AuthGuardService]

@@ -32,7 +32,7 @@ export class CtaComponent {
   }
 
   ionViewWillEnter() {
-    this.storage.get('ion_accepted_privacy').then(async (result) => {
+    this.storage.get('neutrify_accepted_privacy').then(async (result) => {
       if (result) {
         this.showPrivacyNotice = false;
       } else {
@@ -42,7 +42,7 @@ export class CtaComponent {
   }
 
   acceptedPrivacyNotice() {
-    this.storage.set('ion_accepted_privacy', true);
+    this.storage.set('neutrify_accepted_privacy', true);
     this.showPrivacyNotice = false;
   }
 

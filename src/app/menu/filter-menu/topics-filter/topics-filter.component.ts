@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   Arts,
@@ -18,6 +19,17 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-topics-filter',
   templateUrl: './topics-filter.component.html',
+  animations: [
+    trigger('enterLeave', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('100ms', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('100ms', style({ opacity: 0 }))
+      ])
+    ])
+  ],
   styleUrls: ['./topics-filter.component.scss'],
 })
 export class TopicsFilterComponent implements OnInit {
@@ -40,14 +52,14 @@ export class TopicsFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filtersLoading = status;
+      this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filterLoading = status;
       });
     }
 

@@ -35,8 +35,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   public nextToken: string;
   private limit = 25;
 
-  public filtersLoading: boolean = false;
-  private filtersLoadingSubcription$: Subscription;
+  public filterLoading: boolean = false;
+  private filterLoadingSubcription$: Subscription;
 
   public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
@@ -100,7 +100,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
       this.filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(this.filters);
-      this.newsFeedService.setSearchFilter(null);
+      this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: false});
       await this.newsFeedService.handleInitDataLoad();
     });
 
@@ -108,10 +108,10 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       this.filtersSaved = status;
     });
 
-    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filtersLoading = status;
+    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filterLoading = status;
 
-      if (this.filtersLoading) {
+      if (this.filterLoading) {
         this.openArticleIndex = undefined;
       }
     });
@@ -230,9 +230,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         this.readyArticles.push(...newArticles);
         noNewArticles += newArticles.length;
 
-        if (i > 10) {
+        if (i > 10  && noNewArticles >= 3) {
           break;
         }
+
+        i++;
       } while (this.newsFeedService.nextToken && noNewArticles < this.displayThreshold);
 
     } else if (!this.newsFeedService.nextToken) {

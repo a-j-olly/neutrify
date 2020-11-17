@@ -4,7 +4,7 @@ import { FilterService } from './filter.service';
 import { APIService, ConfigByOwnerQuery, CreateConfigInput, UpdateConfigInput } from './neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
-import { CognitoUser } from "amazon-cognito-identity-js";
+import { CognitoUser } from 'amazon-cognito-identity-js';
 import { Auth } from 'aws-amplify';
 import { Subject } from 'rxjs';
 import { Storage } from '@ionic/storage';
@@ -23,7 +23,7 @@ export class AuthService {
   userId: string;
   configId: string;
 
-  public filtersInitStatus = false;  
+  public filtersInitStatus = false;
   public filtersInitStatus$ = new Subject<boolean>();
 
   public userEmail$ = new Subject<string>();
@@ -94,10 +94,10 @@ export class AuthService {
         loadedFilters = await this.createConfig(this.user);
       }
     } else {
-      const localfilters = await this.storage.get('neutrify_filters');
+      const localFilters = await this.storage.get('neutrify_filters');
 
-      if (localfilters !== null && localfilters !== undefined) {
-        loadedFilters = JSON.parse(localfilters);
+      if (localFilters !== null && localFilters !== undefined) {
+        loadedFilters = JSON.parse(localFilters);
       } else {
         const newFilters = this.filterService.blankFilterObj(uuid());
         this.storage.set('neutrify_filters', JSON.stringify(newFilters));
@@ -170,10 +170,10 @@ export class AuthService {
     this.configId = uuid();
 
     let newConfig: CreateConfigInput;
-    const localfilters = await this.storage.get('neutrify_filters');
+    const localFilters = await this.storage.get('neutrify_filters');
 
-    if (localfilters !== null && localfilters !== undefined) {
-      newConfig = JSON.parse(localfilters);
+    if (localFilters !== null && localFilters !== undefined) {
+      newConfig = JSON.parse(localFilters);
     } else {
       newConfig = this.filterService.blankFilterObj(this.configId);
     }
@@ -200,6 +200,7 @@ export class AuthService {
       this.updateUserEmail(null);
       this.userId = null;
       this.configId = null;
+      this.updateFiltersInitStatus(false);
       return true;
     } catch (e) {
       console.log('There was an error signing out. Service returned this error: ', e);
@@ -332,7 +333,7 @@ export class AuthService {
             console.log('Could not delete user account. Service returned this error: ', err);
             res = false;
           } else {
-            res = true
+            res = true;
           }
         });
       } else {
@@ -378,12 +379,13 @@ export class AuthService {
   }
 
   private async validateFilters(filters: any) {
-    const validFields = [ 
-      'id', 'toneUpperRange', 'toneLowerRange', 'sourcesToInclude', 'sourcesToExclude', 'topicsToInclude', 'topicsToExclude', 'keywordsToInclude', 'keywordsToExclude',
+    const validFields = [
+      'id', 'toneUpperRange', 'toneLowerRange', 'sourcesToInclude', 'sourcesToExclude',
+      'topicsToInclude', 'topicsToExclude', 'keywordsToInclude', 'keywordsToExclude',
       'locationsToInclude', 'locationsToExclude', 'biasToInclude', 'biasToExclude'
     ];
 
-    let missingFields = [];
+    const missingFields = [];
     validFields.forEach((field: string) => {
       if (!filters.hasOwnProperty(field) || !filters[field]) {
         missingFields.push(field);
@@ -399,12 +401,14 @@ export class AuthService {
 
   private async updateMissingConfig(missingItems: Array<string>, filters) {
     console.log(`Adding ${missingItems.length} missing items`);
+    console.log(`The missing items are: ${missingItems}`);
+
     missingItems.forEach((item: string) => {
       filters[item] = this.setBlankUpdate(item);
     });
 
     if (this.signedIn) {
-      let updateInput: UpdateConfigInput = { id: this.configId };
+      const updateInput: UpdateConfigInput = { id: this.configId };
       missingItems.forEach((item: string) => {
         updateInput[item] = this.setBlankUpdate(item);
       });
@@ -424,7 +428,7 @@ export class AuthService {
 
   private setBlankUpdate(item: string) {
     let res;
-    
+
     if (item === 'toneLowerRange') {
       res = -1;
     } else if (item === 'toneUpperRange') {

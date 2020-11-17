@@ -1,4 +1,4 @@
-import { TutorialComponent } from './news-feed/tutorial/tutorial.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { APIService } from './services/neutrify-api.service';
 import { NgModule } from '@angular/core';

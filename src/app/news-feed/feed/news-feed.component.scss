@@ -40,6 +40,10 @@ ion-header {
     background-color: inherit;
 }
 
+.loading-spinner {
+    --color : var(--ion-color-primary);
+}
+
 p {
     color: var(--ion-color-primary);
     font-size: 14px;

@@ -1,11 +1,11 @@
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MenuService } from './services/menu.service';
-import { Component, ViewContainerRef, ViewChild, Compiler, Injector, ComponentRef } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, Compiler, Injector, ComponentRef, ChangeDetectorRef } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { ThemeDetection, ThemeDetectionResponse } from "@ionic-native/theme-detection/ngx";
+import { ThemeDetection, ThemeDetectionResponse } from '@ionic-native/theme-detection/ngx';
 import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
@@ -21,7 +21,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 export class AppComponent {
   @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
 
-  private hasFilterMenuViewInit: boolean = false;
+  private hasFilterMenuViewInit = false;
 
   public menuStatus = false;
   private menuSubscription$: Subscription;
@@ -29,7 +29,7 @@ export class AppComponent {
   private prefersDark;
   private platformSource: string;
 
-  public filtersInitStatus: boolean = false;
+  public filtersInitStatus = false;
   private filtersInitStatus$: Subscription;
 
   constructor(
@@ -45,23 +45,26 @@ export class AppComponent {
     private storage: Storage,
     private ga: GoogleAnalyticsService,
     private meta: MetaService,
-    private screenOrientation: ScreenOrientation
+    private screenOrientation: ScreenOrientation,
+    private ref: ChangeDetectorRef
   ) {
-
     this.initializeApp();
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
       this.menuStatus = status;
     });
-    
+
     this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => {
       this.filtersInitStatus = status;
 
       if (this.filtersInitStatus && !this.hasFilterMenuViewInit) {
+        this.ref.detectChanges();
         this.loadFilterMenu();
+      } else if (!this.filtersInitStatus) {
+        this.hasFilterMenuViewInit = false;
       }
     });
-    
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.menuService.updateCurrentRoute(event.urlAfterRedirects);
@@ -97,7 +100,7 @@ export class AppComponent {
       if (shouldAdd) {
         this.statusBar.styleLightContent();
       } else {
-        this.statusBar.styleDefault()
+        this.statusBar.styleDefault();
       }
     }
   }
@@ -122,7 +125,7 @@ export class AppComponent {
     } else {
       this.prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
       this.toggleDarkTheme(this.prefersDark.matches);
-    }  
+    }
   }
 
   async initializeApp() {

@@ -1,3 +1,4 @@
+import { NewsFeedService } from 'src/app/services/news-feed.service';
 import { AddFilterPopoverComponent } from './feed/article/add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './feed/article/image-modal/image-modal.component';
 import { NgModule } from '@angular/core';
@@ -34,6 +35,7 @@ const routes: Routes = [
     SkeletonFeedComponent,
     NewsFeedComponent,
     SearchBarComponent
-  ]
+  ],
+  providers: [NewsFeedService]
 })
 export class NewsFeedWrapperPageModule {}

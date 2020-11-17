@@ -1,6 +1,6 @@
 
 <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" [disabled]="isFeedUpdating">
-  <ion-refresher-content
+  <ion-refresher-content style="display: none;"
     pullingIcon="refresh"
     refreshingSpinner="crescent">
   </ion-refresher-content>
@@ -11,8 +11,8 @@
 </div>
 
 <ion-list id="feed">
-  <ion-card [hidden]="displayArticles.length === 0" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
-    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i === openArticleIndex">
+  <ion-card [hidden]="displayArticles.length === 0 || isFeedUpdating" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
+    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i === newsFeedService.openArticleIndex">
       <ion-ripple-effect type="unbound"></ion-ripple-effect>
       <ion-row>
         <ion-col size="11" class="ion-no-margin ion-no-padding title">
@@ -24,7 +24,7 @@
       </ion-row>
     </div>
   
-    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i !== openArticleIndex">
+    <div class="ion-activatable tappable ion-no-margin ion-no-padding" (click)="onArticleSelected(i)" [hidden]="i !== newsFeedService.openArticleIndex">
 
       <ion-ripple-effect type="unbound"></ion-ripple-effect>
       <ion-row>
@@ -38,7 +38,7 @@
     </div>
 
     <ion-card-content class="ion-no-margin ion-no-padding">
-      <app-article *ngIf="i === openArticleIndex" [article]="article"></app-article>
+      <app-article *ngIf="i === newsFeedService.openArticleIndex" [article]="article"></app-article>
 
       <ion-row class="ion-justify-content-between footer" (click)="onArticleSelected(i)">
         <ion-row class="ion-justify-content-start">
@@ -58,7 +58,7 @@
 </ion-list>
 
 <ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="15%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
-  <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more articles...">
+  <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more articles..." class="loading-spinner">
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>
 

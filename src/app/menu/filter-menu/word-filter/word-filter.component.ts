@@ -54,16 +54,16 @@ export class WordFilterComponent implements OnInit {
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filterLoading: boolean = false;
-  private filterLoadingSubcription$: Subscription;
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     private ga: GoogleAnalyticsService,
     private toastController: ToastController
     ) {
-      this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-        this.filterLoading = status;
+      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+        this.filtersLoading = status;
       });
     }
 
@@ -101,7 +101,7 @@ export class WordFilterComponent implements OnInit {
   }
 
   removeWord(index) {
-    if (this.filterLoading) return;
+    if (this.filtersLoading) return;
 
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     wordList.splice(index, 1);

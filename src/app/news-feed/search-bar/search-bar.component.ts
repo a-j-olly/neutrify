@@ -8,11 +8,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
 })
-export class SearchBarComponent implements OnInit{
+export class SearchBarComponent implements OnInit {
   @ViewChild('searchBarCtrl') searchBarCtrl: IonSearchbar;
 
   @Input() searchTerm;
-  @Input() useFilters: boolean = false;
+  @Input() useFilters = false;
 
   searchBarForm: FormGroup;
 
@@ -37,19 +37,19 @@ export class SearchBarComponent implements OnInit{
 
   get f() { return this.searchBarForm.controls; }
 
-  public search() {
+  public async search() {
 
     if (this.f.searchTerm.value) {
       this.searchTerm = this.f.searchTerm.value.trim();
       this.newsFeedService.setSearchFilter({searchTerm: this.searchTerm, useFilters: this.useFilters});
-      this.newsFeedService.handleInitDataLoad();
+      await this.newsFeedService.handleInitDataLoad();
     } else if (!this.f.searchTerm.value && !this.searchTerm) {
       this.searchTerm = '';
       this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: this.useFilters});
     } else {
       this.searchTerm = '';
       this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: this.useFilters});
-      this.newsFeedService.handleInitDataLoad();
+      await this.newsFeedService.handleInitDataLoad();
     }
     this.dismiss();
   }
@@ -58,7 +58,7 @@ export class SearchBarComponent implements OnInit{
     if (this.f.searchTerm.value) {
       setTimeout(() => {
         this.search();
-      }, 250);
+      }, 150);
     }
   }
 

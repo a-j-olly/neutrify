@@ -42,7 +42,7 @@
     <form [formGroup]="wordOptionForm" (ngSubmit)="addWord()">
       <ion-row class="ion-no-margin ion-no-padding">
         <ion-input formControlName="wordInput" placeholder=" Type here..."></ion-input>
-        <ion-button type="submit" [disabled]="wordOptionForm.invalid || filterLoading">Add</ion-button>
+        <ion-button type="submit" [disabled]="wordOptionForm.invalid || filtersLoading">Add</ion-button>
       </ion-row>
     </form>
   </div>

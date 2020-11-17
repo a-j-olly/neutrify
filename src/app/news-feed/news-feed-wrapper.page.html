@@ -34,17 +34,17 @@
 </ion-content>
 
 <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="showRefreshFab" [@btnInBottom]>
-  <ion-fab-button (click)="doRefresh()" [disabled]="!filtersInitStatus || filterLoading">
+  <ion-fab-button (click)="doRefresh()" [disabled]="!filtersInitStatus || filtersLoading">
     <ion-icon size="large" name="refresh"></ion-icon>
   </ion-fab-button>
 </ion-fab>
 
 <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="!filtersSaved" [@btnInLeft]>
-  <ion-fab-button (click)="saveFilters()" color="primary" [disabled]="!filtersInitStatus || filterLoading">
+  <ion-fab-button (click)="saveFilters()" color="primary" [disabled]="!filtersInitStatus || filtersLoading">
     <ion-icon size="large" name="save"></ion-icon>
   </ion-fab-button>
 
-  <ion-fab-button (click)="loadFilters()" color="danger" style="margin-top: 10px;" [disabled]="!filtersInitStatus || filterLoading">
+  <ion-fab-button (click)="loadFilters()" color="danger" style="margin-top: 10px;" [disabled]="!filtersInitStatus || filtersLoading">
     <ion-icon size="large" name="close-circle"></ion-icon>
   </ion-fab-button>
 </ion-fab>

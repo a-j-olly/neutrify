@@ -11,11 +11,13 @@ export class TutorialComponent {
   @ViewChild('slides') slides: IonSlides;
   public backButtonDisabled = false;
   public nextButtonDisabled = false;
+  public currentSlideIndex: number;
 
   constructor(private modalController: ModalController) { }
 
   async ionViewWillEnter() {
     this.slides.update();
+    this.currentSlideIndex = await this.slides.getActiveIndex();
   }
 
   public async slideNext() {
@@ -31,6 +33,7 @@ export class TutorialComponent {
   }
 
   public async checkSlidesPos() {
+    this.currentSlideIndex = await this.slides.getActiveIndex();
     this.backButtonDisabled = await this.slides.isBeginning();
     this.nextButtonDisabled = await this.slides.isEnd();
   }

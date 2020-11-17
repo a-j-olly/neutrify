@@ -9,7 +9,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { environment } from 'src/environments/environment';
 import { Router, NavigationStart } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-import { TutorialComponent } from './tutorial/tutorial.component';
+import { TutorialComponent } from '../tutorial/tutorial.component';
 import { Storage } from '@ionic/storage';
 
 
@@ -34,7 +34,7 @@ import { Storage } from '@ionic/storage';
 })
 export class NewsFeedWrapperPage {
   public displayArticles: Array<any> = new Array<any>();
-  private displayArticlesSubscription$: Subscription;
+  private articlesSubscription$: Subscription;
 
   private routerEventSubscription$: Subscription;
 
@@ -45,14 +45,13 @@ export class NewsFeedWrapperPage {
 
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
-  private pausedTimestamp: number;
   public showRefreshFab = false;
 
-  public filterLoading: boolean = false;
-  private filterLoadingSubcription$: Subscription;
+  public filtersLoading = false;
+  private filtersLoadingSubscription$: Subscription;
 
-  public filtersSaved: boolean = true;
-  private filtersSavedSubcription$: Subscription;
+  public filtersSaved = true;
+  private filtersSavedSubscription$: Subscription;
 
   private menuSubscription$: Subscription;
   public menuStatus = false;
@@ -63,7 +62,7 @@ export class NewsFeedWrapperPage {
   public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
   private filtersInitStatus$: Subscription;
 
-  private useFilters: boolean = false;
+  private useFilters = false;
   public searchTerm: string;
   private searchFilterSubscription$: Subscription;
 
@@ -86,9 +85,8 @@ export class NewsFeedWrapperPage {
       this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight);
 
       if (this.platformSource !== 'dom') {
-
         this.platform.resume.subscribe(() => {
-            this.showRefreshFab = true;
+          this.showRefreshFab = true;
         });
       }
     });
@@ -115,11 +113,12 @@ export class NewsFeedWrapperPage {
       }
     });
 
-    this.displayArticlesSubscription$ = this.newsFeedService.getDisplayArticles().subscribe(articles => {
+    this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
+      const { displayArticles, readyArticles } = articles;
       this.resetTimer();
 
-      if (JSON.stringify(this.displayArticles) != JSON.stringify(articles)) {
-        this.displayArticles = articles;
+      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
+        this.displayArticles = displayArticles;
       }
     });
 
@@ -127,15 +126,16 @@ export class NewsFeedWrapperPage {
 
     this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(async (status) => this.menuStatus = status);
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getIsFeedUpdatingStatus().subscribe(status => this.isFeedUpdating = status);
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status);
 
-    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe(status => {
+    this.filtersLoadingSubscription$ = this.filterService.getFilterLoading().subscribe(status => {
       if (this.filtersInitStatus) {
-        this.filterLoading = status;
+        this.newsFeedService.openArticleIndex = undefined;
+        this.filtersLoading = status;
       }
     });
 
-    this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
+    this.filtersSavedSubscription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
       this.searchTerm = '';
 
       if (this.filtersInitStatus) {
@@ -165,6 +165,8 @@ export class NewsFeedWrapperPage {
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();
+    this.newsFeedService.resetArticles();
+    this.newsFeedService.setFeedUpdateStatus(true);
   }
 
   public async saveFilters() {
@@ -179,7 +181,7 @@ export class NewsFeedWrapperPage {
     const popover = await this.modalController.create({
       component: TutorialComponent,
       showBackdrop: false,
-      cssClass: 'tutorial-modal'
+      cssClass: 'tutorial-modal',
     });
 
     return await popover.present();

@@ -26,8 +26,8 @@ export class FilterMenuComponent {
   private filterOptions
   private filterSubcription$: Subscription;
 
-  public filterLoading: boolean = false;
-  private filterLoadingSubcription$: Subscription;
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
@@ -52,8 +52,8 @@ export class FilterMenuComponent {
       this.initOptions();
     });
 
-    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filterLoading = status;
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
     });
   }
 
@@ -135,14 +135,14 @@ export class FilterMenuComponent {
 
   async loadFilters() {
     this.filterService.updateFilterLoading(true);
-      const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
-      
-      if (res) {
-        await this.presentToast('Your filters have been loaded.', 'success');
-        this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-      } else {
-        this.presentToast('Could not load your filters. Please try again.', 'danger');
-      }
+    const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
+
+    if (res) {
+      await this.presentToast('Your filters have been loaded.', 'success');
+      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+    } else {
+      this.presentToast('Could not load your filters. Please try again.', 'danger');
+    }
   }
 
   async saveFilters() {

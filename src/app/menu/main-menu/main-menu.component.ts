@@ -1,4 +1,4 @@
-import { TutorialComponent } from './../../news-feed/tutorial/tutorial.component';
+import { TutorialComponent } from './../../tutorial/tutorial.component';
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
@@ -73,7 +73,7 @@ export class MainMenuComponent {
 
   async toggleTheme(event) {
     this.darkMode = event.detail.checked;
-    
+
     await this.hideMenus();
 
     document.body.classList.toggle('dark', this.darkMode);
@@ -82,7 +82,7 @@ export class MainMenuComponent {
       if (this.darkMode) {
         this.statusBar.styleLightContent();
       } else {
-        this.statusBar.styleDefault()
+        this.statusBar.styleDefault();
       }
     }
 
@@ -136,6 +136,7 @@ export class MainMenuComponent {
       cssClass: 'tutorial-modal'
     });
 
+    this.ga.eventEmitter('tutorial', 'engagement', 'Use tutorial');
     return await popover.present().then(() => this.storage.set('neutrify_done_tutorial', true));
   }
 

@@ -1,6 +1,6 @@
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
-import { MenuController, Platform, ToastController, IonContent } from '@ionic/angular';
+import { MenuController, Platform, IonContent } from '@ionic/angular';
 import { MenuService } from '../../services/menu.service';
 import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
@@ -15,28 +15,13 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./news-feed.component.scss'],
 })
 export class NewsFeedComponent implements OnInit, OnDestroy {
-  public openArticleIndex: number;
   private platformSource: string;
 
-  filters: any;
-  filterSubcription$: Subscription;
-
-  public filtersSaved: boolean = true;
-  private filtersSavedSubcription$: Subscription;
+  private filterSubscription$: Subscription;
 
   public displayArticles: Array<any> = new Array<any>();
-  private displayArticlesSubscription$: Subscription;
-
   private readyArticles: Array<any> = new Array<any>();
-  private readyArticlesSubscription$: Subscription;
-
-  private displayThreshold = 15;
-
-  public nextToken: string;
-  private limit = 25;
-
-  public filterLoading: boolean = false;
-  private filterLoadingSubcription$: Subscription;
+  private articlesSubscription$: Subscription;
 
   public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
@@ -44,13 +29,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   private resumeAdSubscription$: Subscription;
   private pauseAdSubscription$: Subscription;
 
-  platformResize$: Subscription;
-  platformWidth: number;
-  platformHeight: number;
-
   constructor(
     private filterService: FilterService,
-    private toastController: ToastController,
     private changeDetector: ChangeDetectorRef,
     private menuService: MenuService,
     private menu: MenuController,
@@ -62,9 +42,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   ) {
     this.platform.ready().then((readySource) => {
       this.platformSource = readySource;
-      this.platformWidth = this.platform.width();
-      this.platformHeight = this.platform.height();
-
       this.admob.setAppVolume(0);
 
       if (!environment.production) {
@@ -80,66 +57,51 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       this.playAds();
     });
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getIsFeedUpdatingStatus().subscribe(status => {
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => {
       this.isFeedUpdating = status;
     });
 
-    this.displayArticlesSubscription$ = this.newsFeedService.getDisplayArticles().subscribe(articles => {
-      if (JSON.stringify(this.displayArticles) != JSON.stringify(articles)) {
-        this.displayArticles = articles;
+    this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
+      const { displayArticles, readyArticles } = articles;
+
+      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
+        this.displayArticles = displayArticles;
+      }
+
+      if (JSON.stringify(this.readyArticles) !== JSON.stringify(readyArticles)) {
+        this.readyArticles = readyArticles;
       }
     });
 
-    this.readyArticlesSubscription$ = this.newsFeedService.getReadyArticles().subscribe(articles => {
-      if (JSON.stringify(this.readyArticles) != JSON.stringify(articles)) {
-        this.readyArticles = articles;
-      }
-    });
-
-    this.filterSubcription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
-
-      this.filters = this.filterService.getQueryFilters();
-      this.newsFeedService.setFilters(this.filters);
+    this.filterSubscription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
+      const filters = this.filterService.getQueryFilters();
+      this.newsFeedService.setFilters(filters);
       this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: false});
       await this.newsFeedService.handleInitDataLoad();
-    });
-
-    this.filtersSavedSubcription$ = this.filterService.getFilterSavedStatus().subscribe(async (status) => {
-      this.filtersSaved = status;
-    });
-
-    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filterLoading = status;
-
-      if (this.filterLoading) {
-        this.openArticleIndex = undefined;
-      }
-    });
-
-    this.platformResize$ = this.platform.resize.subscribe(() => {
-      this.platformWidth = this.platform.width();
     });
   }
 
   async ngOnInit() {
-    this.displayThreshold = this.newsFeedService.displayThreshold;
     this.playAds();
-    this.filters = this.filterService.getQueryFilters();
-    this.newsFeedService.setFilters(this.filters);
+    const filters = this.filterService.getQueryFilters();
+    this.newsFeedService.setFilters(filters);
     await this.newsFeedService.handleInitDataLoad();
 
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');
     this.menu.swipeGesture(true, 'mainMenu');
-    this.menuService.openMenu()
+    this.menuService.openMenu();
   }
 
   ngOnDestroy() {
     this.pauseAds();
+    this.filterSubscription$.unsubscribe();
+    this.articlesSubscription$.unsubscribe();
+    this.isFeedUpdatingSubscription$.unsubscribe();
   }
 
-    playAds() {
+  private playAds() {
     if (environment.production) {
       this.admob.banner.show({ id: {
         ios: 'ca-app-pub-1312649730148564/2740135529',
@@ -154,8 +116,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       }
     }
   }
-    
-  pauseAds() {
+
+  private pauseAds() {
     if (this.platformSource !== 'dom') {
       if (environment.production ) {
         this.admob.banner.hide({
@@ -171,7 +133,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
   }
 
-  getArticleAge(date: string) {
+  public getArticleAge(date: string) {
     const diff = new Date().valueOf() - new Date(date).valueOf();
     const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
     let age: string;
@@ -184,22 +146,22 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     return age;
   }
 
-  async onArticleSelected(index: number) {
-    if (this.openArticleIndex !== undefined) {
-      if (this.openArticleIndex == index) {
-        this.openArticleIndex = undefined;
+  public async onArticleSelected(index: number) {
+    if (this.newsFeedService.openArticleIndex !== undefined) {
+      if (this.newsFeedService.openArticleIndex === index) {
+        this.newsFeedService.openArticleIndex = undefined;
         return;
       }
 
-      this.openArticleIndex = undefined;
+      this.newsFeedService.openArticleIndex = undefined;
     }
 
-    this.openArticleIndex = index;
+    this.newsFeedService.openArticleIndex = index;
     this.changeDetector.detectChanges();
     await this.scrollTo(index.toString());
   }
 
-  async scrollTo(id: string) {
+  private async scrollTo(id: string) {
     let yOffset = document.getElementById(id).offsetTop;
 
     if (!this.platform.is('ios')) {
@@ -209,7 +171,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.content.scrollToPoint(0, yOffset, 500);
   }
 
-  async doRefresh(event?) {
+  public async doRefresh(event?) {
     await this.newsFeedService.doRefresh();
 
     if (event) {
@@ -217,68 +179,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getNextPage(event) {
-    let i = 1;
-
-    if (this.newsFeedService.nextToken && this.readyArticles.length < this.displayThreshold) {
-      this.newsFeedService.updateIsFeedUpdatingStatus(true);
-      let noNewArticles = 0;
-      
-      do {
-        const newArticles: Array<any> = new Array<any>();
-        newArticles.push(...await this.newsFeedService.listArticles(this.limit, this.newsFeedService.nextToken));
-        this.readyArticles.push(...newArticles);
-        noNewArticles += newArticles.length;
-
-        if (i > 10  && noNewArticles >= 3) {
-          break;
-        }
-
-        i++;
-      } while (this.newsFeedService.nextToken && noNewArticles < this.displayThreshold);
-
-    } else if (!this.newsFeedService.nextToken) {
-      this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
-    }
-
-    await this.loadReadyArticles();
-    this.newsFeedService.updateDisplayArticles(this.displayArticles);
-    this.newsFeedService.updateReadyArticles(this.readyArticles);
-    this.newsFeedService.updateIsFeedUpdatingStatus(false);
+  public async getNextPage(event) {
+    await this.newsFeedService.getNextPage();
     event.target.complete();
-  }
-
-  async loadReadyArticles() {
-    let noNewArticles: number;
-
-    if (this.readyArticles.length >= this.displayThreshold) {
-      noNewArticles = this.displayThreshold;
-      this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
-      this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
-    } else if (this.readyArticles.length) {
-      noNewArticles = this.readyArticles.length;
-      this.displayArticles.push(...this.readyArticles);
-      this.readyArticles = [];
-    }
-
-    if (this.displayArticles.length >= 3 * this.displayThreshold) {
-      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
-
-      if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {
-        this.openArticleIndex = undefined;
-      } else {
-        this.openArticleIndex -= (noNewArticles - 1);
-      }
-    }
-  }
-
-  async presentToast(message, color) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000,
-      color,
-      cssClass: 'ion-text-center'
-    });
-    toast.present();
   }
 }

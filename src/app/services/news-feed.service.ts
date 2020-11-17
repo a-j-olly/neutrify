@@ -7,19 +7,16 @@ import { Subject } from 'rxjs';
 import { APIService, ModelSortDirection, ModelStringKeyConditionInput, ModelStringFilterInput } from './neutrify-api.service';
 import { sub, add } from 'date-fns';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NewsFeedService {
+  public openArticleIndex: number;
 
-  public isFeedUpdating: boolean = true;
-  private isFeedUpdating$ = new Subject<boolean>()
-  
+  public isFeedUpdating = true;
+  private isFeedUpdating$ = new Subject<boolean>();
+
   private readyArticles: Array<any> = new Array<any>();
-  private readyArticles$ = new Subject<any>()
-
   public displayArticles: Array<any> = new Array<any>();
-  private displayArticles$ = new Subject<any>()
+  private articles$ = new Subject<any>();
 
   public displayThreshold = 15;
   public nextToken: string;
@@ -28,7 +25,7 @@ export class NewsFeedService {
   public filters: any;
 
   public searchFilter: any;
-  private searchFilter$ = new Subject<any>()
+  private searchFilter$ = new Subject<any>();
 
   constructor(
     private filterService: FilterService,
@@ -50,17 +47,21 @@ export class NewsFeedService {
 
       if (data.useFilters) {
         this.searchFilter = null;
+
         // add search term to filters
         if (this.filters && this.filters.and) {
+
           if (this.filters.and.length) {
             this.removeSearchFilter();
             this.filters.and.push({ searchTerms: searchFilter });
           } else {
             this.filters.and = [{ searchTerms: searchFilter }];
           }
+
         } else {
-          this.filters['and'] = [{ searchTerms: searchFilter }]
+          this.filters['and'] = [{ searchTerms: searchFilter }];
         }
+
       } else {
         // use just searchTerm filter
         this.searchFilter = { searchTerms: searchFilter };
@@ -80,31 +81,23 @@ export class NewsFeedService {
     return this.searchFilter$.asObservable();
   }
 
-  public getIsFeedUpdatingStatus() {
+  public getFeedUpdateStatus() {
     return this.isFeedUpdating$.asObservable();
   }
 
-  public updateIsFeedUpdatingStatus(status: boolean) {
+  public setFeedUpdateStatus(status: boolean) {
     this.isFeedUpdating = status;
     this.isFeedUpdating$.next(status);
   }
 
-  public getReadyArticles() {
-    return this.readyArticles$.asObservable();
+  public getArticles() {
+    return this.articles$.asObservable();
   }
 
-  public updateReadyArticles(articles: any) {
-    this.readyArticles = articles;
-    this.readyArticles$.next(articles);
-  }
+  public setArticles(displayArticles: Array<any>, readyArticles: Array<any>) {
 
-  public getDisplayArticles() {
-    return this.displayArticles$.asObservable();
-  }
-
-  public updateDisplayArticles(articles: any) {
-    this.displayArticles = articles;
-    this.displayArticles$.next(articles);
+    this.displayArticles = displayArticles, this.readyArticles = readyArticles;
+    this.articles$.next({ displayArticles, readyArticles });
   }
 
   public async saveFilters() {
@@ -117,7 +110,7 @@ export class NewsFeedService {
     } else {
       this.presentToast('Could not save your filters. Please try again.', 'danger');
     }
-    
+
     this.filterService.updateFilterLoading(false);
   }
 
@@ -170,7 +163,14 @@ export class NewsFeedService {
             }, 3000 * i + 1);
 
             try {
-              results = await this.neutrifyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, this.filters, limit, nextToken);
+              results = await this.neutrifyAPI.ArticlesByDate(
+                'news',
+                this.setDateRange(),
+                ModelSortDirection.DESC,
+                this.filters,
+                limit,
+                nextToken
+              );
               console.log('Successfully retried to get articles.');
               break;
             } catch (e) {}
@@ -189,13 +189,11 @@ export class NewsFeedService {
 
   public async resetArticles() {
     this.nextToken = null;
-    this.updateDisplayArticles(new Array());
-    this.updateReadyArticles(new Array());
+    this.setArticles(new Array(), new Array());
   }
 
   public async handleInitDataLoad() {
-    this.updateIsFeedUpdatingStatus(true);
-    await this.resetArticles();
+    this.setFeedUpdateStatus(true);
 
     let i = 1;
     let newLimit = 100;
@@ -220,13 +218,63 @@ export class NewsFeedService {
     this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
 
-    this.updateDisplayArticles(this.displayArticles);
-    this.updateReadyArticles(this.readyArticles);
+    this.setArticles(this.displayArticles, this.readyArticles);
     this.filterService.updateFilterLoading(false);
-    this.updateIsFeedUpdatingStatus(false);
+    this.setFeedUpdateStatus(false);
 
     if (!this.nextToken && this.readyArticles.length < this.displayThreshold) {
       await this.presentToast('Could only find a few articles that fit your criteria. Try to remove some filters.', 'primary');
+    }
+  }
+
+  public async getNextPage() {
+    let i = 1;
+
+    if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
+      let noNewArticles = 0;
+
+      do {
+        const newArticles: Array<any> = new Array<any>();
+        newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+        this.readyArticles.push(...newArticles);
+        noNewArticles += newArticles.length;
+
+        if (i > 10  && noNewArticles >= 3) {
+          break;
+        }
+
+        i++;
+      } while (this.nextToken && noNewArticles < this.displayThreshold);
+
+    } else if (!this.nextToken) {
+      this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
+    }
+
+    await this.loadReadyArticles();
+    this.setArticles(this.displayArticles, this.readyArticles);
+  }
+
+  private async loadReadyArticles() {
+    let noNewArticles: number;
+
+    if (this.readyArticles.length >= this.displayThreshold) {
+      noNewArticles = this.displayThreshold;
+      this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
+      this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
+    } else if (this.readyArticles.length) {
+      noNewArticles = this.readyArticles.length;
+      this.displayArticles.push(...this.readyArticles);
+      this.readyArticles = [];
+    }
+
+    if (this.displayArticles.length >= 3 * this.displayThreshold) {
+      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
+
+      if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {
+        this.openArticleIndex = undefined;
+      } else {
+        this.openArticleIndex -= (noNewArticles - 1);
+      }
     }
   }
 
@@ -270,13 +318,13 @@ export class NewsFeedService {
       color,
       cssClass: 'ion-text-center'
     });
-    
+
     await toast.present();
   }
 
   private removeSearchFilter() {
     const searchFilterIndex = this.filters.and.findIndex(f => f.searchTerms);
-    if (searchFilterIndex != -1) {
+    if (searchFilterIndex !== -1) {
       if (this.filters.and.length === 1) {
         delete this.filters.and;
       } else {

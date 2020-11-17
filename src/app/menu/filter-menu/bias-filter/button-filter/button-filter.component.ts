@@ -26,14 +26,14 @@ export class ButtonFilterComponent implements OnInit {
   }
 
   @Output() onToggleButton: EventEmitter<any> = new EventEmitter();
-  public filterLoading: boolean = false;
-  private filterLoadingSubcription$: Subscription;
+  public filtersLoading: boolean = false;
+  private filtersLoadingSubcription$: Subscription;
 
   constructor(
     private filterService: FilterService,
   ) {
-    this.filterLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
-      this.filterLoading = status;
+    this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoading = status;
     });
   }
 

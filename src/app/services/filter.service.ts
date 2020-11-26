@@ -9,17 +9,17 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class FilterService {
-  filterSaved: boolean = true;
+  filterSaved = true;
   filterSaved$ = new Subject<boolean>();
 
-  filterLoaded: boolean = true;
+  filterLoaded = true;
   filterLoaded$ = new Subject<boolean>();
 
   filterOptions: any;
   filterOptions$ = new Subject<object>();
 
-  filterLoading: boolean = false;
-  filterLoading$ = new Subject<boolean>();
+  filtersLoading = false;
+  filtersLoading$ = new Subject<boolean>();
 
   topicsUserOption: any = {};
 
@@ -66,9 +66,9 @@ export class FilterService {
   }
 
   async updateFilterOptions(inputFilterOptions) {
-    let newFilterOptions = Object.assign({}, inputFilterOptions);
+    const newFilterOptions = Object.assign({}, inputFilterOptions);
 
-    if (JSON.stringify(this.filterOptions) == JSON.stringify(newFilterOptions)) {
+    if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
       this.filterOptions$.next(this.filterOptions);
       return;
     }
@@ -81,7 +81,7 @@ export class FilterService {
       newFilterOptions.topicsToInclude = this.mergeTopics(parsedInclude);
       newFilterOptions.topicsToExclude = this.mergeTopics(parsedExclude);
     } else {
- 
+
       newFilterOptions.topicsToInclude.forEach(value => {
         const topicGroup = this.findTopicsGroup(value);
         if (!this.topicsUserOption.include[topicGroup.toLowerCase()].includes(value)) {
@@ -125,17 +125,17 @@ export class FilterService {
   }
 
   async updateFilterLoading(isLoading: boolean) {
-    this.filterLoading = isLoading;
-    this.filterLoading$.next(isLoading);
+    this.filtersLoading = isLoading;
+    this.filtersLoading$.next(isLoading);
   }
 
   getFilterLoading() {
-    return this.filterLoading$.asObservable();
+    return this.filtersLoading$.asObservable();
   }
 
   addSingleFilter(optionType: string, operation: string, value: string) {
     const input = value.toLowerCase();
-    let newFilterOptions = Object.assign({}, this.filterOptions);
+    const newFilterOptions = Object.assign({}, this.filterOptions);
     let target: Array<string> = newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`];
     let rejected = false, topicGroup: string;
 
@@ -147,22 +147,22 @@ export class FilterService {
         let oppositeTopics: Array<string> = this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][topicGroup];
 
         if (input === topicGroup) {
-          target = target.filter(val => this.findTopicsGroup(val).toLowerCase() != input);
-          oppositeTarget = oppositeTarget.filter(val => this.findTopicsGroup(val).toLowerCase() != input);
+          target = target.filter(val => this.findTopicsGroup(val).toLowerCase() !== input);
+          oppositeTarget = oppositeTarget.filter(val => this.findTopicsGroup(val).toLowerCase() !== input);
           this.topicsUserOption[operation][topicGroup] = new Array();
           oppositeTopics = new Array();
         } else if (target.includes(topicGroup)) {
-          target = target.filter(val => val != topicGroup);
+          target = target.filter(val => val !== topicGroup);
           this.topicsUserOption[operation][topicGroup] = new Array();
         } else if (oppositeTarget.includes(topicGroup)) {
-          oppositeTarget = oppositeTarget.filter(val => val != topicGroup);
+          oppositeTarget = oppositeTarget.filter(val => val !== topicGroup);
           oppositeTopics = new Array();
         }
-        this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][topicGroup] = oppositeTopics.filter(val => val != input);
+        this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][topicGroup] = oppositeTopics.filter(val => val !== input);
         this.topicsUserOption[operation][topicGroup].push(input);
       }
 
-      oppositeTarget = oppositeTarget.filter(val => val != input);
+      oppositeTarget = oppositeTarget.filter(val => val !== input);
       target.push(input);
       newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`] = target;
       newFilterOptions[`${optionType}To${operation === 'include' ? 'Exclude' : 'Include'}`] = oppositeTarget;
@@ -170,7 +170,7 @@ export class FilterService {
       rejected = true;
       this.presentToast(`You are already filtering ${value.toLowerCase()}.`, 'danger');
     }
-    
+
     if (!rejected) {
       this.updateFilterLoading(true);
       this.filterOptions = newFilterOptions;
@@ -181,13 +181,13 @@ export class FilterService {
 
   async addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group: string) {
     if (!this.isArrEq(this.filterOptions.topicsToInclude, included)) {
-      let res = await this.addToTopicOptions('include', included, group);
+      const res = await this.addToTopicOptions('include', included, group);
       this.filterOptions.topicsToInclude = res.target;
       this.filterOptions.topicsToExclude = res.oppositeTarget;
     }
 
     if (!this.isArrEq(this.filterOptions.topicsToExclude, excluded)) {
-      let res = await this.addToTopicOptions('exclude', excluded, group);
+      const res = await this.addToTopicOptions('exclude', excluded, group);
       this.filterOptions.topicsToExclude = res.target;
       this.filterOptions.topicsToInclude = res.oppositeTarget;
     }
@@ -206,8 +206,8 @@ export class FilterService {
     let oppositeTopics: Array<string> = this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][group];
 
     if (input.includes(group.toLowerCase())) {
-      target = target.filter(val => this.findTopicsGroup(val).toLowerCase() != group.toLowerCase());
-      oppositeTarget = oppositeTarget.filter(val => this.findTopicsGroup(val).toLowerCase() != group.toLowerCase());
+      target = target.filter(val => this.findTopicsGroup(val).toLowerCase() !== group.toLowerCase());
+      oppositeTarget = oppositeTarget.filter(val => this.findTopicsGroup(val).toLowerCase() !== group.toLowerCase());
       topics = new Array();
       oppositeTopics = new Array();
 
@@ -220,19 +220,19 @@ export class FilterService {
     }
 
     if (input.length) {
-      target = target.filter(topic => group.toLowerCase() != this.findTopicsGroup(topic).toLowerCase());
+      target = target.filter(topic => group.toLowerCase() !== this.findTopicsGroup(topic).toLowerCase());
 
       input.forEach(val => {
         if (!target.includes(val)) {
           target.push(val.toLowerCase());
-          oppositeTarget = oppositeTarget.filter(topic => topic != val);
-          oppositeTopics = oppositeTopics.filter(topic => topic != val);
+          oppositeTarget = oppositeTarget.filter(topic => topic !== val);
+          oppositeTopics = oppositeTopics.filter(topic => topic !== val);
         }
       });
 
       topics = input;
     } else {
-      target = target.filter((topic) => group != this.findTopicsGroup(topic).toLowerCase());
+      target = target.filter((topic) => group !== this.findTopicsGroup(topic).toLowerCase());
       topics = new Array();
     }
 
@@ -243,7 +243,7 @@ export class FilterService {
   }
 
   private isArrEq(arr1, arr2) {
-    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() == JSON.stringify(arr2).toLowerCase();
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() === JSON.stringify(arr2).toLowerCase();
   }
 
   findTopicsGroup(value: string): string {
@@ -451,7 +451,7 @@ export class FilterService {
 
   private buildWordFilter(wordList, key, operation, lowercase?: boolean): any {
     return wordList.map((word: string) => {
-      let res: object = {};
+      const res: object = {};
 
       res[key] = {};
       if (lowercase) {

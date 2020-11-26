@@ -1,4 +1,4 @@
-import { TutorialComponent } from './news-feed/tutorial/tutorial.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
 import { IonicStorageModule } from '@ionic/storage';
 import { APIService } from './services/neutrify-api.service';
 import { NgModule } from '@angular/core';
@@ -12,7 +12,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
+import { ThemeDetection } from '@ionic-native/theme-detection/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

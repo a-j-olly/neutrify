@@ -12,6 +12,8 @@
     "src/**/*.d.ts"
   ],
   "exclude": [
-    "src/app/home"
+    "src/app/home",
+    "src/app/blog",
+    "src/app/services/pwa-updater.service.ts"
   ]
 }

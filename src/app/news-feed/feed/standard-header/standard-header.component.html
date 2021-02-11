@@ -1,4 +1,4 @@
-<div class="ion-activatable tappable ion-no-margin ion-no-padding" [hidden]="index === openArticleIndex">
+<div class="ion-activatable tappable ion-no-margin ion-no-padding" [hidden]="index === openArticleIndex && layout === 'list'">
   <ion-ripple-effect type="unbound"></ion-ripple-effect>
   <ion-row>
     <ion-col size="11" class="ion-no-margin ion-no-padding title">
@@ -10,7 +10,7 @@
   </ion-row>
 </div>
 
-<div class="ion-activatable tappable ion-no-margin ion-no-padding" [hidden]="index !== openArticleIndex">
+<div class="ion-activatable tappable ion-no-margin ion-no-padding" [hidden]="index !== openArticleIndex && layout === 'list' || layout === 'grid'">
   <ion-ripple-effect type="unbound"></ion-ripple-effect>
   <ion-row>
     <ion-col size="11" class="ion-no-margin ion-no-padding title">

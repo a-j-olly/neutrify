@@ -1,16 +1,40 @@
-<div id="skeleton-feed">  
-  <ion-card class="ion-padding skeleton-card" *ngFor="let card of numberOfCards">
-    <div class="skeleton-title">
-      <ion-row class="ion-justify-content-between">
+<div id="skeleton-feed">
+  <ion-row class="ion-justify-content-center" *ngFor="let card of numberOfCards" [hidden]="layout !== 'list'">
+    <ion-card class="ion-padding skeleton-list-card">
+      <div class="skeleton-title">
+        <ion-row class="ion-justify-content-between">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
+        </ion-row>
+        <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
+      </div>
+      
+      <hr style="margin: 5px;">
+
+      <ion-row class="ion-justify-content-between skeleton-footer">
         <ion-skeleton-text animated></ion-skeleton-text>
-        <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="text-align: end"></ion-skeleton-text>
       </ion-row>
-      <ion-skeleton-text animated [hidden]="platformWidth >= 720"></ion-skeleton-text>
-    </div>
-  
-    <ion-row class="ion-justify-content-between skeleton-footer">
-      <ion-skeleton-text animated></ion-skeleton-text>
-      <ion-skeleton-text animated style="text-align: end"></ion-skeleton-text>
-    </ion-row>
-  </ion-card>
+    </ion-card>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center" [hidden]="layout !== 'grid'">
+    <ion-card class="ion-padding skeleton-grid-card" *ngFor="let card of numberOfCards">
+      <img class="skeleton-img">
+
+      <div class="skeleton-title">
+        <ion-row class="ion-justify-content-between">
+          <ion-skeleton-text animated></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 5%;"></ion-skeleton-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-row>
+      </div>
+
+      <ion-row class="ion-justify-content-between skeleton-footer">
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated style="text-align: end"></ion-skeleton-text>
+      </ion-row>
+
+    </ion-card>
+  </ion-row>
 </div>

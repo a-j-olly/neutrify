@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class StandardHeaderComponent implements OnInit {
   @Input() index;
   @Input() openArticleIndex;
+  @Input() layout;
   @Input() title;
 
   constructor() { }

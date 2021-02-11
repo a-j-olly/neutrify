@@ -6,3 +6,16 @@ ion-header {
 ion-content {
     --ion-background-color: var(--ion-color-light);
 }
+
+.split-pane-visible >.split-pane-side {
+    flex-grow: 15;
+}
+
+.split-pane-visible >.split-pane-main {
+    flex-grow: 85;
+}
+
+.split-pane-visible >.split-pane-side {
+    min-width: 270px; /* Default: 270px */
+    max-width: 304px; /* Same as when menu opens in mobile mode */
+}

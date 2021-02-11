@@ -67,7 +67,29 @@
     .modal-wrapper {
         background: rgba(var(--ion-color-primary), 1);
         --box-shadow: 0px;
-    }
+    };
+
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 0px;
+        };
+    };
+};
+
+.article-wrapper-modal {
+    --width: 640px;
+    --height: auto;
+
+    .modal-wrapper {
+        background: rgba(var(--ion-color-primary), 1);
+        --box-shadow: 0px;
+    };
 
     .ion-page {
         position: relative;
@@ -86,7 +108,7 @@
     .popover-content {
         background: rgba(whitesmoke, 1);
         border: 1px solid var(--ion-color-primary);
-    }
+    };
 };
 
 .search-bar-popover .popover-wrapper  {
@@ -97,6 +119,6 @@
 
         @media screen and (min-width: 560px) {
             width: 560px;
-        }
-    }
+        };
+    };
 };

@@ -27,6 +27,9 @@ export class NewsFeedService {
   public searchFilter: any;
   private searchFilter$ = new Subject<any>();
 
+  public layout: string = 'grid';
+  private layout$ = new Subject<any>();
+
   constructor(
     private filterService: FilterService,
     private authService: AuthService,
@@ -90,12 +93,20 @@ export class NewsFeedService {
     this.isFeedUpdating$.next(status);
   }
 
+  public getLayout() {
+    return this.layout$.asObservable();
+  }
+
+  public setLayout(newLayout: string) {
+    this.layout = newLayout;
+    this.layout$.next(newLayout);
+  }
+
   public getArticles() {
     return this.articles$.asObservable();
   }
 
   public setArticles(displayArticles: Array<any>, readyArticles: Array<any>) {
-
     this.displayArticles = displayArticles, this.readyArticles = readyArticles;
     this.articles$.next({ displayArticles, readyArticles });
   }
@@ -196,12 +207,12 @@ export class NewsFeedService {
     this.setFeedUpdateStatus(true);
 
     let i = 1;
-    let newLimit = 100;
+    let newLimit = 200;
     do {
       if (i === 1) {
         this.readyArticles = await this.listArticles(newLimit, null);
       } else if (i === 2) {
-        newLimit = 400;
+        newLimit = 600;
         this.readyArticles = await this.listArticles(newLimit, null);
       } else if (i > 2 && i <= 10) {
         newLimit = 1000;
@@ -215,6 +226,11 @@ export class NewsFeedService {
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
+
+    if (this.layout === 'grid') {
+      await this.earlyImageLoad(this.displayArticles);
+    }
+
     this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
 
@@ -225,6 +241,36 @@ export class NewsFeedService {
     if (!this.nextToken && this.readyArticles.length < this.displayThreshold) {
       await this.presentToast('Could only find a few articles that fit your criteria. Try to remove some filters.', 'primary');
     }
+  }
+
+  private async earlyImageLoad(imgArr) {
+    const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
+    let loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map((article) => {
+      let res;
+
+      if (article.image) {
+        res = this.preloadImage(article.image);
+      }
+
+      return res;
+    });
+
+    return Promise.all(loadingImages);
+  }
+
+  private preloadImage(imgURL: string): Promise<void> {
+    return new Promise((resolve) => {
+
+      var img = new Image();
+      img.onload = () => {
+        resolve();
+      };
+      img.onerror = () => {
+        resolve();
+      };
+
+      img.src = imgURL;
+    });
   }
 
   public async getNextPage() {
@@ -248,6 +294,10 @@ export class NewsFeedService {
 
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
+    }
+
+    if (this.layout === 'grid') {
+      await this.earlyImageLoad(this.readyArticles);
     }
 
     await this.loadReadyArticles();
@@ -295,20 +345,46 @@ export class NewsFeedService {
     }
   }
 
-  public setDisplayThreshold(platformHeight: number): number {
-    let result;
+  public setDisplayThreshold(platformHeight: number, platformWidth: number, menuOpen: boolean): number {
+    let threshold: number;
 
     if (platformHeight <= 360) {
-      result = 12;
+      threshold = 12;
     } else if (platformHeight <= 480) {
-      result = 15;
+      threshold = 15;
     } else if (platformHeight <= 640) {
-      result = 21;
+      threshold = 21;
     } else {
-      result = 27;
+      threshold = 27;
     }
 
-    return result;
+    // This multiplier represents how many cards there are in a row, calculated from the width of the device.
+    if (this.layout === 'grid') {
+      threshold *= this.calculateThresholdMultiplier(platformWidth, menuOpen);
+    }
+
+    return threshold;
+  }
+
+  private calculateThresholdMultiplier(platformWidth: number, menuOpen: boolean) {
+    const stdCardWidth = 310;
+    let multiplier = 1;
+
+    if (platformWidth < 646 || (platformWidth < 934 && menuOpen)) {
+      return 1;
+    }
+
+    let calculableWidth: number;
+
+    if (menuOpen) {
+      calculableWidth = platformWidth - 934;
+      multiplier = 2 + Math.floor(calculableWidth / stdCardWidth);
+    } else {
+      calculableWidth = platformWidth - 646;
+      multiplier = 3 + Math.floor(calculableWidth / stdCardWidth);
+    }
+
+    return multiplier;
   }
 
   public async presentToast(message, color) {

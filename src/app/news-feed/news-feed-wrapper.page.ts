@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
+import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Platform, MenuController, PopoverController, ModalController } from '@ionic/angular';
+import { Platform, MenuController, PopoverController, ModalController, IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { MenuService } from '../services/menu.service';
 import { FilterService } from '../services/filter.service';
@@ -33,6 +34,8 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./news-feed-wrapper.page.scss'],
 })
 export class NewsFeedWrapperPage {
+  @ViewChild(IonContent) content: IonContent;
+
   public displayArticles: Array<any> = new Array<any>();
   private articlesSubscription$: Subscription;
 
@@ -66,6 +69,9 @@ export class NewsFeedWrapperPage {
   public searchTerm: string;
   private searchFilterSubscription$: Subscription;
 
+  public layout: string;
+  private layoutSubscription$: Subscription;
+
   constructor(
     private platform: Platform,
     public authService: AuthService,
@@ -82,7 +88,6 @@ export class NewsFeedWrapperPage {
       this.platformSource = readySource;
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
-      this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight);
 
       if (this.platformSource !== 'dom') {
         this.platform.resume.subscribe(() => {
@@ -92,17 +97,6 @@ export class NewsFeedWrapperPage {
     });
 
     this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => this.filtersInitStatus = status);
-
-    this.searchFilterSubscription$ = this.newsFeedService.getSearchFilter().subscribe(data => {
-
-      if (data && data.searchTerm) {
-        this.searchTerm = data.searchTerm;
-        this.useFilters = data.useFilters;
-      } else {
-        this.searchTerm = '';
-        this.useFilters = false;
-      }
-    });
 
     this.routerEventSubscription$ = this.router.events.subscribe((event: NavigationStart) => {
       if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
@@ -124,9 +118,34 @@ export class NewsFeedWrapperPage {
 
     this.platformResize$ = this.platform.resize.subscribe(() => this.platformWidth = this.platform.width());
 
-    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(async (status) => this.menuStatus = status);
+    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
+      if (status !== this.menuStatus) {
+        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, status);
+      }
+
+      this.menuStatus = status;
+    });
 
     this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status);
+
+    this.layoutSubscription$ = this.newsFeedService.getLayout().subscribe(layout => {
+      if (layout !== this.layout) {
+        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
+      }
+
+      this.layout = layout;
+    });
+
+    this.searchFilterSubscription$ = this.newsFeedService.getSearchFilter().subscribe(data => {
+
+      if (data && data.searchTerm) {
+        this.searchTerm = data.searchTerm;
+        this.useFilters = data.useFilters;
+      } else {
+        this.searchTerm = '';
+        this.useFilters = false;
+      }
+    });
 
     this.filtersLoadingSubscription$ = this.filterService.getFilterLoading().subscribe(status => {
       if (this.filtersInitStatus) {
@@ -155,9 +174,11 @@ export class NewsFeedWrapperPage {
   async ionViewDidEnter() {
     const doneTutorial = await this.storage.get('neutrify_done_tutorial');
     if (!doneTutorial) {
-      await this.showTutorial().then(() => this.storage.set('neutrify_done_tutorial', true));
+      this.showTutorial().then(() => this.storage.set('neutrify_done_tutorial', true));
     }
 
+    const layoutPreference: string = await this.storage.get('neutrify_layout_preference');
+    this.newsFeedService.setLayout(layoutPreference ? layoutPreference : 'grid');
     this.startTimer();
   }
 
@@ -204,7 +225,23 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
+  public async showLayoutToggler(event) {
+    const popover = await this.popoverController.create({
+      component: LayoutTogglerComponent,
+      event,
+      showBackdrop: false,
+      translucent: true,
+      mode: 'md',
+      componentProps: {
+        layout: this.layout,
+      }
+    });
+
+    return await popover.present();
+  }
+
   public async doRefresh() {
+    this.content.scrollToTop();
     await this.newsFeedService.doRefresh();
   }
 

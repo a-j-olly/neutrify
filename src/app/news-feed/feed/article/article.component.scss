@@ -18,6 +18,18 @@ ion-slides {
     }
 }
 
+ion-buttons {
+    @media screen and (max-height: 539px) {
+        height: 24px;
+        
+        ion-chip {
+            height: 24px;
+            font-size: small;
+            padding: 4px;
+        }
+    }
+}
+
 .body {
     text-align: left;
     margin: 0px;
@@ -26,6 +38,10 @@ ion-slides {
         font-size: 16px;
         color: #999;
         margin-bottom: 8px;
+
+        @media screen and (max-height: 539px) {
+            display: none;
+        }
     }
 
     p {
@@ -33,9 +49,14 @@ ion-slides {
         margin-left: 2px;
         margin-right: 2px; 
         white-space: pre-line;
+        color: var(--ion-color-dark);
 
         @media screen and (min-width: 720px) {
             font-size: 16px;
+        }
+
+        @media screen and (max-height: 539px) {
+            font-size: 12px;
         }
 
         &.body-line-wrap {
@@ -48,6 +69,10 @@ ion-slides {
             @media screen and (min-width: 720px) {
                 -webkit-line-clamp: 16;
             }
+
+            @media screen and (max-height: 539px) {
+                -webkit-line-clamp: 9;
+            }
         }
     }
 
@@ -59,16 +84,25 @@ ion-slides {
 
 .slide-container {
     height: 300px;
+    padding: 2px;
 
     @media screen and (min-width: 720px) {
         height: 400px;
+    }
+
+    @media screen and (max-height: 539px) {
+        height: 180px;
     }
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    ion-img {
+    img {
+        -webkit-user-drag: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        
         margin: 7px auto;
         transition: 0.3s;
 
@@ -79,12 +113,7 @@ ion-slides {
     }
 }
 
-.metrics-line-wrap {
-    @media screen and (min-width: 720px) {
-        line-height: 20px;
-        max-height: 384px;
-    }
-    
+.metrics-line-wrap {   
     white-space: nowrap;
     overflow: hidden;
     display: -webkit-box;
@@ -92,18 +121,41 @@ ion-slides {
     line-height: 16px;
     max-height: 304px;
 
+    @media screen and (min-width: 720px) {
+        line-height: 20px;
+        max-height: 384px;
+    }
+
+    @media screen and (max-width: 419px) {
+        max-height: 280px;
+        margin-bottom: 1.25px;   
+    }
+
+    @media screen and (max-height: 539px) {
+        line-height: 14px;
+        max-height: 180px;
+    }
+
     p {
         color: var(--ion-color-primary);
         font-size: 14px;
+        margin: 0px;
 
         @media screen and (min-width: 720px) {
             font-size: 18px;
         }
 
+        @media screen and (max-width: 419px) {
+            font-size: 14px;
+        }
+
+        @media screen and (max-height: 539px) {
+            font-size: 10px;
+        }
+
         &:hover {
             cursor: pointer;
         }
-        
     }
 }
 
@@ -111,7 +163,7 @@ ion-slides {
     min-width: 100px;
     max-width: 200px;
     margin: 10px;
-    margin-bottom: 2px;    
+    margin-bottom: 2px;
 
     @media screen and (min-width: 890px) {
         min-width: 200px;
@@ -120,8 +172,24 @@ ion-slides {
         margin-bottom: 4px;   
     }
 
+    @media screen and (max-width: 419px) {
+        min-width: 80px;
+        max-width: 160px;
+        margin: 8px;
+        margin-bottom: 1.25px;
+    }
+
     h4 {
+        margin: 0px;
         color: #999;
+
+        @media screen and (max-width: 419px) {
+            font-size: 14px;
+        }
+
+        @media screen and (max-height: 539px) {
+            font-size: 14px;
+        }
     }
 
     .clickable {
@@ -137,9 +205,17 @@ ion-slides {
     margin-bottom: 12px;
 
     h4 {
+        margin: 0px;
         color: #999;
-    }
 
+        @media screen and (max-width: 419px) {
+            font-size: 14px;
+        }
+
+        @media screen and (max-height: 539px) {
+            font-size: 14px;
+        }
+    }
 }
 
 ion-card-header {

@@ -1,3 +1,7 @@
+import { ArticleWrapperComponent } from './feed/article-wrapper/article-wrapper.component';
+import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
+import { StandardHeaderComponent } from './feed/standard-header/standard-header.component';
+import { StandardFooterComponent } from './feed/standard-footer/standard-footer.component';
 import { NewsFeedService } from 'src/app/services/news-feed.service';
 import { AddFilterPopoverComponent } from './feed/article/add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './feed/article/image-modal/image-modal.component';
@@ -34,7 +38,11 @@ const routes: Routes = [
     AddFilterPopoverComponent,
     SkeletonFeedComponent,
     NewsFeedComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    StandardHeaderComponent,
+    StandardFooterComponent,
+    LayoutTogglerComponent,
+    ArticleWrapperComponent
   ],
   providers: [NewsFeedService]
 })

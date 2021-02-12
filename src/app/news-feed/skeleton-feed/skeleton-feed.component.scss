@@ -1,16 +1,9 @@
 #skeleton-feed {
     padding-top: 0px;
     margin: 0 auto;
-    max-width: 1080px;
 }
 
-.skeleton-card {
-    padding: 5px 5px 0px 5px;
-    margin: 5px 2px;
-    min-width: 270px;
-    max-width: 1080px;
-    background-color: var(--ion-color-light);
-
+ion-card {
     .skeleton-title ion-skeleton-text {
         line-height: 18px;
         width: 80%;
@@ -21,6 +14,44 @@
         ion-skeleton-text {
             line-height: 14px;
             width: 30%;
+        }
+    }
+
+    &.skeleton-list-card {
+        margin: 3px 2px;
+        padding: 5px 5px 0px 5px;
+        max-width: 1080px;
+        width: 98%;
+        max-height: 568px;
+        background-color: var(--ion-color-light);
+    }
+
+    &.skeleton-grid-card {
+        padding: 0px 0px 2px 0px;
+        width: 300px;
+        max-height: 480px;
+        min-width: 240px;
+        margin: 5px;
+
+        @media screen and (max-width: 645px) {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .skeleton-img {
+            &:hover {
+                cursor: pointer;
+            }
+            background-color: rgb(201, 201, 201);
+            width: 100%;
+            min-height: 164px;
+            max-height: 164px;
+
+            @media screen and (max-width: 645px) {
+                min-height: 180px;
+                max-height: 280px;
+
+            }
         }
     }
 }

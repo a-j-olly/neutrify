@@ -1,0 +1,87 @@
+.container {
+    margin: 8px;
+    padding: 5px;
+    background-color: var(--ion-color-light);
+    border-radius: 5px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+    @media screen and (max-height: 539px) {
+        height: 280px;
+    }
+
+    .title {
+        &:hover {
+            cursor: pointer;
+        }
+    
+        h1 {
+            font-size: 18px;
+            margin-top: 2px;
+            margin-bottom: 2px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            color: var(--ion-color-dark);
+
+            @media screen and (max-height: 539px) {
+                font-size: 14px;
+            }
+    
+            &.four-line-wrap {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4; /* number of lines to show */
+            }
+        }
+    }
+
+    .footer {
+        ion-label {
+            position: absolute;
+            font-size: 14px;
+            color: #999;
+            bottom: 10px;
+
+            &:hover {
+                cursor: pointer;
+            }
+    
+            &.no-select {
+                -webkit-touch-callout: none; /* iOS Safari */
+                -webkit-user-select: none; /* Safari */
+                -khtml-user-select: none; /* Konqueror HTML */
+                -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+            }
+    
+            &.text-overflow {
+                max-width: 160px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            &.footer-left {
+                left: 10px;
+            }
+
+            &.footer-right {
+                right: 10px;
+            }
+        }
+    }
+
+    .dismiss-icon {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        font-size: 32px;
+        z-index: 1000;
+    
+        &:hover {
+            cursor: pointer; 
+        }
+    }
+}

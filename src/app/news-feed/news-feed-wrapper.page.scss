@@ -12,7 +12,6 @@ ion-header {
         
         ion-buttons {
             position: absolute;
-
             
             &.left-buttons {
                 left: 0px;
@@ -23,7 +22,7 @@ ion-header {
             }
 
             .hide-label {
-                @media screen and (max-width: 720px) {
+                @media screen and (max-width: 1080px) {
                     display: none;
                 }
             }

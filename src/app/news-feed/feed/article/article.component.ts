@@ -14,9 +14,11 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class ArticleComponent implements OnInit {
   @Input() article: any;
+  @Input() layout: string;
   public datePublished: string;
   public timePublished: string;
-  public showImage: boolean = false;
+  public showImage = false;
+  public imgUrl: string;
   public buttonClicked = false;
   private platformSource: string;
 
@@ -43,6 +45,7 @@ export class ArticleComponent implements OnInit {
 
   ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
+    this.imgUrl = this.article.image;
   }
 
   async ionViewWillEnter() {
@@ -101,24 +104,35 @@ export class ArticleComponent implements OnInit {
     this.buttonClicked = false;
   }
 
-  async slideNext() {
+  public updateUrl(event) {
+    console.log('img url: ', this.article.image);
+    this.imgUrl = 'assets/img/favicon.png';
+  }
+
+  public preventDrag(event) {
+    console.log('prevent drag');
+    event.preventDefault();
+  }
+
+  public async slideNext() {
     this.buttonClicked = true;
     await this.slides.slideNext();
     this.buttonClicked = false;
   }
 
-  async slidePrev() {
+  public async slidePrev() {
     this.buttonClicked = true;
     await this.slides.slidePrev();
     this.buttonClicked = false;
   }
 
-  async checkSlidesPos() {
+  public async checkSlidesPos() {
+    await this.slides.update();
     this.leftArrowDisabled = await this.slides.isBeginning();
     this.rightArrowDisabled = await this.slides.isEnd();
   }
 
-  async onSlideWillChange() {
+  public async onSlideWillChange() {
     const currentSlideIndex = await this.slides.getActiveIndex();
     if (currentSlideIndex === 1) {
       this.showImage = true;

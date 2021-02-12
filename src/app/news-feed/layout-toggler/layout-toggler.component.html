@@ -1,0 +1,10 @@
+<ion-row class="ion-justify-content-center" >
+  <ion-segment mode="ios" [(ngModel)]="layout" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="grid">
+      <ion-label><b>Grid</b></ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="list">
+      <ion-label><b>List</b></ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-row>

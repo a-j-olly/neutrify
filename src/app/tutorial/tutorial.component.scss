@@ -46,6 +46,8 @@
         margin: 2px 8px;
 
         img {
+            pointer-events: none;
+
             @media screen and (max-height: 720px) {
                 max-height: 400px;
             }

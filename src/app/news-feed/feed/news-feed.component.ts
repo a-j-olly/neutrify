@@ -1,8 +1,9 @@
+import { ArticleWrapperComponent } from './article-wrapper/article-wrapper.component';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
-import { MenuController, Platform, IonContent } from '@ionic/angular';
+import { MenuController, Platform, IonContent, ModalController } from '@ionic/angular';
 import { MenuService } from '../../services/menu.service';
-import { Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, OnDestroy, Input } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
 import { formatDistanceToNow } from 'date-fns';
 import { NewsFeedService } from '../../services/news-feed.service';
@@ -13,6 +14,8 @@ import { NewsFeedService } from '../../services/news-feed.service';
   styleUrls: ['./news-feed.component.scss'],
 })
 export class NewsFeedComponent implements OnInit, OnDestroy {
+  @Input() layout: string;
+
   private filterSubscription$: Subscription;
 
   public displayArticles: Array<any> = new Array<any>();
@@ -31,8 +34,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private content: IonContent,
     public newsFeedService: NewsFeedService,
+    private modalController: ModalController,
   ) {
-
     this.filterSubscription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
       const filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(filters);
@@ -90,7 +93,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
   public async onArticleSelected(index: number) {
     if (this.newsFeedService.openArticleIndex !== undefined) {
-      if (this.newsFeedService.openArticleIndex === index) {
+      if (this.newsFeedService.openArticleIndex === index && this.layout === 'list') {
         this.newsFeedService.openArticleIndex = undefined;
         return;
       }
@@ -99,6 +102,12 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
 
     this.newsFeedService.openArticleIndex = index;
+
+    if (this.layout === 'grid') {
+      await this.openArticleModal(this.displayArticles[index]);
+      return;
+    }
+
     this.changeDetector.detectChanges();
     await this.scrollTo(index.toString());
   }
@@ -113,7 +122,22 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.content.scrollToPoint(0, yOffset, 500);
   }
 
+  private async openArticleModal(article) {
+    const modal = await this.modalController.create({
+      component: ArticleWrapperComponent,
+      componentProps: {
+        article: article,
+        layout: this.layout
+      },
+      cssClass: 'article-wrapper-modal'
+    });
+
+    modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
+    return await modal.present();
+  }
+
   public async doRefresh(event?) {
+    this.content.scrollToTop();
     await this.newsFeedService.doRefresh();
 
     if (event) {
@@ -124,5 +148,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   public async getNextPage(event) {
     await this.newsFeedService.getNextPage();
     event.target.complete();
+  }
+
+  public handleImgError(event, index) {
+    this.displayArticles[index].image = null;
   }
 }

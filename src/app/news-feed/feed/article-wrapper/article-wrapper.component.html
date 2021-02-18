@@ -1,0 +1,19 @@
+<div class="container">
+  <ion-icon class="dismiss-icon" name="close-circle" (click)="dismiss()" color="danger"></ion-icon>
+  
+  <div class="ion-no-margin ion-no-padding">
+    <ion-row>
+      <ion-col size="11" class="ion-no-margin ion-no-padding title">
+        <h1 class="four-line-wrap"><b>{{ article.title }}</b></h1>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <app-article [article]="article" [layout]="layout"></app-article>
+
+  <hr>
+  <ion-row class="footer">
+    <ion-label class="footer-left no-select text-overflow">{{ article.displaySourceTitle }}</ion-label>
+    <ion-label class="footer-right no-select">{{ articleAge }}</ion-label>
+  </ion-row>
+</div>

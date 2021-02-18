@@ -16,7 +16,7 @@
           [(ngModel)]="displayValue"
           [disabled]="optionDisabled || oppositeDisabled || filtersLoading"
           (ionChange)="onSelectChange($event)"
-          placeholder="Click to Add">
+          placeholder="Tap to Add">
         <ion-select-option *ngFor="let value of topicOption.values">{{value.label}}</ion-select-option>
       </ion-select>
     </ion-item>

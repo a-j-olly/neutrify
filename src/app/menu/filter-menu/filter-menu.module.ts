@@ -35,7 +35,8 @@ export class FilterMenuModule {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   public resolveFilterMenuComponent(): any {
-    const filterMenuFactory: ComponentFactory<FilterMenuComponent> = this.componentFactoryResolver.resolveComponentFactory(FilterMenuComponent);
+    const filterMenuFactory: ComponentFactory<FilterMenuComponent> =
+    this.componentFactoryResolver.resolveComponentFactory(FilterMenuComponent);
 
     return filterMenuFactory;
   }

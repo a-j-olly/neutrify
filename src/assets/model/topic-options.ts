@@ -1,4 +1,4 @@
-export const Arts = [
+export const ARTS = [
     {
         id: 1,
         label: 'Animation',
@@ -177,7 +177,7 @@ export const Arts = [
     },
 ];
 
-export const Games = [
+export const GAMES = [
     {
         id: 1,
         label: 'Board Games',
@@ -292,7 +292,7 @@ export const Games = [
     },
 ];
 
-export const Society = [
+export const SOCIETY = [
     {
         id: 1,
         label: 'Activism',
@@ -441,7 +441,7 @@ export const Society = [
     }
 ];
 
-export const Business = [
+export const BUSINESS = [
     {
         id: 1,
         label: 'Accounting',
@@ -674,7 +674,7 @@ export const Business = [
     }
 ];
 
-export const Health = [
+export const HEALTH = [
     {
         id: 1,
         label: 'Animal',
@@ -822,7 +822,7 @@ export const Health = [
     },
 ];
 
-export const Recreation = [
+export const RECREATION = [
     {
         id: 1,
         label: 'Antiques',
@@ -975,7 +975,7 @@ export const Recreation = [
     },
 ];
 
-export const Science = [
+export const SCIENCE = [
     {
         id: 1,
         label: 'Academic Departments',
@@ -1088,7 +1088,7 @@ export const Science = [
     },
 ];
 
-export const Sports = [
+export const SPORTS = [
     {
         id: 1,
         label: 'Adventure Racing',
@@ -1431,7 +1431,7 @@ export const Sports = [
     }
 ];
 
-export const Computers = [
+export const COMPUTERS = [
     {
         id: 1,
         label: 'Algorithms',
@@ -1614,7 +1614,7 @@ export const Computers = [
     },
 ];
 
-export const Home = [
+export const HOME = [
     {
         id: 1,
         label: 'Apartment Living',
@@ -1707,7 +1707,7 @@ export const Home = [
     },
 ];
 
-export const Shopping = [
+export const SHOPPING = [
     {
         id: 1,
         label: 'Antiques And Collectibles',

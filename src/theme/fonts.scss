@@ -1,31 +1,35 @@
 @font-face {
     font-family: 'Open Sans';
-    font-style: normal;
+    src: url('/assets/fonts/OpenSans-Italic.woff2') format('woff2'),
+        url('/assets/fonts/OpenSans-Italic.woff') format('woff');
     font-weight: normal;
-    src: url('src/assets/fonts/OpenSans-Regular.ttf');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: bold;
-    src: url('src/assets/fonts/OpenSans-Bold.ttf');
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Open Sans';
     font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-BoldItalic.woff2') format('woff2'),
+        url('/assets/fonts/OpenSans-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/assets/fonts/OpenSans-Regular.woff2') format('woff2'),
+        url('/assets/fonts/OpenSans-Regular.woff') format('woff');
     font-weight: normal;
-    src: url('src/assets/fonts/OpenSans-Italic.ttf');
+    font-style: normal;
     font-display: swap;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    font-style: italic;
+    src: url('/assets/fonts/OpenSans-Bold.woff2') format('woff2'),
+        url('/assets/fonts/OpenSans-Bold.woff') format('woff');
     font-weight: bold;
-    src: url('src/assets/fonts/OpenSans-BoldItalic.ttf');
+    font-style: normal;
     font-display: swap;
 }

@@ -20,16 +20,13 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 })
 export class AppComponent {
   @ViewChild('filterMenuContainer', { read: ViewContainerRef }) filterMenuContainer: ViewContainerRef;
+  public menuStatus = false;
+  public filtersInitStatus = false;
 
   private hasFilterMenuViewInit = false;
-
-  public menuStatus = false;
   private menuSubscription$: Subscription;
-
   private prefersDark;
   private platformSource: string;
-
-  public filtersInitStatus = false;
   private filtersInitStatus$: Subscription;
 
   constructor(
@@ -75,25 +72,11 @@ export class AppComponent {
     this.meta.updateTitle();
   }
 
-  private loadFilterMenu() {
-    // Dynamic import, activate code splitting and on demand loading of feature module
-    import('./menu/filter-menu/filter-menu.module').then(({ FilterMenuModule }) => {
-      // Compile the module
-      this.compiler.compileModuleAsync(FilterMenuModule).then(moduleFactory => {
-        // Create a moduleRef, resolve an entry component, create the component
-        const moduleRef = moduleFactory.create(this.injector);
-        const filterMenuFactory = moduleRef.instance.resolveFilterMenuComponent();
-        <ComponentRef<FilterMenuComponent>> this.filterMenuContainer.createComponent(filterMenuFactory, null, moduleRef.injector);
-        this.hasFilterMenuViewInit = true;
-      });
-    });
-  }
-
-  toggleMenu() {
+  public toggleMenu() {
     this.menuService.toggleMenu();
   }
 
-  toggleDarkTheme(shouldAdd) {
+  public toggleDarkTheme(shouldAdd) {
     document.body.classList.toggle('dark', shouldAdd);
 
     if (this.platformSource !== 'dom' && this.platform.is('ios')) {
@@ -105,17 +88,17 @@ export class AppComponent {
     }
   }
 
-  async detectTheme(): Promise<void> {
+  public async detectTheme(): Promise<void> {
     return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
       if (res.value) {
-        this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-          this.toggleDarkTheme(res.value);
+        this.themeDetection.isDarkModeEnabled().then((theme: ThemeDetectionResponse) => {
+          this.toggleDarkTheme(theme.value);
         }).catch((error: any) => console.error(error));
       }
     }).catch((error: any) => console.error(error));
   }
 
-  async configureDarkmode() {
+  public async configureDarkmode() {
     const displayDarkMode = await this.storage.get('neutrify_dark_mode');
 
     if (displayDarkMode !== undefined && displayDarkMode !== null) {
@@ -128,7 +111,7 @@ export class AppComponent {
     }
   }
 
-  async initializeApp() {
+  public async initializeApp() {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
 
@@ -145,6 +128,22 @@ export class AppComponent {
 
       this.configureDarkmode();
       this.splashScreen.hide();
+    });
+  }
+
+  private loadFilterMenu() {
+    // Dynamic import, activate code splitting and on demand loading of feature module
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    import('./menu/filter-menu/filter-menu.module').then(({ FilterMenuModule }) => {
+      // Compile the module
+      this.compiler.compileModuleAsync(FilterMenuModule).then(moduleFactory => {
+        // Create a moduleRef, resolve an entry component, create the component
+        const moduleRef = moduleFactory.create(this.injector);
+        const filterMenuFactory = moduleRef.instance.resolveFilterMenuComponent();
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+        <ComponentRef<FilterMenuComponent>> this.filterMenuContainer.createComponent(filterMenuFactory, null, moduleRef.injector);
+        this.hasFilterMenuViewInit = true;
+      });
     });
   }
 }

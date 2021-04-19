@@ -8,8 +8,6 @@ import { FilterService } from 'src/app/services/filter.service';
   styleUrls: ['./button-filter.component.scss'],
 })
 export class ButtonFilterComponent implements OnInit {
-  private buttonState: string = 'unassigned';
-  public buttonColour: string = 'medium';
   @Input() buttonText: string;
 
   @Input()
@@ -25,8 +23,15 @@ export class ButtonFilterComponent implements OnInit {
     return this.buttonState;
   }
 
-  @Output() onToggleButton: EventEmitter<any> = new EventEmitter();
-  public filtersLoading: boolean = false;
+  @Output() toggleButton: EventEmitter<any> = new EventEmitter();
+
+
+  public buttonColour = 'medium';
+
+  public filtersLoading = false;
+
+  private buttonState = 'unassigned';
+
   private filtersLoadingSubcription$: Subscription;
 
   constructor(
@@ -39,7 +44,7 @@ export class ButtonFilterComponent implements OnInit {
 
   ngOnInit() { }
 
-  public toggleButton() {
+  public onToggleButton() {
     if (this.buttonValue === 'unassigned') {
       this.buttonValue ='include';
       this.buttonColour = 'primary';
@@ -68,7 +73,7 @@ export class ButtonFilterComponent implements OnInit {
   }
 
   private emitBiasChange() {
-    this.onToggleButton.emit({
+    this.toggleButton.emit({
       name: this.buttonText.toLowerCase(),
       value: this.buttonValue
     });

@@ -20,21 +20,20 @@ export class AddFilterPopoverComponent implements OnInit {
     private ga: GoogleAnalyticsService
   ) {}
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
-  addFilter(operation) {
+  public addFilter(operation) {
     this.clicked = true;
     this.filterService.addSingleFilter(this.optionType, operation, this.value.toLowerCase());
     this.dismiss();
     this.ga.eventEmitter('use_filter', 'engagement', 'Popover filter used');
   }
 
-  dismiss() {
+  private dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.popoverController.dismiss({
       dismissed: true
     });
   }
-
 }

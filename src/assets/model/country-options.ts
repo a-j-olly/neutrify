@@ -1,4 +1,4 @@
-export const Countries = [
+export const COUNTRIES = [
     {
         label: 'Australia',
         value: 'australia'
@@ -134,11 +134,11 @@ export const Countries = [
     {
         label: 'Italy',
         value: 'italy'
-    }, 
+    },
     {
         label: 'India',
         value: 'india'
-    }, 
+    },
     {
         label: 'Indonesia',
         value: 'indonesia'

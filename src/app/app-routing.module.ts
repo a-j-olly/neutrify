@@ -9,57 +9,57 @@ import { SupportComponent } from './home/support/support.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { 
-    path: '', redirectTo: 'home', pathMatch: 'full', 
+  {
+    path: '', redirectTo: 'home', pathMatch: 'full',
     data: {
-      title: 'Neutrify: Filter Out The Hysteria' 
-    }, 
+      title: 'Neutrify: Filter Out The Hysteria'
+    },
   },
   { path: 'home', component: HomePage, children: [
-    { 
-      path: '', component: CtaComponent 
+    {
+      path: '', component: CtaComponent
     },
-    { 
+    {
       path: 'privacy-policy', component: PrivacyPolicyComponent, data: {
         title: 'Neutrify: Privacy Policy',
       }
     },
-    { 
+    {
       path: 'terms-conditions', component: TermsConditionsComponent,
       data: {
         title: 'Neutrify: Terms and Conditions',
       }
     },
-    { 
-      path: 'support', component: SupportComponent, 
+    {
+      path: 'support', component: SupportComponent,
       data: {
         title: 'Neutrify: Customer Support',
       }
-    } 
+    }
   ], data: {
       title: 'Neutrify: Filter Out The Hysteria',
-    }, canActivate: [AuthGuardService] 
+    }, canActivate: [AuthGuardService]
   },
-  { 
+  {
     path: 'app', children: [
-    { 
+    {
       path: '', loadChildren: () => import('./news-feed/news-feed-wrapper.module').then( m => m.NewsFeedWrapperPageModule)
     }
   ], data: {
       title: 'Neutrify: Filter Out The Hysteria'
     }, canActivate: [AuthGuardService]
   },
-  { 
-    path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService] 
+  {
+    path: 'auth', loadChildren: () => import('./auth/auth-page.module').then(m => m.AuthPageModule), canActivate: [AuthGuardService]
   },
-  { 
+  {
     path: 'blog', loadChildren: () => import('./blog/blog.module').then( m => m.BlogPageModule), canActivate: [AuthGuardService]
   },
-  { 
+  {
     path: '**', component: PageNotFoundComponent, canActivate: [AuthGuardService],
     data: {
-      title: 'Neutrify: Page Not Found' 
-    }, 
+      title: 'Neutrify: Page Not Found'
+    },
   },
 ];
 

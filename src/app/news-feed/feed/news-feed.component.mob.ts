@@ -17,16 +17,16 @@ import { environment } from 'src/environments/environment';
 })
 export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() layout: string;
+  public isFeedUpdating = true;
+  public displayArticles: Array<any> = new Array<any>();
 
   private platformSource: string;
 
   private filterSubscription$: Subscription;
 
-  public displayArticles: Array<any> = new Array<any>();
   private readyArticles: Array<any> = new Array<any>();
   private articlesSubscription$: Subscription;
 
-  public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
 
   private resumeAdSubscription$: Subscription;
@@ -85,7 +85,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnInit() {
+  public async ngOnInit() {
     this.playAds();
     const filters = this.filterService.getQueryFilters();
     this.newsFeedService.setFilters(filters);
@@ -98,11 +98,62 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.menuService.openMenu();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.pauseAds();
     this.filterSubscription$.unsubscribe();
     this.articlesSubscription$.unsubscribe();
     this.isFeedUpdatingSubscription$.unsubscribe();
+  }
+
+  public getArticleAge(date: string) {
+    const diff = new Date().valueOf() - new Date(date).valueOf();
+    const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
+    let age: string;
+    if (ageInMinutes <= 15) {
+      age = 'Just Now';
+    } else {
+      age = `${formatDistanceToNow(new Date(date))} ago`;
+    }
+
+    return age;
+  }
+
+  public async onArticleSelected(index: number) {
+    if (this.newsFeedService.openArticleIndex !== undefined) {
+      if (this.newsFeedService.openArticleIndex === index && this.layout === 'list') {
+        this.newsFeedService.openArticleIndex = undefined;
+        return;
+      }
+
+      this.newsFeedService.openArticleIndex = undefined;
+    }
+
+    this.newsFeedService.openArticleIndex = index;
+
+    if (this.layout === 'grid') {
+      await this.openArticleModal(this.displayArticles[index]);
+      return;
+    }
+
+    this.changeDetector.detectChanges();
+    await this.scrollTo(index.toString());
+  }
+
+  public async doRefresh(event?) {
+    await this.newsFeedService.doRefresh();
+
+    if (event) {
+      event.target.complete();
+    }
+  }
+
+  public async getNextPage(event) {
+    await this.newsFeedService.getNextPage();
+    event.target.complete();
+  }
+
+  public handleImgError(event, index) {
+    this.displayArticles[index].image = null;
   }
 
   private playAds() {
@@ -137,39 +188,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getArticleAge(date: string) {
-    const diff = new Date().valueOf() - new Date(date).valueOf();
-    const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
-    let age: string;
-    if (ageInMinutes <= 15) {
-      age = 'Just Now';
-    } else {
-      age = `${formatDistanceToNow(new Date(date))} ago`;
-    }
 
-    return age;
-  }
-
-  public async onArticleSelected(index: number) {
-    if (this.newsFeedService.openArticleIndex !== undefined) {
-      if (this.newsFeedService.openArticleIndex === index && this.layout === 'list') {
-        this.newsFeedService.openArticleIndex = undefined;
-        return;
-      }
-
-      this.newsFeedService.openArticleIndex = undefined;
-    }
-    
-    this.newsFeedService.openArticleIndex = index;
-
-    if (this.layout === 'grid') {
-      await this.openArticleModal(this.displayArticles[index]);
-      return;
-    }
-
-    this.changeDetector.detectChanges();
-    await this.scrollTo(index.toString());
-  }
 
   private async scrollTo(id: string) {
     let yOffset = document.getElementById(id).offsetTop;
@@ -185,7 +204,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: ArticleWrapperComponent,
       componentProps: {
-        article: article,
+        article,
         layout: this.layout
       },
       cssClass: 'article-wrapper-modal'
@@ -193,22 +212,5 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
     modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
     return await modal.present();
-  }
-
-  public async doRefresh(event?) {
-    await this.newsFeedService.doRefresh();
-
-    if (event) {
-      event.target.complete();
-    }
-  }
-
-  public async getNextPage(event) {
-    await this.newsFeedService.getNextPage();
-    event.target.complete();
-  }
-
-  public handleImgError(event, index) {
-    this.displayArticles[index].image = null;
   }
 }

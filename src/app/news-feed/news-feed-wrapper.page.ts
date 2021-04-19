@@ -37,39 +37,30 @@ export class NewsFeedWrapperPage {
   @ViewChild(IonContent) content: IonContent;
 
   public displayArticles: Array<any> = new Array<any>();
-  private articlesSubscription$: Subscription;
-
-  private routerEventSubscription$: Subscription;
-
-  private platformResize$: Subscription;
   public platformWidth: number;
   public platformHeight: number;
-  private platformSource: string;
+  public showRefreshFab = false;
+  public filtersLoading = false;
+  public filtersSaved = true;
+  public menuStatus = false;
+  public isFeedUpdating = true;
+  public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
+  public searchTerm: string;
+  public layout: string;
 
+  private articlesSubscription$: Subscription;
+  private routerEventSubscription$: Subscription;
+  private platformResize$: Subscription;
+  private platformSource: string;
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
-  public showRefreshFab = false;
-
-  public filtersLoading = false;
   private filtersLoadingSubscription$: Subscription;
-
-  public filtersSaved = true;
   private filtersSavedSubscription$: Subscription;
-
   private menuSubscription$: Subscription;
-  public menuStatus = false;
-
-  public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
-
-  public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
   private filtersInitStatus$: Subscription;
-
   private useFilters = false;
-  public searchTerm: string;
   private searchFilterSubscription$: Subscription;
-
-  public layout: string;
   private layoutSubscription$: Subscription;
 
   constructor(
@@ -130,7 +121,8 @@ export class NewsFeedWrapperPage {
 
     this.layoutSubscription$ = this.newsFeedService.getLayout().subscribe(layout => {
       if (layout !== this.layout) {
-        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
+        this.newsFeedService.displayThreshold =
+        this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
       }
 
       this.layout = layout;
@@ -163,7 +155,7 @@ export class NewsFeedWrapperPage {
     });
   }
 
-  async ionViewWillEnter() {
+  public async ionViewWillEnter() {
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');

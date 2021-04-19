@@ -17,9 +17,9 @@ export class LayoutTogglerComponent implements OnInit {
     private popoverController: PopoverController
   ) { }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
-  onSegmentChange(event: any) {
+  public onSegmentChange(event: any) {
     this.newsFeedService.setLayout(event.detail.value);
     this.storage.set('neutrify_layout_preference', event.detail.value);
     setTimeout(() => this.popoverController.dismiss(), 200);

@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MustMatch } from '../../helper/must-match.validator';
-import { Strong } from 'src/app/helper/strong.validator';
+import { mustMatch } from '../../helper/must-match.validator';
+import { strong } from 'src/app/helper/strong.validator';
 import { KeychainService } from 'src/app/services/keychain.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
       password: [null, [Validators.required, Validators.minLength(8)]],
       confirmPassword: [null, [Validators.required]],
     }, {
-      validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
+      validators: [mustMatch('password', 'confirmPassword'), strong('password')]
     });
   }
 
@@ -75,21 +75,21 @@ export class ResetPasswordComponent implements OnInit {
     if (this.showSubmit && !this.invalidEmailDetails && this.f.vefCode.valid && this.f.password.valid && this.f.confirmPassword.valid) {
       this.resetPasswordForm.disable();
       const res = await this.authService.resetPasswordSubmit(vefCode, password);
-      
+
       if (res) {
         if (this.platform.is('ios') && this.platformSource !== 'dom') {
-          
+
           try {
             this.keychainService.setKeychainPassword(email, password);
-          } catch (err) {
-            console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
+          } catch (setErr) {
+            console.log('Did/could not add the password to the keychain. Service returned this error: ', setErr);
 
-            if (err.code === 'errSecDuplicateItem') {
+            if (setErr.code === 'errSecDuplicateItem') {
 
               try {
                 await this.keychainService.replaceKeychainPassword(email, password);
-              } catch (err) {
-                console.log('Did/could not replace the password on the keychain. Service returned this error: ', err);
+              } catch (replaceErr) {
+                console.log('Did/could not replace the password on the keychain. Service returned this error: ', replaceErr);
               }
             } else {
               this.presentToast('Did/could not add the password to the keychain.', 'danger');

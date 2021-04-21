@@ -18,11 +18,17 @@
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
+          <ion-row class="ion-justify-content-between metric-preview" [hidden]="i === newsFeedService.openArticleIndex" (click)="onArticleSelected(i)">
+            <ion-label class="list-label" color="secondary">{{ article.displayKeywords[0] }}</ion-label>
+            
+            <ion-label class="list-label" color="secondary">{{ article.displayTopics[0] }}</ion-label>
+          </ion-row>
+
           <app-article *ngIf="i === newsFeedService.openArticleIndex" [article]="article" [layout]="layout"></app-article>
     
           <div (click)="onArticleSelected(i)">
             <app-standard-footer 
-              [sourceTitle]="article.displaySourceTitle" 
+              [sourceTitle]="article.displaySourceTitle" [layout]="layout"
               [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
             </app-standard-footer>
           </div>
@@ -43,10 +49,15 @@
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
-    
+          <ion-row class="ion-justify-content-between metric-preview" (click)="onArticleSelected(i)">
+            <ion-label color="secondary">{{ article.displayKeywords[0] }}</ion-label>
+            
+            <ion-label color="secondary">{{ article.displayTopics[0] }}</ion-label>
+          </ion-row>
+          
           <div class="footer ion-no-padding" (click)="onArticleSelected(i)">
             <app-standard-footer 
-              [sourceTitle]="article.displaySourceTitle" 
+              [sourceTitle]="article.displaySourceTitle" [layout]="layout"
               [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
             </app-standard-footer>
           </div>
@@ -60,7 +71,7 @@
     <h2>Could not find any articles. It is likely your filters are too strict.</h2>
   </div>
 
-<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="15%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
+<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
   <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more articles..." class="loading-spinner">
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>

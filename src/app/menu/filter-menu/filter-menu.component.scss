@@ -1,56 +1,10 @@
 .filter {
-    margin: 0px;
-    padding: 10px 2px;
+    margin: 10px 2px;
     width: 1000px;
     min-width: 220px;
 }
 
-.item-interactive {
-    --highlight-background: unset;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    z-index: 10;
-}
-
-.tooltip .tooltiptext {
-    @media screen and (min-width: 720px) {
-        font-size: 16px;
-        width: 300px;
-        top: -15px
-    }
-
-    font-size: 12px;
-    visibility: hidden;
-    width: 200px;
-    background-color: var(--ion-color-dark);
-    color: var(--ion-color-light);
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    top: -10px;
-    left: 110%;
-}
-
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent var(--ion-color-dark) transparent transparent;
-}
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+.filter-container {
+    margin: 0px;
+    border-bottom: 1px solid rgb(219, 219, 219);
 }

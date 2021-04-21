@@ -11,6 +11,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./filter-menu.component.scss'],
 })
 export class FilterMenuComponent {
+  public showTopicFilter = false;
+  public showKeywordFilter = false;
+  public showCountryFilter = false;
+  public showPoliticalFilter = false;
+  public showAttitudeFilter = false;
+
   public toneUserOption;
   public sourcesUserOption;
   public topicsUserOption;

@@ -20,7 +20,7 @@
         </ion-slide>
 
         <ion-slide class="slide-container" *ngIf="imgUrl">
-          <img [hidden]="!showImage" draggable="false" onmousedown="return false" style="user-drag: none" src="{{ imgUrl }}" alt="Loading image..." (click)="viewImage()" loading="eager" (error)="updateUrl($event)" ondrag="return false"/>
+          <img [hidden]="!showImage" draggable="false" onmousedown="return false" style="user-drag: none" src="{{ imgUrl }}" alt="Loading image..." (click)="viewImage()" loading="eager" (error)="handleImgError()" ondrag="return false"/>
         </ion-slide>
 
         <ion-slide class="slide-container" *ngIf="(article.displayTopics && article.displayTopics.length > 0) || article.tone || 

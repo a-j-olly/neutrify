@@ -104,8 +104,8 @@ export class ArticleComponent implements OnInit {
     this.buttonClicked = false;
   }
 
-  public updateUrl(event) {
-    this.imgUrl = 'null';
+  public handleImgError() {
+    this.imgUrl = null;
   }
 
   public preventDrag(event) {

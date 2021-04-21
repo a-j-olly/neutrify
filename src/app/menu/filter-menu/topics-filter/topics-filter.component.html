@@ -7,11 +7,11 @@
         </div> 
       </ion-col>
 
-      <ion-col class="ion-activatable tappable" size="9" (click)="showFilter = !showFilter">
+      <ion-col class="ion-activatable tappable" size="9" (click)="onOpen()">
         <h4><b>Topics</b></h4>
       </ion-col>
 
-      <ion-col class="ion-text-end ion-activatable tappable ion-text-right" size="2" (click)="showFilter = !showFilter">
+      <ion-col class="ion-text-end ion-activatable tappable ion-text-right" size="2" (click)="onOpen()">
         <ion-icon name="chevron-down-outline" [hidden]="showFilter"></ion-icon>
         <ion-icon name="chevron-up-outline" [hidden]="!showFilter"></ion-icon>
       </ion-col>
@@ -35,8 +35,7 @@
       [topicValues]="filterValues[option.name]"
       [segmentValue]="segmentValue"
       [filtersLoading]="filtersLoading"
-      (onTopicChange)="handleTopicChange($event)">
+      (topicChange)="handleTopicChange($event)">
     </app-topic-option>
-
   </div>
 </ion-grid>

@@ -154,5 +154,4 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
     return await modal.present();
   }
-
 }

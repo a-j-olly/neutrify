@@ -33,8 +33,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./topics-filter.component.scss'],
 })
 export class TopicsFilterComponent implements OnInit {
-  @Input()
-  set userOption(val: any) {
+  @Input() set userOption(val: any) {
 
     if (val && JSON.stringify(val) !== JSON.stringify(this.option)) {
       this.option['include'] = this.buildTopicObj(val['include']);
@@ -54,12 +53,12 @@ export class TopicsFilterComponent implements OnInit {
   public filterValues: any = {};
 
   private option: any = {};
-  private filtersLoadingSubcription$: Subscription;
+  private filtersLoadingSubscription$: Subscription;
 
   constructor(
     private filterService: FilterService,
     ) {
-      this.filtersLoadingSubcription$ = this.filterService.getFilterLoading().subscribe((status) => {
+      this.filtersLoadingSubscription$ = this.filterService.getFilterLoading().subscribe((status) => {
         this.filtersLoading = status;
       });
     }
@@ -78,6 +77,14 @@ export class TopicsFilterComponent implements OnInit {
       { name: 'home', label: 'Home', values: HOME },
       { name: 'shopping', label: 'Shopping', values: SHOPPING },
     ];
+  }
+
+  public onOpen() {
+    this.showFilter = !this.showFilter;
+
+    if (this.showFilter) {
+      this.segmentValue = 'include';
+    }
   }
 
   public onSegmentChange(event) {

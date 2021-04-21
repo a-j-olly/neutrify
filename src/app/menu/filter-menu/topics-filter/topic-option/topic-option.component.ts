@@ -29,8 +29,6 @@ export class TopicOptionComponent implements OnInit {
   public oppositeDisabled = false;
   public displayValue: Array<string> = new Array<string>();
 
-
-
   private topics: any = {};
   get topicValues() {
     return this.topics;
@@ -50,35 +48,9 @@ export class TopicOptionComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
-  unmarshalTopicValues(input) {
-    const res: any = {};
-    res['include'] = new Array();
-    res.include.push(...input.include);
-
-    res['exclude'] = new Array();
-    res.exclude.push(...input.exclude);
-    return res;
-  }
-
-  initTopic() {
-    const target = this.topicValues[this.segmentValue];
-
-    if (target.length === 1) {
-      if (target[0].toLowerCase() === this.topicOption.name.toLowerCase()) {
-        this.optionDisabled = true;
-      } else {
-        this.optionDisabled = false;
-        this.oppositeDisabled = false;
-      }
-    } else {
-      this.optionDisabled = false;
-      this.oppositeDisabled = false;
-    }
-  }
-
-  async onCheckboxChange(event) {
+  public async onCheckboxChange(event) {
     let filtersChanged = false;
 
     if (event.detail.checked) {
@@ -121,7 +93,7 @@ export class TopicOptionComponent implements OnInit {
     }
   }
 
-  onSelectChange(event) {
+  public onSelectChange(event) {
     const values = event.detail.value.map(val => val.toLowerCase());
 
     if (!this.isArrEq(values, this.topicValues[this.segmentValue])) {
@@ -133,14 +105,40 @@ export class TopicOptionComponent implements OnInit {
     }
   }
 
-  isArrEq(arr1, arr2) {
-    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() === JSON.stringify(arr2).toLowerCase();
-  }
-
-  emitTopicChange() {
+  public emitTopicChange() {
     this.topicChange.emit({
       name: this.topicOption.name,
       value: this.topicValues
     });
+  }
+
+  private unmarshalTopicValues(input) {
+    const res: any = {};
+    res['include'] = new Array();
+    res.include.push(...input.include);
+
+    res['exclude'] = new Array();
+    res.exclude.push(...input.exclude);
+    return res;
+  }
+
+  private initTopic() {
+    const target = this.topicValues[this.segmentValue];
+
+    if (target.length === 1) {
+      if (target[0].toLowerCase() === this.topicOption.name.toLowerCase()) {
+        this.optionDisabled = true;
+      } else {
+        this.optionDisabled = false;
+        this.oppositeDisabled = false;
+      }
+    } else {
+      this.optionDisabled = false;
+      this.oppositeDisabled = false;
+    }
+  }
+
+  private isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() === JSON.stringify(arr2).toLowerCase();
   }
 }

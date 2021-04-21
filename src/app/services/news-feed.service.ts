@@ -101,9 +101,15 @@ export class NewsFeedService {
     return this.articles$.asObservable();
   }
 
-  public setArticles(displayArticles: Array<any>, readyArticles: Array<any>) {
-    this.displayArticles = displayArticles;
-    this.readyArticles = readyArticles;
+  public setArticles(displayArticles?: Array<any>, readyArticles?: Array<any>) {
+    if (displayArticles) {
+      this.displayArticles = displayArticles;
+    }
+
+    if (readyArticles) {
+      this.readyArticles = readyArticles;
+    }
+
     this.articles$.next({ displayArticles, readyArticles });
   }
 
@@ -211,12 +217,12 @@ export class NewsFeedService {
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
+    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     if (this.layout === 'grid') {
-      await this.earlyImageLoad(this.displayArticles);
+      await this.earlyImageLoad(this.readyArticles);
     }
 
-    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
 
     this.setArticles(this.displayArticles, this.readyArticles);
@@ -229,24 +235,8 @@ export class NewsFeedService {
   }
 
   public async getNextPage() {
-    let i = 1;
-
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-      let noNewArticles = 0;
-
-      do {
-        const newArticles: Array<any> = new Array<any>();
-        newArticles.push(...await this.listArticles(this.limit, this.nextToken));
-        this.readyArticles.push(...newArticles);
-        noNewArticles += newArticles.length;
-
-        if (i > 10  && noNewArticles >= 3) {
-          break;
-        }
-
-        i++;
-      } while (this.nextToken && noNewArticles < this.displayThreshold);
-
+      await this.loadReadyArticles();
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
@@ -255,7 +245,7 @@ export class NewsFeedService {
       await this.earlyImageLoad(this.readyArticles);
     }
 
-    await this.loadReadyArticles();
+    await this.loadDisplayArticles();
     this.setArticles(this.displayArticles, this.readyArticles);
   }
 
@@ -320,8 +310,6 @@ export class NewsFeedService {
     };
   }
 
-
-
   private async earlyImageLoad(imgArr) {
     const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
     const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map((article) => {
@@ -352,27 +340,44 @@ export class NewsFeedService {
     });
   }
 
-
   private async loadReadyArticles() {
-    let noNewArticles: number;
+    let i = 1;
+    let numNewArticles = 0;
+
+    do {
+      const newArticles: Array<any> = new Array<any>();
+      newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+      this.readyArticles.push(...newArticles);
+      numNewArticles += newArticles.length;
+
+      if (i > 10  && numNewArticles >= 3) {
+        break;
+      }
+
+      i++;
+    } while (this.nextToken && numNewArticles < this.displayThreshold);
+  }
+
+  private async loadDisplayArticles() {
+    let numNewArticles: number;
 
     if (this.readyArticles.length >= this.displayThreshold) {
-      noNewArticles = this.displayThreshold;
+      numNewArticles = this.displayThreshold;
       this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
       this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     } else if (this.readyArticles.length) {
-      noNewArticles = this.readyArticles.length;
+      numNewArticles = this.readyArticles.length;
       this.displayArticles.push(...this.readyArticles);
       this.readyArticles = [];
     }
 
     if (this.displayArticles.length >= 3 * this.displayThreshold) {
-      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
+      this.displayArticles = this.displayArticles.slice((numNewArticles - 1));
 
-      if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {
+      if (this.openArticleIndex && this.openArticleIndex - (numNewArticles - 1) < 0) {
         this.openArticleIndex = undefined;
       } else {
-        this.openArticleIndex -= (noNewArticles - 1);
+        this.openArticleIndex -= (numNewArticles - 1);
       }
     }
   }

@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class StandardFooterComponent implements OnInit {
   @Input() sourceTitle: string;
   @Input() time;
+  @Input() layout;
 
   constructor() { }
 

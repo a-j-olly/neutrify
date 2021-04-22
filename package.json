@@ -1,6 +1,6 @@
 {
   "name": "neutrify",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "author": "Neutrify LTD",
   "homepage": "https://neutrify.news/",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "private": true,
   "dependencies": {
-    "@admob-plus/ionic": "^0.19.11",
+    "@admob-plus/ionic": "^1.1.8",
     "@angular/animations": "^11.2.10",
     "@angular/common": "^11.2.10",
     "@angular/compiler": "^11.2.10",
@@ -72,7 +72,7 @@
     "@types/node": "^12.20.10",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
-    "cordova-admob-plus": "^0.39.0",
+    "admob-plus-cordova": "^1.7.1",
     "cordova-android": "^9.1.0",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-inappbrowser": "^4.1.0",
@@ -111,16 +111,16 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-theme-detection": {},
       "cordova-plugin-ios-keychain": {},
-      "cordova-admob-plus": {
-        "APP_ID_ANDROID": "ca-app-pub-1312649730148564~8339305937",
-        "APP_ID_IOS": "ca-app-pub-1312649730148564~8028669961",
-        "PLAY_SERVICES_VERSION": "19.4.0"
-      },
       "cordova-plugin-ionic-webview": {},
       "es6-promise-plugin": {},
       "cordova-plugin-device": {},
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-screen-orientation": {}
+      "cordova-plugin-screen-orientation": {},
+      "admob-plus-cordova": {
+        "APP_ID_ANDROID": "ca-app-pub-1312649730148564~8339305937",
+        "APP_ID_IOS": "ca-app-pub-1312649730148564~8028669961",
+        "PLAY_SERVICES_VERSION": "19.8.0"
+      }
     },
     "platforms": [
       "android"

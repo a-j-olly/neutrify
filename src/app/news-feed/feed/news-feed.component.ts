@@ -18,6 +18,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
   public displayArticles: Array<any> = new Array<any>();
   public isFeedUpdating = true;
+  public modalOpen = false;
 
   private filterSubscription$: Subscription;
 
@@ -44,8 +45,18 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       await this.newsFeedService.handleInitDataLoad();
     });
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => {
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(async (status) => {
       this.isFeedUpdating = status;
+
+      if (this.isFeedUpdating) {
+        await this.content.scrollToTop(0);
+
+        if (this.modalOpen) {
+          this.modalController.dismiss();
+          this.newsFeedService.openArticleIndex = undefined;
+          this.modalOpen = false;
+        }
+      }
     });
 
     this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
@@ -142,6 +153,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   }
 
   private async openArticleModal(article) {
+    this.modalOpen = true;
     const modal = await this.modalController.create({
       component: ArticleWrapperComponent,
       componentProps: {
@@ -151,7 +163,10 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       cssClass: 'article-wrapper-modal'
     });
 
-    modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
+    modal.onDidDismiss().then(() => {
+      this.newsFeedService.openArticleIndex = undefined;
+      this.modalOpen = false;
+    });
     return await modal.present();
   }
 }

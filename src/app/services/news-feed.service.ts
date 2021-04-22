@@ -241,11 +241,12 @@ export class NewsFeedService {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
 
+    await this.loadDisplayArticles();
+
     if (this.layout === 'grid') {
       await this.earlyImageLoad(this.readyArticles);
     }
 
-    await this.loadDisplayArticles();
     this.setArticles(this.displayArticles, this.readyArticles);
   }
 

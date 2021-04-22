@@ -13,9 +13,9 @@ import { KeychainService } from 'src/app/services/keychain.service';
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
   passwordType = 'password';
-  public invalidDetails: boolean = false;
-  public loading: boolean = false;
-  public showAlert: boolean = true;
+  public invalidDetails = false;
+  public loading = false;
+  public showAlert = true;
   public platformSource: string;
   private keychainNotFound = false;
 
@@ -48,7 +48,7 @@ export class SignInComponent implements OnInit {
   async signIn() {
     const email = this.signInForm.value.email, password = this.signInForm.value.password;
     this.loading = true;
-    
+
     if (this.signInForm.valid) {
       this.signInForm.disable();
       const res = await this.authService.signIn(email, password);
@@ -58,21 +58,21 @@ export class SignInComponent implements OnInit {
         if (this.keychainNotFound || (this.platform.is('ios') && this.platformSource !== 'dom') && this.f.savePassword.value) {
           try {
             this.keychainService.setKeychainPassword(email, password);
-          } catch (err) {
-            console.log('Did/could not add the password to the keychain. Service returned this error: ', err);
+          } catch (setErr) {
+            console.log('Did/could not add the password to the keychain. Service returned this error: ', setErr);
 
-            if (err.code === 'errSecDuplicateItem') {
+            if (setErr.code === 'errSecDuplicateItem') {
               try {
                 await this.keychainService.replaceKeychainPassword(email, password);
-              } catch (err) {
-                console.log('Did/could not replace the password on the keychain. Service returned this error: ', err);
+              } catch (replaceErr) {
+                console.log('Did/could not replace the password on the keychain. Service returned this error: ', replaceErr);
               }
             } else {
               this.presentToast('Did/could not add the password to the keychain.', 'danger');
             }
           }
         }
-        
+
         await this.router.navigateByUrl('/app', { replaceUrl: true });
         this.invalidDetails = false;
         this.signInForm.reset();

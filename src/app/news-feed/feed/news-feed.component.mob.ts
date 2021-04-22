@@ -17,18 +17,19 @@ import { environment } from 'src/environments/environment';
 })
 export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() layout: string;
-
+  public isFeedUpdating = true;
+  public displayArticles: Array<any> = new Array<any>();
+  public modalOpen = false;
   private platformSource: string;
 
   private filterSubscription$: Subscription;
 
-  public displayArticles: Array<any> = new Array<any>();
   private readyArticles: Array<any> = new Array<any>();
   private articlesSubscription$: Subscription;
 
-  public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
 
+  private currentBanner;
   private resumeAdSubscription$: Subscription;
   private pauseAdSubscription$: Subscription;
 
@@ -44,13 +45,35 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     private admob: AdMob,
     private modalController: ModalController
   ) {
-    this.platform.ready().then((readySource) => {
+    this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
+      await this.admob.start();
       this.admob.setAppVolume(0);
 
-      if (!environment.production) {
-        this.admob.setDevMode(true);
+      if (environment.production) {
+        this.currentBanner = new this.admob.BannerAd({
+          adUnitId: 'ca-app-pub-1312649730148564/2037976682'
+        });
+      } else {
+        this.currentBanner = new this.admob.BannerAd({
+          adUnitId: 'ca-app-pub-3940256099942544/6300978111'
+        });
       }
+
+      await this.playAds();
+      let firstAd = true;
+
+      this.admob.on('admob.banner.impression').subscribe(async () => {
+        if (firstAd === true) {
+          firstAd = false;
+        } else {
+          await this.pauseAds();
+
+          setTimeout(async ()=> {
+            await this.playAds();
+          }, 500);
+        }
+      });
     });
 
     this.pauseAdSubscription$ = this.platform.pause.subscribe(() => {
@@ -61,8 +84,18 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       this.playAds();
     });
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => {
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(async (status) => {
       this.isFeedUpdating = status;
+
+      if (this.isFeedUpdating) {
+        await this.content.scrollToTop(0);
+
+        if (this.modalOpen) {
+          this.modalController.dismiss();
+          this.newsFeedService.openArticleIndex = undefined;
+          this.modalOpen = false;
+        }
+      }
     });
 
     this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
@@ -85,8 +118,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnInit() {
-    this.playAds();
+  public async ngOnInit() {
     const filters = this.filterService.getQueryFilters();
     this.newsFeedService.setFilters(filters);
     await this.newsFeedService.handleInitDataLoad();
@@ -98,43 +130,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.menuService.openMenu();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.pauseAds();
     this.filterSubscription$.unsubscribe();
     this.articlesSubscription$.unsubscribe();
     this.isFeedUpdatingSubscription$.unsubscribe();
-  }
-
-  private playAds() {
-    if (environment.production) {
-      this.admob.banner.show({ id: {
-        ios: 'ca-app-pub-1312649730148564/2740135529',
-        android: 'ca-app-pub-1312649730148564/2037976682'
-      }});
-    } else {
-      if (this.platformSource !== 'dom') {
-        this.admob.banner.show({ id: {
-          ios: 'test',
-          android: 'test'
-        }});
-      }
-    }
-  }
-
-  private pauseAds() {
-    if (this.platformSource !== 'dom') {
-      if (environment.production ) {
-        this.admob.banner.hide({
-          ios: 'ca-app-pub-1312649730148564/2740135529',
-          android: 'ca-app-pub-1312649730148564/2037976682'
-        });
-      } else {
-        this.admob.banner.hide({
-          ios: 'test',
-          android: 'test'
-        });
-      }
-    }
   }
 
   public getArticleAge(date: string) {
@@ -159,7 +159,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
       this.newsFeedService.openArticleIndex = undefined;
     }
-    
+
     this.newsFeedService.openArticleIndex = index;
 
     if (this.layout === 'grid') {
@@ -169,30 +169,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
     this.changeDetector.detectChanges();
     await this.scrollTo(index.toString());
-  }
-
-  private async scrollTo(id: string) {
-    let yOffset = document.getElementById(id).offsetTop;
-
-    if (!this.platform.is('ios')) {
-      yOffset = yOffset + 20;
-    }
-
-    await this.content.scrollToPoint(0, yOffset, 500);
-  }
-
-  private async openArticleModal(article) {
-    const modal = await this.modalController.create({
-      component: ArticleWrapperComponent,
-      componentProps: {
-        article: article,
-        layout: this.layout
-      },
-      cssClass: 'article-wrapper-modal'
-    });
-
-    modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
-    return await modal.present();
   }
 
   public async doRefresh(event?) {
@@ -210,5 +186,41 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
   public handleImgError(event, index) {
     this.displayArticles[index].image = null;
+  }
+
+  private async playAds() {
+    await this.currentBanner.show();
+  }
+
+  private async pauseAds() {
+    await this.currentBanner.hide();
+  }
+
+  private async scrollTo(id: string) {
+    let yOffset = document.getElementById(id).offsetTop;
+
+    if (!this.platform.is('ios')) {
+      yOffset = yOffset + 20;
+    }
+
+    await this.content.scrollToPoint(0, yOffset, 500);
+  }
+
+  private async openArticleModal(article) {
+    this.modalOpen = true;
+    const modal = await this.modalController.create({
+      component: ArticleWrapperComponent,
+      componentProps: {
+        article,
+        layout: this.layout
+      },
+      cssClass: 'article-wrapper-modal'
+    });
+
+    modal.onDidDismiss().then(() => modal.onDidDismiss().then(() => {
+      this.newsFeedService.openArticleIndex = undefined;
+      this.modalOpen = false;
+    }));
+    return await modal.present();
   }
 }

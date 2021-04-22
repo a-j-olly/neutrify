@@ -10,29 +10,34 @@ export class GoogleAnalyticsService {
 
   	private scriptLoader: DelayedScriptLoader;
 
-	constructor() { 
-		this.scriptLoader = new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 10 * 1000 ) );
+	constructor() {
+		this.scriptLoader =
+		new DelayedScriptLoader( `https://www.googletagmanager.com/gtag/js?${environment.gaTrackingId}`, ( 10 * 1000 ) );
 	}
-  
+
   public eventEmitter(
     eventAction: string,
     eventCategory: string = null,
     eventLabel: string = null,
 	eventValue: number = null ) {
-      this.run((analytics: Function) => {
+      this.run((analytics: (type: string, action: unknown, payload: unknown) => unknown) => {
 
         analytics('event', eventAction, {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
           event_category: eventCategory,
+		// eslint-disable-next-line @typescript-eslint/naming-convention
           event_label: eventLabel,
+		// eslint-disable-next-line @typescript-eslint/naming-convention
           event_value: eventValue
         });
       });
   	}
 
   public configEmitter(urlAfterRedirects) {
-    this.run((analytics: Function) => {
+    this.run((analytics: (type: string, action: unknown, payload: unknown) => unknown) => {
 
 		analytics('config', environment.gaTrackingId, {
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			page_path: urlAfterRedirects
 		});
 
@@ -42,10 +47,10 @@ export class GoogleAnalyticsService {
 	// ---
 	// PRIVATE METHODS.
 	// ---
- 
+
 	// I return a Promise that resolves with the 3rd-party Analytics Script.
-	private async getScript() : Promise<any> {
- 
+	private async getScript(): Promise<any> {
+
 		// CAUTION: For the sake of simplicity, I am not going to worry about the case in
 		// which the analytics scripts fails to load. Ideally, I might create some sort
 		// of "Null Object" version of the analytics API such that the rest of the code
@@ -55,13 +60,14 @@ export class GoogleAnalyticsService {
 		// Window to ANY and then re-casting the global service that we know was just
 		// injected into the document HEAD.
 
-		return function gtag() {(window as any).dataLayer.push(arguments);}
+		// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
+		return function gtag() {(window as any).dataLayer.push(arguments);};
 	}
- 
- 
+
+
 	// I run the given callback after the remote analytics library has been loaded.
-	private run( callback: ( analytics: any ) => void ) : void {
- 
+	private run( callback: ( analytics: any ) => void ): void {
+
 		this.getScript()
 			.then( callback )
 			.catch(

@@ -16,13 +16,15 @@ import { NewsFeedService } from '../../services/news-feed.service';
 export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() layout: string;
 
+  public displayArticles: Array<any> = new Array<any>();
+  public isFeedUpdating = true;
+  public modalOpen = false;
+
   private filterSubscription$: Subscription;
 
-  public displayArticles: Array<any> = new Array<any>();
   private readyArticles: Array<any> = new Array<any>();
   private articlesSubscription$: Subscription;
 
-  public isFeedUpdating = true;
   private isFeedUpdatingSubscription$: Subscription;
 
   constructor(
@@ -43,8 +45,18 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       await this.newsFeedService.handleInitDataLoad();
     });
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => {
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(async (status) => {
       this.isFeedUpdating = status;
+
+      if (this.isFeedUpdating) {
+        await this.content.scrollToTop(0);
+
+        if (this.modalOpen) {
+          this.modalController.dismiss();
+          this.newsFeedService.openArticleIndex = undefined;
+          this.modalOpen = false;
+        }
+      }
     });
 
     this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
@@ -60,7 +72,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnInit() {
+  public async ngOnInit() {
     const filters = this.filterService.getQueryFilters();
     this.newsFeedService.setFilters(filters);
     await this.newsFeedService.handleInitDataLoad();
@@ -72,7 +84,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.menuService.openMenu();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.filterSubscription$.unsubscribe();
     this.articlesSubscription$.unsubscribe();
     this.isFeedUpdatingSubscription$.unsubscribe();
@@ -112,30 +124,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.scrollTo(index.toString());
   }
 
-  private async scrollTo(id: string) {
-    let yOffset = document.getElementById(id).offsetTop;
-
-    if (!this.platform.is('ios')) {
-      yOffset = yOffset + 20;
-    }
-
-    await this.content.scrollToPoint(0, yOffset, 500);
-  }
-
-  private async openArticleModal(article) {
-    const modal = await this.modalController.create({
-      component: ArticleWrapperComponent,
-      componentProps: {
-        article: article,
-        layout: this.layout
-      },
-      cssClass: 'article-wrapper-modal'
-    });
-
-    modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
-    return await modal.present();
-  }
-
   public async doRefresh(event?) {
     this.content.scrollToTop();
     await this.newsFeedService.doRefresh();
@@ -152,5 +140,33 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
 
   public handleImgError(event, index) {
     this.displayArticles[index].image = null;
+  }
+
+  private async scrollTo(id: string) {
+    let yOffset = document.getElementById(id).offsetTop;
+
+    if (!this.platform.is('ios')) {
+      yOffset = yOffset + 20;
+    }
+
+    await this.content.scrollToPoint(0, yOffset, 500);
+  }
+
+  private async openArticleModal(article) {
+    this.modalOpen = true;
+    const modal = await this.modalController.create({
+      component: ArticleWrapperComponent,
+      componentProps: {
+        article,
+        layout: this.layout
+      },
+      cssClass: 'article-wrapper-modal'
+    });
+
+    modal.onDidDismiss().then(() => {
+      this.newsFeedService.openArticleIndex = undefined;
+      this.modalOpen = false;
+    });
+    return await modal.present();
   }
 }

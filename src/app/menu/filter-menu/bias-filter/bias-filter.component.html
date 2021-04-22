@@ -27,25 +27,25 @@
     </ion-row>
   
     <ion-row class="ion-justify-content-center">
-      <app-button-filter [buttonValue]="leftValue" [buttonText]="'Left'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="leftValue" [buttonText]="'Left'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
 
-      <app-button-filter [buttonValue]="leftLeaningValue" [buttonText]="'Left Leaning'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="leftLeaningValue" [buttonText]="'Left Leaning'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
     </ion-row>
 
     <ion-row class="ion-justify-content-center">
-      <app-button-filter [buttonValue]="centerValue" [buttonText]="'Center'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="centerValue" [buttonText]="'Center'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
     </ion-row>
 
     <ion-row class="ion-justify-content-center">
-      <app-button-filter [buttonValue]="rightLeaningValue" [buttonText]="'Right Leaning'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="rightLeaningValue" [buttonText]="'Right Leaning'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
 
-      <app-button-filter [buttonValue]="rightValue" [buttonText]="'Right'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="rightValue" [buttonText]="'Right'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
     </ion-row>
 
     <ion-row class="ion-justify-content-evenly">
-      <app-button-filter [buttonValue]="balancedValue" [buttonText]="'Balanced'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="balancedValue" [buttonText]="'Balanced'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
 
-      <app-button-filter [buttonValue]="unratedValue" [buttonText]="'Unrated'" (onToggleButton)="onBiasFilterChange($event)"></app-button-filter>
+      <app-button-filter [buttonValue]="unratedValue" [buttonText]="'Unrated'" (toggleButton)="onBiasFilterChange($event)"></app-button-filter>
     </ion-row>
   </div>
 </ion-grid>

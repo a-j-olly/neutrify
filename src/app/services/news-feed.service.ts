@@ -10,24 +10,19 @@ import { sub, add } from 'date-fns';
 @Injectable()
 export class NewsFeedService {
   public openArticleIndex: number;
-
-  public isFeedUpdating = true;
-  private isFeedUpdating$ = new Subject<boolean>();
-
-  private readyArticles: Array<any> = new Array<any>();
   public displayArticles: Array<any> = new Array<any>();
-  private articles$ = new Subject<any>();
-
   public displayThreshold = 15;
   public nextToken: string;
-  private limit = 25;
-
   public filters: any;
-
   public searchFilter: any;
-  private searchFilter$ = new Subject<any>();
+  public isFeedUpdating = true;
+  public layout = 'grid';
 
-  public layout: string = 'grid';
+  private isFeedUpdating$ = new Subject<boolean>();
+  private readyArticles: Array<any> = new Array<any>();
+  private articles$ = new Subject<any>();
+  private limit = 25;
+  private searchFilter$ = new Subject<any>();
   private layout$ = new Subject<any>();
 
   constructor(
@@ -106,8 +101,15 @@ export class NewsFeedService {
     return this.articles$.asObservable();
   }
 
-  public setArticles(displayArticles: Array<any>, readyArticles: Array<any>) {
-    this.displayArticles = displayArticles, this.readyArticles = readyArticles;
+  public setArticles(displayArticles?: Array<any>, readyArticles?: Array<any>) {
+    if (displayArticles) {
+      this.displayArticles = displayArticles;
+    }
+
+    if (readyArticles) {
+      this.readyArticles = readyArticles;
+    }
+
     this.articles$.next({ displayArticles, readyArticles });
   }
 
@@ -135,17 +137,6 @@ export class NewsFeedService {
     } else {
       this.presentToast('Could not reset your filters. Please try again.', 'danger');
     }
-  }
-
-  private setDateRange(): ModelStringKeyConditionInput {
-    const start = sub(new Date(), { days: 3 });
-    const end = add(new Date(), { hours: 1 });
-
-    return {
-      between: [
-        start.toISOString(), end.toISOString()
-      ]
-    };
   }
 
   public async listArticles(limit?, nextToken?) {
@@ -226,12 +217,12 @@ export class NewsFeedService {
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
+    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     if (this.layout === 'grid') {
-      await this.earlyImageLoad(this.displayArticles);
+      await this.earlyImageLoad(this.readyArticles);
     }
 
-    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
 
     this.setArticles(this.displayArticles, this.readyArticles);
@@ -243,89 +234,20 @@ export class NewsFeedService {
     }
   }
 
-  private async earlyImageLoad(imgArr) {
-    const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
-    let loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map((article) => {
-      let res;
-
-      if (article.image) {
-        res = this.preloadImage(article.image);
-      }
-
-      return res;
-    });
-
-    return Promise.all(loadingImages);
-  }
-
-  private preloadImage(imgURL: string): Promise<void> {
-    return new Promise((resolve) => {
-
-      var img = new Image();
-      img.onload = () => {
-        resolve();
-      };
-      img.onerror = () => {
-        resolve();
-      };
-
-      img.src = imgURL;
-    });
-  }
-
   public async getNextPage() {
-    let i = 1;
-
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
-      let noNewArticles = 0;
-
-      do {
-        const newArticles: Array<any> = new Array<any>();
-        newArticles.push(...await this.listArticles(this.limit, this.nextToken));
-        this.readyArticles.push(...newArticles);
-        noNewArticles += newArticles.length;
-
-        if (i > 10  && noNewArticles >= 3) {
-          break;
-        }
-
-        i++;
-      } while (this.nextToken && noNewArticles < this.displayThreshold);
-
+      await this.loadReadyArticles();
     } else if (!this.nextToken) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
+
+    await this.loadDisplayArticles();
 
     if (this.layout === 'grid') {
       await this.earlyImageLoad(this.readyArticles);
     }
 
-    await this.loadReadyArticles();
     this.setArticles(this.displayArticles, this.readyArticles);
-  }
-
-  private async loadReadyArticles() {
-    let noNewArticles: number;
-
-    if (this.readyArticles.length >= this.displayThreshold) {
-      noNewArticles = this.displayThreshold;
-      this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
-      this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
-    } else if (this.readyArticles.length) {
-      noNewArticles = this.readyArticles.length;
-      this.displayArticles.push(...this.readyArticles);
-      this.readyArticles = [];
-    }
-
-    if (this.displayArticles.length >= 3 * this.displayThreshold) {
-      this.displayArticles = this.displayArticles.slice((noNewArticles - 1));
-
-      if (this.openArticleIndex && this.openArticleIndex - (noNewArticles - 1) < 0) {
-        this.openArticleIndex = undefined;
-      } else {
-        this.openArticleIndex -= (noNewArticles - 1);
-      }
-    }
   }
 
   public async doRefresh(event?) {
@@ -366,6 +288,102 @@ export class NewsFeedService {
     return threshold;
   }
 
+  public async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+
+    await toast.present();
+  }
+
+
+  private setDateRange(): ModelStringKeyConditionInput {
+    const start = sub(new Date(), { days: 3 });
+    const end = add(new Date(), { hours: 1 });
+
+    return {
+      between: [
+        start.toISOString(), end.toISOString()
+      ]
+    };
+  }
+
+  private async earlyImageLoad(imgArr) {
+    const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
+    const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map((article) => {
+      let res;
+
+      if (article.image) {
+        res = this.preloadImage(article.image);
+      }
+
+      return res;
+    });
+
+    return Promise.all(loadingImages);
+  }
+
+  private preloadImage(imgURL: string): Promise<void> {
+    return new Promise((resolve) => {
+
+      const img = new Image();
+      img.onload = () => {
+        resolve();
+      };
+      img.onerror = () => {
+        resolve();
+      };
+
+      img.src = imgURL;
+    });
+  }
+
+  private async loadReadyArticles() {
+    let i = 1;
+    let numNewArticles = 0;
+
+    do {
+      const newArticles: Array<any> = new Array<any>();
+      newArticles.push(...await this.listArticles(this.limit, this.nextToken));
+      this.readyArticles.push(...newArticles);
+      numNewArticles += newArticles.length;
+
+      if (i > 10  && numNewArticles >= 3) {
+        break;
+      }
+
+      i++;
+    } while (this.nextToken && numNewArticles < this.displayThreshold);
+  }
+
+  private async loadDisplayArticles() {
+    let numNewArticles: number;
+
+    if (this.readyArticles.length >= this.displayThreshold) {
+      numNewArticles = this.displayThreshold;
+      this.displayArticles.push(...this.readyArticles.slice(0, (this.displayThreshold - 1)));
+      this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
+    } else if (this.readyArticles.length) {
+      numNewArticles = this.readyArticles.length;
+      this.displayArticles.push(...this.readyArticles);
+      this.readyArticles = [];
+    }
+
+    if (this.displayArticles.length >= 3 * this.displayThreshold) {
+      this.displayArticles = this.displayArticles.slice((numNewArticles - 1));
+
+      if (this.openArticleIndex && this.openArticleIndex - (numNewArticles - 1) < 0) {
+        this.openArticleIndex = undefined;
+      } else {
+        this.openArticleIndex -= (numNewArticles - 1);
+      }
+    }
+  }
+
+
   private calculateThresholdMultiplier(platformWidth: number, menuOpen: boolean) {
     const stdCardWidth = 310;
     let multiplier = 1;
@@ -385,17 +403,6 @@ export class NewsFeedService {
     }
 
     return multiplier;
-  }
-
-  public async presentToast(message, color) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000,
-      color,
-      cssClass: 'ion-text-center'
-    });
-
-    await toast.present();
   }
 
   private removeSearchFilter() {

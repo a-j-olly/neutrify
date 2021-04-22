@@ -7,10 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SupportComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit() {}
-
   public appFAQItems = [
     {
       question: 'What should I do if Neutrify stops working?',
@@ -19,17 +15,19 @@ export class SupportComponent implements OnInit {
     },
     {
       question: 'I\'m trying to create an account but the details I have entered are invalid. What should I do?',
-      answer: 'Make sure you don\'t already have an account under that email address. Also ensure your password is at least 7 characters in length '
+      answer: 'Make sure you don\'t already have an account under that email address. '
+      + 'Also ensure your password is at least 7 characters in length '
       + 'and you have included one uppercase letter and one number. If you still are having problems, please contact customer support.'
     },
     {
       question: 'I can\'t find the verification email. Where is it?',
-      answer: 'Please check to see if the email is in your junk/spam folder. If you still cannot see it, ensure your email service does not block emails sent from Amazon SES. '
-      + 'If the problem persists, please contact customer support.'
+      answer: 'Please check to see if the email is in your junk/spam folder. If you still cannot see it, '
+      + 'ensure your email service does not block emails sent from Amazon SES. If the problem persists, please contact customer support.'
     },
     {
       question: 'Which devices can run the Neutrify app?',
-      answer: 'Any phone or tablet that runs Android 5 or iOS 11 and above. You can also open neutrify in your web browser to get an almost identical experience.'
+      answer: 'Any phone or tablet that runs Android 5 or iOS 11 and above. '
+      + 'You can also open neutrify in your web browser to get an almost identical experience.'
     },
     {
       question: 'Where is the filter menu?',
@@ -48,10 +46,15 @@ export class SupportComponent implements OnInit {
     },
     {
       question: 'Sometimes my filters aren\'t behaving properly. Why is that?',
-      answer: 'Neutrify classifies an articles\' topics and keywords using an AI technique called machine learning. ' 
-      + 'This means that the classifications are not always 100% accurate. If you find articles that should have been excluded from the news feed, ' 
-      + 'the best way to remove them is to open the article and find a keyword that you can add to your filters. Using a combination of keywords and topics '
-      + 'often gives the best results.'
+      answer: 'Neutrify classifies an articles\' topics and keywords using an AI technique called machine learning. '
+      + 'This means that the classifications are not always 100% accurate. '
+      + 'If you find articles that should have been excluded from the news feed, '
+      + 'the best way to remove them is to open the article and find a keyword that you can add to your filters. '
+      + 'Using a combination of keywords and topics often gives the best results.'
     },
   ];
+
+  constructor() { }
+
+  ngOnInit() {}
 }

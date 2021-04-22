@@ -17,7 +17,7 @@ export class ArticleWrapperComponent implements OnInit {
     private modalController: ModalController
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.articleAge = this.getArticleAge(this.article.displayDateTime ? this.article.displayDateTime : this.article.datePublished);
   }
 

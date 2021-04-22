@@ -22,14 +22,14 @@ export class SearchBarComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.searchBarForm = this.formBuilder.group({
       searchTerm: [this.searchTerm, [Validators.required]],
       useFilters: [this.useFilters]
     });
   }
 
-  ionViewDidEnter() {
+  public ionViewDidEnter() {
     setTimeout(() => {
       this.searchBarCtrl.setFocus();
     }, 100);
@@ -38,7 +38,6 @@ export class SearchBarComponent implements OnInit {
   get f() { return this.searchBarForm.controls; }
 
   public async search() {
-
     if (this.f.searchTerm.value) {
       this.searchTerm = this.f.searchTerm.value.trim();
       this.newsFeedService.setSearchFilter({searchTerm: this.searchTerm, useFilters: this.useFilters});
@@ -51,6 +50,7 @@ export class SearchBarComponent implements OnInit {
       this.newsFeedService.setSearchFilter({searchTerm: null, useFilters: this.useFilters});
       await this.newsFeedService.handleInitDataLoad();
     }
+
     this.dismiss();
   }
 

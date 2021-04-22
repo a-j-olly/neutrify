@@ -6,8 +6,8 @@
   </ion-refresher-content>
 </ion-refresher>
 
-<div [hidden]="isFeedUpdating" class="ion-text-center">
-  <p><b>Pull down the feed to get the latest articles</b></p>
+<div [hidden]="isFeedUpdating" class="ion-text-center" draggable="false">
+  <p class="no-select"><b>Pull down the feed to get the latest articles</b></p>
 </div>
 
   <ion-list class="feed" *ngIf="layout === 'list'">
@@ -18,11 +18,17 @@
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
+          <ion-row class="ion-justify-content-between metric-preview" [hidden]="i === newsFeedService.openArticleIndex" (click)="onArticleSelected(i)">
+            <ion-label class="list-label" color="secondary">{{ article.displayKeywords[0] }}</ion-label>
+            
+            <ion-label class="list-label" color="secondary">{{ article.displayTopics[0] }}</ion-label>
+          </ion-row>
+
           <app-article *ngIf="i === newsFeedService.openArticleIndex" [article]="article" [layout]="layout"></app-article>
     
           <div (click)="onArticleSelected(i)">
             <app-standard-footer 
-              [sourceTitle]="article.displaySourceTitle" 
+              [sourceTitle]="article.displaySourceTitle" [layout]="layout"
               [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
             </app-standard-footer>
           </div>
@@ -36,17 +42,22 @@
     <ion-row class="ion-justify-content-center">
       <ion-card class="grid-card" [hidden]="displayArticles.length === 0 || isFeedUpdating || !article.image" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
 
-        <img src="{{ article.image }}" alt=" Image unavailable..." loading="eager" (click)="onArticleSelected(i)" (error)="handleImgError($event, i)"/>
+        <img src="{{ article.image }}" class="no-select" alt=" Image unavailable..." loading="eager" draggable="false" (click)="onArticleSelected(i)" (error)="handleImgError($event, i)"/>
 
         <div class="title ion-no-padding" (click)="onArticleSelected(i)">
           <app-standard-header [title]="article.title" [index]="i" [openArticleIndex]="newsFeedService.openArticleIndex" [layout]="layout"></app-standard-header>
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
-    
+          <ion-row class="ion-justify-content-between metric-preview" (click)="onArticleSelected(i)">
+            <ion-label color="secondary">{{ article.displayKeywords[0] }}</ion-label>
+            
+            <ion-label color="secondary">{{ article.displayTopics[0] }}</ion-label>
+          </ion-row>
+          
           <div class="footer ion-no-padding" (click)="onArticleSelected(i)">
             <app-standard-footer 
-              [sourceTitle]="article.displaySourceTitle" 
+              [sourceTitle]="article.displaySourceTitle" [layout]="layout"
               [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
             </app-standard-footer>
           </div>
@@ -60,7 +71,7 @@
     <h2>Could not find any articles. It is likely your filters are too strict.</h2>
   </div>
 
-<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="15%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
+<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="5%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
   <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more articles..." class="loading-spinner">
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>

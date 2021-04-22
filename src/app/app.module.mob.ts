@@ -19,7 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { AdMob } from '@admob-plus/ionic';
-import { ThemeDetection } from "@ionic-native/theme-detection/ngx";
+import { ThemeDetection } from '@ionic-native/theme-detection/ngx';
 import { Keychain } from '@ionic-native/keychain/ngx';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
 

@@ -23,20 +23,12 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./word-filter.component.scss'],
 })
 export class WordFilterComponent implements OnInit {
-  public includeList = [];
-  public excludeList = [];
-
-  get userOption(): any {
-    return this.userOption;
-  }
-
-  @Input()
-  set userOption(val: any) {
+  @Input() set userOption(val: any) {
     const { include, exclude } = val;
-    if (JSON.stringify(include) != JSON.stringify(this.includeList)) {
+    if (JSON.stringify(include) !== JSON.stringify(this.includeList)) {
       this.includeList = new Array();
       this.includeList.push(...include);
-    } else if (JSON.stringify(exclude) != JSON.stringify(this.excludeList)) {
+    } else if (JSON.stringify(exclude) !== JSON.stringify(this.excludeList)) {
       this.excludeList = new Array();
       this.excludeList.push(...exclude);
     }
@@ -44,17 +36,23 @@ export class WordFilterComponent implements OnInit {
     this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
-  @Input() wordFilterType: string;
+  get userOption(): any {
+    return this.userOption;
+  }
 
-  wordDisplayList: Array<string>;
-  wordOptionForm: FormGroup;
-  wordListToggle = true;
-  segmentValue = 'include';
-  showFilter = false;
+  @Input() wordFilterType: string;
 
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
+  public filtersLoading = false;
+  public includeList = [];
+  public excludeList = [];
+  public wordDisplayList: Array<string>;
+  public wordOptionForm: FormGroup;
+  public wordListToggle = true;
+  public segmentValue = 'include';
+  public showFilter = false;
+
   private filtersLoadingSubcription$: Subscription;
 
   constructor(
@@ -67,7 +65,7 @@ export class WordFilterComponent implements OnInit {
       });
     }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.wordOptionForm = new FormGroup({
       wordInput: new FormControl(null, Validators.required)
     });
@@ -75,11 +73,11 @@ export class WordFilterComponent implements OnInit {
     this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
-  onSegmentChange() {
+  public onSegmentChange() {
     this.wordDisplayList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
   }
 
-  addWord() {
+  public addWord() {
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     const val = this.wordOptionForm.value.wordInput.toLowerCase();
     if (!this.includeList.includes(val) && !this.excludeList.includes(val)) {
@@ -100,8 +98,8 @@ export class WordFilterComponent implements OnInit {
     this.wordOptionForm.reset();
   }
 
-  removeWord(index) {
-    if (this.filtersLoading) return;
+  public removeWord(index) {
+    if (this.filtersLoading) {return;}
 
     const wordList = this.segmentValue === 'include' ? this.includeList : this.excludeList;
     wordList.splice(index, 1);
@@ -114,7 +112,7 @@ export class WordFilterComponent implements OnInit {
     });
   }
 
-  async presentToast(message, color) {
+  private async presentToast(message, color) {
     const toast = await this.toastController.create({
       message,
       duration: 4000,

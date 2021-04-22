@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./blog-header.component.scss'],
 })
 export class BlogHeaderComponent implements OnInit {
-  public disableNavButtons: boolean = false;
+  public disableNavButtons = false;
 
   constructor(private router: Router) { }
 

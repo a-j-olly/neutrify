@@ -5,15 +5,21 @@
     <ion-slides pager="false" #slides (ionSlidesDidLoad)="checkSlidesPos()" (ionSlideDidChange)="checkSlidesPos()" >
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial</b></h3>
           </ion-row>
 
           <ion-row class="text-container intro ion-text-left">
             <p>
-              Welcome to the tutorial. It shows you how to use the different tools Neutrify provides you.
+              Welcome to the tutorial. Here you will see how to use the different tools Neutrify provides you.
             </p>
+          </ion-row>
 
+          <ion-row class="img-container ion-padding ion-justify-content-center" [hidden]="currentSlideIndex > 1">
+            <img src="../../assets/img/tutorial/Open-Tutorial.gif" alt="How to open the tutorial" loading="eager">
+          </ion-row>
+
+          <ion-row class="text-container intro ion-text-left">
             <p>
               Don't have time now? You can always access the tutorial again from the main menu.
             </p>
@@ -22,19 +28,12 @@
               Neutrify is constantly being updated with new features! Check back on this tutorial to find out how to use them.
             </p>
           </ion-row>
-          <ion-row class="img-container ion-padding ion-justify-content-center" [hidden]="currentSlideIndex > 1">
-            <img src="../../assets/img/tutorial/Open-Tutorial.gif" alt="How to open the tutorial" loading="eager">
-          </ion-row>
-
-          <ion-row class="text-container intro ion-text-left">
-            <p>Hit the next button or swipe left to view the next page.</p>
-          </ion-row>
         </ion-col>
       </ion-slide>
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Switch Layout</b></h3>
           </ion-row>
           
@@ -43,14 +42,14 @@
           </ion-row>
 
           <ion-row class="text-container ion-text-left">
-            <p>On big screens, the grid layout allows you to see many articles, while the list layout shows more articles on smaller screens.</p>
+            <p>Try out the two different layouts available to you: Grid or List.</p>
           </ion-row>
         </ion-col>
       </ion-slide>
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Adding Filters</b></h3>
           </ion-row>
           
@@ -66,7 +65,7 @@
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Manual Filters</b></h3>
           </ion-row>
           
@@ -82,7 +81,7 @@
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Searching</b></h3>
           </ion-row>
           
@@ -98,7 +97,7 @@
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Political Bias</b></h3>
           </ion-row>
           
@@ -114,7 +113,7 @@
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Clearing Filters</b></h3>
           </ion-row>
           
@@ -130,7 +129,7 @@
 
       <ion-slide>
         <ion-col>
-          <ion-row class="ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
+          <ion-row class="title-container ion-no-margin ion-no-padding ion-text-center ion-justify-content-center">
             <h3><b>Tutorial: Dark Theme</b></h3>
           </ion-row>
           

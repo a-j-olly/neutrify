@@ -217,12 +217,12 @@ export class NewsFeedService {
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
-    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     if (this.layout === 'grid') {
-      await this.earlyImageLoad(this.readyArticles);
+      this.earlyImageLoad(this.displayArticles);
     }
 
+    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
 
     this.setArticles(this.displayArticles, this.readyArticles);
@@ -313,31 +313,43 @@ export class NewsFeedService {
 
   private async earlyImageLoad(imgArr) {
     const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
-    const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map((article) => {
-      let res;
+    const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map(async (article) => {
 
       if (article.image) {
-        res = this.preloadImage(article.image);
+        try {
+          await this.preloadImage(article.image);
+        } catch (error) {
+          console.log('Failed to load image with this error: ', error);
+          article.image = null;
+        }
       }
 
-      return res;
     });
 
     return Promise.all(loadingImages);
   }
 
   private preloadImage(imgURL: string): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
 
       const img = new Image();
+      img.onstalled = () => {
+        reject(`${imgURL} Stalled out`);
+      };
+
       img.onload = () => {
         resolve();
       };
+
       img.onerror = () => {
-        resolve();
+        reject(`${imgURL} Errored`);
       };
 
       img.src = imgURL;
+
+      setTimeout(() => {
+        reject(`${imgURL} Timed out`);
+      }, 2000);
     });
   }
 
@@ -382,7 +394,6 @@ export class NewsFeedService {
       }
     }
   }
-
 
   private calculateThresholdMultiplier(platformWidth: number, menuOpen: boolean) {
     const stdCardWidth = 310;

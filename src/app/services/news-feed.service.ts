@@ -218,14 +218,13 @@ export class NewsFeedService {
     } while (this.nextToken && this.readyArticles.length < this.displayThreshold);
 
     this.displayArticles = this.readyArticles.slice(0, (this.displayThreshold - 1));
+    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
 
     if (this.layout === 'grid') {
-      this.earlyImageLoad(this.displayArticles);
+      this.earlyImageLoad(this.readyArticles);
     }
 
-    this.readyArticles = this.readyArticles.slice((this.displayThreshold - 1));
     this.limit = newLimit;
-
     this.setArticles(this.displayArticles, this.readyArticles);
     this.filterService.updateFilterLoading(false);
     this.setFeedUpdateStatus(false);
@@ -313,7 +312,7 @@ export class NewsFeedService {
   }
 
   private async earlyImageLoad(imgArr) {
-    const imageLimit = this.displayArticles.length * 0.33 > 21 ? 21 : this.displayArticles.length * 0.33;
+    const imageLimit = this.readyArticles.length * 0.33 > 21 ? 21 : this.readyArticles.length * 0.33;
     const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map(async (article) => {
 
       if (article.image) {
@@ -350,7 +349,7 @@ export class NewsFeedService {
 
       setTimeout(() => {
         reject(`${imgURL} Timed out`);
-      }, 2000);
+      }, 5000);
     });
   }
 

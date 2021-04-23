@@ -84,7 +84,7 @@ export class AuthService {
     this.amplifyService.setAuthState({ state, user: user ? user : this.user });
   }
 
-  async signIn(email: string, password: string): Promise<string> {
+  public async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
       return 'true';

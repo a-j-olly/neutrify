@@ -30,14 +30,14 @@ export class AppComponent {
   private filtersInitStatus$: Subscription;
 
   constructor(
+    public authService: AuthService,
+    public router: Router,
     private compiler: Compiler,
     private injector: Injector,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private menuService: MenuService,
-    public authService: AuthService,
-    public router: Router,
     private themeDetection: ThemeDetection,
     private storage: Storage,
     private ga: GoogleAnalyticsService,

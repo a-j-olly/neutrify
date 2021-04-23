@@ -260,61 +260,60 @@ export class AuthService {
   }
 
   private async handleInitialLoad() {
+    const quickLoad = await this.storage.get('neutrify_filters');
+    console.log('quick load data: ', quickLoad);
     let loadedFilters;
 
-    if (this.signedIn) {
-      const config = (await this.getConfig(this.user.username)).items[0];
-
-      if (config !== null && config !== undefined) {
-        this.userId = this.userId ? this.userId : config.user.id;
-        loadedFilters = config;
-        this.ga.eventEmitter('login', 'engagement', 'Login');
-      } else {
-        loadedFilters = await this.createConfig(this.user);
-      }
+    if (quickLoad !== null && quickLoad !== undefined) {
+      loadedFilters = JSON.parse(quickLoad);
     } else {
-      const localFilters = await this.storage.get('neutrify_filters');
-
-      if (localFilters !== null && localFilters !== undefined) {
-        loadedFilters = JSON.parse(localFilters);
-      } else {
-        const newFilters = this.filterService.blankFilterObj(uuid());
-        this.storage.set('neutrify_filters', JSON.stringify(newFilters));
-        loadedFilters = newFilters;
-      }
+      const newFilters = this.filterService.blankFilterObj(uuid());
+      this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(newFilters)));
+      loadedFilters = newFilters;
     }
 
     if (loadedFilters !== null && loadedFilters !== undefined) {
       this.configId = this.configId ? this.configId : loadedFilters.id;
-
       loadedFilters = await this.validateFilters(loadedFilters);
+      this.finaliseInit(loadedFilters);
+      console.log('quick data loaded!');
 
-      const filters = {
-        id: loadedFilters.id,
-        keywordsToInclude: loadedFilters.keywordsToInclude,
-        keywordsToExclude: loadedFilters.keywordsToExclude,
-        toneUpperRange: loadedFilters.toneUpperRange,
-        toneLowerRange: loadedFilters.toneLowerRange,
-        topicsToInclude: loadedFilters.topicsToInclude,
-        topicsToExclude: loadedFilters.topicsToExclude,
-        sourcesToInclude: loadedFilters.sourcesToInclude,
-        sourcesToExclude: loadedFilters.sourcesToExclude,
-        locationsToInclude: loadedFilters.locationsToInclude,
-        locationsToExclude: loadedFilters.locationsToExclude,
-        biasToInclude: loadedFilters.biasToInclude,
-        biasToExclude: loadedFilters.biasToExclude
-      };
-
-      this.menu.enable(true, 'filterMenu');
-      this.menu.enable(true, 'mainMenu');
-      this.menu.swipeGesture(true, 'filterMenu');
-      this.menu.swipeGesture(true, 'mainMenu');
-
-      await this.filterService.updateFilterOptions(filters);
-      await this.filterService.updateFilterSaved(true);
     } else {
       throw new Error('Loaded filters object was null or undefined.');
     }
+
+    if (this.signedIn) {
+      this.ga.eventEmitter('login', 'engagement', 'Login');
+      const config = (await this.getConfig(this.user.username)).items[0];
+      console.log('config: ', config);
+
+      if (config === null && config === undefined) {
+        loadedFilters = await this.validateFilters(await this.createConfig(this.user));
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+        console.log('new filters created & loaded!');
+
+      } else if (JSON.stringify(this.filterService.jsonToFilter(loadedFilters))
+      !== JSON.stringify(this.filterService.jsonToFilter(config))) {
+        this.userId = this.userId ? this.userId : config.user.id;
+        loadedFilters = await this.validateFilters(config);
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+        console.log('cloud filters and locale filters are different! Loading the cloud filters.');
+      }
+    }
+  }
+
+  private async finaliseInit(finalFilters) {
+    const filters = this.filterService.jsonToFilter(finalFilters);
+
+    this.menu.enable(true, 'filterMenu');
+    this.menu.enable(true, 'mainMenu');
+    this.menu.swipeGesture(true, 'filterMenu');
+    this.menu.swipeGesture(true, 'mainMenu');
+
+    await this.filterService.updateFilterOptions(filters);
+    await this.filterService.updateFilterSaved(true);
   }
 
   private async createConfig(user) {
@@ -420,7 +419,7 @@ export class AuthService {
         console.log('Could not update config with missing items. Service returned this error: ', err);
       }
     } else {
-      await this.storage.set('neutrify_filters', JSON.stringify(filters));
+      await this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter((filters))));
     }
 
     return filters;

@@ -12,6 +12,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
 import { Storage } from '@ionic/storage';
+import { first } from 'rxjs/operators';
 
 
 @Component({
@@ -59,13 +60,15 @@ export class NewsFeedWrapperPage {
   private menuSubscription$: Subscription;
   private isFeedUpdatingSubscription$: Subscription;
   private filtersInitStatus$: Subscription;
-  private useFilters = false;
   private searchFilterSubscription$: Subscription;
   private layoutSubscription$: Subscription;
+  private useFilters = false;
+
+  private masterSubscription$: Subscription;
 
   constructor(
-    private platform: Platform,
     public authService: AuthService,
+    private platform: Platform,
     private menuService: MenuService,
     private menu: MenuController,
     private filterService: FilterService,
@@ -87,75 +90,19 @@ export class NewsFeedWrapperPage {
       }
     });
 
-    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => this.filtersInitStatus = status);
+    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().pipe(first()).subscribe(status => this.filtersInitStatus = status);
 
-    this.routerEventSubscription$ = this.router.events.subscribe((event: NavigationStart) => {
-      if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
-        this.newsFeedService.resetArticles();
-        this.stopTimer();
-        this.menu.close();
-        this.menuService.closeMenu();
-      }
-    });
-
-    this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
-      const { displayArticles, readyArticles } = articles;
-      this.resetTimer();
-
-      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
-        this.displayArticles = displayArticles;
-      }
-    });
-
-    this.platformResize$ = this.platform.resize.subscribe(() => this.platformWidth = this.platform.width());
-
-    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
-      if (status !== this.menuStatus) {
-        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, status);
-      }
-
-      this.menuStatus = status;
-    });
-
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status);
-
-    this.layoutSubscription$ = this.newsFeedService.getLayout().subscribe(layout => {
-      if (layout !== this.layout) {
-        this.newsFeedService.displayThreshold =
-        this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
-      }
-
-      this.layout = layout;
-    });
-
-    this.searchFilterSubscription$ = this.newsFeedService.getSearchFilter().subscribe(data => {
-
-      if (data && data.searchTerm) {
-        this.searchTerm = data.searchTerm;
-        this.useFilters = data.useFilters;
-      } else {
-        this.searchTerm = '';
-        this.useFilters = false;
-      }
-    });
-
-    this.filtersLoadingSubscription$ = this.filterService.getFilterLoading().subscribe(status => {
-      if (this.filtersInitStatus) {
-        this.newsFeedService.openArticleIndex = undefined;
-        this.filtersLoading = status;
-      }
-    });
-
-    this.filtersSavedSubscription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
-      this.searchTerm = '';
-
-      if (this.filtersInitStatus) {
-        this.filtersSaved = status;
-      }
-    });
+    this.masterSubscription$ = this.openSubChain();
   }
 
   public async ionViewWillEnter() {
+    console.log('(before) this.isFeedUpdatingSubscription', this.masterSubscription$.closed);
+    if (this.masterSubscription$.closed) {
+      this.masterSubscription$ = this.openSubChain();
+    }
+
+    console.log('(after) this.isFeedUpdatingSubscription', this.masterSubscription$.closed);
+
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');
@@ -163,7 +110,7 @@ export class NewsFeedWrapperPage {
     this.menuService.openMenu();
   }
 
-  async ionViewDidEnter() {
+  public async ionViewDidEnter() {
     const doneTutorial = await this.storage.get('neutrify_done_tutorial');
     if (!doneTutorial) {
       this.showTutorial().then(() => this.storage.set('neutrify_done_tutorial', true));
@@ -174,12 +121,16 @@ export class NewsFeedWrapperPage {
     this.startTimer();
   }
 
-  async ionViewWillLeave() {
+  public async ionViewWillLeave() {
+    console.log('will leave');
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();
     this.newsFeedService.resetArticles();
     this.newsFeedService.setFeedUpdateStatus(true);
+
+    this.filtersInitStatus$.unsubscribe();
+    this.masterSubscription$.unsubscribe();
   }
 
   public async saveFilters() {
@@ -267,5 +218,64 @@ export class NewsFeedWrapperPage {
     } else {
       this.menuService.toggleMenu();
     }
+  }
+
+  private openSubChain(): Subscription {
+    return this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status)
+    .add(this.menuService.getMenuStatus().subscribe(status => {
+      if (status !== this.menuStatus) {
+        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, status);
+      }
+
+      this.menuStatus = status;
+    }))
+    .add(this.newsFeedService.getArticles().subscribe(articles => {
+      const { displayArticles, readyArticles } = articles;
+      this.resetTimer();
+
+      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
+        this.displayArticles = displayArticles;
+      }
+    }))
+    .add(this.router.events.subscribe((event: NavigationStart) => {
+      if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
+        this.newsFeedService.resetArticles();
+        this.stopTimer();
+        this.menu.close();
+        this.menuService.closeMenu();
+      }
+    }))
+    .add(this.platform.resize.subscribe(() => this.platformWidth = this.platform.width()))
+    .add(this.newsFeedService.getLayout().subscribe(layout => {
+      if (layout !== this.layout) {
+        this.newsFeedService.displayThreshold =
+        this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
+      }
+
+      this.layout = layout;
+    }))
+    .add(this.newsFeedService.getSearchFilter().subscribe(data => {
+
+      if (data && data.searchTerm) {
+        this.searchTerm = data.searchTerm;
+        this.useFilters = data.useFilters;
+      } else {
+        this.searchTerm = '';
+        this.useFilters = false;
+      }
+    }))
+    .add(this.filterService.getFilterLoading().subscribe(status => {
+      if (this.filtersInitStatus) {
+        this.newsFeedService.openArticleIndex = undefined;
+        this.filtersLoading = status;
+      }
+    }))
+    .add(this.filtersSavedSubscription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
+      this.searchTerm = '';
+
+      if (this.filtersInitStatus) {
+        this.filtersSaved = status;
+      }
+    }));
   }
 }

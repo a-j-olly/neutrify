@@ -52,7 +52,6 @@ export class FilterService {
     return [
       ...optionObj.arts,
       ...optionObj.games,
-      ...optionObj.regional,
       ...optionObj.society,
       ...optionObj.business,
       ...optionObj.health,
@@ -63,6 +62,24 @@ export class FilterService {
       ...optionObj.home,
       ...optionObj.shopping,
     ];
+  }
+
+  public jsonToFilter(json): any {
+    return {
+      id: json.id,
+      keywordsToInclude: json.keywordsToInclude,
+      keywordsToExclude: json.keywordsToExclude,
+      toneUpperRange: json.toneUpperRange,
+      toneLowerRange: json.toneLowerRange,
+      topicsToInclude: json.topicsToInclude,
+      topicsToExclude: json.topicsToExclude,
+      sourcesToInclude: json.sourcesToInclude,
+      sourcesToExclude: json.sourcesToExclude,
+      locationsToInclude: json.locationsToInclude,
+      locationsToExclude: json.locationsToExclude,
+      biasToInclude: json.biasToInclude,
+      biasToExclude: json.biasToExclude
+    };
   }
 
   public async updateFilterOptions(inputFilterOptions) {
@@ -264,21 +281,21 @@ export class FilterService {
     return group;
   }
 
-  public marshalRequest(): UpdateConfigInput {
+  public marshalRequest(filterOptions, topicFilters): UpdateConfigInput {
     return {
-      id: this.filterOptions.id,
-      keywordsToInclude: this.filterOptions.keywordsToInclude,
-      keywordsToExclude: this.filterOptions.keywordsToExclude,
-      toneUpperRange: this.filterOptions.toneUpperRange,
-      toneLowerRange: this.filterOptions.toneLowerRange,
-      sourcesToInclude: this.filterOptions.sourcesToInclude,
-      sourcesToExclude: this.filterOptions.sourcesToExclude,
-      locationsToInclude: this.filterOptions.locationsToInclude,
-      locationsToExclude: this.filterOptions.locationsToExclude,
-      topicsToInclude: JSON.stringify(this.topicsUserOption.include),
-      topicsToExclude: JSON.stringify(this.topicsUserOption.exclude),
-      biasToInclude: this.filterOptions.biasToInclude,
-      biasToExclude: this.filterOptions.biasToExclude
+      id: filterOptions.id,
+      keywordsToInclude: filterOptions.keywordsToInclude,
+      keywordsToExclude: filterOptions.keywordsToExclude,
+      toneUpperRange: filterOptions.toneUpperRange,
+      toneLowerRange: filterOptions.toneLowerRange,
+      sourcesToInclude: filterOptions.sourcesToInclude,
+      sourcesToExclude: filterOptions.sourcesToExclude,
+      locationsToInclude: filterOptions.locationsToInclude,
+      locationsToExclude: filterOptions.locationsToExclude,
+      topicsToInclude: JSON.stringify(topicFilters.include),
+      topicsToExclude: JSON.stringify(topicFilters.exclude),
+      biasToInclude: filterOptions.biasToInclude,
+      biasToExclude: filterOptions.biasToExclude
     };
   }
 
@@ -286,7 +303,7 @@ export class FilterService {
     let result: boolean;
 
     try {
-      const reqBody: UpdateConfigInput = this.marshalRequest();
+      const reqBody: UpdateConfigInput = this.marshalRequest(this.filterOptions, this.topicsUserOption);
       if (local) {
         await this.storage.set('neutrify_filters', JSON.stringify(reqBody));
       } else {
@@ -352,8 +369,6 @@ export class FilterService {
     return {
       arts: [],
       games: [],
-      news: [],
-      regional: [],
       society: [],
       business: [],
       health: [],

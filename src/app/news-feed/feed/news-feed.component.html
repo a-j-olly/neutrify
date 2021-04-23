@@ -18,7 +18,8 @@
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
-          <ion-row class="ion-justify-content-between metric-preview" [hidden]="i === newsFeedService.openArticleIndex" (click)="onArticleSelected(i)">
+          <ion-row class="ion-justify-content-between metric-preview" *ngIf="i !== newsFeedService.openArticleIndex 
+          && (article.displayTopics && article.displayTopics.length > 0) && (article.displayKeywords && article.displayKeywords.length > 0)" (click)="onArticleSelected(i)">
             <ion-label class="list-label" color="secondary">{{ article.displayKeywords[0] }}</ion-label>
             
             <ion-label class="list-label" color="secondary">{{ article.displayTopics[0] }}</ion-label>
@@ -49,7 +50,8 @@
         </div>
     
         <ion-card-content class="ion-no-margin ion-no-padding">
-          <ion-row class="ion-justify-content-between metric-preview" (click)="onArticleSelected(i)">
+          <ion-row class="ion-justify-content-between metric-preview" *ngIf="(article.displayTopics && article.displayTopics.length > 0) && 
+            (article.displayKeywords && article.displayKeywords.length > 0)" (click)="onArticleSelected(i)">
             <ion-label color="secondary">{{ article.displayKeywords[0] }}</ion-label>
             
             <ion-label color="secondary">{{ article.displayTopics[0] }}</ion-label>

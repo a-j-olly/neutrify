@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { FilterService } from './filter.service';
 import { AuthService } from './auth.service';
@@ -301,7 +302,7 @@ export class NewsFeedService {
 
 
   private setDateRange(): ModelStringKeyConditionInput {
-    const start = sub(new Date(), { days: 3 });
+    const start = sub(new Date(), { days: environment.articleAgeLimit });
     const end = add(new Date(), { hours: 1 });
 
     return {

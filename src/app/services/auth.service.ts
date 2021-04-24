@@ -84,7 +84,7 @@ export class AuthService {
     this.amplifyService.setAuthState({ state, user: user ? user : this.user });
   }
 
-  async signIn(email: string, password: string): Promise<string> {
+  public async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
       return 'true';
@@ -232,7 +232,12 @@ export class AuthService {
       try {
         await this.neutrifyAPI.DeleteConfig({ id: this.configId });
         await this.neutrifyAPI.DeleteUser({ id: this.userId });
+        this.user = null;
+        this.updateUserEmail(null);
+        this.userId = null;
+        this.configId = null;
         res = true;
+
       } catch (e) {
         console.log('Could not remove your data from our database. Service returned this error: ', e);
         res = false;
@@ -260,61 +265,57 @@ export class AuthService {
   }
 
   private async handleInitialLoad() {
+    const localFilters = await this.storage.get('neutrify_filters');
     let loadedFilters;
 
-    if (this.signedIn) {
-      const config = (await this.getConfig(this.user.username)).items[0];
-
-      if (config !== null && config !== undefined) {
-        this.userId = this.userId ? this.userId : config.user.id;
-        loadedFilters = config;
-        this.ga.eventEmitter('login', 'engagement', 'Login');
-      } else {
-        loadedFilters = await this.createConfig(this.user);
-      }
+    if (localFilters !== null && localFilters !== undefined) {
+      loadedFilters = JSON.parse(localFilters);
     } else {
-      const localFilters = await this.storage.get('neutrify_filters');
-
-      if (localFilters !== null && localFilters !== undefined) {
-        loadedFilters = JSON.parse(localFilters);
-      } else {
-        const newFilters = this.filterService.blankFilterObj(uuid());
-        this.storage.set('neutrify_filters', JSON.stringify(newFilters));
-        loadedFilters = newFilters;
-      }
+      const newFilters = this.filterService.blankFilterObj(uuid());
+      this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(newFilters)));
+      loadedFilters = newFilters;
     }
 
     if (loadedFilters !== null && loadedFilters !== undefined) {
       this.configId = this.configId ? this.configId : loadedFilters.id;
-
       loadedFilters = await this.validateFilters(loadedFilters);
+      this.finaliseInit(loadedFilters);
 
-      const filters = {
-        id: loadedFilters.id,
-        keywordsToInclude: loadedFilters.keywordsToInclude,
-        keywordsToExclude: loadedFilters.keywordsToExclude,
-        toneUpperRange: loadedFilters.toneUpperRange,
-        toneLowerRange: loadedFilters.toneLowerRange,
-        topicsToInclude: loadedFilters.topicsToInclude,
-        topicsToExclude: loadedFilters.topicsToExclude,
-        sourcesToInclude: loadedFilters.sourcesToInclude,
-        sourcesToExclude: loadedFilters.sourcesToExclude,
-        locationsToInclude: loadedFilters.locationsToInclude,
-        locationsToExclude: loadedFilters.locationsToExclude,
-        biasToInclude: loadedFilters.biasToInclude,
-        biasToExclude: loadedFilters.biasToExclude
-      };
-
-      this.menu.enable(true, 'filterMenu');
-      this.menu.enable(true, 'mainMenu');
-      this.menu.swipeGesture(true, 'filterMenu');
-      this.menu.swipeGesture(true, 'mainMenu');
-
-      await this.filterService.updateFilterOptions(filters);
-      await this.filterService.updateFilterSaved(true);
     } else {
       throw new Error('Loaded filters object was null or undefined.');
     }
+
+    if (this.signedIn) {
+      this.ga.eventEmitter('login', 'engagement', 'Login');
+      const config = (await this.getConfig(this.user.username)).items[0];
+
+      if (config === null || config === undefined) {
+        loadedFilters = await this.validateFilters(await this.createConfig(this.user));
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+
+      } else if (JSON.stringify(this.filterService.jsonToFilter(loadedFilters))
+      !== JSON.stringify(this.filterService.jsonToFilter(config))) {
+        this.userId = this.userId ? this.userId : config.user.id;
+        loadedFilters = await this.validateFilters(config);
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+      }
+
+      this.userId = this.userId ? this.userId : config.user.id;
+    }
+  }
+
+  private async finaliseInit(finalFilters) {
+    const filters = this.filterService.jsonToFilter(finalFilters);
+
+    this.menu.enable(true, 'filterMenu');
+    this.menu.enable(true, 'mainMenu');
+    this.menu.swipeGesture(true, 'filterMenu');
+    this.menu.swipeGesture(true, 'mainMenu');
+
+    await this.filterService.updateFilterOptions(filters);
+    await this.filterService.updateFilterSaved(true);
   }
 
   private async createConfig(user) {
@@ -420,7 +421,7 @@ export class AuthService {
         console.log('Could not update config with missing items. Service returned this error: ', err);
       }
     } else {
-      await this.storage.set('neutrify_filters', JSON.stringify(filters));
+      await this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter((filters))));
     }
 
     return filters;

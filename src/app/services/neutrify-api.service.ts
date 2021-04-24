@@ -1,10 +1,8 @@
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 import { Injectable } from "@angular/core";
-import API, { graphqlOperation } from "@aws-amplify/api";
-import { GraphQLResult } from "@aws-amplify/api/lib/types";
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api/lib/types/index';
+import API, { graphqlOperation, GraphQLResult, GRAPHQL_AUTH_MODE } from "@aws-amplify/api-graphql";
 import { Observable } from "zen-observable-ts";
 
 export type CreateUserInput = {
@@ -18,6 +16,42 @@ export type CreateUserInput = {
   feedbackPromoterScore?: number | null;
   updatedAt?: string | null;
   userConfigId?: string | null;
+};
+
+export type User = {
+  __typename: "User";
+  config?: Config;
+  createdAt?: string | null;
+  email?: string;
+  id?: string;
+  lastLogin?: string | null;
+  ownerId?: string | null;
+  feedbackDiscovery?: string | null;
+  feedbackLeaveReason?: string | null;
+  feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
+};
+
+export type Config = {
+  __typename: "Config";
+  createdAt?: string | null;
+  id?: string;
+  keywordsToInclude?: Array<string | null>;
+  keywordsToExclude?: Array<string | null>;
+  ownerId?: string | null;
+  toneUpperRange?: number;
+  toneLowerRange?: number;
+  topicsToInclude?: string;
+  topicsToExclude?: string;
+  savedArticleIds?: Array<string> | null;
+  sourcesToInclude?: Array<string | null>;
+  sourcesToExclude?: Array<string | null>;
+  locationsToInclude?: Array<string | null>;
+  locationsToExclude?: Array<string | null>;
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
+  user?: User;
 };
 
 export type UpdateUserInput = {
@@ -134,6 +168,12 @@ export type ModelIntFilterInput = {
   between?: Array<number | null> | null;
 };
 
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection";
+  items?: Array<User | null> | null;
+  nextToken?: string | null;
+};
+
 export type ModelConfigFilterInput = {
   createdAt?: ModelStringFilterInput | null;
   id?: ModelIDFilterInput | null;
@@ -167,10 +207,54 @@ export type ModelFloatFilterInput = {
   between?: Array<number | null> | null;
 };
 
+export type ModelConfigConnection = {
+  __typename: "ModelConfigConnection";
+  items?: Array<Config | null> | null;
+  nextToken?: string | null;
+};
+
 export enum ModelSortDirection {
   ASC = "ASC",
   DESC = "DESC"
 }
+
+export type Article = {
+  __typename: "Article";
+  authors?: Array<string> | null;
+  biasRating?: string | null;
+  body?: string;
+  createdAt?: string | null;
+  dataType?: string;
+  date?: string | null;
+  datePublished?: string;
+  displayBiasRating?: string | null;
+  displayAuthors?: Array<string> | null;
+  displayDateTime?: string;
+  displayKeywords?: Array<string> | null;
+  displaySourceCountry?: string;
+  displaySourceTitle?: string;
+  displayTopics?: Array<string> | null;
+  eventUri?: string | null;
+  id?: string;
+  image?: string | null;
+  keywords?: Array<string> | null;
+  language?: string | null;
+  share?: number | null;
+  similarity?: number | null;
+  searchTerms?: Array<string | null> | null;
+  sourceCountry?: string;
+  sourceRanking?: number | null;
+  sourceTitle?: string;
+  title?: string;
+  time?: string | null;
+  tone?: number;
+  topics?: Array<string> | null;
+  timeToLive?: number | null;
+  updatedAt?: string | null;
+  uri?: string;
+  url?: string;
+  wordCount?: number;
+};
 
 export type ModelStringKeyConditionInput = {
   eq?: string | null;
@@ -222,579 +306,469 @@ export type ModelArticleFilterInput = {
   not?: ModelArticleFilterInput | null;
 };
 
+export type ModelArticleConnection = {
+  __typename: "ModelArticleConnection";
+  items?: Array<Article | null> | null;
+  nextToken?: string | null;
+};
+
 export type CreateUserMutation = {
   __typename: "User";
-  config: {
+  config?: {
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
+    user?: {
       __typename: "User";
-      createdAt: string | null;
+      createdAt?: string | null;
       email: string;
       id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
+      lastLogin?: string | null;
+      ownerId?: string | null;
+      feedbackDiscovery?: string | null;
+      feedbackLeaveReason?: string | null;
+      feedbackPromoterScore?: number | null;
+      updatedAt?: string | null;
     } | null;
   } | null;
-  createdAt: string | null;
+  createdAt?: string | null;
   email: string;
   id: string;
-  lastLogin: string | null;
-  ownerId: string | null;
-  feedbackDiscovery: string | null;
-  feedbackLeaveReason: string | null;
-  feedbackPromoterScore: number | null;
-  updatedAt: string | null;
+  lastLogin?: string | null;
+  ownerId?: string | null;
+  feedbackDiscovery?: string | null;
+  feedbackLeaveReason?: string | null;
+  feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
 };
 
 export type UpdateUserMutation = {
   __typename: "User";
-  config: {
+  config?: {
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      createdAt: string | null;
-      email: string;
-      id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
   } | null;
-  createdAt: string | null;
+  createdAt?: string | null;
   email: string;
   id: string;
-  lastLogin: string | null;
-  ownerId: string | null;
-  feedbackDiscovery: string | null;
-  feedbackLeaveReason: string | null;
-  feedbackPromoterScore: number | null;
-  updatedAt: string | null;
+  lastLogin?: string | null;
+  ownerId?: string | null;
+  feedbackDiscovery?: string | null;
+  feedbackLeaveReason?: string | null;
+  feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
 };
 
 export type DeleteUserMutation = {
   __typename: "User";
-  config: {
+  config?: {
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      createdAt: string | null;
-      email: string;
-      id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
   } | null;
-  createdAt: string | null;
+  createdAt?: string | null;
   email: string;
   id: string;
-  lastLogin: string | null;
-  ownerId: string | null;
-  feedbackDiscovery: string | null;
-  feedbackLeaveReason: string | null;
-  feedbackPromoterScore: number | null;
-  updatedAt: string | null;
+  lastLogin?: string | null;
+  ownerId?: string | null;
+  feedbackDiscovery?: string | null;
+  feedbackLeaveReason?: string | null;
+  feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
 };
 
 export type CreateConfigMutation = {
   __typename: "Config";
-  createdAt: string | null;
+  createdAt?: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
-  ownerId: string | null;
+  ownerId?: string | null;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
   topicsToExclude: string;
-  savedArticleIds: Array<string> | null;
+  savedArticleIds?: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
-  biasToInclude: Array<string | null> | null;
-  biasToExclude: Array<string | null> | null;
-  updatedAt: string | null;
-  user: {
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
+  user?: {
     __typename: "User";
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null;
 };
 
 export type UpdateConfigMutation = {
   __typename: "Config";
-  createdAt: string | null;
+  createdAt?: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
-  ownerId: string | null;
+  ownerId?: string | null;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
   topicsToExclude: string;
-  savedArticleIds: Array<string> | null;
+  savedArticleIds?: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
-  biasToInclude: Array<string | null> | null;
-  biasToExclude: Array<string | null> | null;
-  updatedAt: string | null;
-  user: {
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
+  user?: {
     __typename: "User";
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null;
 };
 
 export type DeleteConfigMutation = {
   __typename: "Config";
-  createdAt: string | null;
+  createdAt?: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
-  ownerId: string | null;
+  ownerId?: string | null;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
   topicsToExclude: string;
-  savedArticleIds: Array<string> | null;
+  savedArticleIds?: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
-  biasToInclude: Array<string | null> | null;
-  biasToExclude: Array<string | null> | null;
-  updatedAt: string | null;
-  user: {
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
+  user?: {
     __typename: "User";
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null;
 };
 
 export type GetUserQuery = {
   __typename: "User";
-  config: {
+  config?: {
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
-      __typename: "User";
-      createdAt: string | null;
-      email: string;
-      id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
-    } | null;
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
   } | null;
-  createdAt: string | null;
+  createdAt?: string | null;
   email: string;
   id: string;
-  lastLogin: string | null;
-  ownerId: string | null;
-  feedbackDiscovery: string | null;
-  feedbackLeaveReason: string | null;
-  feedbackPromoterScore: number | null;
-  updatedAt: string | null;
+  lastLogin?: string | null;
+  ownerId?: string | null;
+  feedbackDiscovery?: string | null;
+  feedbackLeaveReason?: string | null;
+  feedbackPromoterScore?: number | null;
+  updatedAt?: string | null;
 };
 
 export type ListUsersQuery = {
   __typename: "ModelUserConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "User";
-    config: {
+    config?: {
       __typename: "Config";
-      createdAt: string | null;
+      createdAt?: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
+      ownerId?: string | null;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
       topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
+      savedArticleIds?: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
+      biasToInclude?: Array<string | null> | null;
+      biasToExclude?: Array<string | null> | null;
+      updatedAt?: string | null;
     } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 export type GetConfigQuery = {
   __typename: "Config";
-  createdAt: string | null;
+  createdAt?: string | null;
   id: string;
   keywordsToInclude: Array<string | null>;
   keywordsToExclude: Array<string | null>;
-  ownerId: string | null;
+  ownerId?: string | null;
   toneUpperRange: number;
   toneLowerRange: number;
   topicsToInclude: string;
   topicsToExclude: string;
-  savedArticleIds: Array<string> | null;
+  savedArticleIds?: Array<string> | null;
   sourcesToInclude: Array<string | null>;
   sourcesToExclude: Array<string | null>;
   locationsToInclude: Array<string | null>;
   locationsToExclude: Array<string | null>;
-  biasToInclude: Array<string | null> | null;
-  biasToExclude: Array<string | null> | null;
-  updatedAt: string | null;
-  user: {
+  biasToInclude?: Array<string | null> | null;
+  biasToExclude?: Array<string | null> | null;
+  updatedAt?: string | null;
+  user?: {
     __typename: "User";
-    config: {
-      __typename: "Config";
-      createdAt: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
-    } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null;
 };
 
 export type ListConfigsQuery = {
   __typename: "ModelConfigConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
+    user?: {
       __typename: "User";
-      createdAt: string | null;
+      createdAt?: string | null;
       email: string;
       id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
+      lastLogin?: string | null;
+      ownerId?: string | null;
+      feedbackDiscovery?: string | null;
+      feedbackLeaveReason?: string | null;
+      feedbackPromoterScore?: number | null;
+      updatedAt?: string | null;
     } | null;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 export type UserByOwnerQuery = {
   __typename: "ModelUserConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "User";
-    config: {
+    config?: {
       __typename: "Config";
-      createdAt: string | null;
+      createdAt?: string | null;
       id: string;
       keywordsToInclude: Array<string | null>;
       keywordsToExclude: Array<string | null>;
-      ownerId: string | null;
+      ownerId?: string | null;
       toneUpperRange: number;
       toneLowerRange: number;
       topicsToInclude: string;
       topicsToExclude: string;
-      savedArticleIds: Array<string> | null;
+      savedArticleIds?: Array<string> | null;
       sourcesToInclude: Array<string | null>;
       sourcesToExclude: Array<string | null>;
       locationsToInclude: Array<string | null>;
       locationsToExclude: Array<string | null>;
-      biasToInclude: Array<string | null> | null;
-      biasToExclude: Array<string | null> | null;
-      updatedAt: string | null;
+      biasToInclude?: Array<string | null> | null;
+      biasToExclude?: Array<string | null> | null;
+      updatedAt?: string | null;
     } | null;
-    createdAt: string | null;
+    createdAt?: string | null;
     email: string;
     id: string;
-    lastLogin: string | null;
-    ownerId: string | null;
-    feedbackDiscovery: string | null;
-    feedbackLeaveReason: string | null;
-    feedbackPromoterScore: number | null;
-    updatedAt: string | null;
+    lastLogin?: string | null;
+    ownerId?: string | null;
+    feedbackDiscovery?: string | null;
+    feedbackLeaveReason?: string | null;
+    feedbackPromoterScore?: number | null;
+    updatedAt?: string | null;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 export type ConfigByOwnerQuery = {
   __typename: "ModelConfigConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "Config";
-    createdAt: string | null;
+    createdAt?: string | null;
     id: string;
     keywordsToInclude: Array<string | null>;
     keywordsToExclude: Array<string | null>;
-    ownerId: string | null;
+    ownerId?: string | null;
     toneUpperRange: number;
     toneLowerRange: number;
     topicsToInclude: string;
     topicsToExclude: string;
-    savedArticleIds: Array<string> | null;
+    savedArticleIds?: Array<string> | null;
     sourcesToInclude: Array<string | null>;
     sourcesToExclude: Array<string | null>;
     locationsToInclude: Array<string | null>;
     locationsToExclude: Array<string | null>;
-    biasToInclude: Array<string | null> | null;
-    biasToExclude: Array<string | null> | null;
-    updatedAt: string | null;
-    user: {
+    biasToInclude?: Array<string | null> | null;
+    biasToExclude?: Array<string | null> | null;
+    updatedAt?: string | null;
+    user?: {
       __typename: "User";
-      createdAt: string | null;
+      createdAt?: string | null;
       email: string;
       id: string;
-      lastLogin: string | null;
-      ownerId: string | null;
-      feedbackDiscovery: string | null;
-      feedbackLeaveReason: string | null;
-      feedbackPromoterScore: number | null;
-      updatedAt: string | null;
+      lastLogin?: string | null;
+      ownerId?: string | null;
+      feedbackDiscovery?: string | null;
+      feedbackLeaveReason?: string | null;
+      feedbackPromoterScore?: number | null;
+      updatedAt?: string | null;
     } | null;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 export type GetArticleQuery = {
   __typename: "Article";
-  authors: Array<string> | null;
-  biasRating: string | null;
+  authors?: Array<string> | null;
+  biasRating?: string | null;
   body: string;
-  createdAt: string | null;
+  createdAt?: string | null;
   dataType: string;
-  date: string | null;
+  date?: string | null;
   datePublished: string;
-  displayBiasRating: string | null;
-  displayAuthors: Array<string> | null;
+  displayBiasRating?: string | null;
+  displayAuthors?: Array<string> | null;
   displayDateTime: string;
-  displayKeywords: Array<string> | null;
+  displayKeywords?: Array<string> | null;
   displaySourceCountry: string;
   displaySourceTitle: string;
-  displayTopics: Array<string> | null;
-  eventUri: string | null;
+  displayTopics?: Array<string> | null;
+  eventUri?: string | null;
   id: string;
-  image: string | null;
-  keywords: Array<string> | null;
-  language: string | null;
-  share: number | null;
-  similarity: number | null;
-  searchTerms: Array<string | null> | null;
+  image?: string | null;
+  keywords?: Array<string> | null;
+  language?: string | null;
+  share?: number | null;
+  similarity?: number | null;
+  searchTerms?: Array<string | null> | null;
   sourceCountry: string;
-  sourceRanking: number | null;
+  sourceRanking?: number | null;
   sourceTitle: string;
   title: string;
-  time: string | null;
+  time?: string | null;
   tone: number;
-  topics: Array<string> | null;
-  timeToLive: number | null;
-  updatedAt: string | null;
+  topics?: Array<string> | null;
+  timeToLive?: number | null;
+  updatedAt?: string | null;
   uri: string;
   url: string;
   wordCount: number;
@@ -802,86 +776,86 @@ export type GetArticleQuery = {
 
 export type ListArticlesQuery = {
   __typename: "ModelArticleConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "Article";
-    authors: Array<string> | null;
-    biasRating: string | null;
+    authors?: Array<string> | null;
+    biasRating?: string | null;
     body: string;
-    createdAt: string | null;
+    createdAt?: string | null;
     dataType: string;
-    date: string | null;
+    date?: string | null;
     datePublished: string;
-    displayBiasRating: string | null;
-    displayAuthors: Array<string> | null;
+    displayBiasRating?: string | null;
+    displayAuthors?: Array<string> | null;
     displayDateTime: string;
-    displayKeywords: Array<string> | null;
+    displayKeywords?: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
+    displayTopics?: Array<string> | null;
+    eventUri?: string | null;
     id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    share: number | null;
-    similarity: number | null;
-    searchTerms: Array<string | null> | null;
+    image?: string | null;
+    keywords?: Array<string> | null;
+    language?: string | null;
+    share?: number | null;
+    similarity?: number | null;
+    searchTerms?: Array<string | null> | null;
     sourceCountry: string;
-    sourceRanking: number | null;
+    sourceRanking?: number | null;
     sourceTitle: string;
     title: string;
-    time: string | null;
+    time?: string | null;
     tone: number;
-    topics: Array<string> | null;
-    timeToLive: number | null;
-    updatedAt: string | null;
+    topics?: Array<string> | null;
+    timeToLive?: number | null;
+    updatedAt?: string | null;
     uri: string;
     url: string;
     wordCount: number;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 export type ArticlesByDateQuery = {
   __typename: "ModelArticleConnection";
-  items: Array<{
+  items?: Array<{
     __typename: "Article";
-    authors: Array<string> | null;
-    biasRating: string | null;
+    authors?: Array<string> | null;
+    biasRating?: string | null;
     body: string;
-    createdAt: string | null;
+    createdAt?: string | null;
     dataType: string;
-    date: string | null;
+    date?: string | null;
     datePublished: string;
-    displayBiasRating: string | null;
-    displayAuthors: Array<string> | null;
+    displayBiasRating?: string | null;
+    displayAuthors?: Array<string> | null;
     displayDateTime: string;
-    displayKeywords: Array<string> | null;
+    displayKeywords?: Array<string> | null;
     displaySourceCountry: string;
     displaySourceTitle: string;
-    displayTopics: Array<string> | null;
-    eventUri: string | null;
+    displayTopics?: Array<string> | null;
+    eventUri?: string | null;
     id: string;
-    image: string | null;
-    keywords: Array<string> | null;
-    language: string | null;
-    share: number | null;
-    similarity: number | null;
-    searchTerms: Array<string | null> | null;
+    image?: string | null;
+    keywords?: Array<string> | null;
+    language?: string | null;
+    share?: number | null;
+    similarity?: number | null;
+    searchTerms?: Array<string | null> | null;
     sourceCountry: string;
-    sourceRanking: number | null;
+    sourceRanking?: number | null;
     sourceTitle: string;
     title: string;
-    time: string | null;
+    time?: string | null;
     tone: number;
-    topics: Array<string> | null;
-    timeToLive: number | null;
-    updatedAt: string | null;
+    topics?: Array<string> | null;
+    timeToLive?: number | null;
+    updatedAt?: string | null;
     uri: string;
     url: string;
     wordCount: number;
   } | null> | null;
-  nextToken: string | null;
+  nextToken?: string | null;
 };
 
 @Injectable({
@@ -911,18 +885,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -966,18 +928,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1021,18 +971,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1076,26 +1014,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1139,26 +1057,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1202,26 +1100,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1265,18 +1143,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1378,26 +1244,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id

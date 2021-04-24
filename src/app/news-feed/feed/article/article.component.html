@@ -23,9 +23,9 @@
           <img [hidden]="!showImage" draggable="false" onmousedown="return false" style="user-drag: none" src="{{ imgUrl }}" alt="Loading image..." (click)="viewImage()" loading="eager" (error)="handleImgError()" ondrag="return false"/>
         </ion-slide>
 
-        <ion-slide class="slide-container" *ngIf="(article.displayTopics && article.displayTopics.length > 0) && (article.displayKeywords && article.displayKeywords.length > 0)">
+        <ion-slide class="slide-container" *ngIf="(article.displayTopics && article.displayTopics.length > 0) || (article.displayKeywords && article.displayKeywords.length > 0)">
           <div class="metrics-line-wrap">
-            <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length !== 0">
+            <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length > 0">
               <ion-row class="ion-justify-content-center">
                 <h4>Topics</h4>
               </ion-row>
@@ -38,7 +38,7 @@
               </ion-row>
             </div>
 
-            <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length !== 0">
+            <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length > 0">
               <ion-row class="ion-justify-content-center">
                 <h4>Keywords</h4>
               </ion-row>

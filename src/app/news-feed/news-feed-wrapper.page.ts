@@ -49,22 +49,14 @@ export class NewsFeedWrapperPage {
   public searchTerm: string;
   public layout: string;
 
-  private articlesSubscription$: Subscription;
-  private routerEventSubscription$: Subscription;
-  private platformResize$: Subscription;
+  private masterSubscription$: Subscription;
+  private filtersInitStatus$: Subscription;
+
   private platformSource: string;
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
-  private filtersLoadingSubscription$: Subscription;
-  private filtersSavedSubscription$: Subscription;
-  private menuSubscription$: Subscription;
-  private isFeedUpdatingSubscription$: Subscription;
-  private filtersInitStatus$: Subscription;
-  private searchFilterSubscription$: Subscription;
-  private layoutSubscription$: Subscription;
   private useFilters = false;
 
-  private masterSubscription$: Subscription;
 
   constructor(
     public authService: AuthService,
@@ -124,7 +116,9 @@ export class NewsFeedWrapperPage {
     this.menuService.closeMenu();
     this.newsFeedService.resetArticles();
     this.newsFeedService.setFeedUpdateStatus(true);
+  }
 
+  public async ionViewDidLeave() {
     this.filtersInitStatus$.unsubscribe();
     this.masterSubscription$.unsubscribe();
   }
@@ -266,7 +260,7 @@ export class NewsFeedWrapperPage {
         this.filtersLoading = status;
       }
     }))
-    .add(this.filtersSavedSubscription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
+    .add(this.filterService.getFilterSavedStatus().subscribe(status => {
       this.searchTerm = '';
 
       if (this.filtersInitStatus) {

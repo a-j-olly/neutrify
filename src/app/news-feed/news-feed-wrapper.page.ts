@@ -87,6 +87,9 @@ export class NewsFeedWrapperPage {
     this.masterSubscription$ = this.openSubChain();
   }
 
+  /**
+   * Ionic lifecycle - Fired when the component routing to is about to animate into view.
+   */
   public async ionViewWillEnter() {
     if (this.masterSubscription$.closed) {
       this.masterSubscription$ = this.openSubChain();
@@ -99,6 +102,9 @@ export class NewsFeedWrapperPage {
     this.menuService.openMenu();
   }
 
+  /**
+   * Ionic lifecycle - Fired when the component routing to has finished animating.
+   */
   public async ionViewDidEnter() {
     const doneTutorial = await this.storage.get('neutrify_done_tutorial');
     if (!doneTutorial) {
@@ -110,6 +116,9 @@ export class NewsFeedWrapperPage {
     this.startTimer();
   }
 
+  /**
+   * Ionic lifecycle - Fired when the component routing from is about to animate.
+   */
   public async ionViewWillLeave() {
     this.stopTimer();
     this.menu.close();
@@ -118,19 +127,33 @@ export class NewsFeedWrapperPage {
     this.newsFeedService.setFeedUpdateStatus(true);
   }
 
+  /**
+   * Ionic lifecycle - Fired when the component routing to has finished animating.
+   */
   public async ionViewDidLeave() {
     this.filtersInitStatus$.unsubscribe();
     this.masterSubscription$.unsubscribe();
   }
 
+
+  /**
+   * Saves the current filters to the cloud.
+   */
   public async saveFilters() {
     await this.newsFeedService.saveFilters();
   }
 
+
+  /**
+   * Loads the saved filters into the news feed.
+   */
   public async loadFilters() {
     await this.newsFeedService.loadFilters();
   }
 
+  /**
+   * Triggers the display of the tutorial modal.
+   */
   public async showTutorial() {
     const popover = await this.modalController.create({
       component: TutorialComponent,
@@ -141,7 +164,12 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
-  public async showSearchBar(event) {
+  /**
+   * Triggers the display of the search bar popover.
+   *
+   * @param {Event} event - DOM event used to position the popover
+   */
+  public async showSearchBar(event: Event) {
     const popover = await this.popoverController.create({
       component: SearchBarComponent,
       event,
@@ -158,7 +186,12 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
-  public async showLayoutToggler(event) {
+  /**
+   * Triggers the display of the layout toggler popover.
+   *
+   * @param  {Event} event - DOM event used to position the popover
+   */
+  public async showLayoutToggler(event: Event) {
     const popover = await this.popoverController.create({
       component: LayoutTogglerComponent,
       event,
@@ -173,11 +206,17 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
+  /**
+   * Grabs the latest articles for the feed when the user pulls it down.when the user clicks the refresh button.
+   */
   public async doRefresh() {
     this.content.scrollToTop();
     await this.newsFeedService.doRefresh();
   }
 
+  /**
+   * Starts the countdown until the refresh button is displayed.
+   */
   public startTimer() {
     this.timerObj = setTimeout(() => {
       this.timeLeft -= 1;
@@ -189,6 +228,9 @@ export class NewsFeedWrapperPage {
     }, 1000);
   }
 
+  /**
+   * Resets the countdown until the refresh button is displayed.
+   */
   public resetTimer() {
     this.showRefreshFab = false;
     this.stopTimer();
@@ -196,11 +238,17 @@ export class NewsFeedWrapperPage {
     this.startTimer();
   }
 
+  /**
+   * Stops the countdown until the refresh button is displayed.
+   */
   public stopTimer() {
     clearTimeout(this.timerObj);
     clearInterval(this.timerObj);
   }
 
+  /**
+   * Toggles the display of the menus.
+   */
   public toggleMenu() {
     if (this.platformWidth < 720) {
       this.menuService.closeMenu();
@@ -210,11 +258,17 @@ export class NewsFeedWrapperPage {
     }
   }
 
+
+  /**
+   * Chain subscribes to the observables required by the news feed.
+   *
+   * @returns Subscription - A single reference to the chain of subscriptions.
+   */
   private openSubChain(): Subscription {
     return this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status)
     .add(this.menuService.getMenuStatus().subscribe(status => {
       if (status !== this.menuStatus) {
-        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, status);
+        this.newsFeedService.displayThreshold = this.newsFeedService.getDisplayThreshold(this.platformHeight, this.platformWidth, status);
       }
 
       this.menuStatus = status;
@@ -239,12 +293,12 @@ export class NewsFeedWrapperPage {
     .add(this.newsFeedService.getLayout().subscribe(layout => {
       if (layout !== this.layout) {
         this.newsFeedService.displayThreshold =
-        this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
+        this.newsFeedService.getDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
       }
 
       this.layout = layout;
     }))
-    .add(this.newsFeedService.getSearchFilter().subscribe(data => {
+    .add(this.newsFeedService.getSearchFilterData().subscribe(data => {
 
       if (data && data.searchTerm) {
         this.searchTerm = data.searchTerm;

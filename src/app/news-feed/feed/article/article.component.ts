@@ -1,3 +1,4 @@
+import { Article } from './../../../services/neutrify-api.service';
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
@@ -14,7 +15,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class ArticleComponent implements OnInit {
   @ViewChild('slides') slides: IonSlides;
-  @Input() article: any;
+  @Input() article: Article;
   @Input() layout: string;
 
   public datePublished: string;

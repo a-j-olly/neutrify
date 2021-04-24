@@ -76,8 +76,8 @@ type Config @model(subscriptions: null)
     sourcesToExclude: [String]!
     locationsToInclude: [String]!
     locationsToExclude: [String]!
-    biasToInclude: [String]
-    biasToExclude: [String]
+    biasToInclude: [String]!
+    biasToExclude: [String]!
     updatedAt: AWSDateTime
     user: User @connection(name: "UserConfig")
 }

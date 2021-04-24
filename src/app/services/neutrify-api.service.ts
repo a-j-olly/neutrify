@@ -378,18 +378,6 @@ export type UpdateUserMutation = {
     biasToInclude?: Array<string | null> | null;
     biasToExclude?: Array<string | null> | null;
     updatedAt?: string | null;
-    user?: {
-      __typename: "User";
-      createdAt?: string | null;
-      email: string;
-      id: string;
-      lastLogin?: string | null;
-      ownerId?: string | null;
-      feedbackDiscovery?: string | null;
-      feedbackLeaveReason?: string | null;
-      feedbackPromoterScore?: number | null;
-      updatedAt?: string | null;
-    } | null;
   } | null;
   createdAt?: string | null;
   email: string;
@@ -423,18 +411,6 @@ export type DeleteUserMutation = {
     biasToInclude?: Array<string | null> | null;
     biasToExclude?: Array<string | null> | null;
     updatedAt?: string | null;
-    user?: {
-      __typename: "User";
-      createdAt?: string | null;
-      email: string;
-      id: string;
-      lastLogin?: string | null;
-      ownerId?: string | null;
-      feedbackDiscovery?: string | null;
-      feedbackLeaveReason?: string | null;
-      feedbackPromoterScore?: number | null;
-      updatedAt?: string | null;
-    } | null;
   } | null;
   createdAt?: string | null;
   email: string;
@@ -468,26 +444,6 @@ export type CreateConfigMutation = {
   updatedAt?: string | null;
   user?: {
     __typename: "User";
-    config?: {
-      __typename: "Config";
-      createdAt?: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId?: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds?: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude?: Array<string | null> | null;
-      biasToExclude?: Array<string | null> | null;
-      updatedAt?: string | null;
-    } | null;
     createdAt?: string | null;
     email: string;
     id: string;
@@ -521,26 +477,6 @@ export type UpdateConfigMutation = {
   updatedAt?: string | null;
   user?: {
     __typename: "User";
-    config?: {
-      __typename: "Config";
-      createdAt?: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId?: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds?: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude?: Array<string | null> | null;
-      biasToExclude?: Array<string | null> | null;
-      updatedAt?: string | null;
-    } | null;
     createdAt?: string | null;
     email: string;
     id: string;
@@ -574,26 +510,6 @@ export type DeleteConfigMutation = {
   updatedAt?: string | null;
   user?: {
     __typename: "User";
-    config?: {
-      __typename: "Config";
-      createdAt?: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId?: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds?: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude?: Array<string | null> | null;
-      biasToExclude?: Array<string | null> | null;
-      updatedAt?: string | null;
-    } | null;
     createdAt?: string | null;
     email: string;
     id: string;
@@ -627,18 +543,6 @@ export type GetUserQuery = {
     biasToInclude?: Array<string | null> | null;
     biasToExclude?: Array<string | null> | null;
     updatedAt?: string | null;
-    user?: {
-      __typename: "User";
-      createdAt?: string | null;
-      email: string;
-      id: string;
-      lastLogin?: string | null;
-      ownerId?: string | null;
-      feedbackDiscovery?: string | null;
-      feedbackLeaveReason?: string | null;
-      feedbackPromoterScore?: number | null;
-      updatedAt?: string | null;
-    } | null;
   } | null;
   createdAt?: string | null;
   email: string;
@@ -709,26 +613,6 @@ export type GetConfigQuery = {
   updatedAt?: string | null;
   user?: {
     __typename: "User";
-    config?: {
-      __typename: "Config";
-      createdAt?: string | null;
-      id: string;
-      keywordsToInclude: Array<string | null>;
-      keywordsToExclude: Array<string | null>;
-      ownerId?: string | null;
-      toneUpperRange: number;
-      toneLowerRange: number;
-      topicsToInclude: string;
-      topicsToExclude: string;
-      savedArticleIds?: Array<string> | null;
-      sourcesToInclude: Array<string | null>;
-      sourcesToExclude: Array<string | null>;
-      locationsToInclude: Array<string | null>;
-      locationsToExclude: Array<string | null>;
-      biasToInclude?: Array<string | null> | null;
-      biasToExclude?: Array<string | null> | null;
-      updatedAt?: string | null;
-    } | null;
     createdAt?: string | null;
     email: string;
     id: string;
@@ -1001,18 +885,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1056,18 +928,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1111,18 +971,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1166,26 +1014,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1229,26 +1057,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1292,26 +1100,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id
@@ -1355,18 +1143,6 @@ export class APIService {
             biasToInclude
             biasToExclude
             updatedAt
-            user {
-              __typename
-              createdAt
-              email
-              id
-              lastLogin
-              ownerId
-              feedbackDiscovery
-              feedbackLeaveReason
-              feedbackPromoterScore
-              updatedAt
-            }
           }
           createdAt
           email
@@ -1468,26 +1244,6 @@ export class APIService {
           updatedAt
           user {
             __typename
-            config {
-              __typename
-              createdAt
-              id
-              keywordsToInclude
-              keywordsToExclude
-              ownerId
-              toneUpperRange
-              toneLowerRange
-              topicsToInclude
-              topicsToExclude
-              savedArticleIds
-              sourcesToInclude
-              sourcesToExclude
-              locationsToInclude
-              locationsToExclude
-              biasToInclude
-              biasToExclude
-              updatedAt
-            }
             createdAt
             email
             id

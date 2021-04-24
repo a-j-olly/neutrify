@@ -232,7 +232,12 @@ export class AuthService {
       try {
         await this.neutrifyAPI.DeleteConfig({ id: this.configId });
         await this.neutrifyAPI.DeleteUser({ id: this.userId });
+        this.user = null;
+        this.updateUserEmail(null);
+        this.userId = null;
+        this.configId = null;
         res = true;
+
       } catch (e) {
         console.log('Could not remove your data from our database. Service returned this error: ', e);
         res = false;
@@ -260,12 +265,11 @@ export class AuthService {
   }
 
   private async handleInitialLoad() {
-    const quickLoad = await this.storage.get('neutrify_filters');
-    console.log('quick load data: ', quickLoad);
+    const localFilters = await this.storage.get('neutrify_filters');
     let loadedFilters;
 
-    if (quickLoad !== null && quickLoad !== undefined) {
-      loadedFilters = JSON.parse(quickLoad);
+    if (localFilters !== null && localFilters !== undefined) {
+      loadedFilters = JSON.parse(localFilters);
     } else {
       const newFilters = this.filterService.blankFilterObj(uuid());
       this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(newFilters)));
@@ -276,7 +280,6 @@ export class AuthService {
       this.configId = this.configId ? this.configId : loadedFilters.id;
       loadedFilters = await this.validateFilters(loadedFilters);
       this.finaliseInit(loadedFilters);
-      console.log('quick data loaded!');
 
     } else {
       throw new Error('Loaded filters object was null or undefined.');
@@ -285,13 +288,11 @@ export class AuthService {
     if (this.signedIn) {
       this.ga.eventEmitter('login', 'engagement', 'Login');
       const config = (await this.getConfig(this.user.username)).items[0];
-      console.log('config: ', config);
 
-      if (config === null && config === undefined) {
+      if (config === null || config === undefined) {
         loadedFilters = await this.validateFilters(await this.createConfig(this.user));
         this.finaliseInit(loadedFilters);
         this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
-        console.log('new filters created & loaded!');
 
       } else if (JSON.stringify(this.filterService.jsonToFilter(loadedFilters))
       !== JSON.stringify(this.filterService.jsonToFilter(config))) {
@@ -299,8 +300,9 @@ export class AuthService {
         loadedFilters = await this.validateFilters(config);
         this.finaliseInit(loadedFilters);
         this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
-        console.log('cloud filters and locale filters are different! Loading the cloud filters.');
       }
+
+      this.userId = this.userId ? this.userId : config.user.id;
     }
   }
 

@@ -96,12 +96,9 @@ export class NewsFeedWrapperPage {
   }
 
   public async ionViewWillEnter() {
-    console.log('(before) this.isFeedUpdatingSubscription', this.masterSubscription$.closed);
     if (this.masterSubscription$.closed) {
       this.masterSubscription$ = this.openSubChain();
     }
-
-    console.log('(after) this.isFeedUpdatingSubscription', this.masterSubscription$.closed);
 
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
@@ -122,7 +119,6 @@ export class NewsFeedWrapperPage {
   }
 
   public async ionViewWillLeave() {
-    console.log('will leave');
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();

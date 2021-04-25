@@ -2,7 +2,7 @@ import { TutorialComponent } from './../../tutorial/tutorial.component';
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform, ModalController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnInit, OnDestroy {
   public userEmail: string = this.authService.userEmail;
 
   public currentRoute = '';
@@ -52,7 +52,7 @@ export class MainMenuComponent {
     private platform: Platform,
     private statusBar: StatusBar,
     private themeDetection: ThemeDetection,
-    private storage: Storage
+    private storage: Storage,
   ) {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
@@ -67,9 +67,16 @@ export class MainMenuComponent {
         this.darkMode = media.matches;
       }
     });
+  }
 
+  public ngOnInit() {
     this.userEmail$ = this.authService.getUserEmail().subscribe((email: string) => this.userEmail = email);
     this.currentRoute$ = this.menuService.getCurrentRoute().subscribe((currentRoute: string) => this.currentRoute = currentRoute);
+  }
+
+  public ngOnDestroy() {
+    this.userEmail$.unsubscribe();
+    this.currentRoute$.unsubscribe();
   }
 
   public async toggleTheme(event) {
@@ -100,9 +107,19 @@ export class MainMenuComponent {
     await this.presentAlertConfirmDelete();
   }
 
-  public async navTo(path: string) {
+  public async navToApp() {
     await this.hideMenus();
-    await this.router.navigateByUrl(path);
+    await this.router.navigateByUrl('/app');
+  }
+
+  public async navToSignIn() {
+    await this.hideMenus();
+    await this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  public async navToCreateAccount() {
+    await this.hideMenus();
+    await this.router.navigateByUrl('/auth/create-account');
   }
 
   public async openPage(url: string) {

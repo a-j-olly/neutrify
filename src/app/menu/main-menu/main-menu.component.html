@@ -2,17 +2,17 @@
 
 <ion-list>
   <ion-menu-toggle auto-hide="false">
-    <ion-item class="ion-activatable" tappable *ngIf="currentRoute !== '/app'" (click)="navTo('/app')">
+    <ion-item class="ion-activatable" tappable *ngIf="currentRoute !== '/app'" (click)="navToApp()">
       <ion-icon slot="start" name="play" color="primary"></ion-icon>
       <ion-label><b>Go To App</b></ion-label>
     </ion-item>
 
-    <ion-item class="ion-activatable" tappable *ngIf="!authService.signedIn" (click)="navTo('/auth/sign-in')">
+    <ion-item class="ion-activatable" tappable *ngIf="!authService.signedIn" (click)="navToSignIn()">
       <ion-icon slot="start" name="log-in" color="primary"></ion-icon>
       <ion-label><b>Sign In</b></ion-label>
     </ion-item>
 
-    <ion-item class="ion-activatable" tappable *ngIf="!authService.signedIn" (click)="navTo('/auth/create-account')">
+    <ion-item class="ion-activatable" tappable *ngIf="!authService.signedIn" (click)="navToCreateAccount()">
       <ion-icon slot="start" name="person-add" color="primary"></ion-icon>
       <ion-label><b>Create Account</b></ion-label>
     </ion-item>

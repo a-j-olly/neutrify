@@ -36,7 +36,12 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     private content: IonContent,
     public newsFeedService: NewsFeedService,
     private modalController: ModalController,
-  ) {
+  ) { }
+
+  /**
+   * Called once, after the first ngOnChanges().
+   */
+  public async ngOnInit() {
     this.filterSubscription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
       const filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(filters);
@@ -69,14 +74,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         this.readyArticles = readyArticles;
       }
     });
-  }
 
-  /**
-   * Called once, after the first ngOnChanges().
-   */
-  public async ngOnInit() {
-    const filters = this.filterService.getQueryFilters();
-    this.newsFeedService.setFilters(filters);
+    const queryFilters = this.filterService.getQueryFilters();
+    this.newsFeedService.setFilters(queryFilters);
     await this.newsFeedService.handleInitDataLoad();
 
     this.menu.enable(true, 'filterMenu');

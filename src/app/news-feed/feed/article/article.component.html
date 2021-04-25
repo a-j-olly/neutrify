@@ -23,29 +23,29 @@
           <img [hidden]="!showImage" draggable="false" onmousedown="return false" src="{{ imgUrl }}" alt="Loading image..." (click)="viewImage()" loading="eager" (error)="handleImgError()" ondrag="return false"/>
         </ion-slide>
 
-        <ion-slide class="slide-container" *ngIf="(article.displayTopics && article.displayTopics.length > 0) || (article.displayKeywords && article.displayKeywords.length > 0)">
+        <ion-slide class="slide-container" *ngIf="topicArray.length || keywordArray.length">
           <div class="metrics-line-wrap">
-            <div class="text-list-item" *ngIf="article.displayTopics && article.displayTopics.length > 0">
+            <div class="text-list-item" *ngIf="topicArray.length">
               <ion-row class="ion-justify-content-center">
                 <h4>Topics</h4>
               </ion-row>
               <ion-row class="ion-text-wrap ion-justify-content-center">
                 <p>
-                  <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of article.displayTopics; let i = index">
-                    {{ topic }}{{ i === article.displayTopics.length - 1 ? "" : ","}}
+                  <ion-col size="auto" (click)="openFilterPopover($event, 'topics', topic)" *ngFor="let topic of topicArray; let i = index">
+                    {{ topic }}{{ i === topicArray.length - 1 ? "" : ","}}
                   </ion-col>
                 </p>
               </ion-row>
             </div>
 
-            <div class="text-list-item" *ngIf="article.displayKeywords && article.displayKeywords.length > 0">
+            <div class="text-list-item" *ngIf="keywordArray.length">
               <ion-row class="ion-justify-content-center">
                 <h4>Keywords</h4>
               </ion-row>
               <ion-row class="ion-text-wrap ion-justify-content-start">
                 <p>
-                  <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of article.displayKeywords; let i = index">
-                    {{ keyword }}{{ i === article.displayKeywords.length - 1 ? "" : "," }}
+                  <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of keywordArray; let i = index">
+                    {{ keyword }}{{ i === keywordArray.length - 1 ? "" : "," }}
                   </ion-col>
                 </p>
               </ion-row>

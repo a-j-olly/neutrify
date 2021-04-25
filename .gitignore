@@ -35,7 +35,6 @@ gradlew*
 /.gradle
 
 /documentation
-to-do.txt
 
 #amplify
 amplify/\#current-cloud-backend

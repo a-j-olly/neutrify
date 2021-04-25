@@ -25,7 +25,6 @@ export class AuthService {
 
   public filtersInitStatus = false;
   public filtersInitStatus$ = new Subject<boolean>();
-
   public userEmail$ = new Subject<string>();
 
   constructor(
@@ -272,7 +271,7 @@ export class AuthService {
       loadedFilters = JSON.parse(localFilters);
     } else {
       const newFilters = this.filterService.blankFilterObj(uuid());
-      this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(newFilters)));
+      this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(newFilters)));
       loadedFilters = newFilters;
     }
 
@@ -292,14 +291,14 @@ export class AuthService {
       if (config === null || config === undefined) {
         loadedFilters = await this.validateFilters(await this.createConfig(this.user));
         this.finaliseInit(loadedFilters);
-        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(loadedFilters)));
 
-      } else if (JSON.stringify(this.filterService.jsonToFilter(loadedFilters))
-      !== JSON.stringify(this.filterService.jsonToFilter(config))) {
+      } else if (JSON.stringify(this.filterService.unmarshalFilter(loadedFilters))
+      !== JSON.stringify(this.filterService.unmarshalFilter(config))) {
         this.userId = this.userId ? this.userId : config.user.id;
         loadedFilters = await this.validateFilters(config);
         this.finaliseInit(loadedFilters);
-        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter(loadedFilters)));
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(loadedFilters)));
       }
 
       this.userId = this.userId ? this.userId : config.user.id;
@@ -307,7 +306,7 @@ export class AuthService {
   }
 
   private async finaliseInit(finalFilters) {
-    const filters = this.filterService.jsonToFilter(finalFilters);
+    const filters = this.filterService.unmarshalFilter(finalFilters);
 
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
@@ -414,14 +413,13 @@ export class AuthService {
         updateInput[item] = this.setBlankUpdate(item);
       });
 
-
       try {
         await this.neutrifyAPI.UpdateConfig(updateInput);
       } catch (err) {
         console.log('Could not update config with missing items. Service returned this error: ', err);
       }
     } else {
-      await this.storage.set('neutrify_filters', JSON.stringify(this.filterService.jsonToFilter((filters))));
+      await this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter((filters))));
     }
 
     return filters;

@@ -64,21 +64,21 @@ export class FilterService {
     ];
   }
 
-  public jsonToFilter(json): any {
+  public unmarshalFilter(data): any {
     return {
-      id: json.id,
-      keywordsToInclude: json.keywordsToInclude,
-      keywordsToExclude: json.keywordsToExclude,
-      toneUpperRange: json.toneUpperRange,
-      toneLowerRange: json.toneLowerRange,
-      topicsToInclude: json.topicsToInclude,
-      topicsToExclude: json.topicsToExclude,
-      sourcesToInclude: json.sourcesToInclude,
-      sourcesToExclude: json.sourcesToExclude,
-      locationsToInclude: json.locationsToInclude,
-      locationsToExclude: json.locationsToExclude,
-      biasToInclude: json.biasToInclude,
-      biasToExclude: json.biasToExclude
+      id: data.id,
+      keywordsToInclude: data.keywordsToInclude,
+      keywordsToExclude: data.keywordsToExclude,
+      toneUpperRange: data.toneUpperRange,
+      toneLowerRange: data.toneLowerRange,
+      topicsToInclude: data.topicsToInclude,
+      topicsToExclude: data.topicsToExclude,
+      sourcesToInclude: data.sourcesToInclude,
+      sourcesToExclude: data.sourcesToExclude,
+      locationsToInclude: data.locationsToInclude,
+      locationsToExclude: data.locationsToExclude,
+      biasToInclude: data.biasToInclude,
+      biasToExclude: data.biasToExclude
     };
   }
 

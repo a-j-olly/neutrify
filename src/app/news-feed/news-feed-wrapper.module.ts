@@ -1,3 +1,4 @@
+import { AdMob } from '@admob-plus/ionic';
 import { ArticleWrapperComponent } from './feed/article-wrapper/article-wrapper.component';
 import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
 import { StandardHeaderComponent } from './feed/standard-header/standard-header.component';
@@ -44,6 +45,9 @@ const routes: Routes = [
     LayoutTogglerComponent,
     ArticleWrapperComponent
   ],
-  providers: [NewsFeedService]
+  providers: [
+    NewsFeedService,
+    AdMob
+  ]
 })
 export class NewsFeedWrapperPageModule {}

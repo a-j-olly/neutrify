@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons class="left-buttons" slot="start">
+    <ion-buttons *ngIf="showHomeBtn" class="left-buttons" slot="start">
       <ion-chip color="dark" (click)="navTo('home', false)">
         <ion-icon name="arrow-back" color="light"></ion-icon>
         <ion-label color="light"><b>Home</b></ion-label>

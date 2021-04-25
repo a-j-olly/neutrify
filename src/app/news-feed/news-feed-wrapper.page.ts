@@ -1,3 +1,4 @@
+import { NewsFeedComponent } from './feed/news-feed.component';
 import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -13,6 +14,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
 import { Storage } from '@ionic/storage';
 import { first } from 'rxjs/operators';
+import { AdMob } from '@admob-plus/ionic';
 
 
 @Component({
@@ -36,6 +38,7 @@ import { first } from 'rxjs/operators';
 })
 export class NewsFeedWrapperPage {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild(NewsFeedComponent) newsFeed: NewsFeedComponent;
 
   public displayArticles: Array<any> = new Array<any>();
   public platformWidth: number;
@@ -56,7 +59,7 @@ export class NewsFeedWrapperPage {
   private timeLeft = environment.refreshTimeLimit;
   private timerObj: NodeJS.Timeout;
   private useFilters = false;
-
+  private currentBanner;
 
   constructor(
     public authService: AuthService,
@@ -68,15 +71,36 @@ export class NewsFeedWrapperPage {
     private router: Router,
     private popoverController: PopoverController,
     private modalController: ModalController,
-    private storage: Storage
+    private storage: Storage,
+    private admob: AdMob
   ) {
-    this.platform.ready().then((readySource) => {
-      this.platformSource = readySource;
+    this.platform.ready().then(async (readySource) => {
+      this.platformSource = readySource.toLowerCase();
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
 
-      if (this.platformSource !== 'dom') {
+      if (readySource !== 'dom') {
+        await this.admob.start();
+        this.admob.setAppVolume(0);
+
+        if (environment.production) {
+          this.currentBanner = new this.admob.BannerAd({
+            adUnitId: 'ca-app-pub-1312649730148564/2037976682'
+          });
+        } else {
+          this.currentBanner = new this.admob.BannerAd({
+            adUnitId: 'ca-app-pub-3940256099942544/6300978111'
+          });
+        }
+
+        await this.playAds();
+
+        this.platform.pause.subscribe(() => {
+          this.pauseAds();
+        });
+
         this.platform.resume.subscribe(() => {
+          this.playAds();
           this.showRefreshFab = true;
         });
       }
@@ -93,6 +117,10 @@ export class NewsFeedWrapperPage {
   public async ionViewWillEnter() {
     if (this.masterSubscription$.closed) {
       this.masterSubscription$ = this.openSubChain();
+    }
+
+    if (this.platformSource !== 'dom') {
+      this.playAds();
     }
 
     this.menu.enable(true, 'filterMenu');
@@ -120,6 +148,10 @@ export class NewsFeedWrapperPage {
    * Ionic lifecycle - Fired when the component routing from is about to animate.
    */
   public async ionViewWillLeave() {
+    if (this.platformSource !== 'dom') {
+      this.pauseAds();
+    }
+
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();
@@ -258,6 +290,13 @@ export class NewsFeedWrapperPage {
     }
   }
 
+  private async playAds() {
+    await this.currentBanner.show();
+  }
+
+  private async pauseAds() {
+    await this.currentBanner.hide();
+  }
 
   /**
    * Chain subscribes to the observables required by the news feed.

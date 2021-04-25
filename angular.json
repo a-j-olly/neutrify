@@ -118,16 +118,8 @@
                   "with": "src/app/app-routing.module.mob.ts"
                 },
                 {
-                  "replace": "src/app/auth/auth-page.page.html",
-                  "with": "src/app/auth/auth-page.page.mob.html"
-                },
-                {
                   "replace": "src/app/app.module.ts",
                   "with": "src/app/app.module.mob.ts"
-                },
-                {
-                  "replace": "src/app/news-feed/feed/news-feed.component.ts",
-                  "with": "src/app/news-feed/feed/news-feed.component.mob.ts"
                 }
               ],
               "optimization": true,

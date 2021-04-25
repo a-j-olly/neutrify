@@ -1,3 +1,4 @@
+import { Article } from './../../../services/neutrify-api.service';
 import { GoogleAnalyticsService } from './../../../services/google-analytics.service';
 import { AddFilterPopoverComponent } from './add-filter-popover/add-filter-popover.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
@@ -13,25 +14,25 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
   styleUrls: ['./article.component.scss'],
 })
 export class ArticleComponent implements OnInit {
-  @Input() article: any;
+  @ViewChild('slides') slides: IonSlides;
+  @Input() article: Article;
   @Input() layout: string;
+
   public datePublished: string;
   public timePublished: string;
   public showImage = false;
   public imgUrl: string;
   public buttonClicked = false;
-  private platformSource: string;
-
   public imageFailed = false;
+  public leftArrowDisabled = false;
+  public rightArrowDisabled = false;
   public slideOpts = {
     initialSlide: 0,
     speed: 400,
     slidesPerView: 1,
   };
 
-  @ViewChild('slides') slides: IonSlides;
-  leftArrowDisabled = false;
-  rightArrowDisabled = false;
+  private platformSource: string;
 
   constructor(
     private modalController: ModalController,
@@ -43,16 +44,16 @@ export class ArticleComponent implements OnInit {
     this.platform.ready().then(readySource => this.platformSource = readySource);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
     this.imgUrl = this.article.image;
   }
 
-  async ionViewWillEnter() {
+  public async ionViewWillEnter() {
     await this.slides.update();
   }
 
-  async viewImage() {
+  public async viewImage() {
     if (!this.buttonClicked) {
       this.buttonClicked = true;
       const modal = await this.modalController.create({
@@ -68,7 +69,7 @@ export class ArticleComponent implements OnInit {
     }
   }
 
-  async openFilterPopover(event, optionType, value) {
+  public async openFilterPopover(event, optionType, value) {
     if (!this.buttonClicked) {
       this.buttonClicked = true;
       const popover = await this.popoverController.create({
@@ -88,7 +89,7 @@ export class ArticleComponent implements OnInit {
     }
   }
 
-  goToArticle() {
+  public goToArticle() {
     if (!this.buttonClicked) {
       this.buttonClicked = true;
 
@@ -104,13 +105,11 @@ export class ArticleComponent implements OnInit {
     this.buttonClicked = false;
   }
 
-  public updateUrl(event) {
-    console.log('img url: ', this.article.image);
-    this.imgUrl = 'assets/img/favicon.png';
+  public handleImgError() {
+    this.imgUrl = null;
   }
 
   public preventDrag(event) {
-    console.log('prevent drag');
     event.preventDefault();
   }
 

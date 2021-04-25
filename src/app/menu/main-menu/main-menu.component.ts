@@ -2,7 +2,7 @@ import { TutorialComponent } from './../../tutorial/tutorial.component';
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform, ModalController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -17,24 +17,25 @@ import { Subscription } from 'rxjs';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss'],
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnInit, OnDestroy {
   public userEmail: string = this.authService.userEmail;
-  private userEmail$: Subscription;
 
-  public currentRoute: string = '';
+  public currentRoute = '';
+
+  private userEmail$: Subscription;
   private currentRoute$: Subscription;
 
   private platformSource: string;
-  private _darkMode: boolean;
+  private darkModeVal: boolean;
 
   set darkMode(val: any) {
     if (val !== undefined) {
-      this._darkMode = val;
+      this.darkModeVal = val;
     }
   }
 
   get darkMode() {
-    return this._darkMode;
+    return this.darkModeVal;
   }
 
   constructor(
@@ -51,7 +52,7 @@ export class MainMenuComponent {
     private platform: Platform,
     private statusBar: StatusBar,
     private themeDetection: ThemeDetection,
-    private storage: Storage
+    private storage: Storage,
   ) {
     this.platform.ready().then(async (readySource) => {
       this.platformSource = readySource;
@@ -62,16 +63,23 @@ export class MainMenuComponent {
       } else if (this.platformSource !== 'dom') {
         await this.detectTheme();
       } else {
-        let media = window.matchMedia('(prefers-color-scheme: dark)');
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
         this.darkMode = media.matches;
       }
     });
+  }
 
+  public ngOnInit() {
     this.userEmail$ = this.authService.getUserEmail().subscribe((email: string) => this.userEmail = email);
     this.currentRoute$ = this.menuService.getCurrentRoute().subscribe((currentRoute: string) => this.currentRoute = currentRoute);
   }
 
-  async toggleTheme(event) {
+  public ngOnDestroy() {
+    this.userEmail$.unsubscribe();
+    this.currentRoute$.unsubscribe();
+  }
+
+  public async toggleTheme(event) {
     this.darkMode = event.detail.checked;
 
     await this.hideMenus();
@@ -89,33 +97,32 @@ export class MainMenuComponent {
     this.storage.set('neutrify_dark_mode', this.darkMode);
   }
 
-  // used to ensure this.darkmode in this component is correct at init 
-  async detectTheme(): Promise<void> {
-    return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
-      if (res.value) {
-        this.themeDetection.isDarkModeEnabled().then((res: ThemeDetectionResponse) => {
-          this.darkMode = res.value;
-        }).catch((error: any) => console.error(error));
-      }
-    }).catch((error: any) => console.error(error));
-  }
-
-  async signOut() {
+  public async signOut() {
     await this.hideMenus();
     await this.presentAlertConfirmSignout();
   }
 
-  async deleteAccount() {
+  public async deleteAccount() {
     await this.hideMenus();
     await this.presentAlertConfirmDelete();
   }
 
-  async navTo(path: string) {
+  public async navToApp() {
     await this.hideMenus();
-    await this.router.navigateByUrl(path);
+    await this.router.navigateByUrl('/app');
   }
 
-  async openPage(url: string) {
+  public async navToSignIn() {
+    await this.hideMenus();
+    await this.router.navigateByUrl('/auth/sign-in');
+  }
+
+  public async navToCreateAccount() {
+    await this.hideMenus();
+    await this.router.navigateByUrl('/auth/create-account');
+  }
+
+  public async openPage(url: string) {
     await this.hideMenus();
     if (this.platformSource === 'dom' && url.startsWith('https://neutrify.news')) {
       const path = url.split('https://neutrify.news')[1];
@@ -140,7 +147,18 @@ export class MainMenuComponent {
     return await popover.present().then(() => this.storage.set('neutrify_done_tutorial', true));
   }
 
-  async presentAlertConfirmSignout() {
+  // used to ensure this.darkmode in this component is correct at init
+  private async detectTheme(): Promise<void> {
+    return await this.themeDetection.isAvailable().then((res: ThemeDetectionResponse) => {
+      if (res.value) {
+        this.themeDetection.isDarkModeEnabled().then((theme: ThemeDetectionResponse) => {
+          this.darkMode = theme.value;
+        }).catch((error: any) => console.error(error));
+      }
+    }).catch((error: any) => console.error(error));
+  }
+
+  private async presentAlertConfirmSignout() {
     const alert = await this.alertController.create({
       message: 'You are about to sign out. Would you like to continue?',
       header: 'Sign out?',
@@ -168,7 +186,7 @@ export class MainMenuComponent {
     await alert.present();
   }
 
-  async presentAlertConfirmDelete() {
+  private async presentAlertConfirmDelete() {
     const alert = await this.alertController.create({
       header: 'Delete Account?',
       message: 'You are about to delete your account. This cannot be reversed! Enter DELETE below to confirm your decision.',
@@ -205,13 +223,13 @@ export class MainMenuComponent {
                     }
                   }
                 }
-                
+
                 this.ga.eventEmitter('delete', 'engagement', 'Delete');
                 await this.presentToast('Successfully deleted your account. Thank you for trying Neutrify.', 'primary');
               } else {
                 await this.presentToast('Could not delete your account. Please contact customer support.', 'danger');
               }
-              
+
               this.router.navigateByUrl('/auth/create-account', { replaceUrl: true });
             } else {
               await this.presentToast('You must enter DELETE to confirm you want to delete your account.', 'danger');
@@ -224,13 +242,13 @@ export class MainMenuComponent {
     await alert.present();
   }
 
-  async hideMenus() {
+  private async hideMenus() {
     this.menuService.closeMenu();
     await this.menu.close('filterMenu');
     await this.menu.close('mainMenu');
   }
 
-  async presentToast(message, color) {
+  private async presentToast(message, color) {
     const toast = await this.toastController.create({
       message,
       duration: 2000,

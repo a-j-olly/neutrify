@@ -24,13 +24,12 @@ export class RangeFilterComponent implements OnInit {
   @Input() userOption;
   @Input() rangeFilterType: string;
 
-  rangeSettings: any;
-
-  showFilter = false;
-
   @Output() userOptionChanged: EventEmitter<any> = new EventEmitter();
 
-  public filtersLoading: boolean = false;
+  public rangeSettings: any;
+  public showFilter = false;
+
+  public filtersLoading = false;
   private filtersLoadingSubcription$: Subscription;
 
   constructor(
@@ -42,7 +41,7 @@ export class RangeFilterComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.rangeFilterType === 'Article Attitude') {
       this.rangeSettings = {
         max: '1',
@@ -66,7 +65,7 @@ export class RangeFilterComponent implements OnInit {
     }
   }
 
-  onChange(event) {
+  public onChange(event) {
     if (this.hasChanged(event)) {
       this.userOption.value = event.detail.value;
       this.userOption.name = this.rangeFilterType;
@@ -75,7 +74,7 @@ export class RangeFilterComponent implements OnInit {
     }
   }
 
-  hasChanged(event): boolean {
+  private hasChanged(event): boolean {
     let changed = false;
     if (event.detail.value && this.userOption.value) {
       const oldValue = this.userOption.value;

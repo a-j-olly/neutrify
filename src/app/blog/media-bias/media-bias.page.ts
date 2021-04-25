@@ -19,11 +19,12 @@ export class MediaBiasPage {
     private platform: Platform,
     private inAppBrowser: InAppBrowser
   ) {
-    const pageDescription = 'Discover 10 ways media bias misleads you and become less susceptable to media manipulation. Sensationalism, Gatekeeping, Statement Bias and More!';
+    const pageDescription = 'Discover 10 ways media bias misleads you and become less susceptible to media manipulation. '
+    + 'Sensationalism, Gatekeeping, Statement Bias and More!';
     this.meta.updateMetaInfo(pageDescription);
   }
 
-  ionViewDidEnter() {
+  public ionViewDidEnter() {
     this.route.fragment.subscribe(async (fragment: string) => {
       if (fragment) {
         await this.scrollTo(fragment);
@@ -33,6 +34,10 @@ export class MediaBiasPage {
 
   public async openPage(url: string) {
     this.inAppBrowser.create(encodeURI(url), '_system');
+  }
+
+  public async navTo(path: string) {
+    await this.router.navigateByUrl(path);
   }
 
   private async scrollTo(id: string) {
@@ -45,9 +50,5 @@ export class MediaBiasPage {
     }
 
     await this.content.scrollToPoint(0, yOffset, 0);
-  }
-
-  public async navTo(path: string) {
-    await this.router.navigateByUrl(path);
   }
 }

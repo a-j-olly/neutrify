@@ -1,31 +1,43 @@
 .title {
+    margin: 2px 0px;
     &:hover {
         cursor: pointer;
     }
 
     h1 {
         font-size: 18px;
-        margin-top: 2px;
-        margin-bottom: 2px;
-        padding-top: 0px;
-        padding-bottom: 0px;
+        margin: 0px;
+        padding: 0px;
 
-        &.two-line-wrap {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2; /* number of lines to show */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2; /* number of lines to show */
+
+        &.list-title-wrap {
+            @media screen and (min-width: 720px) {
+                -webkit-line-clamp: 1;
+            }
         }
 
         &.four-line-wrap {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
             -webkit-line-clamp: 4; /* number of lines to show */
         }
     }
+}
+
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.grid-title {
+    min-height: 42px;
 }
 
 ion-icon {

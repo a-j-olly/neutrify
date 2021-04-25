@@ -10,7 +10,7 @@ export class PageNotFoundComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 
   public async navTo(path: string) {
     await this.router.navigateByUrl(path);

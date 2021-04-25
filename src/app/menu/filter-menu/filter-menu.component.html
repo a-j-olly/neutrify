@@ -1,31 +1,31 @@
-<ion-list> 
-  <ion-item lines="full">
+<ion-grid>
+  <ion-row class="filter-container">
     <app-topics-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="topicsUserOption"></app-topics-filter>
-  </ion-item>
+  </ion-row>
 
-  <ion-item lines="full">
+  <ion-row class="filter-container">
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="keywordsUserOption" wordFilterType="Keywords"></app-word-filter>
-  </ion-item>
+  </ion-row>
 
-  <ion-item lines="full">
+  <ion-row class="filter-container">
     <app-word-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="sourcesUserOption" wordFilterType="News Sources"></app-word-filter>
-  </ion-item>
+  </ion-row>
 
-  <ion-item lines="full">
+  <ion-row class="filter-container">
     <app-country-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="locationsUserOption"></app-country-filter>
-  </ion-item>
+  </ion-row>
 
-  <ion-item lines="full">
+  <ion-row class="filter-container">
     <app-bias-filter class="filter" (biasOptionChanged)="onFilterChange($event)" [biasOption]="biasUserOption"></app-bias-filter>
-  </ion-item>
+  </ion-row>
 
-  <ion-item lines="full">
+  <ion-row class="filter-container">
     <app-range-filter class="filter" (userOptionChanged)="onFilterChange($event)" [userOption]="toneUserOption" rangeFilterType="Article Attitude"></app-range-filter>
-  </ion-item>
+  </ion-row>
   
   <ion-row class="ion-justify-content-evenly">
     <ion-button fill="clear" color="danger" (click)="clearFilters()" [disabled]="filtersLoading"><b>Clear</b></ion-button>
     <ion-button fill="clear" color="secondary" (click)="loadFilters()" [disabled]="filtersLoading"><b>Load</b></ion-button>
     <ion-button fill="clear" color="primary" (click)="saveFilters()" [disabled]="filtersLoading"><b>Save</b></ion-button>   
   </ion-row>
-</ion-list>
+</ion-grid>

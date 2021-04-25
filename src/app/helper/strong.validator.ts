@@ -1,8 +1,8 @@
 import { FormGroup } from '@angular/forms';
 
 // custom validator to check that two fields match
-export function Strong(controlName: string) {
-    return (formGroup: FormGroup) => {
+export const strong = (controlName: string) =>
+    (formGroup: FormGroup) => {
         const control = formGroup.controls[controlName];
 
         // set error if validation fails
@@ -17,4 +17,3 @@ export function Strong(controlName: string) {
             control.setErrors(null);
         }
     };
-}

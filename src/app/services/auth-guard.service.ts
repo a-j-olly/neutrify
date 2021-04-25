@@ -12,10 +12,10 @@ export class AuthGuardService implements CanActivate {
         private authService: AuthService,
         private router: Router,
     ) {}
-    
-    async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+
+    public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         const url: string = state.url;
-        
+
         if (url.startsWith('/app')) {
             if (await this.authService.isAuthenticatedOrGuest()) {
                 return true;

@@ -14,8 +14,8 @@ import { GoogleAnalyticsService } from 'src/app/services/google-analytics.servic
 })
 export class CtaComponent {
   public showPrivacyNotice = true;
-  private platformSource: string;
   public releaseToggle = environment.readyToRelease;
+  private platformSource: string;
 
   constructor(
     public authService: AuthService,
@@ -31,7 +31,7 @@ export class CtaComponent {
     });
   }
 
-  ionViewWillEnter() {
+  public ionViewWillEnter() {
     this.storage.get('neutrify_accepted_privacy').then(async (result) => {
       if (result) {
         this.showPrivacyNotice = false;
@@ -41,12 +41,12 @@ export class CtaComponent {
     });
   }
 
-  acceptedPrivacyNotice() {
+  public acceptedPrivacyNotice() {
     this.storage.set('neutrify_accepted_privacy', true);
     this.showPrivacyNotice = false;
   }
 
-  navTo(path: string) {
+  public navTo(path: string) {
     if (path === '/app') {
       this.ga.eventEmitter('guest_login', 'engagement', 'Guest login');
     }
@@ -54,7 +54,7 @@ export class CtaComponent {
     this.router.navigateByUrl(path);
   }
 
-  async presentAlertConfirm() {
+  public async presentAlertConfirm() {
     const alert = await this.alertController.create({
       message: 'You are signed in. Would you like to go to the app?',
       buttons: [
@@ -77,11 +77,11 @@ export class CtaComponent {
     await alert.present();
   }
 
-  openGoogleStore() {
+  public openGoogleStore() {
     this.openPage(environment.googleStoreUri);
   }
 
-  openPage(url: string) {
+  public openPage(url: string) {
     this.inAppBrowser.create(encodeURI(url), '_system');
   }
 }

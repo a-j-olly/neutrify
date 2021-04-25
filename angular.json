@@ -35,10 +35,12 @@
             ],
             "styles": [
               {
-                "input": "src/theme/variables.scss"
+                "input": "src/theme/variables.scss",
+                "inject": true
               },
               {
-                "input": "src/global.scss"
+                "input": "src/global.scss",
+                "inject": true
               }
             ],
             "scripts": []
@@ -58,7 +60,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -82,7 +83,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -118,22 +118,13 @@
                   "with": "src/app/app-routing.module.mob.ts"
                 },
                 {
-                  "replace": "src/app/auth/auth-page.page.html",
-                  "with": "src/app/auth/auth-page.page.mob.html"
-                },
-                {
                   "replace": "src/app/app.module.ts",
                   "with": "src/app/app.module.mob.ts"
-                },
-                {
-                  "replace": "src/app/news-feed/feed/news-feed.component.ts",
-                  "with": "src/app/news-feed/feed/news-feed.component.mob.ts"
                 }
               ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -149,7 +140,7 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
                 }
-              ], 
+              ],
               "serviceWorker": false
             },
             "ci": {
@@ -220,14 +211,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
         "e2e": {

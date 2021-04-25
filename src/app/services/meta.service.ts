@@ -14,7 +14,7 @@ export class MetaService {
     private activatedRoute: ActivatedRoute
   ) { }
 
-  updateMetaInfo(desc?, author?, category?) {
+  public updateMetaInfo(desc?, author?, category?) {
     if (desc) {
       this.meta.updateTag({ name: 'description', content: desc });
     }
@@ -28,7 +28,7 @@ export class MetaService {
     }
   }
 
-  updateTitle(title?: string) {
+  public updateTitle(title?: string) {
     if (!title) {
       this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd),

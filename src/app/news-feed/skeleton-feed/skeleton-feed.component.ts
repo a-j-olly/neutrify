@@ -10,8 +10,8 @@ export class SkeletonFeedComponent implements OnInit {
   @Input() platformWidth;
 
   public numberOfCards = new Array<any>(5);
+
   constructor() { }
 
   ngOnInit() {}
-
 }

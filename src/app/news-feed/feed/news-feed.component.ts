@@ -1,3 +1,4 @@
+import { Article } from './../../services/neutrify-api.service';
 import { ArticleWrapperComponent } from './article-wrapper/article-wrapper.component';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
@@ -16,13 +17,13 @@ import { NewsFeedService } from '../../services/news-feed.service';
 export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() layout: string;
 
-  private filterSubscription$: Subscription;
-
-  public displayArticles: Array<any> = new Array<any>();
-  private readyArticles: Array<any> = new Array<any>();
-  private articlesSubscription$: Subscription;
-
+  public displayArticles: Array<Article> = new Array<Article>();
   public isFeedUpdating = true;
+  public modalOpen = false;
+
+  private filterSubscription$: Subscription;
+  private readyArticles: Array<Article> = new Array<Article>();
+  private articlesSubscription$: Subscription;
   private isFeedUpdatingSubscription$: Subscription;
 
   constructor(
@@ -35,7 +36,12 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     private content: IonContent,
     public newsFeedService: NewsFeedService,
     private modalController: ModalController,
-  ) {
+  ) { }
+
+  /**
+   * Called once, after the first ngOnChanges().
+   */
+  public async ngOnInit() {
     this.filterSubscription$ = this.filterService.getFilterOptions().subscribe(async (ops) => {
       const filters = this.filterService.getQueryFilters();
       this.newsFeedService.setFilters(filters);
@@ -43,8 +49,18 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
       await this.newsFeedService.handleInitDataLoad();
     });
 
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => {
+    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(async (status) => {
       this.isFeedUpdating = status;
+
+      if (this.isFeedUpdating) {
+        await this.content.scrollToTop(0);
+
+        if (this.modalOpen) {
+          this.modalController.dismiss();
+          this.newsFeedService.openArticleIndex = undefined;
+          this.modalOpen = false;
+        }
+      }
     });
 
     this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
@@ -58,11 +74,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         this.readyArticles = readyArticles;
       }
     });
-  }
 
-  async ngOnInit() {
-    const filters = this.filterService.getQueryFilters();
-    this.newsFeedService.setFilters(filters);
+    const queryFilters = this.filterService.getQueryFilters();
+    this.newsFeedService.setFilters(queryFilters);
     await this.newsFeedService.handleInitDataLoad();
 
     this.menu.enable(true, 'filterMenu');
@@ -72,12 +86,20 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.menuService.openMenu();
   }
 
-  ngOnDestroy() {
+  /**
+   * Called immediately before Angular destroys the directive or component.
+   */
+  public ngOnDestroy() {
     this.filterSubscription$.unsubscribe();
     this.articlesSubscription$.unsubscribe();
     this.isFeedUpdatingSubscription$.unsubscribe();
   }
 
+  /**
+   * Formats the date that will be displayed in the footer of article.
+   *
+   * @param  {string} date - The date ISO string from the article.
+   */
   public getArticleAge(date: string) {
     const diff = new Date().valueOf() - new Date(date).valueOf();
     const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
@@ -91,6 +113,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     return age;
   }
 
+  /**
+   * Handles the clicking on of articles and scrolls to them if they are open.
+   *
+   * @param  {number} index
+   */
   public async onArticleSelected(index: number) {
     if (this.newsFeedService.openArticleIndex !== undefined) {
       if (this.newsFeedService.openArticleIndex === index && this.layout === 'list') {
@@ -112,6 +139,45 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.scrollTo(index.toString());
   }
 
+  /**
+   * Grabs the latest articles for the feed when the user pulls it down.
+   *
+   * @param  {any} event? - Custom Ionic event fired from the ion-refresher component.
+   */
+  public async doRefresh(event?: any) {
+    this.content.scrollToTop();
+    await this.newsFeedService.doRefresh();
+
+    if (event) {
+      event.target.complete();
+    }
+  }
+
+  /**
+   * Gets the next set of articles that are ready to be displayed on the feed.
+   *
+   * @param  {any} event - Custom Ionic event fired from the ion-refresher component.
+   */
+  public async getNextPage(event: any) {
+    await this.newsFeedService.getNextPage();
+    event.target.complete();
+  }
+
+  /**
+   * When an image url fails to load, set the image property to null.
+   *
+   * @param  {Event} event - The DOM event returned on error.
+   * @param  {number} index - The position in the array of articles.
+   */
+  public handleImgError(event: Event, index: number) {
+    this.displayArticles[index].image = null;
+  }
+
+  /**
+   * Scrolls the page to an element in the markup.
+   *
+   * @param  {string} id - The id of the element in the markup.
+   */
   private async scrollTo(id: string) {
     let yOffset = document.getElementById(id).offsetTop;
 
@@ -122,35 +188,26 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.content.scrollToPoint(0, yOffset, 500);
   }
 
-  private async openArticleModal(article) {
+  /**
+   * Opens up a modal that displays the article data.
+   *
+   * @param  {Article} article - The object contain all the article data.
+   */
+  private async openArticleModal(article: Article) {
+    this.modalOpen = true;
     const modal = await this.modalController.create({
       component: ArticleWrapperComponent,
       componentProps: {
-        article: article,
+        article,
         layout: this.layout
       },
       cssClass: 'article-wrapper-modal'
     });
 
-    modal.onDidDismiss().then(() => this.newsFeedService.openArticleIndex = undefined);
+    modal.onDidDismiss().then(() => {
+      this.newsFeedService.openArticleIndex = undefined;
+      this.modalOpen = false;
+    });
     return await modal.present();
-  }
-
-  public async doRefresh(event?) {
-    this.content.scrollToTop();
-    await this.newsFeedService.doRefresh();
-
-    if (event) {
-      event.target.complete();
-    }
-  }
-
-  public async getNextPage(event) {
-    await this.newsFeedService.getNextPage();
-    event.target.complete();
-  }
-
-  public handleImgError(event, index) {
-    this.displayArticles[index].image = null;
   }
 }

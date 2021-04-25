@@ -14,18 +14,17 @@ const uuid = require('uuid/v4');
   providedIn: 'root'
 })
 export class AuthService {
-  signedIn = false;
-  state: string;
-  user: any;
-  userEmail: string;
-  signUpEmail: string;
-  resetPasswordEmail: string;
-  userId: string;
-  configId: string;
+  public signedIn = false;
+  public state: string;
+  public user: any;
+  public userEmail: string;
+  public signUpEmail: string;
+  public resetPasswordEmail: string;
+  public userId: string;
+  public configId: string;
 
   public filtersInitStatus = false;
   public filtersInitStatus$ = new Subject<boolean>();
-
   public userEmail$ = new Subject<string>();
 
   constructor(
@@ -80,69 +79,11 @@ export class AuthService {
     return this.userEmail$.asObservable();
   }
 
-  async handleInitialLoad() {
-    let loadedFilters;
-
-    if (this.signedIn) {
-      const config = (await this.getConfig(this.user.username)).items[0];
-
-      if (config !== null && config !== undefined) {
-        this.userId = this.userId ? this.userId : config.user.id;
-        loadedFilters = config;
-        this.ga.eventEmitter('login', 'engagement', 'Login');
-      } else {
-        loadedFilters = await this.createConfig(this.user);
-      }
-    } else {
-      const localFilters = await this.storage.get('neutrify_filters');
-
-      if (localFilters !== null && localFilters !== undefined) {
-        loadedFilters = JSON.parse(localFilters);
-      } else {
-        const newFilters = this.filterService.blankFilterObj(uuid());
-        this.storage.set('neutrify_filters', JSON.stringify(newFilters));
-        loadedFilters = newFilters;
-      }
-    }
-
-    if (loadedFilters !== null && loadedFilters !== undefined) {
-      this.configId = this.configId ? this.configId : loadedFilters.id;
-
-      loadedFilters = await this.validateFilters(loadedFilters);
-
-      const filters = {
-        id: loadedFilters.id,
-        keywordsToInclude: loadedFilters.keywordsToInclude,
-        keywordsToExclude: loadedFilters.keywordsToExclude,
-        toneUpperRange: loadedFilters.toneUpperRange,
-        toneLowerRange: loadedFilters.toneLowerRange,
-        topicsToInclude: loadedFilters.topicsToInclude,
-        topicsToExclude: loadedFilters.topicsToExclude,
-        sourcesToInclude: loadedFilters.sourcesToInclude,
-        sourcesToExclude: loadedFilters.sourcesToExclude,
-        locationsToInclude: loadedFilters.locationsToInclude,
-        locationsToExclude: loadedFilters.locationsToExclude,
-        biasToInclude: loadedFilters.biasToInclude,
-        biasToExclude: loadedFilters.biasToExclude
-      };
-
-      this.menu.enable(true, 'filterMenu');
-      this.menu.enable(true, 'mainMenu');
-      this.menu.swipeGesture(true, 'filterMenu');
-      this.menu.swipeGesture(true, 'mainMenu');
-
-      await this.filterService.updateFilterOptions(filters);
-      await this.filterService.updateFilterSaved(true);
-    } else {
-      throw new Error('Loaded filters object was null or undefined.');
-    }
-  }
-
-  setState(state: string, user?: any) {
+  public setState(state: string, user?: any) {
     this.amplifyService.setAuthState({ state, user: user ? user : this.user });
   }
 
-  async signIn(email: string, password: string): Promise<string> {
+  public async signIn(email: string, password: string): Promise<string> {
     try {
       const user = await Auth.signIn(email, password);
       return 'true';
@@ -165,7 +106,218 @@ export class AuthService {
     }
   }
 
-  async createConfig(user) {
+  public async signOut(): Promise<boolean> {
+    try {
+      await Auth.signOut();
+      this.user = null;
+      this.updateUserEmail(null);
+      this.userId = null;
+      this.configId = null;
+      this.updateFiltersInitStatus(false);
+      return true;
+    } catch (e) {
+      console.log('There was an error signing out. Service returned this error: ', e);
+      return false;
+    }
+  }
+
+  public async signUp(email: string, password: string): Promise<boolean> {
+    try {
+      const res = await Auth.signUp({ username: email, password, attributes: { email } });
+      if (res) {
+        this.signUpEmail = res.user.getUsername();
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (e) {
+      console.log('There was an error signing up. Service returned this error: ', e);
+      return false;
+    }
+  }
+
+  public async confirmSignUp(vefCode: string): Promise<boolean> {
+    if (this.signUpEmail) {
+      try {
+        const res = await Auth.confirmSignUp(this.signUpEmail, vefCode);
+
+        if (res) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        console.log('Could not verify the email address. Service returned this error: ', e);
+        return false;
+      }
+    } else {
+      console.log('The sign up email address cannot be found.');
+      return false;
+    }
+  }
+
+  public async resendSignUp(email?: string): Promise<boolean> {
+    if (this.signUpEmail || email) {
+      try {
+        const res = await Auth.resendSignUp(email ? email : this.signUpEmail);
+
+        if (res) {
+          if (email && !this.signUpEmail) {
+            this.signUpEmail = email;
+          }
+
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        console.log('Could not resend verification email. Service returned this error: ', e);
+        return false;
+      }
+    }
+  }
+
+  public async resetPassword(email: string): Promise<boolean> {
+    try {
+      const res = await Auth.forgotPassword(email);
+
+      if (res) {
+        this.resetPasswordEmail = email;
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      console.log('Could not send forgotten password reset email. Service returned this error: ', e);
+      return false;
+    }
+  }
+
+  public async resetPasswordSubmit(vefCode, password): Promise<boolean> {
+    if (this.resetPasswordEmail) {
+      try {
+        await Auth.forgotPasswordSubmit(this.resetPasswordEmail, vefCode, password);
+        return true;
+      } catch (e) {
+        console.log('Could not reset forgotten password. Service returned this error: ', e);
+        return false;
+      }
+    } else {
+      console.log('The forgotten password email address could not be found.');
+      return false;
+    }
+  }
+
+  public async isAuthenticated(): Promise<boolean> {
+    let creds;
+
+    try {
+      creds = await Auth.currentAuthenticatedUser().then(user => user);
+    } catch (e) {
+      return false;
+    }
+
+    return creds ? true : false;
+  }
+
+  public async isAuthenticatedOrGuest(): Promise<boolean> {
+    return this.state === 'guest' || await this.isAuthenticated();
+  }
+
+  public async deleteAccount(): Promise<boolean> {
+    let res = false;
+    await Auth.currentAuthenticatedUser().then(async (user: CognitoUser) => {
+      try {
+        await this.neutrifyAPI.DeleteConfig({ id: this.configId });
+        await this.neutrifyAPI.DeleteUser({ id: this.userId });
+        this.user = null;
+        this.updateUserEmail(null);
+        this.userId = null;
+        this.configId = null;
+        res = true;
+
+      } catch (e) {
+        console.log('Could not remove your data from our database. Service returned this error: ', e);
+        res = false;
+        return res;
+      }
+
+      const signedOut = await this.signOut();
+
+      if (signedOut) {
+        await user.deleteUser(async (err) => {
+          if (err) {
+            console.log('Could not delete user account. Service returned this error: ', err);
+            res = false;
+          } else {
+            res = true;
+          }
+        });
+      } else {
+        console.log('Could not delete user account. Could not sign out from account.');
+        res = false;
+      }
+    });
+
+    return res;
+  }
+
+  private async handleInitialLoad() {
+    const localFilters = await this.storage.get('neutrify_filters');
+    let loadedFilters;
+
+    if (localFilters !== null && localFilters !== undefined) {
+      loadedFilters = JSON.parse(localFilters);
+    } else {
+      const newFilters = this.filterService.blankFilterObj(uuid());
+      this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(newFilters)));
+      loadedFilters = newFilters;
+    }
+
+    if (loadedFilters !== null && loadedFilters !== undefined) {
+      this.configId = this.configId ? this.configId : loadedFilters.id;
+      loadedFilters = await this.validateFilters(loadedFilters);
+      this.finaliseInit(loadedFilters);
+
+    } else {
+      throw new Error('Loaded filters object was null or undefined.');
+    }
+
+    if (this.signedIn) {
+      this.ga.eventEmitter('login', 'engagement', 'Login');
+      const config = (await this.getConfig(this.user.username)).items[0];
+
+      if (config === null || config === undefined) {
+        loadedFilters = await this.validateFilters(await this.createConfig(this.user));
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(loadedFilters)));
+
+      } else if (JSON.stringify(this.filterService.unmarshalFilter(loadedFilters))
+      !== JSON.stringify(this.filterService.unmarshalFilter(config))) {
+        this.userId = this.userId ? this.userId : config.user.id;
+        loadedFilters = await this.validateFilters(config);
+        this.finaliseInit(loadedFilters);
+        this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter(loadedFilters)));
+      }
+
+      this.userId = this.userId ? this.userId : config.user.id;
+    }
+  }
+
+  private async finaliseInit(finalFilters) {
+    const filters = this.filterService.unmarshalFilter(finalFilters);
+
+    this.menu.enable(true, 'filterMenu');
+    this.menu.enable(true, 'mainMenu');
+    this.menu.swipeGesture(true, 'filterMenu');
+    this.menu.swipeGesture(true, 'mainMenu');
+
+    await this.filterService.updateFilterOptions(filters);
+    await this.filterService.updateFilterSaved(true);
+  }
+
+  private async createConfig(user) {
     this.userId = uuid();
     this.configId = uuid();
 
@@ -193,159 +345,7 @@ export class AuthService {
     return creationRes[1];
   }
 
-  async signOut(): Promise<boolean> {
-    try {
-      await Auth.signOut();
-      this.user = null;
-      this.updateUserEmail(null);
-      this.userId = null;
-      this.configId = null;
-      this.updateFiltersInitStatus(false);
-      return true;
-    } catch (e) {
-      console.log('There was an error signing out. Service returned this error: ', e);
-      return false;
-    }
-  }
-
-  async signUp(email: string, password: string): Promise<boolean> {
-    try {
-      const res = await Auth.signUp({ username: email, password, attributes: { email } });
-      if (res) {
-        this.signUpEmail = res.user.getUsername();
-        return true;
-      } else {
-        return false;
-      }
-
-    } catch (e) {
-      console.log('There was an error signing up. Service returned this error: ', e);
-      return false;
-    }
-  }
-
-  async confirmSignUp(vefCode: string): Promise<boolean> {
-    if (this.signUpEmail) {
-      try {
-        const res = await Auth.confirmSignUp(this.signUpEmail, vefCode);
-
-        if (res) {
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
-        console.log('Could not verify the email address. Service returned this error: ', e);
-        return false;
-      }
-    } else {
-      console.log('The sign up email address cannot be found.');
-      return false;
-    }
-  }
-
-  async resendSignUp(email?: string): Promise<boolean> {
-    if (this.signUpEmail || email) {
-      try {
-        const res = await Auth.resendSignUp(email ? email : this.signUpEmail);
-
-        if (res) {
-          if (email && !this.signUpEmail) {
-            this.signUpEmail = email;
-          }
-
-          return true;
-        } else {
-          return false;
-        }
-      } catch (e) {
-        console.log('Could not resend verification email. Service returned this error: ', e);
-        return false;
-      }
-    }
-  }
-
-  async resetPassword(email: string): Promise<boolean> {
-    try {
-      const res = await Auth.forgotPassword(email);
-
-      if (res) {
-        this.resetPasswordEmail = email;
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      console.log('Could not send forgotten password reset email. Service returned this error: ', e);
-      return false;
-    }
-  }
-
-  async resetPasswordSubmit(vefCode, password): Promise<boolean> {
-    if (this.resetPasswordEmail) {
-      try {
-        await Auth.forgotPasswordSubmit(this.resetPasswordEmail, vefCode, password);
-        return true;
-      } catch (e) {
-        console.log('Could not reset forgotten password. Service returned this error: ', e);
-        return false;
-      }
-    } else {
-      console.log('The forgotten password email address could not be found.');
-      return false;
-    }
-  }
-
-  async isAuthenticated(): Promise<boolean> {
-    let creds;
-
-    try {
-      creds = await Auth.currentAuthenticatedUser().then(user => user);
-    } catch (e) {
-      return false;
-    }
-
-    return creds ? true : false;
-  }
-
-  async isAuthenticatedOrGuest(): Promise<boolean> {
-    return this.state === 'guest' || await this.isAuthenticated();
-  }
-
-  async deleteAccount(): Promise<boolean> {
-    let res = false;
-    await Auth.currentAuthenticatedUser().then(async (user: CognitoUser) => {
-      try {
-        await this.neutrifyAPI.DeleteConfig({ id: this.configId });
-        await this.neutrifyAPI.DeleteUser({ id: this.userId });
-        res = true;
-      } catch (e) {
-        console.log('Could not remove your data from our database. Service returned this error: ', e);
-        res = false;
-        return res;
-      }
-
-      const signedOut = await this.signOut();
-
-      if (signedOut) {
-        await user.deleteUser(async (err) => {
-          if (err) {
-            console.log('Could not delete user account. Service returned this error: ', err);
-            res = false;
-          } else {
-            res = true;
-          }
-        });
-      } else {
-        console.log('Could not delete user account. Could not sign out from account.');
-        res = false;
-      }
-    });
-
-    return res;
-  }
-
-  async getConfig(username): Promise<ConfigByOwnerQuery> {
+  private async getConfig(username): Promise<ConfigByOwnerQuery> {
     let config: ConfigByOwnerQuery;
 
     try {
@@ -413,14 +413,13 @@ export class AuthService {
         updateInput[item] = this.setBlankUpdate(item);
       });
 
-
       try {
         await this.neutrifyAPI.UpdateConfig(updateInput);
       } catch (err) {
         console.log('Could not update config with missing items. Service returned this error: ', err);
       }
     } else {
-      await this.storage.set('neutrify_filters', JSON.stringify(filters));
+      await this.storage.set('neutrify_filters', JSON.stringify(this.filterService.unmarshalFilter((filters))));
     }
 
     return filters;

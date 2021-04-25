@@ -1,4 +1,4 @@
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
@@ -8,12 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./auth-page.page.scss'],
 })
 export class AuthPage {
-  public disableNavButtons: boolean = false;
+  public disableNavButtons = false;
+  public showHomeBtn: boolean;
 
   constructor(
     private router: Router,
     private menu: MenuController,
-  ) {}
+    private platform: Platform
+  ) {
+    this.platform.ready().then((readySource: string) => {
+      this.showHomeBtn = readySource === 'dom';
+    });
+  }
 
   async ionViewDidEnter() {
     await this.menu.swipeGesture(false, 'filterMenu');

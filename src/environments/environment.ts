@@ -10,7 +10,8 @@ export const environment = {
   refreshTimeLimit: 60,
   appleStoreUri: 'https://example.com',
   googleStoreUri: 'https://example.com',
-  readyToRelease: true
+  readyToRelease: true,
+  articleAgeLimit: 365
 };
 
 /*

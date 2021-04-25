@@ -9,19 +9,19 @@ import { Storage } from '@ionic/storage';
   providedIn: 'root'
 })
 export class FilterService {
-  filterSaved = true;
-  filterSaved$ = new Subject<boolean>();
+  public filterSaved = true;
+  public filterSaved$ = new Subject<boolean>();
 
-  filterLoaded = true;
-  filterLoaded$ = new Subject<boolean>();
+  public filterLoaded = true;
+  public filterLoaded$ = new Subject<boolean>();
 
-  filterOptions: any;
-  filterOptions$ = new Subject<object>();
+  public filterOptions: any;
+  public filterOptions$ = new Subject<unknown>();
 
-  filtersLoading = false;
-  filtersLoading$ = new Subject<boolean>();
+  public filtersLoading = false;
+  public filtersLoading$ = new Subject<boolean>();
 
-  topicsUserOption: any = {};
+  public topicsUserOption: any = {};
 
   constructor(
     private neutrifyAPI: APIService,
@@ -29,7 +29,7 @@ export class FilterService {
     private storage: Storage
     ) { }
 
-  buildFilterOptions(userOptions) {
+  public buildFilterOptions(userOptions) {
 
     return Object.assign({}, {
       id: this.filterOptions.id,
@@ -48,11 +48,10 @@ export class FilterService {
     });
   }
 
-  mergeTopics(optionObj): Array<string> {
+  public mergeTopics(optionObj): Array<string> {
     return [
       ...optionObj.arts,
       ...optionObj.games,
-      ...optionObj.regional,
       ...optionObj.society,
       ...optionObj.business,
       ...optionObj.health,
@@ -65,7 +64,25 @@ export class FilterService {
     ];
   }
 
-  async updateFilterOptions(inputFilterOptions) {
+  public unmarshalFilter(data): any {
+    return {
+      id: data.id,
+      keywordsToInclude: data.keywordsToInclude,
+      keywordsToExclude: data.keywordsToExclude,
+      toneUpperRange: data.toneUpperRange,
+      toneLowerRange: data.toneLowerRange,
+      topicsToInclude: data.topicsToInclude,
+      topicsToExclude: data.topicsToExclude,
+      sourcesToInclude: data.sourcesToInclude,
+      sourcesToExclude: data.sourcesToExclude,
+      locationsToInclude: data.locationsToInclude,
+      locationsToExclude: data.locationsToExclude,
+      biasToInclude: data.biasToInclude,
+      biasToExclude: data.biasToExclude
+    };
+  }
+
+  public async updateFilterOptions(inputFilterOptions) {
     const newFilterOptions = Object.assign({}, inputFilterOptions);
 
     if (JSON.stringify(this.filterOptions) === JSON.stringify(newFilterOptions)) {
@@ -102,38 +119,38 @@ export class FilterService {
     this.updateFilterSaved(false);
   }
 
-  getFilterOptions() {
+  public getFilterOptions() {
     return this.filterOptions$.asObservable();
   }
 
-  async updateFilterSaved(isSaved: boolean) {
+  public async updateFilterSaved(isSaved: boolean) {
     this.filterSaved = isSaved;
     this.filterSaved$.next(isSaved);
   }
 
-  getFilterSavedStatus() {
+  public getFilterSavedStatus() {
     return this.filterSaved$.asObservable();
   }
 
-  async updateFilterLoaded(isLoaded: boolean) {
+  public async updateFilterLoaded(isLoaded: boolean) {
     this.filterLoaded = isLoaded;
     this.filterLoaded$.next(isLoaded);
   }
 
-  getFilterLoadedStatus() {
+  public getFilterLoadedStatus() {
     return this.filterLoaded$.asObservable();
   }
 
-  async updateFilterLoading(isLoading: boolean) {
+  public async updateFilterLoading(isLoading: boolean) {
     this.filtersLoading = isLoading;
     this.filtersLoading$.next(isLoading);
   }
 
-  getFilterLoading() {
+  public getFilterLoading() {
     return this.filtersLoading$.asObservable();
   }
 
-  addSingleFilter(optionType: string, operation: string, value: string) {
+  public addSingleFilter(optionType: string, operation: string, value: string) {
     const input = value.toLowerCase();
     const newFilterOptions = Object.assign({}, this.filterOptions);
     let target: Array<string> = newFilterOptions[`${optionType}To${operation.charAt(0).toUpperCase() + operation.slice(1)}`];
@@ -179,7 +196,7 @@ export class FilterService {
     }
   }
 
-  async addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group: string) {
+  public async addToTopicOptionsWrapper(included: Array<string>, excluded: Array<string>, group: string) {
     if (!this.isArrEq(this.filterOptions.topicsToInclude, included)) {
       const res = await this.addToTopicOptions('include', included, group);
       this.filterOptions.topicsToInclude = res.target;
@@ -196,11 +213,12 @@ export class FilterService {
     this.updateFilterSaved(false);
   }
 
-  async addToTopicOptions(operation, values, group) {
+  public async addToTopicOptions(operation, values, group) {
     const input = values.map(val => val.toLowerCase());
 
     let target: Array<string> = operation === 'include' ? [...this.filterOptions.topicsToInclude] : [...this.filterOptions.topicsToExclude];
-    let oppositeTarget: Array<string> = operation === 'include' ? [...this.filterOptions.topicsToExclude] : [...this.filterOptions.topicsToInclude];
+    let oppositeTarget: Array<string> =
+    operation === 'include' ? [...this.filterOptions.topicsToExclude] : [...this.filterOptions.topicsToInclude];
 
     let topics: Array<string> = this.topicsUserOption[operation][group];
     let oppositeTopics: Array<string> = this.topicsUserOption[operation === 'include' ? 'exclude' : 'include'][group];
@@ -242,11 +260,7 @@ export class FilterService {
     return {target, oppositeTarget};
   }
 
-  private isArrEq(arr1, arr2) {
-    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() === JSON.stringify(arr2).toLowerCase();
-  }
-
-  findTopicsGroup(value: string): string {
+  public findTopicsGroup(value: string): string {
     let group;
     Object.keys(TopicGroups).forEach((groupKey) => {
       if (group) {
@@ -257,9 +271,7 @@ export class FilterService {
         group = groupKey;
       }
 
-      const index = TopicGroups[groupKey].findIndex((option: any) => {
-        return option.value === value.toLowerCase();
-      });
+      const index = TopicGroups[groupKey].findIndex((option: any) => option.value === value.toLowerCase());
 
       if (index !== -1) {
         group = groupKey;
@@ -269,29 +281,29 @@ export class FilterService {
     return group;
   }
 
-  marshalRequest(): UpdateConfigInput {
+  public marshalRequest(filterOptions, topicFilters): UpdateConfigInput {
     return {
-      id: this.filterOptions.id,
-      keywordsToInclude: this.filterOptions.keywordsToInclude,
-      keywordsToExclude: this.filterOptions.keywordsToExclude,
-      toneUpperRange: this.filterOptions.toneUpperRange,
-      toneLowerRange: this.filterOptions.toneLowerRange,
-      sourcesToInclude: this.filterOptions.sourcesToInclude,
-      sourcesToExclude: this.filterOptions.sourcesToExclude,
-      locationsToInclude: this.filterOptions.locationsToInclude,
-      locationsToExclude: this.filterOptions.locationsToExclude,
-      topicsToInclude: JSON.stringify(this.topicsUserOption.include),
-      topicsToExclude: JSON.stringify(this.topicsUserOption.exclude),
-      biasToInclude: this.filterOptions.biasToInclude,
-      biasToExclude: this.filterOptions.biasToExclude
+      id: filterOptions.id,
+      keywordsToInclude: filterOptions.keywordsToInclude,
+      keywordsToExclude: filterOptions.keywordsToExclude,
+      toneUpperRange: filterOptions.toneUpperRange,
+      toneLowerRange: filterOptions.toneLowerRange,
+      sourcesToInclude: filterOptions.sourcesToInclude,
+      sourcesToExclude: filterOptions.sourcesToExclude,
+      locationsToInclude: filterOptions.locationsToInclude,
+      locationsToExclude: filterOptions.locationsToExclude,
+      topicsToInclude: JSON.stringify(topicFilters.include),
+      topicsToExclude: JSON.stringify(topicFilters.exclude),
+      biasToInclude: filterOptions.biasToInclude,
+      biasToExclude: filterOptions.biasToExclude
     };
   }
 
-  async saveFilters(local?: boolean): Promise<boolean> {
+  public async saveFilters(local?: boolean): Promise<boolean> {
     let result: boolean;
 
     try {
-      const reqBody: UpdateConfigInput = this.marshalRequest();
+      const reqBody: UpdateConfigInput = this.marshalRequest(this.filterOptions, this.topicsUserOption);
       if (local) {
         await this.storage.set('neutrify_filters', JSON.stringify(reqBody));
       } else {
@@ -308,7 +320,7 @@ export class FilterService {
     return result;
   }
 
-  async loadFilters(username, local?: boolean) {
+  public async loadFilters(username, local?: boolean) {
     let result: boolean;
 
     try {
@@ -334,7 +346,7 @@ export class FilterService {
     return result;
   }
 
-  blankFilterObj(id?: string) {
+  public blankFilterObj(id?: string) {
     return {
       id: this.filterOptions && this.filterOptions.id ? this.filterOptions.id : id,
       keywordsToInclude: [],
@@ -353,12 +365,10 @@ export class FilterService {
     };
   }
 
-  blankTopicObj() {
+  public blankTopicObj() {
     return {
       arts: [],
       games: [],
-      news: [],
-      regional: [],
       society: [],
       business: [],
       health: [],
@@ -371,7 +381,7 @@ export class FilterService {
     };
   }
 
-  getQueryFilters(): ModelArticleFilterInput {
+  public getQueryFilters(): ModelArticleFilterInput {
     const ops = this.filterOptions;
     const filterInput: ModelArticleFilterInput = {
       tone: {
@@ -449,9 +459,23 @@ export class FilterService {
     return filterInput;
   }
 
+  public async presentToast(message, color) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 5000,
+      color,
+      cssClass: 'ion-text-center'
+    });
+    toast.present();
+  }
+
+  private isArrEq(arr1, arr2) {
+    return arr1 && arr2 && JSON.stringify(arr1).toLowerCase() === JSON.stringify(arr2).toLowerCase();
+  }
+
   private buildWordFilter(wordList, key, operation, lowercase?: boolean): any {
     return wordList.map((word: string) => {
-      const res: object = {};
+      const res: unknown = {};
 
       res[key] = {};
       if (lowercase) {
@@ -463,13 +487,5 @@ export class FilterService {
     });
   }
 
-  async presentToast(message, color) {
-    const toast = await this.toastController.create({
-      message,
-      duration: 5000,
-      color,
-      cssClass: 'ion-text-center'
-    });
-    toast.present();
-  }
+
 }

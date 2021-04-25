@@ -7,8 +7,9 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['./tutorial.component.scss'],
 })
 export class TutorialComponent {
-  public buttonClicked = false;
   @ViewChild('slides') slides: IonSlides;
+
+  public buttonClicked = false;
   public backButtonDisabled = false;
   public nextButtonDisabled = false;
   public currentSlideIndex: number;

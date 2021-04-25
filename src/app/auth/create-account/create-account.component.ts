@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { MustMatch } from 'src/app/helper/must-match.validator';
-import { Strong } from 'src/app/helper/strong.validator';
+import { mustMatch } from 'src/app/helper/must-match.validator';
+import { strong } from 'src/app/helper/strong.validator';
 import { ToastController } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
@@ -42,7 +42,7 @@ export class CreateAccountComponent implements OnInit {
       confirmPassword: [null, Validators.required],
       privacyConsent: [null, Validators.requiredTrue],
     }, {
-      validators: [MustMatch('password', 'confirmPassword'), Strong('password')]
+      validators: [mustMatch('password', 'confirmPassword'), strong('password')]
     });
   }
 
@@ -94,7 +94,7 @@ export class CreateAccountComponent implements OnInit {
     if (this.confirmSignUpForm.valid) {
       this.confirmSignUpForm.disable();
       const res = await this.authService.confirmSignUp(this.confirmSignUpForm.value.vefCode);
-      
+
       if (res) {
         await this.presentToast('Successfully created your account. Please sign in.', 'primary');
 

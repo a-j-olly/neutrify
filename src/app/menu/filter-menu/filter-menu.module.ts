@@ -10,6 +10,7 @@ import { TopicOptionComponent } from '../filter-menu/topics-filter/topic-option/
 import { CountryFilterComponent } from '../filter-menu/country-filter/country-filter.component';
 import { BiasFilterComponent } from './bias-filter/bias-filter.component';
 import { ButtonFilterComponent } from './bias-filter/button-filter/button-filter.component';
+import { AppComponent } from 'src/app/app.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ export class FilterMenuModule {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   public resolveFilterMenuComponent(): any {
-    const filterMenuFactory: ComponentFactory<FilterMenuComponent> = this.componentFactoryResolver.resolveComponentFactory(FilterMenuComponent);
+    const filterMenuFactory: ComponentFactory<FilterMenuComponent> =
+    this.componentFactoryResolver.resolveComponentFactory(FilterMenuComponent);
 
     return filterMenuFactory;
   }

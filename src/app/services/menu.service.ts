@@ -5,12 +5,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class MenuService {
+  public showMenu$ = new Subject<boolean>();
+  public currentRoute = '';
 
   private showMenu = true;
-  public showMenu$ = new Subject<boolean>();
-
-  public currentRoute: string = '';
   private currentRoute$ = new Subject<string>();
+
+  constructor() { }
 
   public toggleMenu() {
     this.showMenu = !this.showMenu;
@@ -40,5 +41,4 @@ export class MenuService {
     return this.currentRoute$.asObservable();
   }
 
-  constructor() { }
 }

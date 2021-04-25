@@ -16,7 +16,7 @@ export class HomePage {
     private menu: MenuController,
   ) {}
 
-  async ionViewDidEnter() {
+  public async ionViewDidEnter() {
     await this.menu.swipeGesture(false, 'filterMenu');
     await this.menu.swipeGesture(false, 'mainMenu');
 
@@ -25,15 +25,15 @@ export class HomePage {
     }
   }
 
-  navToSignIn() {
+  public navToSignIn() {
     this.router.navigateByUrl('/auth/sign-in');
   }
 
-  navToHome() {
+  public navToHome() {
     this.router.navigateByUrl('/home');
   }
 
-  async presentAlertConfirm() {
+  public async presentAlertConfirm() {
     const alert = await this.alertController.create({
       message: 'You are signed in. Would you like to go to the app?',
       buttons: [

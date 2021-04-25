@@ -1,3 +1,4 @@
+import { NewsFeedComponent } from './feed/news-feed.component';
 import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
@@ -12,6 +13,8 @@ import { Router, NavigationStart } from '@angular/router';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { TutorialComponent } from '../tutorial/tutorial.component';
 import { Storage } from '@ionic/storage';
+import { first } from 'rxjs/operators';
+import { AdMob } from '@admob-plus/ionic';
 
 
 @Component({
@@ -35,46 +38,32 @@ import { Storage } from '@ionic/storage';
 })
 export class NewsFeedWrapperPage {
   @ViewChild(IonContent) content: IonContent;
+  @ViewChild(NewsFeedComponent) newsFeed: NewsFeedComponent;
 
   public displayArticles: Array<any> = new Array<any>();
-  private articlesSubscription$: Subscription;
-
-  private routerEventSubscription$: Subscription;
-
-  private platformResize$: Subscription;
   public platformWidth: number;
   public platformHeight: number;
-  private platformSource: string;
-
-  private timeLeft = environment.refreshTimeLimit;
-  private timerObj: NodeJS.Timeout;
   public showRefreshFab = false;
-
   public filtersLoading = false;
-  private filtersLoadingSubscription$: Subscription;
-
   public filtersSaved = true;
-  private filtersSavedSubscription$: Subscription;
-
-  private menuSubscription$: Subscription;
   public menuStatus = false;
-
   public isFeedUpdating = true;
-  private isFeedUpdatingSubscription$: Subscription;
-
   public filtersInitStatus: boolean = this.authService.filtersInitStatus ? this.authService.filtersInitStatus : false;
+  public searchTerm: string;
+  public layout: string;
+
+  private masterSubscription$: Subscription;
   private filtersInitStatus$: Subscription;
 
+  private platformSource: string;
+  private timeLeft = environment.refreshTimeLimit;
+  private timerObj: NodeJS.Timeout;
   private useFilters = false;
-  public searchTerm: string;
-  private searchFilterSubscription$: Subscription;
-
-  public layout: string;
-  private layoutSubscription$: Subscription;
+  private currentBanner;
 
   constructor(
-    private platform: Platform,
     public authService: AuthService,
+    private platform: Platform,
     private menuService: MenuService,
     private menu: MenuController,
     private filterService: FilterService,
@@ -82,88 +71,58 @@ export class NewsFeedWrapperPage {
     private router: Router,
     private popoverController: PopoverController,
     private modalController: ModalController,
-    private storage: Storage
+    private storage: Storage,
+    private admob: AdMob
   ) {
-    this.platform.ready().then((readySource) => {
-      this.platformSource = readySource;
+    this.platform.ready().then(async (readySource) => {
+      this.platformSource = readySource.toLowerCase();
       this.platformWidth = this.platform.width();
       this.platformHeight = this.platform.height();
 
-      if (this.platformSource !== 'dom') {
+      if (readySource !== 'dom') {
+        await this.admob.start();
+        this.admob.setAppVolume(0);
+
+        if (environment.production) {
+          this.currentBanner = new this.admob.BannerAd({
+            adUnitId: 'ca-app-pub-1312649730148564/2037976682'
+          });
+        } else {
+          this.currentBanner = new this.admob.BannerAd({
+            adUnitId: 'ca-app-pub-3940256099942544/6300978111'
+          });
+        }
+
+        await this.playAds();
+
+        this.platform.pause.subscribe(() => {
+          this.pauseAds();
+        });
+
         this.platform.resume.subscribe(() => {
+          this.playAds();
           this.showRefreshFab = true;
         });
       }
     });
 
-    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().subscribe(status => this.filtersInitStatus = status);
+    this.filtersInitStatus$ = this.authService.getFiltersInitStatus().pipe(first()).subscribe(status => this.filtersInitStatus = status);
 
-    this.routerEventSubscription$ = this.router.events.subscribe((event: NavigationStart) => {
-      if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
-        this.newsFeedService.resetArticles();
-        this.stopTimer();
-        this.menu.close();
-        this.menuService.closeMenu();
-      }
-    });
-
-    this.articlesSubscription$ = this.newsFeedService.getArticles().subscribe(articles => {
-      const { displayArticles, readyArticles } = articles;
-      this.resetTimer();
-
-      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
-        this.displayArticles = displayArticles;
-      }
-    });
-
-    this.platformResize$ = this.platform.resize.subscribe(() => this.platformWidth = this.platform.width());
-
-    this.menuSubscription$ = this.menuService.getMenuStatus().subscribe(status => {
-      if (status !== this.menuStatus) {
-        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, status);
-      }
-
-      this.menuStatus = status;
-    });
-
-    this.isFeedUpdatingSubscription$ = this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status);
-
-    this.layoutSubscription$ = this.newsFeedService.getLayout().subscribe(layout => {
-      if (layout !== this.layout) {
-        this.newsFeedService.displayThreshold = this.newsFeedService.setDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
-      }
-
-      this.layout = layout;
-    });
-
-    this.searchFilterSubscription$ = this.newsFeedService.getSearchFilter().subscribe(data => {
-
-      if (data && data.searchTerm) {
-        this.searchTerm = data.searchTerm;
-        this.useFilters = data.useFilters;
-      } else {
-        this.searchTerm = '';
-        this.useFilters = false;
-      }
-    });
-
-    this.filtersLoadingSubscription$ = this.filterService.getFilterLoading().subscribe(status => {
-      if (this.filtersInitStatus) {
-        this.newsFeedService.openArticleIndex = undefined;
-        this.filtersLoading = status;
-      }
-    });
-
-    this.filtersSavedSubscription$ = this.filterService.getFilterSavedStatus().subscribe(status => {
-      this.searchTerm = '';
-
-      if (this.filtersInitStatus) {
-        this.filtersSaved = status;
-      }
-    });
+    this.masterSubscription$ = this.openSubChain();
   }
 
-  async ionViewWillEnter() {
+  /**
+   * Ionic lifecycle - Fired when the component routing to is about to animate into view.
+   */
+  public async ionViewWillEnter() {
+    if (this.masterSubscription$.closed) {
+      this.masterSubscription$ = this.openSubChain();
+    }
+
+    if (this.platformSource !== 'dom') {
+      this.playAds();
+    }
+
     this.menu.enable(true, 'filterMenu');
     this.menu.enable(true, 'mainMenu');
     this.menu.swipeGesture(true, 'filterMenu');
@@ -171,7 +130,10 @@ export class NewsFeedWrapperPage {
     this.menuService.openMenu();
   }
 
-  async ionViewDidEnter() {
+  /**
+   * Ionic lifecycle - Fired when the component routing to has finished animating.
+   */
+  public async ionViewDidEnter() {
     const doneTutorial = await this.storage.get('neutrify_done_tutorial');
     if (!doneTutorial) {
       this.showTutorial().then(() => this.storage.set('neutrify_done_tutorial', true));
@@ -182,7 +144,14 @@ export class NewsFeedWrapperPage {
     this.startTimer();
   }
 
-  async ionViewWillLeave() {
+  /**
+   * Ionic lifecycle - Fired when the component routing from is about to animate.
+   */
+  public async ionViewWillLeave() {
+    if (this.platformSource !== 'dom') {
+      this.pauseAds();
+    }
+
     this.stopTimer();
     this.menu.close();
     this.menuService.closeMenu();
@@ -190,14 +159,33 @@ export class NewsFeedWrapperPage {
     this.newsFeedService.setFeedUpdateStatus(true);
   }
 
+  /**
+   * Ionic lifecycle - Fired when the component routing to has finished animating.
+   */
+  public async ionViewDidLeave() {
+    this.filtersInitStatus$.unsubscribe();
+    this.masterSubscription$.unsubscribe();
+  }
+
+
+  /**
+   * Saves the current filters to the cloud.
+   */
   public async saveFilters() {
     await this.newsFeedService.saveFilters();
   }
 
+
+  /**
+   * Loads the saved filters into the news feed.
+   */
   public async loadFilters() {
     await this.newsFeedService.loadFilters();
   }
 
+  /**
+   * Triggers the display of the tutorial modal.
+   */
   public async showTutorial() {
     const popover = await this.modalController.create({
       component: TutorialComponent,
@@ -208,7 +196,12 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
-  public async showSearchBar(event) {
+  /**
+   * Triggers the display of the search bar popover.
+   *
+   * @param {Event} event - DOM event used to position the popover
+   */
+  public async showSearchBar(event: Event) {
     const popover = await this.popoverController.create({
       component: SearchBarComponent,
       event,
@@ -225,7 +218,12 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
-  public async showLayoutToggler(event) {
+  /**
+   * Triggers the display of the layout toggler popover.
+   *
+   * @param  {Event} event - DOM event used to position the popover
+   */
+  public async showLayoutToggler(event: Event) {
     const popover = await this.popoverController.create({
       component: LayoutTogglerComponent,
       event,
@@ -240,11 +238,17 @@ export class NewsFeedWrapperPage {
     return await popover.present();
   }
 
+  /**
+   * Grabs the latest articles for the feed when the user pulls it down.when the user clicks the refresh button.
+   */
   public async doRefresh() {
     this.content.scrollToTop();
     await this.newsFeedService.doRefresh();
   }
 
+  /**
+   * Starts the countdown until the refresh button is displayed.
+   */
   public startTimer() {
     this.timerObj = setTimeout(() => {
       this.timeLeft -= 1;
@@ -256,6 +260,9 @@ export class NewsFeedWrapperPage {
     }, 1000);
   }
 
+  /**
+   * Resets the countdown until the refresh button is displayed.
+   */
   public resetTimer() {
     this.showRefreshFab = false;
     this.stopTimer();
@@ -263,11 +270,17 @@ export class NewsFeedWrapperPage {
     this.startTimer();
   }
 
+  /**
+   * Stops the countdown until the refresh button is displayed.
+   */
   public stopTimer() {
     clearTimeout(this.timerObj);
     clearInterval(this.timerObj);
   }
 
+  /**
+   * Toggles the display of the menus.
+   */
   public toggleMenu() {
     if (this.platformWidth < 720) {
       this.menuService.closeMenu();
@@ -275,5 +288,77 @@ export class NewsFeedWrapperPage {
     } else {
       this.menuService.toggleMenu();
     }
+  }
+
+  private async playAds() {
+    await this.currentBanner.show();
+  }
+
+  private async pauseAds() {
+    await this.currentBanner.hide();
+  }
+
+  /**
+   * Chain subscribes to the observables required by the news feed.
+   *
+   * @returns Subscription - A single reference to the chain of subscriptions.
+   */
+  private openSubChain(): Subscription {
+    return this.newsFeedService.getFeedUpdateStatus().subscribe(status => this.isFeedUpdating = status)
+    .add(this.menuService.getMenuStatus().subscribe(status => {
+      if (status !== this.menuStatus) {
+        this.newsFeedService.displayThreshold = this.newsFeedService.getDisplayThreshold(this.platformHeight, this.platformWidth, status);
+      }
+
+      this.menuStatus = status;
+    }))
+    .add(this.newsFeedService.getArticles().subscribe(articles => {
+      const { displayArticles, readyArticles } = articles;
+      this.resetTimer();
+
+      if (JSON.stringify(this.displayArticles) !== JSON.stringify(displayArticles)) {
+        this.displayArticles = displayArticles;
+      }
+    }))
+    .add(this.router.events.subscribe((event: NavigationStart) => {
+      if (event.navigationTrigger === 'popstate' && !event.url.startsWith('/app')) {
+        this.newsFeedService.resetArticles();
+        this.stopTimer();
+        this.menu.close();
+        this.menuService.closeMenu();
+      }
+    }))
+    .add(this.platform.resize.subscribe(() => this.platformWidth = this.platform.width()))
+    .add(this.newsFeedService.getLayout().subscribe(layout => {
+      if (layout !== this.layout) {
+        this.newsFeedService.displayThreshold =
+        this.newsFeedService.getDisplayThreshold(this.platformHeight, this.platformWidth, this.menuStatus);
+      }
+
+      this.layout = layout;
+    }))
+    .add(this.newsFeedService.getSearchFilterData().subscribe(data => {
+
+      if (data && data.searchTerm) {
+        this.searchTerm = data.searchTerm;
+        this.useFilters = data.useFilters;
+      } else {
+        this.searchTerm = '';
+        this.useFilters = false;
+      }
+    }))
+    .add(this.filterService.getFilterLoading().subscribe(status => {
+      if (this.filtersInitStatus) {
+        this.newsFeedService.openArticleIndex = undefined;
+        this.filtersLoading = status;
+      }
+    }))
+    .add(this.filterService.getFilterSavedStatus().subscribe(status => {
+      this.searchTerm = '';
+
+      if (this.filtersInitStatus) {
+        this.filtersSaved = status;
+      }
+    }));
   }
 }

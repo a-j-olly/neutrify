@@ -43,7 +43,7 @@
     <ion-row class="ion-justify-content-center">
       <ion-card class="grid-card" [hidden]="displayArticles.length === 0 || isFeedUpdating || !article.image" *ngFor="let article of displayArticles; let i = index" id="{{i}}" attr.id="{{i}}">
 
-        <img src="{{ article.image }}" class="no-select" alt=" Image unavailable..." loading="eager" draggable="false" (click)="onArticleSelected(i)" (error)="handleImgError($event, i)"/>
+        <img src="{{ article.image }}" class="no-select" alt=" Image unavailable..." loading="eager" draggable="false" ondrag="return false" (click)="onArticleSelected(i)" (error)="handleImgError($event, i)"/>
 
         <div class="title ion-no-padding" (click)="onArticleSelected(i)">
           <app-standard-header [title]="article.title" [index]="i" [openArticleIndex]="newsFeedService.openArticleIndex" [layout]="layout"></app-standard-header>

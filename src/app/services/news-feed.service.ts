@@ -5,25 +5,33 @@ import { AuthService } from './auth.service';
 import { ToastController } from '@ionic/angular';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { Subject } from 'rxjs';
-import { APIService, ModelSortDirection, ModelStringKeyConditionInput, ModelStringFilterInput } from './neutrify-api.service';
+import {
+  APIService,
+  ModelSortDirection,
+  ModelStringKeyConditionInput,
+  ModelStringFilterInput,
+  Article,
+  ModelArticleFilterInput,
+  ArticlesByDateQuery
+} from './neutrify-api.service';
 import { sub, add } from 'date-fns';
 
 @Injectable()
 export class NewsFeedService {
   public openArticleIndex: number;
-  public displayArticles: Array<any> = new Array<any>();
+  public displayArticles: Array<Article> = new Array<Article>();
   public displayThreshold = 15;
   public nextToken: string;
-  public filters: any;
-  public searchFilter: any;
+  public filters: ModelArticleFilterInput;
+  public searchFilter: {searchTerms: ModelStringFilterInput} | null;
   public isFeedUpdating = true;
   public layout = 'grid';
 
   private isFeedUpdating$ = new Subject<boolean>();
-  private readyArticles: Array<any> = new Array<any>();
+  private readyArticles: Array<Article> = new Array<Article>();
   private articles$ = new Subject<any>();
   private limit = 25;
-  private searchFilter$ = new Subject<any>();
+  private searchFilterData$ = new Subject<{ searchTerm: string; useFilters?: boolean }>();
   private layout$ = new Subject<any>();
 
   constructor(
@@ -34,113 +42,14 @@ export class NewsFeedService {
     private neutrifyAPI: APIService
   ) { }
 
-  public setFilters(filters) {
-    this.filters = filters;
-  }
-
-  public setSearchFilter(data) {
-    if (data && data.searchTerm) {
-      const searchFilter: ModelStringFilterInput = {
-        contains: data.searchTerm.toLowerCase()
-      };
-
-      if (data.useFilters) {
-        this.searchFilter = null;
-
-        // add search term to filters
-        if (this.filters && this.filters.and) {
-
-          if (this.filters.and.length) {
-            this.removeSearchFilter();
-            this.filters.and.push({ searchTerms: searchFilter });
-          } else {
-            this.filters.and = [{ searchTerms: searchFilter }];
-          }
-
-        } else {
-          this.filters['and'] = [{ searchTerms: searchFilter }];
-        }
-
-      } else {
-        // use just searchTerm filter
-        this.searchFilter = { searchTerms: searchFilter };
-      }
-
-    } else {
-      if (this.filters && this.filters.and) {
-        this.removeSearchFilter();
-      }
-      this.searchFilter = null;
-    }
-
-    this.searchFilter$.next(data);
-  }
-
-  public getSearchFilter() {
-    return this.searchFilter$.asObservable();
-  }
-
-  public getFeedUpdateStatus() {
-    return this.isFeedUpdating$.asObservable();
-  }
-
-  public setFeedUpdateStatus(status: boolean) {
-    this.isFeedUpdating = status;
-    this.isFeedUpdating$.next(status);
-  }
-
-  public getLayout() {
-    return this.layout$.asObservable();
-  }
-
-  public setLayout(newLayout: string) {
-    this.layout = newLayout;
-    this.layout$.next(newLayout);
-  }
-
-  public getArticles() {
-    return this.articles$.asObservable();
-  }
-
-  public setArticles(displayArticles?: Array<any>, readyArticles?: Array<any>) {
-    if (displayArticles) {
-      this.displayArticles = displayArticles;
-    }
-
-    if (readyArticles) {
-      this.readyArticles = readyArticles;
-    }
-
-    this.articles$.next({ displayArticles, readyArticles });
-  }
-
-  public async saveFilters() {
-    this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
-
-    if (res) {
-      await this.presentToast('Your filters have been saved.', 'success');
-      this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
-    } else {
-      this.presentToast('Could not save your filters. Please try again.', 'danger');
-    }
-
-    this.filterService.updateFilterLoading(false);
-  }
-
-  public async loadFilters() {
-    this.filterService.updateFilterLoading(true);
-    const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
-
-    if (res) {
-      await this.presentToast('Your changes to the filters have been reset.', 'success');
-      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
-    } else {
-      this.presentToast('Could not reset your filters. Please try again.', 'danger');
-    }
-  }
-
-  public async listArticles(limit?, nextToken?) {
+  /**
+   * Retrieves an array of articles using the graphQL API.
+   *
+   * @param  {number} limit? - The maximum number of articles to retrieve per page.
+   * @param  {string} nextToken? - The token of the next page.
+   * @returns Promise<Array<Article>> - A promise of the request array of articles.
+   */
+  public async listArticles(limit?: number, nextToken?: string): Promise<Array<Article>> {
     if (nextToken === undefined) {
       nextToken = this.nextToken;
     }
@@ -150,10 +59,10 @@ export class NewsFeedService {
     }
 
     const filters = this.searchFilter ? this.searchFilter : this.filters;
-    let results;
+    let results: ArticlesByDateQuery;
 
     try {
-      results = await this.neutrifyAPI.ArticlesByDate('news', this.setDateRange(), ModelSortDirection.DESC, filters, limit, nextToken);
+      results = await this.neutrifyAPI.ArticlesByDate('news', this.getDateRange(), ModelSortDirection.DESC, filters, limit, nextToken);
     } catch (error) {
       console.log('Could not get articles. Service returned this error: ', error);
 
@@ -168,7 +77,7 @@ export class NewsFeedService {
             try {
               results = await this.neutrifyAPI.ArticlesByDate(
                 'news',
-                this.setDateRange(),
+                this.getDateRange(),
                 ModelSortDirection.DESC,
                 this.filters,
                 limit,
@@ -190,11 +99,9 @@ export class NewsFeedService {
     return results.items;
   }
 
-  public async resetArticles() {
-    this.nextToken = null;
-    this.setArticles(new Array(), new Array());
-  }
-
+  /**
+   * Loads the initial articles for the news feed. Is also used to re-initalise the news feed.
+   */
   public async handleInitDataLoad() {
     this.setFeedUpdateStatus(true);
 
@@ -234,6 +141,17 @@ export class NewsFeedService {
     }
   }
 
+  /**
+   * Creates empties article arrays and propagates them to their all subscribers.
+   */
+  public async resetArticles() {
+    this.nextToken = null;
+    this.setArticles(new Array(), new Array());
+  }
+
+  /**
+   * When a user scrolls to the bottom of the news feed, get the next page of news articles from the database.
+   */
   public async getNextPage() {
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
       await this.loadReadyArticles();
@@ -250,7 +168,12 @@ export class NewsFeedService {
     this.setArticles(this.displayArticles, this.readyArticles);
   }
 
-  public async doRefresh(event?) {
+  /**
+   * Grabs the latest articles for the feed.
+   *
+   * @param  {any} event? - Custom Ionic event fired from the ion-refresher component.
+   */
+  public async doRefresh(event?: any) {
     this.filterService.updateFilterLoading(true);
 
     try {
@@ -267,7 +190,15 @@ export class NewsFeedService {
     }
   }
 
-  public setDisplayThreshold(platformHeight: number, platformWidth: number, menuOpen: boolean): number {
+  /**
+   * Calculates the minimum number of articles or display threshold that should be retrieved per page.
+   *
+   * @param  {number} platformHeight - Height of the screen.
+   * @param  {number} platformWidth - Width of the screen.
+   * @param  {boolean} menuOpen - Is the menu open?
+   * @returns number - The display threshold.
+   */
+  public getDisplayThreshold(platformHeight: number, platformWidth: number, menuOpen: boolean): number {
     let threshold: number;
 
     if (platformHeight <= 360) {
@@ -288,7 +219,163 @@ export class NewsFeedService {
     return threshold;
   }
 
-  public async presentToast(message, color) {
+  /**
+   * Saves the current filters to the cloud/local storage.
+   */
+  public async saveFilters() {
+    this.filterService.updateFilterLoading(true);
+    const res = await this.filterService.saveFilters(this.authService.signedIn ? false : true);
+
+    if (res) {
+      await this.presentToast('Your filters have been saved.', 'success');
+      this.ga.eventEmitter('save_filters_fab', 'engagement', 'Saved filters');
+    } else {
+      this.presentToast('Could not save your filters. Please try again.', 'danger');
+    }
+
+    this.filterService.updateFilterLoading(false);
+  }
+
+  /**
+   * Loads the current filters to from the cloud/local storage.
+   */
+  public async loadFilters() {
+    this.filterService.updateFilterLoading(true);
+    const res = await this.filterService.loadFilters(this.authService.user.username, this.authService.signedIn ? false : true);
+
+    if (res) {
+      await this.presentToast('Your changes to the filters have been reset.', 'success');
+      this.ga.eventEmitter('load_filters', 'engagement', 'Re-loaded filters');
+    } else {
+      this.presentToast('Could not reset your filters. Please try again.', 'danger');
+    }
+  }
+
+  /**
+   * Either adds the search term filter to the existing filters or uses it instead.
+   *
+   * @param  {} searchFilterData - An object containing two properties: {string} searchTerm {boolean} useFilters.
+   */
+  public setSearchFilter(searchFilterData: {searchTerm: string; useFilters?: boolean}) {
+    if (searchFilterData && searchFilterData.searchTerm) {
+      const searchFilterInput: ModelStringFilterInput = {
+        contains: searchFilterData.searchTerm.toLowerCase()
+      };
+
+      if (searchFilterData.useFilters) {
+        this.searchFilter = null;
+
+        // add search term to filters
+        if (this.filters && this.filters.and) {
+
+          if (this.filters.and.length) {
+            this.removeSearchFilter();
+            this.filters.and.push({ searchTerms: searchFilterInput });
+          } else {
+            this.filters.and = [{ searchTerms: searchFilterInput }];
+          }
+
+        } else {
+          this.filters['and'] = [{ searchTerms: searchFilterInput }];
+        }
+
+      } else {
+        // use just searchTerm filter
+        this.searchFilter = { searchTerms: searchFilterInput };
+      }
+
+    } else {
+      if (this.filters && this.filters.and) {
+        this.removeSearchFilter();
+      }
+      this.searchFilter = null;
+    }
+
+    this.setSearchFilterData(searchFilterData);
+  }
+
+  /**
+   * Notify subscribers that the articles have changed.
+   *
+   * @param  {Array<Article>} displayArticles? - The articles that are currently being displayed.
+   * @param  {Array<Article>} readyArticles? - The articles that are ready to be displayed.
+   */
+  public setArticles(displayArticles?: Array<Article>, readyArticles?: Array<Article>) {
+    if (displayArticles) {
+      this.displayArticles = displayArticles;
+    }
+
+    if (readyArticles) {
+      this.readyArticles = readyArticles;
+    }
+
+    this.articles$.next({ displayArticles, readyArticles });
+  }
+
+  /**
+   * Notify subscribers that the feed update status has changed.
+   *
+   * @param  {boolean} status - Is the feed updating?
+   */
+  public setFeedUpdateStatus(status: boolean) {
+    this.isFeedUpdating = status;
+    this.isFeedUpdating$.next(status);
+  }
+
+  /**
+   * Notify subscribers that the feed layout has changed.
+   *
+   * @param  {string} newLayout - Layout identifier.
+   */
+   public setLayout(newLayout: string) {
+    this.layout = newLayout;
+    this.layout$.next(newLayout);
+  }
+
+  /**
+   * Sets the local instance of the article filter input.
+   *
+   * @param  {ModelStringFilterInput} filters - The local instance article filter input.
+   */
+   public setFilters(filters: ModelArticleFilterInput) {
+    this.filters = filters;
+  }
+
+  /**
+   * Subscribe to receive updates about in the layout of the feed.
+   */
+  public getLayout() {
+    return this.layout$.asObservable();
+  }
+
+  /**
+   * Subscribe to receive the latest articles (display & ready).
+   */
+  public getArticles() {
+    return this.articles$.asObservable();
+  }
+
+  /**
+   * Subscribe to receive searchFilterData.
+   */
+  public getSearchFilterData() {
+    return this.searchFilterData$.asObservable();
+  }
+
+  /**
+   * Subscribe to receive notifications when the feed is updating.
+   */
+  public getFeedUpdateStatus() {
+    return this.isFeedUpdating$.asObservable();
+  }
+
+  /**
+   * Presents a temporary modal that contains a message known as a 'toast'.
+   *
+   * @param  {string} message - The message to be displayed on the toast.
+   * @param  {string} color - The colour of the toast.
+   */
+  public async presentToast(message: string, color: string) {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
@@ -299,21 +386,14 @@ export class NewsFeedService {
     await toast.present();
   }
 
-
-  private setDateRange(): ModelStringKeyConditionInput {
-    const start = sub(new Date(), { days: environment.articleAgeLimit });
-    const end = add(new Date(), { hours: 1 });
-
-    return {
-      between: [
-        start.toISOString(), end.toISOString()
-      ]
-    };
-  }
-
-  private async earlyImageLoad(imgArr) {
-    const imageLimit = this.readyArticles.length * 0.33 > 21 ? 21 : this.readyArticles.length * 0.33;
-    const loadingImages: Promise<void>[] = imgArr.slice(0, imageLimit).map(async (article) => {
+  /**
+   * For n number of arrays, initiate the download process for their images.
+   *
+   * @param  {Array<Article>} articleArray - The array of articles containing the images that are to be preloaded.
+   */
+  private async earlyImageLoad(articleArray: Array<Article>) {
+    const n = this.readyArticles.length * 0.33 > 21 ? 21 : this.readyArticles.length * 0.33;
+    const loadingImages: Promise<void>[] = articleArray.slice(0, n).map(async (article) => {
 
       if (article.image) {
         try {
@@ -329,30 +409,39 @@ export class NewsFeedService {
     return Promise.all(loadingImages);
   }
 
+  /**
+   * Handle the various image event handlers.
+   *
+   * @param  {string} imgURL - The url of the image.
+   * @returns Promise - Return a promise when the image loading has been resolved.
+   */
   private preloadImage(imgURL: string): Promise<void> {
     return new Promise((resolve, reject) => {
 
       const img = new Image();
       img.onstalled = () => {
-        reject(`${imgURL} Stalled out`);
+        reject(`${imgURL} Stalled out.`);
       };
 
       img.onload = () => {
         resolve();
       };
 
-      img.onerror = () => {
-        reject(`${imgURL} Errored`);
+      img.onerror = (err) => {
+        reject(`${imgURL} \n\nAn error occurred: ${err}`);
       };
 
       img.src = imgURL;
 
       setTimeout(() => {
-        reject(`${imgURL} Timed out`);
+        reject(`${imgURL} Timed out.`);
       }, 5000);
     });
   }
 
+  /**
+   * Gets the next articles in order and then stores them in the readyArticles array.
+   */
   private async loadReadyArticles() {
     let i = 1;
     let numNewArticles = 0;
@@ -371,6 +460,10 @@ export class NewsFeedService {
     } while (this.nextToken && numNewArticles < this.displayThreshold);
   }
 
+
+  /**
+   * Move the ready articles into the displayArticles array.
+   */
   private async loadDisplayArticles() {
     let numNewArticles: number;
 
@@ -395,6 +488,51 @@ export class NewsFeedService {
     }
   }
 
+  /**
+   * Notify all subscribers of the search filter data.
+   *
+   * @param  {{searchTerm:string;useFilters?:boolean}} data - The data that is used by the search bar.
+   */
+  private setSearchFilterData(data: {searchTerm: string; useFilters?: boolean}) {
+    this.searchFilterData$.next(data);
+  }
+
+  /**
+   * Find and remove the search filter from the filter object.
+   */
+  private removeSearchFilter() {
+  const searchFilterIndex = this.filters.and.findIndex(f => f.searchTerms);
+  if (searchFilterIndex !== -1) {
+    if (this.filters.and.length === 1) {
+      delete this.filters.and;
+    } else {
+      this.filters.and.splice(searchFilterIndex, 1);
+    }
+  }
+}
+
+  /**
+   * Calculates the acceptable age of the articles to be retrieved.
+   *
+   * @returns ModelStringKeyConditionInput - The modeled object containing the acceptable article date range.
+   */
+  private getDateRange(): ModelStringKeyConditionInput {
+    const start = sub(new Date(), { days: environment.articleAgeLimit });
+    const end = add(new Date(), { hours: 1 });
+
+    return {
+      between: [
+        start.toISOString(), end.toISOString()
+      ]
+    };
+  }
+
+  /**
+   * Calculates a suitable multiplier for the display threshold based on the width of the screen.
+   *
+   * @param  {number} platformWidth - Width of the screen.
+   * @param  {boolean} menuOpen - Is the menu open?
+   */
   private calculateThresholdMultiplier(platformWidth: number, menuOpen: boolean) {
     const stdCardWidth = 310;
     let multiplier = 1;
@@ -414,16 +552,5 @@ export class NewsFeedService {
     }
 
     return multiplier;
-  }
-
-  private removeSearchFilter() {
-    const searchFilterIndex = this.filters.and.findIndex(f => f.searchTerms);
-    if (searchFilterIndex !== -1) {
-      if (this.filters.and.length === 1) {
-        delete this.filters.and;
-      } else {
-        this.filters.and.splice(searchFilterIndex, 1);
-      }
-    }
   }
 }

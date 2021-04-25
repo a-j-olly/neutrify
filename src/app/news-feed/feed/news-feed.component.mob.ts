@@ -118,6 +118,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Called once, after the first ngOnChanges().
+   */
   public async ngOnInit() {
     const filters = this.filterService.getQueryFilters();
     this.newsFeedService.setFilters(filters);
@@ -130,6 +133,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.menuService.openMenu();
   }
 
+  /**
+   * Called immediately before Angular destroys the directive or component.
+   */
   public ngOnDestroy() {
     this.pauseAds();
     this.filterSubscription$.unsubscribe();
@@ -137,6 +143,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.isFeedUpdatingSubscription$.unsubscribe();
   }
 
+  /**
+   * Formats the date that will be displayed in the footer of article.
+   *
+   * @param  {string} date - The date ISO string from the article.
+   */
   public getArticleAge(date: string) {
     const diff = new Date().valueOf() - new Date(date).valueOf();
     const ageInMinutes = Math.floor(Math.abs(diff / 36e5) * 60);
@@ -150,6 +161,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     return age;
   }
 
+  /**
+   * Handles the clicking on of articles and scrolls to them if they are open.
+   *
+   * @param  {number} index
+   */
   public async onArticleSelected(index: number) {
     if (this.newsFeedService.openArticleIndex !== undefined) {
       if (this.newsFeedService.openArticleIndex === index && this.layout === 'list') {
@@ -171,6 +187,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.scrollTo(index.toString());
   }
 
+  /**
+   * Grabs the latest articles for the feed when the user pulls it down.
+   *
+   * @param  {any} event? - Custom Ionic event fired from the ion-refresher component.
+   */
   public async doRefresh(event?) {
     await this.newsFeedService.doRefresh();
 
@@ -179,23 +200,46 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Gets the next set of articles that are ready to be displayed on the feed.
+   *
+   * @param  {any} event - Custom Ionic event fired from the ion-refresher component.
+   */
   public async getNextPage(event) {
     await this.newsFeedService.getNextPage();
     event.target.complete();
   }
 
+  /**
+   * When an image url fails to load, set the image property to null.
+   *
+   * @param  {Event} event - The DOM event returned on error.
+   * @param  {number} index - The position in the array of articles.
+   */
   public handleImgError(event, index) {
     this.displayArticles[index].image = null;
   }
 
+
+  /**
+   * Displays the current ad banner instance
+   */
   private async playAds() {
     await this.currentBanner.show();
   }
 
+  /**
+   * Hides the current ad banner instance
+   */
   private async pauseAds() {
     await this.currentBanner.hide();
   }
 
+  /**
+   * Scrolls the page to an element in the markup.
+   *
+   * @param  {string} id - The id of the element in the markup.
+   */
   private async scrollTo(id: string) {
     let yOffset = document.getElementById(id).offsetTop;
 
@@ -206,6 +250,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     await this.content.scrollToPoint(0, yOffset, 500);
   }
 
+  /**
+   * Opens up a modal that displays the article data.
+   *
+   * @param  {Article} article - The object contain all the article data.
+   */
   private async openArticleModal(article) {
     this.modalOpen = true;
     const modal = await this.modalController.create({

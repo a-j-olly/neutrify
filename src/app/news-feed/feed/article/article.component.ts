@@ -31,6 +31,9 @@ export class ArticleComponent implements OnInit {
     speed: 400,
     slidesPerView: 1,
   };
+  public platformHeight;
+  public keywordArray: Array<string>;
+  public topicArray: Array<string>;
 
   private platformSource: string;
 
@@ -41,12 +44,16 @@ export class ArticleComponent implements OnInit {
     private inAppBrowser: InAppBrowser,
     private platform: Platform
   ) {
-    this.platform.ready().then(readySource => this.platformSource = readySource);
+    this.platform.ready().then(readySource => {
+      this.platformSource = readySource;
+      this.platformHeight = this.platform.height();
+    });
   }
 
   public ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
     this.imgUrl = this.article.image;
+    this.setMetricArrays();
   }
 
   public async ionViewWillEnter() {
@@ -135,6 +142,19 @@ export class ArticleComponent implements OnInit {
     const currentSlideIndex = await this.slides.getActiveIndex();
     if (currentSlideIndex === 1) {
       this.showImage = true;
+    }
+  }
+
+  private setMetricArrays() {
+    if (this.platformHeight < 720) {
+      this.keywordArray = this.article.displayKeywords.length > 14 ?
+      this.article.displayKeywords.splice(14) : this.article.displayKeywords;
+
+      this.topicArray = this.article.displayTopics.length > 5 ?
+      this.article.displayTopics.splice(5) : this.article.displayTopics;
+    } else {
+      this.keywordArray = this.article.displayKeywords;
+      this.topicArray = this.article.displayTopics;
     }
   }
 }

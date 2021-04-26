@@ -15,7 +15,16 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class ArticleComponent implements OnInit {
   @ViewChild('slides') slides: IonSlides;
-  @Input() article: Article;
+  @Input() public set article(input: Article) {
+    this.articleData = input;
+    this.imgUrl = this.article.image;
+    this.setMetricArrays(input);
+  }
+
+  public get article() {
+    return this.articleData;
+  }
+
   @Input() layout: string;
 
   public datePublished: string;
@@ -31,10 +40,11 @@ export class ArticleComponent implements OnInit {
     speed: 400,
     slidesPerView: 1,
   };
-  public platformHeight;
-  public keywordArray: Array<string>;
-  public topicArray: Array<string>;
+  public platformHeight: number;
+  public keywordArray = new Array<string>();
+  public topicArray = new Array<string>();
 
+  private articleData: Article;
   private platformSource: string;
 
   constructor(
@@ -42,7 +52,7 @@ export class ArticleComponent implements OnInit {
     private popoverController: PopoverController,
     private ga: GoogleAnalyticsService,
     private inAppBrowser: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
   ) {
     this.platform.ready().then(readySource => {
       this.platformSource = readySource;
@@ -53,7 +63,6 @@ export class ArticleComponent implements OnInit {
   public ngOnInit() {
     this.datePublished = format(new Date(this.article.datePublished), 'Pp', {locale: enGB});
     this.imgUrl = this.article.image;
-    this.setMetricArrays();
   }
 
   public async ionViewWillEnter() {
@@ -145,16 +154,27 @@ export class ArticleComponent implements OnInit {
     }
   }
 
-  private setMetricArrays() {
+  private setMetricArrays(article: Article) {
     if (this.platformHeight < 720) {
-      this.keywordArray = this.article.displayKeywords.length > 14 ?
-      this.article.displayKeywords.splice(14) : this.article.displayKeywords;
+      if (article.displayKeywords.length > 15) {
+        for (let i = 0; i < 14; i++) {
+          this.keywordArray.push(article.displayKeywords[i]);
+        }
+      } else {
+        this.keywordArray = article.displayKeywords;
+      }
 
-      this.topicArray = this.article.displayTopics.length > 5 ?
-      this.article.displayTopics.splice(5) : this.article.displayTopics;
+      if (article.displayTopics.length > 5) {
+        for (let i = 0; i < 4; i++) {
+          this.topicArray.push(article.displayTopics[i]);
+        }
+      } else {
+        this.topicArray = article.displayTopics;
+      }
+
     } else {
-      this.keywordArray = this.article.displayKeywords;
-      this.topicArray = this.article.displayTopics;
+      this.keywordArray = article.displayKeywords;
+      this.topicArray = article.displayTopics;
     }
   }
 }

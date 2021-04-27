@@ -15,7 +15,16 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 })
 export class ArticleComponent implements OnInit {
   @ViewChild('slides') slides: IonSlides;
-  @Input() article: Article;
+  @Input() public set article(input: Article) {
+    this.articleData = input;
+    this.imgUrl = this.article.image;
+    this.setMetricArrays(input);
+  }
+
+  public get article() {
+    return this.articleData;
+  }
+
   @Input() layout: string;
 
   public datePublished: string;
@@ -31,7 +40,11 @@ export class ArticleComponent implements OnInit {
     speed: 400,
     slidesPerView: 1,
   };
+  public platformHeight: number;
+  public keywordArray = new Array<string>();
+  public topicArray = new Array<string>();
 
+  private articleData: Article;
   private platformSource: string;
 
   constructor(
@@ -39,9 +52,12 @@ export class ArticleComponent implements OnInit {
     private popoverController: PopoverController,
     private ga: GoogleAnalyticsService,
     private inAppBrowser: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
   ) {
-    this.platform.ready().then(readySource => this.platformSource = readySource);
+    this.platform.ready().then(readySource => {
+      this.platformSource = readySource;
+      this.platformHeight = this.platform.height();
+    });
   }
 
   public ngOnInit() {
@@ -135,6 +151,30 @@ export class ArticleComponent implements OnInit {
     const currentSlideIndex = await this.slides.getActiveIndex();
     if (currentSlideIndex === 1) {
       this.showImage = true;
+    }
+  }
+
+  private setMetricArrays(article: Article) {
+    if (this.platformHeight < 720) {
+      if (article.displayKeywords.length > 15) {
+        for (let i = 0; i < 14; i++) {
+          this.keywordArray.push(article.displayKeywords[i]);
+        }
+      } else {
+        this.keywordArray = article.displayKeywords;
+      }
+
+      if (article.displayTopics.length > 5) {
+        for (let i = 0; i < 4; i++) {
+          this.topicArray.push(article.displayTopics[i]);
+        }
+      } else {
+        this.topicArray = article.displayTopics;
+      }
+
+    } else {
+      this.keywordArray = article.displayKeywords;
+      this.topicArray = article.displayTopics;
     }
   }
 }

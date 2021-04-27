@@ -428,7 +428,7 @@ export class NewsFeedService {
       };
 
       img.onerror = (err) => {
-        reject(`${imgURL} \n\nAn error occurred: ${err}`);
+        reject(`${imgURL} \n\nAn error occurred: ${JSON.stringify(err, ['message', 'arguments', 'type', 'name'])}`);
       };
 
       img.src = imgURL;

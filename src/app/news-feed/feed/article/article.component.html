@@ -42,7 +42,7 @@
               <ion-row class="ion-justify-content-center">
                 <h4>Keywords</h4>
               </ion-row>
-              <ion-row class="ion-text-wrap ion-justify-content-start">
+              <ion-row class="ion-text-wrap ion-justify-content-center">
                 <p>
                   <ion-col size="auto" (click)="openFilterPopover($event, 'keywords', keyword)" *ngFor="let keyword of keywordArray; let i = index">
                     {{ keyword }}{{ i === keywordArray.length - 1 ? "" : "," }}

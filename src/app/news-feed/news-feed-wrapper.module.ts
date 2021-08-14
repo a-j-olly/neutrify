@@ -1,3 +1,4 @@
+import { DialogBoxComponent } from './feed/dialog-box/dialog-box.component';
 import { AdMob } from '@admob-plus/ionic';
 import { ArticleWrapperComponent } from './feed/article-wrapper/article-wrapper.component';
 import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
@@ -43,6 +44,7 @@ const routes: Routes = [
     StandardHeaderComponent,
     StandardFooterComponent,
     LayoutTogglerComponent,
+    DialogBoxComponent,
     ArticleWrapperComponent
   ],
   providers: [

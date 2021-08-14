@@ -29,6 +29,10 @@
 </ion-header>
 
 <ion-content>
+  <div class="dialog-container">
+    <app-dialog-box></app-dialog-box>
+  </div>
+  
   <ion-row *ngIf="isFeedUpdating" class="ion-justify-content-center">
     <ion-skeleton-text animated style="width: 240px; line-height: 16px; margin-top: 5px;"></ion-skeleton-text>
   </ion-row>

@@ -875,7 +875,7 @@ export class APIService {
 
 	private initializeMockData() {
 		// Sample mock articles
-		this.mockArticles = this.generateMockArticles(50);
+		this.mockArticles = this.generateMockArticles(100);
 		console.log('Mock API Service initialized with sample data');
 	}
 
@@ -906,10 +906,8 @@ export class APIService {
 
 		for (let i = 0; i < count; i++) {
 			const dateObj = new Date();
-			dateObj.setDate(dateObj.getDate() - Math.floor(Math.random() * 30)); // Random date within last 30 days
+			dateObj.setDate(dateObj.getDate() - Math.floor(Math.random() * 25)); // Random date within last 30 days
 			const dateStr = dateObj.toISOString();
-			const displayDateTime = dateObj.toLocaleString();
-
 			const sourceIndex = Math.floor(Math.random() * sources.length);
 			const sourceTitle = sources[sourceIndex];
 			const biasRating =
@@ -929,18 +927,18 @@ export class APIService {
 					i + 1
 				}. It contains several paragraphs of text discussing ${topics[0].toLowerCase()} topics.`,
 				createdAt: dateStr,
-				dataType: 'NEWS',
+				dataType: 'news',
 				date: dateStr.split('T')[0],
 				datePublished: dateStr,
 				displayBiasRating: biasRating,
 				displayAuthors: [`Author ${i + 1}`, `Co-author ${i + 1}`],
-				displayDateTime: displayDateTime,
+				displayDateTime: dateStr,
 				displayKeywords: [`keyword${i}1`, `keyword${i}2`, `keyword${i}3`],
 				displaySourceCountry: sourceCountry,
 				displaySourceTitle: sourceTitle,
 				displayTopics: topics,
 				id: `mock-article-${i}`,
-				image: `https://example.com/images/article${i}.jpg`,
+				image: `https://picsum.photos/id/${i}/640/320`,
 				keywords: [`keyword${i}1`, `keyword${i}2`, `keyword${i}3`],
 				language: 'en',
 				share: Math.floor(Math.random() * 100),
@@ -1384,7 +1382,6 @@ export class APIService {
 		await this.delay(500);
 
 		let filteredArticles = [...this.mockArticles];
-
 		// Apply dataType filter
 		if (dataType) {
 			filteredArticles = filteredArticles.filter(

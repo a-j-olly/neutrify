@@ -30,7 +30,7 @@
           <div (click)="onArticleSelected(i)">
             <app-standard-footer 
               [sourceTitle]="article.displaySourceTitle" [layout]="layout"
-              [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
+              [time]="article.displayDateTime ? article.displayDateTime : article.datePublished">
             </app-standard-footer>
           </div>
     
@@ -60,7 +60,7 @@
           <div class="footer ion-no-padding" (click)="onArticleSelected(i)">
             <app-standard-footer 
               [sourceTitle]="article.displaySourceTitle" [layout]="layout"
-              [time]="getArticleAge(article.displayDateTime ? article.displayDateTime : article.datePublished)">
+              [time]="article.displayDateTime ? article.displayDateTime : article.datePublished">
             </app-standard-footer>
           </div>
     

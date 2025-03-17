@@ -26,9 +26,9 @@ export class NewsFeedService {
   public searchFilter: {searchTerms: ModelStringFilterInput} | null;
   public isFeedUpdating = true;
   public layout = 'grid';
+  public readyArticles: Array<Article> = new Array<Article>();
 
   private isFeedUpdating$ = new Subject<boolean>();
-  private readyArticles: Array<Article> = new Array<Article>();
   private articles$ = new Subject<any>();
   private limit = 25;
   private searchFilterData$ = new Subject<{ searchTerm: string; useFilters?: boolean }>();
@@ -155,7 +155,7 @@ export class NewsFeedService {
   public async getNextPage() {
     if (this.nextToken && this.readyArticles.length < this.displayThreshold) {
       await this.loadReadyArticles();
-    } else if (!this.nextToken) {
+    } else if (this.readyArticles.length === 0) {
       this.presentToast('There are no more articles to be read. You\'re up to date.', 'primary');
     }
 

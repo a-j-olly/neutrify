@@ -867,6 +867,7 @@ export class APIService {
 	private mockUsers: User[] = [];
 	private mockConfigs: Config[] = [];
 	private mockArticles: Article[] = [];
+	private filteredArticles: Article[] = [];
 
 	constructor() {
 		// Initialize with some mock data
@@ -875,7 +876,7 @@ export class APIService {
 
 	private initializeMockData() {
 		// Sample mock articles
-		this.mockArticles = this.generateMockArticles(100);
+		this.mockArticles = this.generateMockArticles(500);
 		console.log('Mock API Service initialized with sample data');
 	}
 
@@ -892,7 +893,16 @@ export class APIService {
 			'Al Jazeera',
 		];
 		const biasRatings = ['Left', 'Lean Left', 'Center', 'Lean Right', 'Right'];
-		const countries = ['US', 'UK', 'CA', 'AU', 'FR', 'DE', 'JP', 'IN'];
+		const countries = [
+			'United States',
+			'United Kingdom',
+			'California',
+			'Australia',
+			'France',
+			'Germany',
+			'Japan',
+			'India',
+		];
 		const topicsList = [
 			['Politics', 'Election', 'Government'],
 			['Business', 'Economy', 'Finance'],
@@ -903,10 +913,20 @@ export class APIService {
 			['Entertainment', 'Movies', 'Celebrity'],
 			['Science', 'Space', 'Research'],
 		];
+		const keywordsList = [
+			['Donald Trump', 'New York City', 'Hot Dogs'],
+			['London', 'Nigel Farage', 'Pubs'],
+			['Jeff Bezos', 'Silicon Valley', 'Amazon'],
+			['Elon Musk', 'AI', 'Twitter'],
+			['Dogs', 'Golden Retriever', 'Rescue Dog'],
+			['Lion', 'Zoo', 'Escape'],
+			['Ukraine', 'Drones', 'Vladimir Putin'],
+			['Polar Bears', 'North Pole', 'Sealion'],
+		];
 
 		for (let i = 0; i < count; i++) {
 			const dateObj = new Date();
-			dateObj.setDate(dateObj.getDate() - Math.floor(Math.random() * 25)); // Random date within last 30 days
+			dateObj.setDate(dateObj.getDate() - i / 28); // Random date within last 30 days
 			const dateStr = dateObj.toISOString();
 			const sourceIndex = Math.floor(Math.random() * sources.length);
 			const sourceTitle = sources[sourceIndex];
@@ -916,7 +936,8 @@ export class APIService {
 				countries[Math.floor(Math.random() * countries.length)];
 			const topicsIndex = Math.floor(Math.random() * topicsList.length);
 			const topics = topicsList[topicsIndex];
-
+			const keywordIndex = Math.floor(Math.random() * keywordsList.length);
+			const keywords = keywordsList[keywordIndex];
 			const tone = Math.random() * 2 - 1; // Random tone between -1 and 1
 
 			const article: Article = {
@@ -925,7 +946,8 @@ export class APIService {
 				biasRating: biasRating,
 				body: `This is the full article body for article ${
 					i + 1
-				}. It contains several paragraphs of text discussing ${topics[0].toLowerCase()} topics.`,
+				}. It contains several paragraphs of text discussing ${topics[0].toLowerCase()} topics & ${keywords[0].toLowerCase()}.\n
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
 				createdAt: dateStr,
 				dataType: 'news',
 				date: dateStr.split('T')[0],
@@ -933,13 +955,13 @@ export class APIService {
 				displayBiasRating: biasRating,
 				displayAuthors: [`Author ${i + 1}`, `Co-author ${i + 1}`],
 				displayDateTime: dateStr,
-				displayKeywords: [`keyword${i}1`, `keyword${i}2`, `keyword${i}3`],
+				displayKeywords: keywords,
 				displaySourceCountry: sourceCountry,
 				displaySourceTitle: sourceTitle,
 				displayTopics: topics,
 				id: `mock-article-${i}`,
-				image: `https://picsum.photos/id/${i}/640/320`,
-				keywords: [`keyword${i}1`, `keyword${i}2`, `keyword${i}3`],
+				image: `https://picsum.photos/id/${Math.floor(Math.random() * 50) }/640/320`, // limit the number of unique images
+				keywords: keywords,
 				language: 'en',
 				share: Math.floor(Math.random() * 100),
 				similarity: Math.random(),
@@ -1381,10 +1403,13 @@ export class APIService {
 	): Promise<ArticlesByDateQuery> {
 		await this.delay(500);
 
-		let filteredArticles = [...this.mockArticles];
+		if (!nextToken) {
+			this.filteredArticles = [...this.mockArticles];
+		}
+
 		// Apply dataType filter
 		if (dataType) {
-			filteredArticles = filteredArticles.filter(
+			this.filteredArticles = this.filteredArticles.filter(
 				(a) => a.dataType === dataType
 			);
 		}
@@ -1392,23 +1417,23 @@ export class APIService {
 		// Apply date condition if provided
 		if (displayDateTime) {
 			if (displayDateTime.eq) {
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.displayDateTime === displayDateTime.eq
 				);
 			} else if (displayDateTime.lt) {
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.displayDateTime < displayDateTime.lt
 				);
 			} else if (displayDateTime.gt) {
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.displayDateTime > displayDateTime.gt
 				);
 			} else if (displayDateTime.le) {
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.displayDateTime <= displayDateTime.le
 				);
 			} else if (displayDateTime.ge) {
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.displayDateTime >= displayDateTime.ge
 				);
 			}
@@ -1419,7 +1444,7 @@ export class APIService {
 			// Filter by topics if provided
 			if (filter.topics && filter.topics.contains) {
 				const topicFilter = filter.topics.contains;
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.topics && a.topics.some((t) => t.includes(topicFilter))
 				);
 			}
@@ -1427,7 +1452,7 @@ export class APIService {
 			// Filter by source if provided
 			if (filter.sourceTitle && filter.sourceTitle.contains) {
 				const sourceFilter = filter.sourceTitle.contains;
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.sourceTitle && a.sourceTitle.includes(sourceFilter)
 				);
 			}
@@ -1435,12 +1460,12 @@ export class APIService {
 			// Filter by tone if provided
 			if (filter.tone) {
 				if (filter.tone.ge !== null && filter.tone.ge !== undefined) {
-					filteredArticles = filteredArticles.filter(
+					this.filteredArticles = this.filteredArticles.filter(
 						(a) => a.tone >= filter.tone.ge
 					);
 				}
 				if (filter.tone.le !== null && filter.tone.le !== undefined) {
-					filteredArticles = filteredArticles.filter(
+					this.filteredArticles = this.filteredArticles.filter(
 						(a) => a.tone <= filter.tone.le
 					);
 				}
@@ -1449,7 +1474,7 @@ export class APIService {
 			// Filter by bias if provided
 			if (filter.biasRating && filter.biasRating.contains) {
 				const biasFilter = filter.biasRating.contains;
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.biasRating && a.biasRating.includes(biasFilter)
 				);
 			}
@@ -1457,7 +1482,7 @@ export class APIService {
 			// Filter by location/country if provided
 			if (filter.sourceCountry && filter.sourceCountry.contains) {
 				const countryFilter = filter.sourceCountry.contains;
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.sourceCountry && a.sourceCountry.includes(countryFilter)
 				);
 			}
@@ -1465,14 +1490,14 @@ export class APIService {
 			// Filter by keywords if provided
 			if (filter.keywords && filter.keywords.contains) {
 				const keywordFilter = filter.keywords.contains;
-				filteredArticles = filteredArticles.filter(
+				this.filteredArticles = this.filteredArticles.filter(
 					(a) => a.keywords && a.keywords.some((k) => k.includes(keywordFilter))
 				);
 			}
 		}
 
 		// Sort by date
-		filteredArticles.sort((a, b) => {
+		this.filteredArticles.sort((a, b) => {
 			const dateA = new Date(a.datePublished).getTime();
 			const dateB = new Date(b.datePublished).getTime();
 			return sortDirection === ModelSortDirection.ASC
@@ -1481,14 +1506,15 @@ export class APIService {
 		});
 
 		// Apply limit
+		let items = [];
 		if (limit && limit > 0) {
-			filteredArticles = filteredArticles.slice(0, limit);
+			items = this.filteredArticles.splice(0, limit);
 		}
 
 		return {
 			__typename: 'ModelArticleConnection',
-			items: filteredArticles,
-			nextToken: null,
+			items,
+			nextToken: this.filteredArticles.length > 0 ? 'nextToken' : null,
 		} as ArticlesByDateQuery;
 	}
 }

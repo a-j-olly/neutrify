@@ -73,7 +73,7 @@
     <h2>Could not find any articles. It is likely your filters are too strict.</h2>
   </div>
 
-<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="15%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.nextToken === null">
+<ion-infinite-scroll (ionInfinite)="getNextPage($event)" threshold="15%" [disabled]="isFeedUpdating" [hidden]="newsFeedService.readyArticles.length === 0">
   <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more articles..." class="loading-spinner">
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>

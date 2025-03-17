@@ -17,7 +17,6 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { ThemeDetection } from '@ionic-native/theme-detection/ngx';
 import { Keychain } from '@ionic-native/keychain/ngx';
 import { MainMenuComponent } from './menu/main-menu/main-menu.component';
@@ -35,14 +34,11 @@ import { MainMenuComponent } from './menu/main-menu/main-menu.component';
     IonicStorageModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    AmplifyAngularModule,
-    AmplifyIonicModule,
+    AppRoutingModule
   ],
   providers: [
     APIService,
     StatusBar,
-    AmplifyService,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     InAppBrowser,

@@ -76,8 +76,7 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "serviceWorker": false
             },
             "dev": {
               "optimization": true,
@@ -99,8 +98,7 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "serviceWorker": false
             },
             "mob": {
               "tsConfig": "tsconfig.app.mob.json",

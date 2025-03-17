@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  gaTrackingId: 'UA-165071248-1',
+  gaTrackingId: '',
   refreshTimeLimit: 300,
-  appleStoreUri: 'https://example.com',
-  googleStoreUri: 'https://play.google.com/store/apps/details?id=news.neutrify.app',
+  appleStoreUri: '',
+  googleStoreUri: '',
   readyToRelease: false,
   articleAgeLimit: 3
 };

@@ -17,7 +17,6 @@ import { ThemeDetection } from '@ionic-native/theme-detection/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AmplifyService, AmplifyAngularModule, AmplifyIonicModule } from 'aws-amplify-angular';
 import { Keychain } from '@ionic-native/keychain/ngx';
 import { HomePage } from './home/home.page';
 import { CtaComponent } from './home/cta/cta.component';
@@ -49,14 +48,11 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    AmplifyAngularModule,
-    AmplifyIonicModule,
     ServiceWorkerModule.register('ngsw-worker.js')
   ],
   providers: [
     APIService,
     StatusBar,
-    AmplifyService,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     InAppBrowser,

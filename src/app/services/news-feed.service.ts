@@ -1,7 +1,7 @@
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { FilterService } from './filter.service';
-import { AuthService } from './auth.service';
+import { AuthService } from './mock-auth.service';
 import { ToastController } from '@ionic/angular';
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { Subject } from 'rxjs';
@@ -13,7 +13,7 @@ import {
   Article,
   ModelArticleFilterInput,
   ArticlesByDateQuery
-} from './neutrify-api.service';
+} from './mock-neutrify-api.service';
 import { sub, add } from 'date-fns';
 
 @Injectable()

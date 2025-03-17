@@ -1,5 +1,5 @@
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/mock-auth.service';
 import { FilterService } from '../../services/filter.service';
 import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';

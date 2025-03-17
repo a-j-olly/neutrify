@@ -1,7 +1,7 @@
 import { TutorialComponent } from './../../tutorial/tutorial.component';
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { Router } from '@angular/router';
-import { AuthService } from './../../services/auth.service';
+import { AuthService } from './../../services/mock-auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuService } from 'src/app/services/menu.service';
 import { MenuController, ToastController, AlertController, Platform, ModalController } from '@ionic/angular';

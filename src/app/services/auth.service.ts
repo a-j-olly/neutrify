@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './google-analytics.service';
 import { MenuController } from '@ionic/angular';
 import { FilterService } from './filter.service';
-import { APIService, ConfigByOwnerQuery, CreateConfigInput, UpdateConfigInput } from './neutrify-api.service';
+import { APIService, ConfigByOwnerQuery, CreateConfigInput, UpdateConfigInput } from './mock-neutrify-api.service';
 import { Injectable } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
 import { CognitoUser } from 'amazon-cognito-identity-js';

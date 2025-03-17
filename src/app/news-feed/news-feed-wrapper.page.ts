@@ -1,7 +1,7 @@
 import { NewsFeedComponent } from './feed/news-feed.component';
 import { LayoutTogglerComponent } from './layout-toggler/layout-toggler.component';
 import { Component, ViewChild } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/mock-auth.service';
 import { Platform, MenuController, PopoverController, ModalController, IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { MenuService } from '../services/menu.service';

@@ -1,6 +1,6 @@
 import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from './../services/auth.service';
+import { AuthService } from './../services/mock-auth.service';
 import { Component } from '@angular/core';
 
 @Component({

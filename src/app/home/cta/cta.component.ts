@@ -1,6 +1,6 @@
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from './../../services/auth.service';
+import { AuthService } from './../../services/mock-auth.service';
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';

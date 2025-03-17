@@ -1,4 +1,4 @@
-import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './neutrify-api.service';
+import { ModelArticleFilterInput, UpdateConfigInput, APIService } from './mock-neutrify-api.service';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as TopicGroups from '../../assets/model/topic-options';

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { AuthService } from './../../services/auth.service';
+import { AuthService } from './../../services/mock-auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Platform, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';

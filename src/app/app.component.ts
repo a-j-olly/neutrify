@@ -1,5 +1,5 @@
 import { Router, NavigationEnd } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/mock-auth.service';
 import { MenuService } from './services/menu.service';
 import { Component, ViewContainerRef, ViewChild, Compiler, Injector, ComponentRef, ChangeDetectorRef } from '@angular/core';
 import { Platform } from '@ionic/angular';

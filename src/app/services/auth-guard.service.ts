@@ -1,4 +1,4 @@
-import { AuthService } from './auth.service';
+import { AuthService } from './mock-auth.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot, Router, CanDeactivate } from '@angular/router';
 

@@ -1,6 +1,6 @@
-import { Article } from './../../services/neutrify-api.service';
+import { Article } from './../../services/mock-neutrify-api.service';
 import { ArticleWrapperComponent } from './article-wrapper/article-wrapper.component';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/mock-auth.service';
 import { Subscription } from 'rxjs';
 import { MenuController, Platform, IonContent, ModalController } from '@ionic/angular';
 import { MenuService } from '../../services/menu.service';

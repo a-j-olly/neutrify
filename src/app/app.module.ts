@@ -1,6 +1,6 @@
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { IonicStorageModule } from '@ionic/storage';
-import { APIService } from './services/neutrify-api.service';
+import { APIService } from './services/mock-neutrify-api.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

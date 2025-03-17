@@ -1,7 +1,7 @@
 import { GoogleAnalyticsService } from './../../services/google-analytics.service';
 import { ToastController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from './../../services/auth.service';
+import { AuthService } from './../../services/mock-auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { mustMatch } from '../../helper/must-match.validator';

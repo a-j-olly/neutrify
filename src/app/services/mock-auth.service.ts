@@ -6,6 +6,9 @@ import { FilterService } from './filter.service';
 import { ToastController } from '@ionic/angular';
 
 // Mock class to replace AmplifyService
+@Injectable({
+	providedIn: 'root',
+})
 class MockAmplifyService {
 	authStateChange$ = new BehaviorSubject<any>({ state: 'signOut', user: null });
 

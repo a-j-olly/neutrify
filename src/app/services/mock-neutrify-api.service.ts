@@ -892,7 +892,15 @@ export class APIService {
 			'Washington Post',
 			'Al Jazeera',
 		];
-		const biasRatings = ['Left', 'Lean Left', 'Center', 'Lean Right', 'Right'];
+		const biasRatings = [
+			'Left',
+			'Lean Left',
+			'Center',
+			'Lean Right',
+			'Right',
+			'Left Leaning',
+			'Right Leaning',
+		];
 		const countries = [
 			'United States',
 			'United Kingdom',
@@ -960,7 +968,9 @@ export class APIService {
 				displaySourceTitle: sourceTitle,
 				displayTopics: topics,
 				id: `mock-article-${i}`,
-				image: `https://picsum.photos/id/${Math.floor(Math.random() * 50) }/640/320`, // limit the number of unique images
+				image: `https://picsum.photos/id/${Math.floor(
+					Math.random() * 50
+				)}/640/320`, // limit the number of unique images
 				keywords: keywords,
 				language: 'en',
 				share: Math.floor(Math.random() * 100),
@@ -1000,7 +1010,7 @@ export class APIService {
 
 	// User API methods
 	async CreateUser(input: CreateUserInput): Promise<CreateUserMutation> {
-		await this.delay(500);
+		await this.delay(250);
 
 		const userId = input.id || this.generateUUID();
 		const configId = this.generateUUID();
@@ -1062,7 +1072,7 @@ export class APIService {
 	}
 
 	async UpdateUser(input: UpdateUserInput): Promise<UpdateUserMutation> {
-		await this.delay(300);
+		await this.delay(250);
 
 		const userIndex = this.mockUsers.findIndex((u) => u.id === input.id);
 
@@ -1093,7 +1103,7 @@ export class APIService {
 	}
 
 	async DeleteUser(input: DeleteUserInput): Promise<DeleteUserMutation> {
-		await this.delay(400);
+		await this.delay(250);
 
 		const userIndex = this.mockUsers.findIndex((u) => u.id === input.id);
 
@@ -1124,7 +1134,7 @@ export class APIService {
 
 	// Config API methods
 	async CreateConfig(input: CreateConfigInput): Promise<CreateConfigMutation> {
-		await this.delay(500);
+		await this.delay(250);
 
 		const configId = input.id || this.generateUUID();
 
@@ -1171,7 +1181,7 @@ export class APIService {
 	}
 
 	async UpdateConfig(input: UpdateConfigInput): Promise<UpdateConfigMutation> {
-		await this.delay(300);
+		await this.delay(250);
 
 		const configIndex = this.mockConfigs.findIndex((c) => c.id === input.id);
 
@@ -1218,7 +1228,7 @@ export class APIService {
 	}
 
 	async DeleteConfig(input: DeleteConfigInput): Promise<DeleteConfigMutation> {
-		await this.delay(400);
+		await this.delay(250);
 
 		const configIndex = this.mockConfigs.findIndex((c) => c.id === input.id);
 
@@ -1249,7 +1259,7 @@ export class APIService {
 
 	// Query methods
 	async GetUser(id: string): Promise<GetUserQuery> {
-		await this.delay(200);
+		await this.delay(100);
 
 		const user = this.mockUsers.find((u) => u.id === id);
 
@@ -1268,7 +1278,7 @@ export class APIService {
 		limit?: number,
 		nextToken?: string
 	): Promise<ListUsersQuery> {
-		await this.delay(300);
+		await this.delay(100);
 
 		// Very simple implementation, ignoring most filter options
 		let users = [...this.mockUsers];
@@ -1285,7 +1295,7 @@ export class APIService {
 	}
 
 	async GetConfig(id: string): Promise<GetConfigQuery> {
-		await this.delay(200);
+		await this.delay(100);
 
 		const config = this.mockConfigs.find((c) => c.id === id);
 
@@ -1304,7 +1314,7 @@ export class APIService {
 		limit?: number,
 		nextToken?: string
 	): Promise<ListConfigsQuery> {
-		await this.delay(300);
+		await this.delay(100);
 
 		// Simple implementation
 		let configs = [...this.mockConfigs];
@@ -1357,7 +1367,7 @@ export class APIService {
 	}
 
 	async GetArticle(id: string): Promise<GetArticleQuery> {
-		await this.delay(200);
+		await this.delay(100);
 
 		const article = this.mockArticles.find((a) => a.id === id);
 
@@ -1376,7 +1386,7 @@ export class APIService {
 		limit?: number,
 		nextToken?: string
 	): Promise<ListArticlesQuery> {
-		await this.delay(300);
+		await this.delay(100);
 
 		// Simple implementation
 		let articles = [...this.mockArticles];
@@ -1401,7 +1411,7 @@ export class APIService {
 		limit?: number,
 		nextToken?: string
 	): Promise<ArticlesByDateQuery> {
-		await this.delay(500);
+		await this.delay(100);
 
 		if (!nextToken) {
 			this.filteredArticles = [...this.mockArticles];
@@ -1415,95 +1425,136 @@ export class APIService {
 		}
 
 		// Apply date condition if provided
-		if (displayDateTime) {
-			if (displayDateTime.eq) {
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.displayDateTime === displayDateTime.eq
-				);
-			} else if (displayDateTime.lt) {
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.displayDateTime < displayDateTime.lt
-				);
-			} else if (displayDateTime.gt) {
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.displayDateTime > displayDateTime.gt
-				);
-			} else if (displayDateTime.le) {
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.displayDateTime <= displayDateTime.le
-				);
-			} else if (displayDateTime.ge) {
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.displayDateTime >= displayDateTime.ge
-				);
-			}
+		if (displayDateTime && displayDateTime.between) {
+			this.filteredArticles = this.filteredArticles.filter(
+				(a) =>
+					a.displayDateTime >= displayDateTime.between[0] &&
+					a.displayDateTime <= displayDateTime.between[1]
+			);
+		}
+
+		// Filter by tone if provided
+		if (filter.tone) {
+			let toneRange = filter.tone.between;
+			this.filteredArticles = this.filteredArticles.filter(
+				(a) => a.tone >= toneRange[0] && a.tone <= toneRange[1]
+			);
 		}
 
 		// Apply additional filter conditions (simplified implementation)
-		if (filter) {
-			// Filter by topics if provided
-			if (filter.topics && filter.topics.contains) {
-				const topicFilter = filter.topics.contains;
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.topics && a.topics.some((t) => t.includes(topicFilter))
-				);
-			}
+		if (filter && filter.and) {
+			for (let i = 0; i < filter.and.length; i++) {
+				let andFilters = filter.and[i];
 
-			// Filter by source if provided
-			if (filter.sourceTitle && filter.sourceTitle.contains) {
-				const sourceFilter = filter.sourceTitle.contains;
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.sourceTitle && a.sourceTitle.includes(sourceFilter)
-				);
-			}
+				// Include
+				if (andFilters.or) {
+					for (let j = 0; j < andFilters.or.length; j++) {
+						let orFilter = andFilters.or[j];
 
-			// Filter by tone if provided
-			if (filter.tone) {
-				if (filter.tone.ge !== null && filter.tone.ge !== undefined) {
+						// Filter by topics if provided
+						if (orFilter.topics && orFilter.topics.contains) {
+							const topicFilter = orFilter.topics.contains.toLowerCase();
+							this.filteredArticles = this.filteredArticles.filter(
+								(a) =>
+									a.topics &&
+									a.topics.some((t) => t.toLowerCase() === topicFilter)
+							);
+							continue;
+						}
+
+						// Filter by source if provided
+						if (orFilter.sourceTitle && orFilter.sourceTitle.eq) {
+							const sourceFilter = orFilter.sourceTitle.eq.toLowerCase();
+							this.filteredArticles = this.filteredArticles.filter(
+								(a) =>
+									a.sourceTitle && a.sourceTitle.toLowerCase() === sourceFilter
+							);
+							continue;
+						}
+
+						// Filter by bias if provided
+						if (orFilter.biasRating && orFilter.biasRating.eq) {
+							const biasFilter = orFilter.biasRating.eq.toLowerCase();
+							this.filteredArticles = this.filteredArticles.filter(
+								(a) => a.biasRating && a.biasRating.toLowerCase() === biasFilter
+							);
+						}
+
+						// Filter by location/country if provided
+						if (orFilter.sourceCountry && orFilter.sourceCountry.eq) {
+							const countryFilter = orFilter.sourceCountry.eq.toLowerCase();
+							this.filteredArticles = this.filteredArticles.filter(
+								(a) =>
+									a.sourceCountry &&
+									a.sourceCountry.toLowerCase() === countryFilter
+							);
+							continue;
+						}
+
+						// Filter by keywords if provided
+						if (orFilter.keywords && orFilter.keywords.contains) {
+							const keywordFilter = orFilter.keywords.contains.toLowerCase();
+							this.filteredArticles = this.filteredArticles.filter((a) => {
+								return (
+									a.keywords &&
+									a.keywords.some((k) => k.toLowerCase() === keywordFilter)
+								);
+							});
+							continue;
+						}
+					}
+				}
+
+				// Exclude filter by topics if provided
+				if (andFilters.topics && andFilters.topics.notContains) {
+					const topicFilter = andFilters.topics.notContains.toLowerCase();
 					this.filteredArticles = this.filteredArticles.filter(
-						(a) => a.tone >= filter.tone.ge
+						(a) =>
+							a.topics && !a.topics.some((t) => t.toLowerCase() === topicFilter)
+					);
+					continue;
+				}
+
+				// Exclude filter by source if provided
+				if (andFilters.sourceTitle && andFilters.sourceTitle.ne) {
+					const sourceFilter = andFilters.sourceTitle.ne.toLowerCase();
+					this.filteredArticles = this.filteredArticles.filter(
+						(a) => a.sourceTitle && a.sourceTitle.toLowerCase() !== sourceFilter
+					);
+					continue;
+				}
+
+				// Exclude filter by bias if provided
+				if (andFilters.biasRating && andFilters.biasRating.ne) {
+					const biasFilter = andFilters.biasRating.ne.toLowerCase();
+					this.filteredArticles = this.filteredArticles.filter(
+						(a) => a.biasRating && a.biasRating.toLowerCase() !== biasFilter
 					);
 				}
-				if (filter.tone.le !== null && filter.tone.le !== undefined) {
+
+				// Filter by location/country if provided
+				if (andFilters.sourceCountry && andFilters.sourceCountry.ne) {
+					const countryFilter = andFilters.sourceCountry.ne.toLowerCase();
 					this.filteredArticles = this.filteredArticles.filter(
-						(a) => a.tone <= filter.tone.le
+						(a) =>
+							a.sourceCountry && a.sourceCountry.toLowerCase() !== countryFilter
 					);
+					continue;
 				}
-			}
 
-			// Filter by bias if provided
-			if (filter.biasRating && filter.biasRating.contains) {
-				const biasFilter = filter.biasRating.contains;
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.biasRating && a.biasRating.includes(biasFilter)
-				);
-			}
-
-			// Filter by location/country if provided
-			if (filter.sourceCountry && filter.sourceCountry.contains) {
-				const countryFilter = filter.sourceCountry.contains;
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.sourceCountry && a.sourceCountry.includes(countryFilter)
-				);
-			}
-
-			// Filter by keywords if provided
-			if (filter.keywords && filter.keywords.contains) {
-				const keywordFilter = filter.keywords.contains;
-				this.filteredArticles = this.filteredArticles.filter(
-					(a) => a.keywords && a.keywords.some((k) => k.includes(keywordFilter))
-				);
+				// Filter by keywords if provided
+				if (andFilters.keywords && andFilters.keywords.notContains) {
+					const keywordFilter = andFilters.keywords.notContains.toLowerCase();
+					this.filteredArticles = this.filteredArticles.filter((a) => {
+						return (
+							a.keywords &&
+							!a.keywords.some((k) => k.toLowerCase() === keywordFilter)
+						);
+					});
+					continue;
+				}
 			}
 		}
-
-		// Sort by date
-		this.filteredArticles.sort((a, b) => {
-			const dateA = new Date(a.datePublished).getTime();
-			const dateB = new Date(b.datePublished).getTime();
-			return sortDirection === ModelSortDirection.ASC
-				? dateA - dateB
-				: dateB - dateA;
-		});
 
 		// Apply limit
 		let items = [];

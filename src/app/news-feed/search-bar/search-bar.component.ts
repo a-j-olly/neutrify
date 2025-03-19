@@ -10,7 +10,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class SearchBarComponent implements OnInit {
   @ViewChild('searchBarCtrl') searchBarCtrl: IonSearchbar;
-
   @Input() searchTerm;
   @Input() useFilters = false;
 

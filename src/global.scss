@@ -10,20 +10,20 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
+@import '~@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
 
 /* Neutrify fonts*/
 @import './theme/fonts.scss';
@@ -32,93 +32,91 @@
 // @import '~aws-amplify-angular/Theme.css'
 
 .auto-height {
-    &.bottom {
-        align-items: flex-end;
-    };
+	&.bottom {
+		align-items: flex-end;
+	}
 
-    @media screen and (min-width: 480px) {
-        --width: 475px;
-    }
-    @media screen and (min-width: 720px) {
-        --width: 712px;
-    }
-    @media screen and (min-width: 1080px) {
-        --width: 1066px;
-    }
-    --height: auto;
+	@media screen and (min-width: 480px) {
+		--width: 475px;
+	}
+	@media screen and (min-width: 720px) {
+		--width: 712px;
+	}
+	@media screen and (min-width: 1080px) {
+		--width: 1066px;
+	}
+	--height: auto;
 
-    .ion-page {
-        position: relative;
-        display: block;
-        contain: content;
+	.ion-page {
+		position: relative;
+		display: block;
+		contain: content;
 
-        .inner-content {
-            max-height: 80vh;
-            overflow: auto;
-            padding: 0px;
-        };
-    };
-};
+		.inner-content {
+			max-height: 80vh;
+			overflow: auto;
+			padding: 0px;
+		}
+	}
+}
 
 .tutorial-modal {
-    --max-width: 420px;
-    --height: auto;
+	--max-width: 420px;
+	--height: auto;
 
-    .modal-wrapper {
-        background: rgba(var(--ion-color-primary), 1);
-        --box-shadow: 0px;
-    };
+	.modal-wrapper {
+		background: rgba(var(--ion-color-primary), 1);
+		--box-shadow: 0px;
+	}
 
-    .ion-page {
-        position: relative;
-        display: block;
-        contain: content;
+	.ion-page {
+		position: relative;
+		display: block;
+		contain: content;
 
-        .inner-content {
-            max-height: 80vh;
-            overflow: auto;
-            padding: 0px;
-        };
-    };
-};
+		.inner-content {
+			max-height: 80vh;
+			overflow: auto;
+			padding: 0px;
+		}
+	}
+}
 
 .article-wrapper-modal {
-    --width: 640px;
-    --height: auto;
+	--width: 640px;
+	--height: auto;
 
-    .modal-wrapper {
-        background: rgba(var(--ion-color-primary), 1);
-        --box-shadow: 0px;
-    };
+	.modal-wrapper {
+		background: rgba(var(--ion-color-primary), 1);
+		--box-shadow: 0px;
+	}
 
-    .ion-page {
-        position: relative;
-        display: block;
-        contain: content;
+	.ion-page {
+		position: relative;
+		display: block;
+		contain: content;
 
-        .inner-content {
-            max-height: 80vh;
-            overflow: auto;
-            padding: 0px;
-        };
-    };
-};
+		.inner-content {
+			max-height: 80vh;
+			overflow: auto;
+			padding: 0px;
+		}
+	}
+}
 
-.filter-popover .popover-wrapper  {
-    .popover-content {
-        background: rgba(whitesmoke, 1);
-        border: 1px solid var(--ion-color-primary);
-    };
-};
+.filter-popover .popover-wrapper {
+	.popover-content {
+		background: rgba(whitesmoke, 1);
+		border: 1px solid var(--ion-color-primary);
+	}
+}
 
-.search-bar-popover .popover-wrapper  {
-    .popover-content {
-        width: 90%;
-        background: rgba(var(--ion-color-primary), 1);
-        --box-shadow: 0px;
+ion-popover.search-bar-popover {
+	--background: rgba(var(--ion-color-primary), 1);
+	--box-shadow: 0px;
+	--width: 90%;
 
-        @media screen and (min-width: 560px) {
-            width: 560px;
-        };
-    };
-};
+	@media screen and (min-width: 560px) {
+		--width: 560px;
+	}
+}

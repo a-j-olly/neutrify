@@ -973,6 +973,7 @@ export class APIService {
 				)}/640/320`, // limit the number of unique images
 				keywords: keywords,
 				language: 'en',
+				searchTerms: [...keywords, ...topics, sourceCountry, sourceTitle],
 				share: Math.floor(Math.random() * 100),
 				similarity: Math.random(),
 				sourceCountry: sourceCountry,
@@ -1412,7 +1413,6 @@ export class APIService {
 		nextToken?: string
 	): Promise<ArticlesByDateQuery> {
 		await this.delay(100);
-
 		if (!nextToken) {
 			this.filteredArticles = [...this.mockArticles];
 		}
@@ -1441,6 +1441,15 @@ export class APIService {
 			);
 		}
 
+		if (filter.searchTerms && filter.searchTerms.contains) {
+			let searchTerms = filter.searchTerms.contains;
+			this.filteredArticles = this.filteredArticles.filter(
+				(a) =>
+					a.searchTerms &&
+					a.searchTerms.some((s) => s.toLowerCase().includes(searchTerms))
+			);
+		}
+
 		// Apply additional filter conditions (simplified implementation)
 		if (filter && filter.and) {
 			for (let i = 0; i < filter.and.length; i++) {
@@ -1457,7 +1466,7 @@ export class APIService {
 							this.filteredArticles = this.filteredArticles.filter(
 								(a) =>
 									a.topics &&
-									a.topics.some((t) => t.toLowerCase() === topicFilter)
+									a.topics.some((t) => t.toLowerCase().includes(topicFilter))
 							);
 							continue;
 						}
@@ -1467,7 +1476,8 @@ export class APIService {
 							const sourceFilter = orFilter.sourceTitle.eq.toLowerCase();
 							this.filteredArticles = this.filteredArticles.filter(
 								(a) =>
-									a.sourceTitle && a.sourceTitle.toLowerCase() === sourceFilter
+									a.sourceTitle &&
+									a.sourceTitle.toLowerCase().includes(sourceFilter)
 							);
 							continue;
 						}
@@ -1497,7 +1507,9 @@ export class APIService {
 							this.filteredArticles = this.filteredArticles.filter((a) => {
 								return (
 									a.keywords &&
-									a.keywords.some((k) => k.toLowerCase() === keywordFilter)
+									a.keywords.some((k) =>
+										k.toLowerCase().includes(keywordFilter)
+									)
 								);
 							});
 							continue;
@@ -1505,12 +1517,21 @@ export class APIService {
 					}
 				}
 
+				if (andFilters.searchTerms && andFilters.searchTerms.contains) {
+					let searchTerms = andFilters.searchTerms.contains;
+					this.filteredArticles = this.filteredArticles.filter(
+						(a) =>
+							a.searchTerms &&
+							a.searchTerms.some((s) => s.toLowerCase().includes(searchTerms))
+					);
+				}
+
 				// Exclude filter by topics if provided
 				if (andFilters.topics && andFilters.topics.notContains) {
 					const topicFilter = andFilters.topics.notContains.toLowerCase();
 					this.filteredArticles = this.filteredArticles.filter(
 						(a) =>
-							a.topics && !a.topics.some((t) => t.toLowerCase() === topicFilter)
+							a.topics && !a.topics.some((t) => t.toLowerCase().includes(topicFilter))
 					);
 					continue;
 				}
@@ -1548,7 +1569,7 @@ export class APIService {
 					this.filteredArticles = this.filteredArticles.filter((a) => {
 						return (
 							a.keywords &&
-							!a.keywords.some((k) => k.toLowerCase() === keywordFilter)
+							!a.keywords.some((k) => k.toLowerCase().includes(keywordFilter))
 						);
 					});
 					continue;

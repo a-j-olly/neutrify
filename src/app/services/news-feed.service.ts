@@ -345,7 +345,6 @@ export class NewsFeedService {
 			}
 			this.searchFilter = null;
 		}
-
 		this.setSearchFilterData(searchFilterData);
 	}
 

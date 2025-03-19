@@ -1413,6 +1413,7 @@ export class APIService {
 		nextToken?: string
 	): Promise<ArticlesByDateQuery> {
 		await this.delay(100);
+		
 		if (!nextToken) {
 			this.filteredArticles = [...this.mockArticles];
 		}

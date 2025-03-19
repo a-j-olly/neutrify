@@ -5,5 +5,5 @@ export const environment = {
   appleStoreUri: '',
   googleStoreUri: '',
   readyToRelease: false,
-  articleAgeLimit: 3
+  articleAgeLimit: 30
 };

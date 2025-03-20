@@ -5,5 +5,7 @@ export const environment = {
   appleStoreUri: '',
   googleStoreUri: '',
   readyToRelease: false,
-  articleAgeLimit: 30
+  articleAgeLimit: 30,
+  useMocks: true,
+  mockDataSize: 250
 };

@@ -23,6 +23,7 @@ import { FilterMenuComponent } from './menu/filter-menu/filter-menu.component';
 import { GoogleAnalyticsService } from './services/google-analytics.service';
 import { MetaService } from './services/meta.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'app-root',
@@ -34,6 +35,7 @@ export class AppComponent {
 	filterMenuContainer: ViewContainerRef;
 	public menuStatus = false;
 	public filtersInitStatus = false;
+	public useMocks = environment.useMocks;
 
 	private hasFilterMenuViewInit = false;
 	private menuSubscription$: Subscription;

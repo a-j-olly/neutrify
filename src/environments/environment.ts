@@ -11,7 +11,9 @@ export const environment = {
   appleStoreUri: '',
   googleStoreUri: '',
   readyToRelease: true,
-  articleAgeLimit: 365
+  articleAgeLimit: 365,
+  useMocks: true,
+  mockDataSize: 500
 };
 
 /*

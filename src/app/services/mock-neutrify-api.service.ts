@@ -2,8 +2,7 @@
 /* eslint-disable */
 // Mock implementation to replace the AWS AppSync API service
 import { Injectable } from '@angular/core';
-import { delay } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 // We need to redefine all the types used by the original service
 export type CreateUserInput = {
@@ -876,7 +875,7 @@ export class APIService {
 
 	private initializeMockData() {
 		// Sample mock articles
-		this.mockArticles = this.generateMockArticles(500);
+		this.mockArticles = this.generateMockArticles(environment.mockDataSize);
 		console.log('Mock API Service initialized with sample data');
 	}
 

@@ -10,7 +10,7 @@ The primary goal of this branch was to make the application deployable for portf
 2. Replaced AWS AppSync/GraphQL API with a mock API service that generates sample news data
 3. Added a demo mode indicator to show when the application is running with mock data
 4. Upgraded the codebase to use newer versions of the frameworks:
-   - Angular 12 (from Angular 9)
+   - Angular 12 (from Angular 11)
    - Ionic 6 (from Ionic 5)
    - Node 16 support
 
